@@ -6,4 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 user = CreateAdminService.new.call
+trainer = CreateTrainerService.new.call
+owner = CreateOwnerService.new.call
+
 puts 'CREATED ADMIN USER: ' << user.email
+puts 'CREATED TRAINER: ' << trainer.email
+puts 'CREATED OWNER: ' << owner.email
