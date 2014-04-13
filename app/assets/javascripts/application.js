@@ -12,6 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+
+
+$(function() {
+  $(".date-picker").datepicker({
+    dateFormat: "yy-mm-dd"
+  });
+});
