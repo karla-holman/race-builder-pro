@@ -15,10 +15,14 @@ class HorsesController < ApplicationController
   # GET /horses/new
   def new
     @horse = Horse.new
+    @owners = User.where(:role => '0')
+    @trainers = User.where(:role => '1')
   end
 
   # GET /horses/1/edit
   def edit
+    @owners = User.where(:role => '0')
+    @trainers = User.where(:role => '1')
   end
 
   # POST /horses
@@ -28,8 +32,8 @@ class HorsesController < ApplicationController
 
     respond_to do |format|
       if @horse.save
-        format.html { redirect_to @horse, notice: 'Horse was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @horse }
+        format.html { redirect_to horses_url, notice: 'Horse was successfully created.' }
+        format.json { render action: 'index', status: :created, location: @horse }
       else
         format.html { render action: 'new' }
         format.json { render json: @horse.errors, status: :unprocessable_entity }
@@ -42,8 +46,8 @@ class HorsesController < ApplicationController
   def update
     respond_to do |format|
       if @horse.update(horse_params)
-        format.html { redirect_to @horse, notice: 'Horse was successfully updated.' }
-        format.json { render action: 'show', status: :ok, location: @horse }
+        format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
+        format.json { render action: 'index', status: :ok, location: @horse }
       else
         format.html { render action: 'edit' }
         format.json { render json: @horse.errors, status: :unprocessable_entity }
