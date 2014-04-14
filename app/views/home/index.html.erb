@@ -6,8 +6,5 @@
 <% else %>
 	<% if !current_user.nil? and current_user.admin? %>
 		<h4>Hi Admin: <%= current_user.name %>!</h4>
-	  <% @users.each do |user| %>
-	    <p>User: <%=link_to user.email, user %> Role: <%= user.role unless user.role.nil? %></p>
-	  <% end %>
 	<% end %>
 <% end %>
