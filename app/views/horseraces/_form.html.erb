@@ -1,37 +1,34 @@
 <%= form_for(@horserace) do |f| %>
   <% if @horserace.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@horserace.errors.count, "error") %> prohibited this horserace from being saved:</h2>
-
-      <ul>
-      <% @horserace.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="error_explanation">
+        <h2><%= pluralize(@horserace.errors.count, "error") %> prohibited this horse race from being saved:</h2>
+        <ul>
+        <% @horserace.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-xs-12 col-md-6">  
+    <div class="form-group">
+      <div class="field">
+      <%= f.label :horse_id %><br>
+      <%= f.number_field :horse_id %>
+      </div>
+      <div class="field">
+        <%= f.label :race_id %><br>
+        <%= f.number_field :race_id %>
+      </div>
+      <div class="field">
+        <%= f.label :entered %><br>
+        <%= f.datetime_select :entered %>
+      </div>
+    <div class="form-group">
+      <%= f.submit :class => 'btn btn-success btn-sm'%>
+      <%= link_to 'Back', horseraces_path, :class => 'btn btn-danger btn-sm' %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :horse_id %><br>
-    <%= f.number_field :horse_id %>
-  </div>
-  <div class="field">
-    <%= f.label :race_id %><br>
-    <%= f.number_field :race_id %>
-  </div>
-  <div class="field">
-    <%= f.label :entered %><br>
-    <%= f.datetime_select :entered %>
-  </div>
-  <div class="field">
-    <%= f.label :created_at %><br>
-    <%= f.datetime_select :created_at %>
-  </div>
-  <div class="field">
-    <%= f.label :updated_at %><br>
-    <%= f.datetime_select :updated_at %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
   </div>
 <% end %>

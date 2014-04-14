@@ -1,33 +1,33 @@
-<h1>Listing horseraces</h1>
-
-<table>
+<h1><%= current_user.name %>'s Horse Races</h1>
+<% if current_user.admin? %>
+  <%= link_to 'New HorseRace', new_horserace_path, :class => 'btn btn-primary btn-xs' %>
+<% end %>
+<table class="table table-condensed table-hover">
   <thead>
     <tr>
+      <% if current_user.admin? %>
+      <th>ID</th>
+      <% end %>
       <th>Horse</th>
       <th>Race</th>
       <th>Entered</th>
-      <th>Created at</th>
-      <th>Updated at</th>
-      <th colspan="3"></th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @horseraces.each do |horserace| %>
       <tr>
+        <% if current_user.admin? %>
+        <td><%= horserace.id %></td>
+        <% end %>
         <td><%= horserace.horse_id %></td>
         <td><%= horserace.race_id %></td>
         <td><%= horserace.entered %></td>
-        <td><%= horserace.created_at %></td>
-        <td><%= horserace.updated_at %></td>
-        <td><%= link_to 'Show', horserace %></td>
-        <td><%= link_to 'Edit', edit_horserace_path(horserace) %></td>
-        <td><%= link_to 'Destroy', horserace, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', horserace, :class => 'btn btn-primary btn-xs' %>
+          <%= link_to 'Edit', edit_horserace_path(horserace), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+          <%= link_to 'Destroy', horserace, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Horserace', new_horserace_path %>
