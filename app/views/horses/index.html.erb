@@ -1,57 +1,61 @@
-<h1><%= current_user.name %>'s Stable</h1>
-<% if current_user.admin? %>
-  <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-xs' %>
-<% end %>
-<table class="table table-condensed table-hover">
-  <thead>
-    <tr>
-      <% if current_user.admin? %>
-      <th>ID</th>
-      <% end %>
-      <th>Name</th>
-      <th>Gender</th>
-      <th>DOB</th>
-      <th>Starts</th>
-      <th>Firsts</th>
-      <th>Seconds</th>
-      <th>Thirds</th>
-      <th>Earnings</th>
-      <th>Owner ID</th>
-      <th>Trainer ID</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @horses.each do |horse| %>
-      <tr>
-        <% if current_user.admin? %>
-        <td><%= horse.id %></td>
-        <% end %>
-        <td><%= horse.name %></td>
-        <td><%= horse.gender %></td>
-        <td>
-          <% if horse.DOB? %>
-            <%= horse.DOB.to_time.strftime('%b %d, %Y') %></td>
-          <% end %>
-        </td>
-        <td><%= horse.starts %></td>
-        <td><%= horse.firsts %></td>
-        <td><%= horse.seconds %></td>
-        <td><%= horse.thirds %></td>
-        <td>
-          <% if horse.earnings? %>
-            $<%= horse.earnings %>
-          <% end %>
-        </td>
-        <td><%= horse.owner_id %></td>
-        <td><%= horse.trainer_id %></td>
-        <td><%= link_to 'Show', horse, :class => 'btn btn-primary btn-xs' %>
-          <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-          <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
-      </tr>
+<div class="row">
+  <div class="col-xs-12">
+    <h1><%= current_user.name %>'s Stable</h1>
+    <% if current_user.admin? %>
+      <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-xs' %>
     <% end %>
-  </tbody>
-</table>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <% if current_user.admin? %>
+          <th>ID</th>
+          <% end %>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>DOB</th>
+          <th>Starts</th>
+          <th>Firsts</th>
+          <th>Seconds</th>
+          <th>Thirds</th>
+          <th>Earnings</th>
+          <th>Owner</th>
+          <th>Trainer</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @horses.each do |horse| %>
+          <tr>
+            <% if current_user.admin? %>
+            <td><%= horse.id %></td>
+            <% end %>
+            <td><%= horse.name %></td>
+            <td><%= horse.gender %></td>
+            <td>
+              <% if horse.DOB? %>
+                <%= horse.DOB.to_time.strftime('%b %d, %Y') %></td>
+              <% end %>
+            </td>
+            <td><%= horse.starts %></td>
+            <td><%= horse.firsts %></td>
+            <td><%= horse.seconds %></td>
+            <td><%= horse.thirds %></td>
+            <td>
+              <% if horse.earnings? %>
+                $<%= horse.earnings %>
+              <% end %>
+            </td>
+            <td><%= horse.owner.name %></td>
+            <td><%= horse.trainer.name %></td>
+            <td><%= link_to 'Show', horse, :class => 'btn btn-primary btn-xs' %>
+              <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+              <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 
