@@ -10,14 +10,14 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require bootstrap
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require bootstrap
 //= require_tree .
 
-
-$(function() {
-  $(".date-picker").datepicker({
-    dateFormat: "yy-mm-dd"
-  });
-});
+$(document).ready(function() {
+    $(".date-picker").datepicker({
+    	dateFormat: "yy-mm-dd"
+  	});
+})
