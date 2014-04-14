@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140413220201) do
+ActiveRecord::Schema.define(version: 20140414184223) do
 
   create_table "horses", force: true do |t|
     t.string   "name"
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(version: 20140413220201) do
     t.decimal  "earnings",    precision: 8, scale: 2
     t.integer  "owner_id"
     t.integer  "trainer_id"
+  end
+
+  create_table "races", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "race_number"
   end
 
   create_table "users", force: true do |t|

@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :races
+
   resources :horses
 
   root :to => "home#index"

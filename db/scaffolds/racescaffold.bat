@@ -1,0 +1,1 @@
+rails generate scaffold race name:string created_at:datetime updated_at:datetime race_number:integer
