@@ -1,0 +1,1 @@
+rails generate scaffold horserace horse_id:integer race_id:integer entered:datetime created_at:datetime updated_at:datetime

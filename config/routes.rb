@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :horseraces
+
   resources :races
 
   resources :horses
