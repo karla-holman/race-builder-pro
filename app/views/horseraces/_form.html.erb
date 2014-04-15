@@ -24,7 +24,7 @@
       </div>
       <div class="field">
         <%= f.label :entered %><br>
-        <%= f.datetime_select :entered %>
+        <%= f.text_field :entered, :autofocus => true, class: 'date-picker form-control' %>
       </div>
     <div class="form-group">
       <%= f.submit :class => 'btn btn-success btn-sm'%>
