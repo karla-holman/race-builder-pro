@@ -29,6 +29,7 @@ class HorsesController < ApplicationController
   def edit
     @owners = User.where(:role => '0')
     @trainers = User.where(:role => '1')
+    @sexes = {"Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
   end
 
   # POST /horses
@@ -79,6 +80,6 @@ class HorsesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def horse_params
-      params.require(:horse).permit(:name, :gender, :DOB, :starts, :firsts, :seconds, :thirds, :earnings, :owner_id, :trainer_id)
+      params.require(:horse).permit(:name, :POB, :gender, :DOB, :starts, :firsts, :seconds, :thirds, :earnings, :owner_id, :trainer_id)
     end
 end

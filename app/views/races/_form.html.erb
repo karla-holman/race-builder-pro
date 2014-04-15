@@ -11,19 +11,20 @@
         </ul>
       </div>
     <% end %>
-  </div>
-  <div class="col-xs-12 col-md-6">  
-    <div class="form-group">
-      <%= f.label :name %>
-      <%= f.text_field :name, :autofocus => true, class: 'form-control', placeholder: 'Name' %>
     </div>
-    <div class="form-group">
-      <%= f.label :race_number %>
-      <%= f.text_field :race_number, :autofocus => true, class: 'form-control', placeholder: 'Name' %>
-    </div>
-    <div class="form-group">
-      <%= f.submit :class => 'btn btn-success btn-sm'%>
-      <%= link_to 'Back', races_path, :class => 'btn btn-danger btn-sm' %>
+    <div class="col-xs-12 col-md-6">  
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
+      </div>
+      <div class="form-group">
+        <%= f.label :race_number %>
+        <%= f.text_field :race_number, :autofocus => true, class: 'form-control'%>
+      </div>
+      <div class="form-group">
+        <%= f.submit :class => 'btn btn-success btn-sm'%>
+        <%= link_to 'Back', races_path, :class => 'btn btn-danger btn-sm' %>
+      </div>
     </div>
   </div>
 <% end %>

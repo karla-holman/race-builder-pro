@@ -11,8 +11,10 @@
           <th>ID</th>
           <% end %>
           <th>Name</th>
+          <th>POB</th>
           <th>Gender</th>
           <th>DOB</th>
+          <th>Age</th>
           <th>Starts</th>
           <th>Firsts</th>
           <th>Seconds</th>
@@ -31,12 +33,14 @@
             <td><%= horse.id %></td>
             <% end %>
             <td><%= horse.name %></td>
+            <td><%= horse.POB %></td>
             <td><%= horse.gender %></td>
             <td>
               <% if horse.DOB? %>
                 <%= horse.DOB.to_time.strftime('%b %d, %Y') %>
               <% end %>
             </td>
+            <td>Age</td>
             <td><%= horse.starts %></td>
             <td><%= horse.firsts %></td>
             <td><%= horse.seconds %></td>
