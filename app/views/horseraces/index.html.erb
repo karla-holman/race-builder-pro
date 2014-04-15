@@ -26,9 +26,13 @@
             <td><%= horserace.horse_id %></td>
             <td><%= horserace.race_id %></td>
             <td><%= horserace.entered %></td>
-            <td><%= link_to 'Show', horserace, :class => 'btn btn-primary btn-xs' %>
-              <%= link_to 'Edit', edit_horserace_path(horserace), :class => 'btn btn-warning btn-xs' %>
-              <%= link_to 'Destroy', horserace, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
+            <td>
+              <%= link_to 'Show', horserace, :class => 'btn btn-primary btn-xs' %>
+              <% if current_user.admin? %>
+                <%= link_to 'Edit', edit_horserace_path(horserace), :class => 'btn btn-warning btn-xs' %>
+                <%= link_to 'Destroy', horserace, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
