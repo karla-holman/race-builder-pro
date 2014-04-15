@@ -1,0 +1,27 @@
+<%= form_for(@status) do |f| %>
+  <div class="row">
+    <div class="col-xs-12">
+        <% if @status.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@status.errors.count, "error") %> prohibited this status from being saved:</h2>
+            <ul>
+              <% @status.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+    </div>
+    <div class="col-xs-12 col-md-6">  
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
+      </div>
+      <div class="form-group">
+        <%= f.submit :class => 'btn btn-success btn-sm'%>
+        <%= link_to 'Back', statuses_path, :class => 'btn btn-danger btn-sm' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
