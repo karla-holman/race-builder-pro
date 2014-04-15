@@ -21,8 +21,8 @@
         <% if current_user.admin? %>
         <td><%= horserace.id %></td>
         <% end %>
-        <td><%= horserace.horse_id %></td>
-        <td><%= horserace.race_id %></td>
+        <td><%= horserace.horse.name %></td>
+        <td><%= horserace.race.name %></td>
         <td><%= horserace.entered %></td>
         <td><%= link_to 'Show', horserace, :class => 'btn btn-primary btn-xs' %>
           <%= link_to 'Edit', edit_horserace_path(horserace), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>

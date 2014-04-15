@@ -14,13 +14,13 @@
   </div>
   <div class="col-xs-12 col-md-6">  
     <div class="form-group">
-      <div class="field">
-      <%= f.label :horse_id %><br>
-      <%= f.number_field :horse_id %>
+      <div class="form-group">
+        <%= f.label 'Horse' %>
+        <%= f.collection_select :horse_id, @horses, :id, :name, {:include_blank => 'Please Select'} %>
       </div>
-      <div class="field">
-        <%= f.label :race_id %><br>
-        <%= f.number_field :race_id %>
+      <div class="form-group">
+        <%= f.label 'Race' %>
+        <%= f.collection_select :race_id, @races, :id, :name, {:include_blank => 'Please Select'} %>
       </div>
       <div class="field">
         <%= f.label :entered %><br>

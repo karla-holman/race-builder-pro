@@ -15,10 +15,14 @@ class HorseracesController < ApplicationController
   # GET /horseraces/new
   def new
     @horserace = Horserace.new
+    @horses = Horse.all
+    @races = Race.all
   end
 
   # GET /horseraces/1/edit
   def edit
+    @horses = Horse.all
+    @races = Race.all
   end
 
   # POST /horseraces
