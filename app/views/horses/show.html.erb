@@ -1,8 +1,69 @@
-
-<p>
-  <strong>Name:</strong>
-  <%= @horse.name %>
-</p>
+<div class="row">
+	<div class="col-xs-3 horse-info-list-group">
+		<ul class="list-group">
+			<li class="list-group-item">Cras justo odio</li>
+			<li class="list-group-item">Dapibus ac facilisis in</li>
+			<li class="list-group-item">Morbi leo risus</li>
+			<li class="list-group-item">Porta ac consectetur ac</li>
+			<li class="list-group-item">Vestibulum at eros</li>
+		</ul>
+		<ul class="list-group">
+			<li class="list-group-item">Cras justo odio</li>
+			<li class="list-group-item">Dapibus ac facilisis in</li>
+			<li class="list-group-item">Morbi leo risus</li>
+			<li class="list-group-item">Porta ac consectetur ac</li>
+			<li class="list-group-item">Vestibulum at eros</li>
+		</ul>
+		<ul class="list-group">
+			<li class="list-group-item">Cras justo odio</li>
+			<li class="list-group-item">Dapibus ac facilisis in</li>
+			<li class="list-group-item">Morbi leo risus</li>
+			<li class="list-group-item">Porta ac consectetur ac</li>
+			<li class="list-group-item">Vestibulum at eros</li>
+		</ul>
+	</div>
+	<div class="col-xs-6">
+		<div class="row">
+			<div class="col-xs-12 horse-info">
+				<h1><%= @horse.name %> (<%= @horse.POB %>)</h1>
+				<% if @horse.DOB? %>
+		            <h4><%= @horse.DOB.to_time.strftime('%b %d, %Y') %></h4>
+				<% end %>
+				<h4>(<%= @horse.starts %>-<%= @horse.firsts %>-<%= @horse.seconds %>-<%= @horse.thirds %>)</h4>
+				<% if @horse.earnings? %>
+		            <h4><%= number_to_currency(@horse.earnings, precision: 2) %></h4>
+		      	<% end %>
+			</div>
+			<div class="col-xs-12">
+				<table class="table table-condensed table-hover">
+					<thead>
+						<tr>
+							<th>Race Description</th>
+							<th>Total #</th>
+							<th>I/C</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Claiming $7,500 (3&UP F&M) @ 6F</td>
+							<td>5</td>
+							<td><input type="checkbox"></input> / <input type="checkbox"></input></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-3 horse-info-list-group">
+		<ul class="list-group">
+			<li class="list-group-item">Cras justo odio</li>
+			<li class="list-group-item">Dapibus ac facilisis in</li>
+			<li class="list-group-item">Morbi leo risus</li>
+			<li class="list-group-item">Porta ac consectetur ac</li>
+			<li class="list-group-item">Vestibulum at eros</li>
+		</ul>
+	</div>
+</div>
 
 <%= link_to 'Edit', edit_horse_path(@horse) %> |
 <%= link_to 'Back', horses_path %>

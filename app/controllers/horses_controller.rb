@@ -16,6 +16,7 @@ class HorsesController < ApplicationController
   # GET /horses/1
   # GET /horses/1.json
   def show
+    
   end
 
   # GET /horses/new
