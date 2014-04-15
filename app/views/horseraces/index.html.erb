@@ -1,26 +1,41 @@
-<h1><%= current_user.name %>'s Horse Races</h1>
-<% if current_user.admin? %>
-  <%= link_to 'New HorseRace', new_horserace_path, :class => 'btn btn-primary btn-xs' %>
-<% end %>
-<table class="table table-condensed table-hover">
-  <thead>
-    <tr>
-      <% if current_user.admin? %>
-      <th>ID</th>
-      <% end %>
-      <th>Horse</th>
-      <th>Race</th>
-      <th>Entered</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
+<div class="row">
+  <div class="col-xs-12">
+    <h1><%= current_user.name %>'s Horse Races</h1>
+    <% if current_user.admin? %>
+      <%= link_to 'New HorseRace', new_horserace_path, :class => 'btn btn-primary btn-xs'  %>
+    <% end %>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <% if current_user.admin? %>
+          <th>ID</th>
+          <% end %>
+          <th>Horse</th>
+          <th>Race</th>
+          <th>Entered</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
 
-  <tbody>
-    <% @horseraces.each do |horserace| %>
-      <tr>
-        <% if current_user.admin? %>
-        <td><%= horserace.id %></td>
+      <tbody>
+        <% @horseraces.each do |horserace| %>
+          <tr>
+            <% if current_user.admin? %>
+            <td><%= horserace.id %></td>
+            <% end %>
+            <td><%= horserace.horse_id %></td>
+            <td><%= horserace.race_id %></td>
+            <td><%= horserace.entered %></td>
+            <td>
+              <%= link_to 'Show', horserace, :class => 'btn btn-primary btn-xs' %>
+              <% if current_user.admin? %>
+                <%= link_to 'Edit', edit_horserace_path(horserace), :class => 'btn btn-warning btn-xs' %>
+                <%= link_to 'Destroy', horserace, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+              <% end %>
+            </td>
+          </tr>
         <% end %>
+<<<<<<< HEAD
         <td><%= horserace.horse.name %></td>
         <td><%= horserace.race.name %></td>
         <td><%= horserace.entered %></td>
@@ -31,3 +46,9 @@
     <% end %>
   </tbody>
 </table>
+=======
+      </tbody>
+    </table>
+  </div>
+</div>
+>>>>>>> 315bb6fa6c7cb44d7f8bd1141ceefdd1086a43cf

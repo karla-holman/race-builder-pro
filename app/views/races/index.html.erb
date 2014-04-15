@@ -1,31 +1,35 @@
-<h1><%= current_user.name %>'s Races</h1>
-<% if current_user.admin? %>
-  <%= link_to 'New Race', new_race_path, :class => 'btn btn-primary btn-xs' %>
-<% end %>
-<table class="table table-condensed table-hover">
-  <thead>
-    <tr>
-      <% if current_user.admin? %>
-      <th>ID</th>
-      <% end %>
-      <th>Name</th>
-      <th>Number</th>
-      <th colspan="1"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @races.each do |race| %>
-      <tr>
-        <% if current_user.admin? %>
-        <td><%= race.id %></td>
-        <% end %>
-        <td><%= race.name %></td>
-        <td><%= race.race_number %></td>
-        <td><%= link_to 'Show', race, :class => 'btn btn-primary btn-xs' %>
-          <%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-          <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
-      </tr>
+<div class="row">
+  <div class="col-xs-12">
+    <h1><%= current_user.name %>'s Races</h1>
+    <% if current_user.admin? %>
+      <%= link_to 'New Race', new_race_path, :class => 'btn btn-primary btn-xs' %>
     <% end %>
-  </tbody>
-</table>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <% if current_user.admin? %>
+          <th>ID</th>
+          <% end %>
+          <th>Name</th>
+          <th>Number</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @races.each do |race| %>
+          <tr>
+            <% if current_user.admin? %>
+            <td><%= race.id %></td>
+            <% end %>
+            <td><%= race.name %></td>
+            <td><%= race.race_number %></td>
+            <td><%= link_to 'Show', race, :class => 'btn btn-primary btn-xs' %>
+              <%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+              <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
