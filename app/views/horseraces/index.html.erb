@@ -24,7 +24,11 @@
             <% end %>
             <td><%= horserace.horse.name %></td>
             <td><%= horserace.race.name %></td>
-            <td><%= horserace.entered %></td>
+            <td>
+              <% if horserace.entered? %>
+                <%= horserace.entered.to_time.strftime('%b %d, %Y') %>
+              <% end %>
+            </td>
             <td><%= link_to 'Show', horserace, :class => 'btn btn-primary btn-xs' %>
               <%= link_to 'Edit', edit_horserace_path(horserace), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
               <%= link_to 'Destroy', horserace, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
