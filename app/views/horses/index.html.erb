@@ -40,7 +40,15 @@
                 <%= horse.DOB.to_time.strftime('%b %d, %Y') %>
               <% end %>
             </td>
-            <td>Age</td>
+            <td>
+              <%
+                def age(dob)
+                  now = Time.now.utc.to_date
+                  now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+                end
+              %>
+              <%= age(horse.DOB.to_date) %>
+            </td>
             <td><%= horse.starts %></td>
             <td><%= horse.firsts %></td>
             <td><%= horse.seconds %></td>
