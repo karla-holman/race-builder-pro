@@ -13,8 +13,8 @@
           <th>Name</th>
           <th>POB</th>
           <th>Gender</th>
-          <th>DOB</th>
           <th>Age</th>
+          <th>DOB</th>
           <th>Starts</th>
           <th>Firsts</th>
           <th>Seconds</th>
@@ -36,11 +36,6 @@
             <td><%= horse.POB %></td>
             <td><%= horse.gender %></td>
             <td>
-              <% if horse.DOB? %>
-                <%= horse.DOB.to_time.strftime('%b %d, %Y') %>
-              <% end %>
-            </td>
-            <td>
               <%
                 def age(dob)
                   now = Time.now.utc.to_date
@@ -48,6 +43,11 @@
                 end
               %>
               <%= age(horse.DOB.to_date) %>
+            </td>
+            <td>
+              <% if horse.DOB? %>
+                <%= horse.DOB.to_time.strftime('%b %d, %Y') %>
+              <% end %>
             </td>
             <td><%= horse.starts %></td>
             <td><%= horse.firsts %></td>

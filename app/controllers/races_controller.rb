@@ -28,8 +28,8 @@ class RacesController < ApplicationController
 
     respond_to do |format|
       if @race.save
-        format.html { redirect_to @race, notice: 'Race was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @race }
+        format.html { redirect_to races_url, notice: 'Race was successfully created.' }
+        format.json { render action: 'index', status: :created, location: @races }
       else
         format.html { render action: 'new' }
         format.json { render json: @race.errors, status: :unprocessable_entity }
@@ -42,8 +42,8 @@ class RacesController < ApplicationController
   def update
     respond_to do |format|
       if @race.update(race_params)
-        format.html { redirect_to @race, notice: 'Race was successfully updated.' }
-        format.json { render action: 'show', status: :ok, location: @race }
+        format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
+        format.json { render action: 'index', status: :ok, location: @races }
       else
         format.html { render action: 'edit' }
         format.json { render json: @race.errors, status: :unprocessable_entity }
@@ -69,6 +69,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number)
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description)
     end
 end

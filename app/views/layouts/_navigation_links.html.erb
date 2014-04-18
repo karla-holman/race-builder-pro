@@ -5,8 +5,9 @@
 	<li><%= link_to 'Horse Races', horseraces_path %></li>
 	<%if current_user.admin? %>
 		<li><%= link_to 'Conditions', conditions_path %></li>
-		<li><%= link_to 'Condition Categories', condition_categories_path %></li>
+		<li><%= link_to 'Categories', categories_path %></li>
 		<li><%= link_to 'Statuses', statuses_path %></li>
+		<li><%= link_to 'Horse Statuses', horse_statuses_path %></li>
 	<% end %>
 </ul>
 <ul class="nav navbar-nav navbar-right">

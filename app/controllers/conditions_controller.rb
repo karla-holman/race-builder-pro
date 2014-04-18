@@ -19,19 +19,19 @@ class ConditionsController < ApplicationController
 
   # GET /conditions/1/edit
   def edit
-    @condition_categories = ConditionCategory.all
+    @categories = Category.all
   end
 
   # POST /conditions
   # POST /conditions.json
   def create
     @condition = Condition.new(condition_params)
-    @condition_categories = ConditionCategory.all
+    @categories = Category.all
 
     respond_to do |format|
       if @condition.save
-        format.html { redirect_to @condition, notice: 'Condition was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @condition }
+        format.html { redirect_to conditions_url, notice: 'Condition was successfully created.' }
+        format.json { render action: 'index', status: :created, location: @conditions }
       else
         format.html { render action: 'new' }
         format.json { render json: @condition.errors, status: :unprocessable_entity }
@@ -44,8 +44,8 @@ class ConditionsController < ApplicationController
   def update
     respond_to do |format|
       if @condition.update(condition_params)
-        format.html { redirect_to @condition, notice: 'Condition was successfully updated.' }
-        format.json { render action: 'show', status: :ok, location: @condition }
+        format.html { redirect_to conditions_url, notice: 'Condition was successfully updated.' }
+        format.json { render action: 'index', status: :ok, location: @conditions }
       else
         format.html { render action: 'edit' }
         format.json { render json: @condition.errors, status: :unprocessable_entity }
@@ -71,6 +71,6 @@ class ConditionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def condition_params
-      params.require(:condition).permit(:name, :condition_category_id)
+      params.require(:condition).permit(:name, :category_id)
     end
 end

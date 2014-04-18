@@ -1,0 +1,34 @@
+<%= form_for(@horse_status) do |f| %>
+  <% if @horse_status.errors.any? %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="error_explanation">
+        <h2><%= pluralize(@horse_status.errors.count, "error") %> prohibited this horse status from being saved:</h2>
+        <ul>
+        <% @horse_status.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-xs-12 col-md-6">  
+    <div class="form-group">
+      <div class="form-group">
+        <%= f.label 'Horse' %>
+        <%= f.collection_select :horse_id, @horses, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label 'Status' %>
+        <%= f.collection_select :status_id, @statuses, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label 'Value' %>
+        <%= f.check_box :value, class: 'form-control'%> 
+      </div>
+    <div class="form-group">
+      <%= f.submit :class => 'btn btn-success btn-sm'%>
+      <%= link_to 'Back', horse_statuses_path, :class => 'btn btn-danger btn-sm' %>
+    </div>
+  </div>
+<% end %>

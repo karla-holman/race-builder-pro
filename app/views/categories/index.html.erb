@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>RBP Categories</h1>
+    <%= link_to 'New Condition Category', new_category_path, :class => 'btn btn-primary btn-xs' %>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @categories.each do |category| %>
+          <tr>
+            <td><%= category.name %></td>
+            <td>
+              <%= link_to 'Edit', edit_category_path(category), :class => 'btn btn-warning btn-xs' %>
+              <%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+

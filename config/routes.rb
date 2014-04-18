@@ -1,7 +1,9 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :horse_statuses
+
   resources :statuses
 
-  resources :condition_categories
+  resources :categories
 
   resources :conditions
 

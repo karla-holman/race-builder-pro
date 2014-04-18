@@ -1,3 +1,3 @@
 class Condition < ActiveRecord::Base
-	belongs_to :category, class_name: 'ConditionCategory'
+	belongs_to :category
 end

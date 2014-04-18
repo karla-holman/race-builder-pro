@@ -16,7 +16,10 @@ class HorsesController < ApplicationController
   # GET /horses/1
   # GET /horses/1.json
   def show
-    
+    @categories = Category.all
+    @conditions = Condition.all
+    @statuses = Status.all
+    @races = Race.all
   end
 
   # GET /horses/new
@@ -30,7 +33,7 @@ class HorsesController < ApplicationController
   def edit
     @owners = User.where(:role => '0')
     @trainers = User.where(:role => '1')
-    @sexes = {"Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
+    @sexes = { "Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
   end
 
   # POST /horses

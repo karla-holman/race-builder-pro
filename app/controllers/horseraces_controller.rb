@@ -32,8 +32,8 @@ class HorseracesController < ApplicationController
 
     respond_to do |format|
       if @horserace.save
-        format.html { redirect_to @horserace, notice: 'Horserace was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @horserace }
+        format.html { redirect_to horseraces_url, notice: 'Horserace was successfully created.' }
+        format.json { render action: 'index', status: :created, location: @horseraces }
       else
         format.html { render action: 'new' }
         format.json { render json: @horserace.errors, status: :unprocessable_entity }
@@ -46,8 +46,8 @@ class HorseracesController < ApplicationController
   def update
     respond_to do |format|
       if @horserace.update(horserace_params)
-        format.html { redirect_to @horserace, notice: 'Horserace was successfully updated.' }
-        format.json { render action: 'show', status: :ok, location: @horserace }
+        format.html { redirect_to horseraces_url, notice: 'Horserace was successfully updated.' }
+        format.json { render action: 'index', status: :ok, location: @horseraces }
       else
         format.html { render action: 'edit' }
         format.json { render json: @horserace.errors, status: :unprocessable_entity }

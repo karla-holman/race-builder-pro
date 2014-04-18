@@ -1,25 +1,18 @@
 <div class="row">
 	<div class="col-xs-3 horse-info-list-group">
 		<ul class="list-group">
-			<li class="list-group-item">Cras justo odio</li>
-			<li class="list-group-item">Dapibus ac facilisis in</li>
-			<li class="list-group-item">Morbi leo risus</li>
-			<li class="list-group-item">Porta ac consectetur ac</li>
-			<li class="list-group-item">Vestibulum at eros</li>
-		</ul>
-		<ul class="list-group">
-			<li class="list-group-item">Cras justo odio</li>
-			<li class="list-group-item">Dapibus ac facilisis in</li>
-			<li class="list-group-item">Morbi leo risus</li>
-			<li class="list-group-item">Porta ac consectetur ac</li>
-			<li class="list-group-item">Vestibulum at eros</li>
-		</ul>
-		<ul class="list-group">
-			<li class="list-group-item">Cras justo odio</li>
-			<li class="list-group-item">Dapibus ac facilisis in</li>
-			<li class="list-group-item">Morbi leo risus</li>
-			<li class="list-group-item">Porta ac consectetur ac</li>
-			<li class="list-group-item">Vestibulum at eros</li>
+			<% @conditions.each do |condition| %>
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-xs-10">
+						<%= condition.name %>
+					</div>
+					<div class="col-xs-2">
+						<input type="checkbox"></input>
+					</div>
+				</div>
+			</li>
+			<% end %>
 		</ul>
 	</div>
 	<div class="col-xs-6">
@@ -44,11 +37,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Claiming $7,500 (3&UP F&M) @ 6F</td>
-							<td>5</td>
-							<td><input type="checkbox"></input> / <input type="checkbox"></input></td>
-						</tr>
+						<% @races.each do |race| %>
+							<tr>
+								<td><%= race.description %></td>
+								<td>5</td>
+								<td><input type="checkbox"></input> / <input type="checkbox"></input></td>
+							</tr>
+						<% end %>
 					</tbody>
 				</table>
 			</div>
@@ -56,11 +51,18 @@
 	</div>
 	<div class="col-xs-3 horse-info-list-group">
 		<ul class="list-group">
-			<li class="list-group-item">Cras justo odio</li>
-			<li class="list-group-item">Dapibus ac facilisis in</li>
-			<li class="list-group-item">Morbi leo risus</li>
-			<li class="list-group-item">Porta ac consectetur ac</li>
-			<li class="list-group-item">Vestibulum at eros</li>
+			<% @statuses.each do |status| %>
+			<li class="list-group-item">
+				<div class="row">
+					<div class="col-xs-10">
+						<%= status.name %>
+					</div>
+					<div class="col-xs-2">
+						<input type="checkbox"></input>
+					</div>
+				</div>
+			</li>
+			<% end %>
 		</ul>
 	</div>
 </div>
