@@ -2,6 +2,9 @@ class Horse < ActiveRecord::Base
 	has_many :horsestatuses
 	has_many :statuses, :through => :horsestatuses
 
+	has_many :horseconditions
+	has_many :conditions, :through => :horseconditions
+
 	has_many :horseraces
 	has_many :races, :through => :horseraces
 

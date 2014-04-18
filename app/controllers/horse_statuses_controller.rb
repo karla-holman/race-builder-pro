@@ -32,7 +32,7 @@ class HorseStatusesController < ApplicationController
 
     respond_to do |format|
       if @horse_status.save
-        format.html { redirect_to @horse_status, notice: 'Horse status was successfully created.' }
+        format.html { redirect_to horse_statuses_url, notice: 'Horse status was successfully created.' }
         format.json { render action: 'show', status: :created, location: @horse_status }
       else
         format.html { render action: 'new' }
@@ -46,7 +46,7 @@ class HorseStatusesController < ApplicationController
   def update
     respond_to do |format|
       if @horse_status.update(horse_status_params)
-        format.html { redirect_to @horse_status, notice: 'Horse status was successfully updated.' }
+        format.html { redirect_to horse_statuses_url, notice: 'Horse status was successfully updated.' }
         format.json { render action: 'show', status: :ok, location: @horse_status }
       else
         format.html { render action: 'edit' }

@@ -1,10 +1,9 @@
-<h3>Welcome to Race Builder Pro</h3>
-<% if !current_user.nil? and current_user.role == "trainer" %>
-	<h4>Hi Trainer:<%= current_user.name %>!</h4>
-<% elsif !current_user.nil? and current_user.role == "user" %>
-	<h4>Hi Owner: <%= current_user.name %>!</h4>
-<% else %>
-	<% if !current_user.nil? and current_user.admin? %>
-		<h4>Hi Admin: <%= current_user.name %>!</h4>
-	<% end %>
-<% end %>
+
+<h2>
+	<% if !current_user.nil? %>
+		<%= current_user.name %>, 
+	<% end %> 
+	Welcome to Race Builder Pro
+</h2>
+<h4>Version: 1.0.1</h4>
+<p>Race Builder Pro is a web application designed to revolutionize horse racing’s current entry process, which no longer allows for an optimal race program. Presently, horse racing uses an antiquated, reactive approach that has hindered horsemen’s confidence to find races for their horses and has limited the ability for racetracks to maximize field size. Thus, the primary objective of The Racing Secretary project is to create a viable alternative that will revitalize the entry process using a fresh, proactive technology.</p>

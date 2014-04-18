@@ -26,8 +26,8 @@
             <td><%= horse_status.status.name %></td>
             <td><%= horse_status.value %></td>
             <td>
-              <%= link_to 'Edit', edit_horse_status_path(horse_status), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-              <%= link_to 'Destroy', horse_status, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+              <%= link_to 'Edit', edit_horse_status_path(horse_status), :class => 'btn btn-warning btn-xs' %>
+              <%= link_to 'Destroy', horse_status, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
             </td>
           </tr>
         <% end %>
