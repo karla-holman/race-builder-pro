@@ -17,6 +17,10 @@
 	</div>
 	<div class="col-xs-6">
 		<div class="row">
+			<ol class="breadcrumb">
+			  <li><%= link_to 'Stable', horses_path %></li>
+			  <li class="active"><%= @horse.name %></li>
+			</ol>
 			<div class="col-xs-12 horse-info">
 				<h1><%= @horse.name %> (<%= @horse.POB %>)</h1>
 				<% if @horse.DOB? %>
@@ -66,6 +70,3 @@
 		</ul>
 	</div>
 </div>
-
-<%= link_to 'Edit', edit_horse_path(@horse) %> |
-<%= link_to 'Back', horses_path %>

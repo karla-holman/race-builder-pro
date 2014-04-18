@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>Race Conditions</h1>
+    <% if current_user.admin? %>
+      <%= link_to 'New Race Condition', new_race_condition_path, :class => 'btn btn-primary btn-xs'  %>
+    <% end %>
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <% if current_user.admin? %>
+          <th>ID</th>
+          <% end %>
+          <th>Race</th>
+          <th>Condition</th>
+          <th>Value</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @race_conditions.each do |race_condition| %>
+          <tr>
+            <% if current_user.admin? %>
+            <td><%= race_condition.id %></td>
+            <% end %>
+            <td><%= race_condition.race.name %></td>
+            <td><%= race_condition.condition.name %></td>
+            <td><%= race_condition.value %></td>
+            <td>
+              <%= link_to 'Edit', edit_race_condition_path(race_condition), :class => 'btn btn-warning btn-xs'%>
+              <%= link_to 'Destroy', race_condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<%= form_for(@race_condition) do |f| %>
+  <% if @race_condition.errors.any? %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="error_explanation">
+        <h2><%= pluralize(@race_condition.errors.count, "error") %> prohibited this race condition from being saved:</h2>
+        <ul>
+        <% @race_condition.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-xs-12 col-md-6">  
+    <div class="form-group">
+      <div class="form-group">
+        <%= f.label 'Race' %>
+        <%= f.collection_select :race_id, @races, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label 'Condition' %>
+        <%= f.collection_select :condition_id, @conditions, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label 'Value' %>
+        <%= f.check_box :value, class: 'form-control'%> 
+      </div>
+    <div class="form-group">
+      <%= f.submit :class => 'btn btn-success btn-sm'%>
+      <%= link_to 'Back', race_conditions_path, :class => 'btn btn-danger btn-sm' %>
+    </div>
+  </div>
+<% end %>

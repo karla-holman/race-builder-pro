@@ -35,6 +35,15 @@
  	text-transform: uppercase;
  }
 
+ .breadcrumb {
+ 	background-color: transparent;
+ 	text-transform: uppercase;
+ }
+
+ .breadcrumb li.active {
+ 	color: #000;
+ }
+
  .horse-info {
  	text-align: center;
  }

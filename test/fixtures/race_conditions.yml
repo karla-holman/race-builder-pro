@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  race_id: 1
+  condition_id: 1
+  value: false
+
+two:
+  race_id: 1
+  condition_id: 1
+  value: false
