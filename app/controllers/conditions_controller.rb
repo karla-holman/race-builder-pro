@@ -15,6 +15,7 @@ class ConditionsController < ApplicationController
   # GET /conditions/new
   def new
     @condition = Condition.new
+    @categories = Category.all
   end
 
   # GET /conditions/1/edit
