@@ -27,6 +27,7 @@ class HorsesController < ApplicationController
     @horse = Horse.new
     @owners = User.where(:role => '0')
     @trainers = User.where(:role => '1')
+    @sexes = { "Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
   end
 
   # GET /horses/1/edit
