@@ -16,19 +16,20 @@
     <div class="form-group">
       <div class="form-group">
         <%= f.label 'Horse' %>
-        <%= f.collection_select :horse_id, @horses, :id, :name, {:include_blank => 'Please Select'} %>
+        <%= f.collection_select :horse_id, @horses, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
       </div>
       <div class="form-group">
         <%= f.label 'Race' %>
-        <%= f.collection_select :race_id, @races, :id, :name, {:include_blank => 'Please Select'} %>
+        <%= f.collection_select :race_id, @races, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
       </div>
-      <div class="field">
+      <div class="form-group">
         <%= f.label :entered %><br>
         <%= f.text_field :entered, :autofocus => true, class: 'date-picker form-control' %>
       </div>
-    <div class="form-group">
-      <%= f.submit :class => 'btn btn-success btn-sm'%>
-      <%= link_to 'Back', horseraces_path, :class => 'btn btn-danger btn-sm' %>
+      <div class="form-group">
+        <%= f.submit :class => 'btn btn-success btn-sm'%>
+        <%= link_to 'Back', horseraces_path, :class => 'btn btn-danger btn-sm' %>
+      </div>
     </div>
   </div>
 <% end %>
