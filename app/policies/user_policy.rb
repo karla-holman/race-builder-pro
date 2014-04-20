@@ -10,6 +10,10 @@ class UserPolicy
     @user.admin?
   end
 
+  def edit?
+    @user.admin?
+  end
+
   def update?
     @user.admin?
   end
