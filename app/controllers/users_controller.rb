@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   after_action :verify_authorized, except: [:show]
 
   def index
-    @users = User.all
+    if params[:search]
+      @users = User.search(params[:search]).order("created_at DESC")
+    else
+      @users = User.all
+    end    
     authorize @users
   end
 
@@ -17,7 +21,13 @@ class UsersController < ApplicationController
   end
 
  def edit
-    authorize current_user
+    @user = User.find(params[:id])
+    authorize @user
+    unless current_user.admin?
+      unless @user == current_user
+        redirect_to root_path, :alert => "Access denied."
+      end
+    end
   end
 
   def update

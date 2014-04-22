@@ -9,4 +9,9 @@ class User < ActiveRecord::Base
   def set_default_role
     self.role ||= :user
   end
+
+  def self.search(query)
+  	where("name like ? OR name like ?", "%#{query}%", "%#{query}%")
+	end
+
 end
