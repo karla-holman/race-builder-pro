@@ -23,9 +23,9 @@ statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 
 races = [[12, 'Big Race!', 'Claiming $7,500 (3&UP F&M) @ 6F']]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Seconds, Thirds, Earnings, Owner Email, Trainer Email]
-horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01', 10, 5, 3, 4, 4234323.00, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Test Horse', 'BC', 'R', '2008-11-01', 22, 4, 8, 3, 1999999.00, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Date Test', 'CA', 'M', '2013-05-05', 11, 0, 0, 0, 1000.00, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
+horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01', 10, 5, 3, 4, 423445, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Test Horse', 'BC', 'R', '2008-11-01', 22, 4, 8, 3, 199999, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Date Test', 'CA', 'M', '2013-05-05', 11, 0, 0, 0, 1000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
 
 categories.each do |category, conditions|
 	new_category = Category.find_or_create_by!(name: category)
