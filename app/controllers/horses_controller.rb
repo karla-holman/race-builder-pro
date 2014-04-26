@@ -20,6 +20,8 @@ class HorsesController < ApplicationController
     @conditions = Condition.all
     @statuses = Status.all
     @races = Race.all
+    @current_status = HorseStatus.where(:horse => @horse).first
+    @horse_status = HorseStatus.new
   end
 
   # GET /horses/new

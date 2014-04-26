@@ -55,17 +55,26 @@
 	</div>
 	<div class="col-xs-3 horse-info-list-group">
 		<ul class="list-group">
-			<% @statuses.each do |status| %>
-			<li class="list-group-item">
-				<div class="row">
-					<div class="col-xs-10">
-						<%= status.name %>
-					</div>
-					<div class="col-xs-2">
-						<input type="checkbox"></input>
-					</div>
-				</div>
-			</li>
+			<%= form_for(@horse_status) do |f| %>
+				<% @statuses.each do |status| %>
+					<li class="list-group-item horse-statuses">
+						<div class="row">
+							<div class="col-xs-10">
+								<%= status.name %>
+							</div>
+							<div class="col-xs-2">
+								<input type="checkbox"
+									<% if !@current_status.nil? %> 
+										<% if status.name == @current_status.status.name %> 
+											checked="checked" 
+										<% end %> 
+									<% end %>
+									name="<%= @horse.name %>">
+								</input>
+							</div>
+						</div>
+					</li>
+				<% end %>
 			<% end %>
 		</ul>
 	</div>
