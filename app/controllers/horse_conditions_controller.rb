@@ -4,7 +4,16 @@ class HorseConditionsController < ApplicationController
   # GET /horse_conditions
   # GET /horse_conditions.json
   def index
-    @horse_conditions = HorseCondition.all
+    if current_user.admin?
+      @horse_conditions = HorseCondition.all
+    elsif current_user.trainer?
+      @horses = Horse.where(:trainer_id => current_user.id)
+      @horse_conditions = HorseCondition.where(:horse => @horses)
+    else
+      @horses = Horse.where(:owner_id => current_user.id)
+      @horse_conditions = HorseCondition.where(:horse => @horses)
+    end
+    
   end
 
   # GET /horse_conditions/1
@@ -15,13 +24,25 @@ class HorseConditionsController < ApplicationController
   # GET /horse_conditions/new
   def new
     @horse_condition = HorseCondition.new
-    @horses = Horse.all
+    if current_user.admin?
+      @horses = Horse.all
+    elsif current_user.trainer?
+      @horses = Horse.where(:trainer_id => current_user.id)
+    else
+      @horses = Horse.where(:owner_id => current_user.id)
+    end
     @conditions = Condition.all
   end
 
   # GET /horse_conditions/1/edit
   def edit
-    @horses = Horse.all
+    if current_user.admin?
+      @horses = Horse.all
+    elsif current_user.trainer?
+      @horses = Horse.where(:trainer_id => current_user.id)
+    else
+      @horses = Horse.where(:owner_id => current_user.id)
+    end
     @conditions = Condition.all
   end
 

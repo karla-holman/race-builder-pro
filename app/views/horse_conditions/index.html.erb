@@ -1,9 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
     <h1>Horse Conditions</h1>
-    <% if current_user.admin? %>
-      <%= link_to 'New Horse Condition', new_horse_condition_path, :class => 'btn btn-primary btn-xs'  %>
-    <% end %>
+    <%= link_to 'New Horse Condition', new_horse_condition_path, :class => 'btn btn-primary btn-xs'  %>
     <table class="table table-condensed table-hover">
       <thead>
         <tr>

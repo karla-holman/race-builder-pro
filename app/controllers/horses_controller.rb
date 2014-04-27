@@ -21,7 +21,7 @@ class HorsesController < ApplicationController
     @statuses = Status.all
     @races = Race.all
     @current_status = HorseStatus.where(:horse => @horse).first
-    @horse_status = HorseStatus.new
+    @current_conditions = HorseCondition.where(:horse => @horse)
   end
 
   # GET /horses/new

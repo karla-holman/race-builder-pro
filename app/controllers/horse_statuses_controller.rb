@@ -15,13 +15,25 @@ class HorseStatusesController < ApplicationController
   # GET /horse_statuses/new
   def new
     @horse_status = HorseStatus.new
-    @horses = Horse.all
+    if current_user.admin?
+      @horses = Horse.all
+    elsif current_user.trainer?
+      @horses = Horse.where(:trainer_id => current_user.id)
+    else
+      @horses = Horse.where(:owner_id => current_user.id)
+    end
     @statuses = Status.all
   end
 
   # GET /horse_statuses/1/edit
   def edit
-    @horses = Horse.all
+    if current_user.admin?
+      @horses = Horse.all
+    elsif current_user.trainer?
+      @horses = Horse.where(:trainer_id => current_user.id)
+    else
+      @horses = Horse.where(:owner_id => current_user.id)
+    end
     @statuses = Status.all
   end
 
