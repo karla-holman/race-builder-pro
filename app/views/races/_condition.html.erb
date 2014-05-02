@@ -1,0 +1,25 @@
+<%= form_for(@race)  do |f| %>
+  <% if @race.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@race.errors.count, "error") %> prohibited this horse status from being saved:</h2>
+    <ul>
+    <% @race.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <div class="form-group">
+    <div class="form-group">
+      <ul class="condition-list">
+        <% Condition.all.each do |condition| %>
+            <li><%= check_box_tag "race[condition_ids][]", condition.id, @race.conditions.include?(condition) %> <%= condition.name %> </li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="form-group">
+      <%= f.submit :class => 'btn btn-success btn-sm'%>
+
+    </div>
+  </div>
+<% end %>

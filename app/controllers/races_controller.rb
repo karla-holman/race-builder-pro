@@ -10,6 +10,9 @@ class RacesController < ApplicationController
   # GET /races/1
   # GET /races/1.json
   def show
+    @conditions = Condition.all
+    @horses = Horse.all
+    @current_conditions = RaceCondition.where(:race => @race)
   end
 
   # GET /races/new
@@ -40,13 +43,27 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1
   # PATCH/PUT /races/1.json
   def update
-    respond_to do |format|
-      if @race.update(race_params)
-        format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
-        format.json { render action: 'index', status: :ok, location: @races }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @race.errors, status: :unprocessable_entity }
+    if params[:condition_ids]
+      current_conditions = RaceCondition.where(:race => @race)
+      params[:condition_ids].each do |condition|
+      RaceCondition.find_or_create_by!(condition_id: condition, race_id: @race.id)
+      end
+      current_conditions.each do |condition|
+        found = params[:condition_ids].find(condition.id)
+        if found
+        else
+          condition.destroy
+        end
+      end
+    else
+      respond_to do |format|
+        if @race.update(race_params)
+          format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
+          format.json { render action: 'index', status: :ok, location: @races }
+        else
+          format.html { render action: 'edit' }
+          format.json { render json: @race.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -69,6 +86,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description)
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :condition_ids => [])
     end
 end

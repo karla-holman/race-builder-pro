@@ -1,24 +1,25 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @race.name %>
-</p>
-
-<p>
-  <strong>Created at:</strong>
-  <%= @race.created_at %>
-</p>
-
-<p>
-  <strong>Updated at:</strong>
-  <%= @race.updated_at %>
-</p>
-
-<p>
-  <strong>Race number:</strong>
-  <%= @race.race_number %>
-</p>
-
-<%= link_to 'Edit', edit_race_path(@race) %> |
-<%= link_to 'Back', races_path %>
+<div class="row">
+	<div class="col-xs-3 horse-info-list-group">
+		<h4>Conditions:</h4>
+		<%= render 'condition' %>
+	</div>
+	<div class="col-xs-6">
+		<div class="row">
+			<ol class="breadcrumb">
+			  <li><%= link_to 'Race List', races_path %></li>
+			  <li class="active"><%= @race.name %></li>
+			</ol>
+			<div class="col-xs-12 horse-info">
+				<h1><%= @race.name %></h1>
+				<h4>Race Number: <%= @race.race_number %></h4>
+				<h4><%= @race.description %></h4>
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-3 horse-info-list-group">
+		<h4>Horses:</h4>
+		<% @horses.each do |horse| %>
+				<li><%= horse.name %></li>
+			<% end %>
+	</div>
+</div>
