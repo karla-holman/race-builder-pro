@@ -19,8 +19,20 @@ class HorsesController < ApplicationController
     @categories = Category.all
     @conditions = Condition.all
     @statuses = Status.all
-    @races = Race.all
     @current_status = HorseStatus.where(:horse => @horse).first
+    
+    horse_conditions = @horse.conditions.pluck(:condition_id)
+    race_ids = Array.new()
+    Race.all.each do |race|
+      if (race.conditions.pluck(:condition_id) - horse_conditions).empty?
+        race_ids.push(race.id)
+      end
+    end
+    if race_ids.any?
+      @races = Race.where("id IN (?)", race_ids)
+    else
+      @races = Race.all   
+    end
   end
 
   # GET /horses/new

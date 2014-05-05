@@ -12,7 +12,7 @@
   <div class="form-group">
     <div class="form-group">
       <ul class="condition-list">
-        <% Condition.all.each do |condition| %>
+        <% @conditions.all.each do |condition| %>
             <li><%= check_box_tag "horse[condition_ids][]", condition.id, @horse.conditions.include?(condition) %> <%= condition.name %> </li>
         <% end %>
       </ul>

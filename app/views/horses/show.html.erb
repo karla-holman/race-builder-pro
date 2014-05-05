@@ -23,18 +23,22 @@
 				<table class="table table-condensed table-hover">
 					<thead>
 						<tr>
+							<th>Name</th>
 							<th>Race Description</th>
 							<th>Total #</th>
 							<th>I/C</th>
 						</tr>
 					</thead>
 					<tbody>
-						<% @races.each do |race| %>
-							<tr>
-								<td><%= race.description %></td>
-								<td>5</td>
-								<td><input type="checkbox"></input> / <input type="checkbox"></input></td>
-							</tr>
+						<% if @races %>
+							<% @races.each do |race| %>
+								<tr>
+									<td><%= race.name %></td>
+									<td><%= race.description %></td>
+									<td>5</td>
+									<td><input type="checkbox"></input> / <input type="checkbox"></input></td>
+								</tr>
+							<% end %>
 						<% end %>
 					</tbody>
 				</table>

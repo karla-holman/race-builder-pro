@@ -22,7 +22,6 @@
             <% end %>
             <td><%= horse_condition.horse.name %></td>
             <td><%= horse_condition.condition.name %></td>
-            <td><%= horse_condition.value %></td>
             <td>
               <%= link_to 'Edit', edit_horse_condition_path(horse_condition), :class => 'btn btn-warning btn-xs'%>
               <%= link_to 'Destroy', horse_condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>

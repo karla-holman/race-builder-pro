@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140418212204) do
+ActiveRecord::Schema.define(version: 20140504232948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20140418212204) do
   create_table "horse_conditions", force: true do |t|
     t.integer  "horse_id"
     t.integer  "condition_id"
-    t.boolean  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -40,7 +39,6 @@ ActiveRecord::Schema.define(version: 20140418212204) do
   create_table "horse_statuses", force: true do |t|
     t.integer  "horse_id"
     t.integer  "status_id"
-    t.boolean  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -73,7 +71,6 @@ ActiveRecord::Schema.define(version: 20140418212204) do
   create_table "race_conditions", force: true do |t|
     t.integer  "race_id"
     t.integer  "condition_id"
-    t.boolean  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

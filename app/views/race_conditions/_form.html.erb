@@ -22,10 +22,6 @@
         <%= f.label 'Condition' %>
         <%= f.collection_select :condition_id, @conditions, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
       </div>
-      <div class="form-group">
-        <%= f.label 'Value' %>
-        <%= f.check_box :value, class: 'form-control'%> 
-      </div>
     <div class="form-group">
       <%= f.submit :class => 'btn btn-success btn-sm'%>
       <%= link_to 'Back', race_conditions_path, :class => 'btn btn-danger btn-sm' %>
