@@ -15,12 +15,14 @@ puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
 categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off'] , 'Equipment'=>['Blinkers On', 'Blinkers Off', 'No Blinkers'], 
-			'Other Equipment'=>['Cheek Piece', 'Cornell Collar', 'Front Wraps', 'Nasal Strip']]
+			'Other Equipment'=>['Cheek Piece', 'Cornell Collar', 'Front Wraps', 'Nasal Strip'], 'Age'=>['Ages 2-5', 'Age 1'], 
+			'Wins'=> ['More Than 1 First', '0 Firsts'], 'Gender' => ['M', 'F', 'C', 'G', 'H', 'R']] 
 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List']
 
 #Races: [Race Number, Name, Description]
-races = [[12, 'Big Race!', 'Claiming $7,500 (3&UP F&M) @ 6F']]
+races = [[12, 'Big Race!', 'Claiming $7,500 (Age 1 F&M) @ 6F'], [8, 'Age Race', 'Claiming $9,500 (Ages 2-5 F&M) @ 6F'], 
+		[9, 'No Wins', 'Claiming $4,500 (0 Wins F&M) @ 6F'], [20, 'Over 1 Win', 'Claiming $7,500 (F&M) @ 6F']]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Seconds, Thirds, Earnings, Owner Email, Trainer Email]
 horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01', 10, 5, 3, 4, 423445, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
@@ -29,6 +31,18 @@ horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01', 10, 5, 3, 4, 423445, 'owner
 
 categories.each do |category, conditions|
 	new_category = Category.find_or_create_by!(name: category)
+	
+	case new_category.name
+	when 'Age'
+		new_category.datatype = 'Range'
+	when 'Wins'
+		new_category.datatype = 'Range'
+	when 'Gender'
+		new_category.datatype = 'Value'
+	else
+		new_category.datatype = 'Bool'
+	end
+
 	if new_category.save
 		puts 'CREATED CATEGORY: ' << new_category.name
 	end
@@ -60,7 +74,32 @@ horses.each do |horse|
 	trainer = User.find_by_email(horse[10])
 	new_horse = Horse.find_or_create_by!(name: horse[0], POB: horse[1], gender: horse[2], DOB: dob, starts: horse[4], 
 										firsts: horse[5], seconds: horse[6], thirds: horse[7], earnings: horse[8], owner_id: owner.id, trainer_id: trainer.id)
+	horse_status = HorseStatus.new(:horse_id => new_horse.id, :status_id => 2)
 	if new_horse.save
 		puts 'CREATED HORSE: ' << new_horse.name
 	end
+	if horse_status.save
+		puts 'CREATED HORSE STATUS: '<< Status.find(horse_status.status_id).name
+	end
 end
+
+condition = Condition.find_by_name('Ages 2-5')
+condition.lowerbound = 2
+condition.upperbound = 5
+condition.save
+condition = Condition.find_by_name('Age 1')
+condition.lowerbound = 1
+condition.upperbound = 1
+condition.save
+condition = Condition.find_by_name('More Than 1 First')
+condition.lowerbound = 2
+condition.save
+condition = Condition.find_by_name('0 Firsts')
+condition.lowerbound = 0
+condition.upperbound = 0
+condition.save
+
+
+
+
+

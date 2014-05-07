@@ -16,11 +16,11 @@
     <div class="form-group">
       <div class="form-group">
         <%= f.label 'Horse' %>
-        <%= f.collection_select :horse_id, @horses, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+        <%= f.collection_select :horse_id, @horses, :id, :name, {}, class: 'form-control' %>
       </div>
       <div class="form-group">
         <%= f.label 'Status' %>
-        <%= f.collection_select :status_id, @statuses, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+        <%= f.collection_select :status_id, @statuses, :id, :name, {}, class: 'form-control' %>
       </div>
     <div class="form-group">
       <%= f.submit :class => 'btn btn-success btn-sm'%>

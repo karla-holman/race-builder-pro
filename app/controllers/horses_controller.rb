@@ -40,6 +40,7 @@ class HorsesController < ApplicationController
     @horse = Horse.new
     @owners = User.where(:role => '0')
     @trainers = User.where(:role => '1')
+    @statuses = HorseStatus.all
     @sexes = { "Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
   end
 
@@ -54,9 +55,10 @@ class HorsesController < ApplicationController
   # POST /horses.json
   def create
     @horse = Horse.new(horse_params)
-
     respond_to do |format|
       if @horse.save
+        horse_status = HorseStatus.new(:horse_id => @horse.id, :status_id => 2)
+        horse_status.save
         format.html { redirect_to horses_url, notice: 'Horse was successfully created.' }
         format.json { render action: 'index', status: :created, location: @horse }
       else
@@ -81,7 +83,7 @@ class HorsesController < ApplicationController
           condition.destroy
         end
       end
-      format.html { redirect_to horses_url(@horse), notice: 'Horse was successfully updated.' }
+      format.html { redirect_to @horse, notice: 'Horse was successfully updated.' }
       format.json { render action: 'show', status: :ok, location: @horse }
     else
       respond_to do |format|
