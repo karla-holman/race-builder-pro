@@ -11,9 +11,15 @@
   <% end %>
   <div class="form-group">
     <div class="form-group">
-      <ul class="condition-list">
-        <% Condition.all.each do |condition| %>
-            <li><%= check_box_tag "race[condition_ids][]", condition.id, @race.conditions.include?(condition) %> <%= condition.name %> </li>
+      <ul class="condition-list no-indent">
+        <% @categories.each do |category| %>
+          <li><%= category.name %>
+            <ul class="condition-list">
+            <% category.conditions.each do |condition| %>
+              <li><%= check_box_tag "horse[condition_ids][]", condition.id, @race.conditions.include?(condition) %> <%= condition.name %> </li>
+            <% end %>
+            </ul>
+          </li>
         <% end %>
       </ul>
     </div>

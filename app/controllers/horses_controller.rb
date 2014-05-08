@@ -18,12 +18,11 @@ class HorsesController < ApplicationController
   # GET /horses/1
   # GET /horses/1.json
   def show
-    
-    @category = Category.where(:datatype => "Bool").pluck(:id)
+    @categories = Category.where(:datatype => "Bool")
+    @statuses = Status.all
+    @category = @categories.pluck(:id)
     @conditions = Condition.where("category_id IN (?)", @category)
     @current_status = HorseStatus.where(:horse => @horse).first
-    @categories = Category.all
-    @statuses = Status.all
     @horse_conditions = @horse.conditions.pluck(:condition_id)
     @race_ids = Array.new()
     
@@ -35,50 +34,23 @@ class HorsesController < ApplicationController
         if (specific_conditions.any?)
           specific_conditions.each do |specific_condition|
             condition = Condition.find(specific_condition)
-            category = condition.category
+            category = condition.category           
             case category.name
             when 'Age'
-              age = age(@horse.DOB.to_date)
-              if condition.lowerbound.nil?
-                if age > condition.upperbound
-                  @race_ids.pop
-                  break
-                end
-              elsif condition.upperbound.nil?
-                if age < condition.lowerbound
-                  @race_ids.pop
-                  break
-                end
-              else
-                if condition.upperbound < age || age < condition.lowerbound
-                  @race_ids.pop
-                  break
-                end
-              end
+              specific_value  = age(@horse.DOB.to_date)
+              success = filter_range(condition, specific_value)
             when 'Wins'
-              if condition.lowerbound.nil?
-                if @horse.firsts > condition.upperbound
-                  @race_ids.pop
-                  break
-                end
-              elsif condition.upperbound.nil?
-                if @horse.firsts < condition.lowerbound
-                  @race_ids.pop
-                  break
-                end
-              else
-
-                if condition.upperbound < @horse.firsts || @horse.firsts < condition.lowerbound
-                  @race_ids.pop
-                  break
-                end
-              end    
-            else
-              if condition.value != @horse.gender
-                @race_ids.pop
-                break
+              specific_value = @horse.firsts
+              success = filter_range(condition, specific_value)
+            when 'Gender'
+              if condition.value == @horse.gender
+                success = "yes"
               end 
             end
+            if success != "yes"
+              @race_ids.pop
+              break
+            end        
           end
         end
       end
@@ -158,6 +130,33 @@ class HorsesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to horses_url }
       format.json { head :no_content }
+    end
+  end
+
+  def age(dob)
+    now = Time.now.utc.to_date
+    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+  end
+
+  def filter_range(condition, value)
+    if condition.lowerbound.nil?
+      if value > condition.upperbound
+        return "no"
+      else
+        return "yes"
+      end
+    elsif condition.upperbound.nil?
+      if value < condition.lowerbound
+        return "no"
+      else
+        return "yes"
+      end
+    else
+      if condition.upperbound < value || value < condition.lowerbound
+        return "no"
+      else
+        return "yes"
+      end
     end
   end
 

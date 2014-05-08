@@ -15,6 +15,7 @@ class RacesController < ApplicationController
   # GET /races/1.json
   def show
     @conditions = Condition.all
+    @categories = Category.all
     @horses = Horse.all
     @current_conditions = RaceCondition.where(:race => @race)
   end

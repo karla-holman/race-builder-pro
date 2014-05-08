@@ -53,6 +53,16 @@
  }
 
  .condition-list{
- 	list-style:none;
-    padding-left:0;
+ 	list-style: none;
+ 	margin-bottom: 10px;
+ }
+
+ .no-indent{
+    padding-left: 0;
+ }
+
+ .userbox{
+ 	margin: 10px;
+ 	display:block;
+ 	text-align: center;
  }

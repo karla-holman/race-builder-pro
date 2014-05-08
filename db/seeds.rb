@@ -31,11 +31,8 @@ horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01', 10, 5, 3, 4, 423445, 'owner
 
 categories.each do |category, conditions|
 	new_category = Category.find_or_create_by!(name: category)
-	
 	case new_category.name
-	when 'Age'
-		new_category.datatype = 'Range'
-	when 'Wins'
+	when 'Age', 'Wins'
 		new_category.datatype = 'Range'
 	when 'Gender'
 		new_category.datatype = 'Value'
@@ -48,6 +45,9 @@ categories.each do |category, conditions|
 	end
 	conditions.each do |condition|
 		new_condition = Condition.find_or_create_by!(name: condition, category_id: new_category.id)
+		if new_category.name == "Gender"
+			new_condition.value = condition
+		end
 		if new_condition.save
 			puts 'CREATED CONDITION: ' << new_condition.name
 		end

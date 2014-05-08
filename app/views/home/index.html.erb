@@ -1,9 +1,72 @@
-
 <h2>
 	<% if !current_user.nil? %>
 		<%= current_user.name %>, 
 	<% end %> 
 	Welcome to Race Builder Pro
 </h2>
-<h4>Version: 1.0.1</h4>
+<h5>Version: 1.0.1</h5>
+<% if current_user.admin? %>
+<div class="row">
+	<h4>Races: </h4>
+	<% @races.each do |race| %>
+		<a href="<%= race_path(race) %>">
+			<div class="col-xs-3 userbox well">
+				<h4><%= race.name %></h4>
+				<ul class="condition-list no-indent">
+					<li>Date: </li>
+					<li>Conditions: 
+						<ul class="condition-list no-indent">
+							<% race.conditions.each do |condition| %>
+								<li><%= condition.name %></li>
+							<% end %>
+						</ul>
+					</li>
+					<li>Horses: </li>
+				</ul>
+			</div>
+		</a>
+	<% end %>
+</div>
+<% else %>
+	<div class="row">
+		<h4>Current Stable:</h4>
+		<% @horses.each do |horse| %>
+			<a href="<%= horse_path(horse) %>">
+				<div class="col-xs-3 userbox well">
+					<h4><%= horse.name %></h4>
+					<ul class="condition-list no-indent">
+						<li>Conditions: 
+							<ul class="condition-list no-indent">
+								<% horse.conditions.each do |condition| %>
+									<li><%= condition.name %></li>
+								<% end %>
+							</ul>
+						</li>
+						<li>Races: </li>
+					</ul>
+				</div>
+			</a>
+		<% end %>
+	</div>
+	<div class="row">
+		<h4>Upcoming Races:</h4>
+		<% @races.each do |race| %>
+			<a href="<%= race_path(race) %>">
+				<div class="col-xs-3 userbox well">
+					<h4><%= race.name %></h4>
+					<ul class="condition-list no-indent">
+						<li>Date: </li>
+						<li>Conditions: 
+							<ul class="condition-list no-indent">
+								<% race.conditions.each do |condition| %>
+									<li><%= condition.name %></li>
+								<% end %>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</a>
+		<% end %>
+	</div>
+<% end %>
 <p>Race Builder Pro is a web application designed to revolutionize horse racing’s current entry process, which no longer allows for an optimal race program. Presently, horse racing uses an antiquated, reactive approach that has hindered horsemen’s confidence to find races for their horses and has limited the ability for racetracks to maximize field size. Thus, the primary objective of The Racing Secretary project is to create a viable alternative that will revitalize the entry process using a fresh, proactive technology.</p>
