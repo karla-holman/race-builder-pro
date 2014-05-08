@@ -4,7 +4,9 @@ class HorsesController < ApplicationController
   # GET /horses
   # GET /horses.json
   def index
-    if current_user.admin?
+    if params[:search]
+      @horses = Horse.search(params[:search]).order("name ASC")   
+    elsif current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
       @horses = Horse.where(:trainer_id => current_user.id)
@@ -16,22 +18,73 @@ class HorsesController < ApplicationController
   # GET /horses/1
   # GET /horses/1.json
   def show
-    @categories = Category.all
-    @conditions = Condition.all
-    @statuses = Status.all
-    @current_status = HorseStatus.where(:horse => @horse).first
     
-    horse_conditions = @horse.conditions.pluck(:condition_id)
-    race_ids = Array.new()
+    @category = Category.where(:datatype => "Bool").pluck(:id)
+    @conditions = Condition.where("category_id IN (?)", @category)
+    @current_status = HorseStatus.where(:horse => @horse).first
+    @categories = Category.all
+    @statuses = Status.all
+    @horse_conditions = @horse.conditions.pluck(:condition_id)
+    @race_ids = Array.new()
+    
     Race.all.each do |race|
-      if (race.conditions.pluck(:condition_id) - horse_conditions).empty?
-        race_ids.push(race.id)
+      bool_conditions = race.conditions.where("category_id IN (?)", @category).pluck(:condition_id)
+      specific_conditions = race.conditions.pluck(:condition_id) - bool_conditions
+      if (@horse_conditions - bool_conditions).empty?
+        @race_ids.push(race.id)
+        if (specific_conditions.any?)
+          specific_conditions.each do |specific_condition|
+            condition = Condition.find(specific_condition)
+            category = condition.category
+            case category.name
+            when 'Age'
+              age = age(@horse.DOB.to_date)
+              if condition.lowerbound.nil?
+                if age > condition.upperbound
+                  @race_ids.pop
+                  break
+                end
+              elsif condition.upperbound.nil?
+                if age < condition.lowerbound
+                  @race_ids.pop
+                  break
+                end
+              else
+                if condition.upperbound < age || age < condition.lowerbound
+                  @race_ids.pop
+                  break
+                end
+              end
+            when 'Wins'
+              if condition.lowerbound.nil?
+                if @horse.firsts > condition.upperbound
+                  @race_ids.pop
+                  break
+                end
+              elsif condition.upperbound.nil?
+                if @horse.firsts < condition.lowerbound
+                  @race_ids.pop
+                  break
+                end
+              else
+
+                if condition.upperbound < @horse.firsts || @horse.firsts < condition.lowerbound
+                  @race_ids.pop
+                  break
+                end
+              end    
+            else
+              if condition.value != @horse.gender
+                @race_ids.pop
+                break
+              end 
+            end
+          end
+        end
       end
     end
-    if race_ids.any?
-      @races = Race.where("id IN (?)", race_ids)
-    else
-      @races = Race.all   
+    if @race_ids.any?
+      @races = Race.where("id IN (?)", @race_ids)
     end
   end
 

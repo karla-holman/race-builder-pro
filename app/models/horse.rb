@@ -10,4 +10,8 @@ class Horse < ActiveRecord::Base
 
 	belongs_to :owner, class_name: 'User'
 	belongs_to :trainer, class_name: 'User'
+
+	def self.search(query)
+  		where("lower(name) like ?", "%#{query}%".downcase)
+	end
 end

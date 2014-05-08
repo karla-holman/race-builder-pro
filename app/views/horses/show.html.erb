@@ -32,7 +32,15 @@
 					<tbody>
 						<% if @races %>
 							<% @races.each do |race| %>
-								<tr>
+								<tr class="top"  data-toggle="tooltip" data-placement="right" title="
+								    Conditions: 
+								    <% if race.conditions.any?
+								      race.conditions.each do |condition| %>
+								        <%= condition.name %>
+								      <% end %>
+								    <% else %>
+								      None
+								    <% end %>">
 									<td><%= race.name %></td>
 									<td><%= race.description %></td>
 									<td>5</td>
@@ -45,7 +53,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-3 horse-info-list-group">
+	<div class="col-xs-3 horse-info-list-group edit_status">
 		<h4>Status:</h4>
 		<%= render 'status' %>
 	</div>

@@ -1,6 +1,10 @@
 <div class="row">
   <div class="col-xs-12">
     <h1><%= current_user.name %>'s Races</h1>
+    <%= form_tag(races_path, :method => "get", id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Races" %>
+      <%= submit_tag "Search", :name => nil %>
+    <% end %>
     <% if current_user.admin? %>
       <%= link_to 'New Race', new_race_path, :class => 'btn btn-primary btn-xs' %>
     <% end %>
@@ -19,7 +23,15 @@
 
       <tbody>
         <% @races.each do |race| %>
-          <tr>
+          <tr class="top"  data-toggle="tooltip" data-placement="right" title="
+                    Conditions: 
+                    <% if race.conditions.any?
+                      race.conditions.each do |condition| %>
+                        <%= condition.name %>
+                      <% end %>
+                    <% else %>
+                      None
+                    <% end %>">
             <% if current_user.admin? %>
             <td><%= race.id %></td>
             <% end %>

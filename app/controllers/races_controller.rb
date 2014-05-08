@@ -4,7 +4,11 @@ class RacesController < ApplicationController
   # GET /races
   # GET /races.json
   def index
-    @races = Race.all
+    if params[:search]
+      @races = Race.search(params[:search]).order("name ASC")   
+    else current_user.admin?
+      @races = Race.all
+    end
   end
 
   # GET /races/1

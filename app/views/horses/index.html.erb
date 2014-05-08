@@ -1,6 +1,10 @@
 <div class="row">
   <div class="col-xs-12">
     <h1><%= current_user.name %>'s Stable</h1>
+    <%= form_tag(horses_path, :method => "get", id: "search-form") do %>
+      <%= text_field_tag :search, params[:search], placeholder: "Search Horses" %>
+      <%= submit_tag "Search", :name => nil %>
+    <% end %>
     <% if current_user.admin? %>
       <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-xs' %>
     <% end %>
@@ -28,7 +32,18 @@
 
       <tbody>
         <% @horses.each do |horse| %>
-          <tr>
+          <tr class="top"  data-toggle="tooltip" data-placement="right" title="
+            Conditions: 
+            <% if horse.conditions.any?
+              horse.conditions.each do |condition| %>
+                <%= condition.name %>
+              <% end %>
+            <% else %>
+              None
+            <% end %>
+
+              Status:
+              <%= Status.find(horse).name %>">
             <% if current_user.admin? %>
             <td><%= horse.id %></td>
             <% end %>
@@ -36,12 +51,6 @@
             <td><%= horse.POB %></td>
             <td><%= horse.gender %></td>
             <td>
-              <%
-                def age(dob)
-                  now = Time.now.utc.to_date
-                  now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-                end
-              %>
               <%= age(horse.DOB.to_date) %>
             </td>
             <td>

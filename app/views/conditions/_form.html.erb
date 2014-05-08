@@ -22,6 +22,18 @@
         <%= f.collection_select :category_id, @categories, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
       </div>
       <div class="form-group">
+        <%= f.label :lowerbound %>
+        <%= f.text_field :lowerbound, :autofocus => true, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :upperbound %>
+        <%= f.text_field :upperbound, :autofocus => true, class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= f.label :value %>
+        <%= f.text_field :value, :autofocus => true, class: 'form-control' %>
+      </div>
+      <div class="form-group">
         <%= f.submit :class => 'btn btn-success btn-sm'%>
         <%= link_to 'Back', conditions_path, :class => 'btn btn-danger btn-sm' %>
       </div>

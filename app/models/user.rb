@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   end
 
   def self.search(query)
-  	where("name like ? OR name like ?", "%#{query}%", "%#{query}%")
+  	where("lower(name) like ? OR lower(email) like ?", "%#{query}%".downcase, "%#{query}%".downcase)
 	end
 
 end
