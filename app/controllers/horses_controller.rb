@@ -57,6 +57,9 @@ class HorsesController < ApplicationController
     end
     if @race_ids.any?
       @races = Race.where("id IN (?)", @race_ids)
+      @races.each do |race|
+        Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id)
+      end
     end
   end
 

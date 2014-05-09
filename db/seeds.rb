@@ -20,12 +20,12 @@ categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix 
 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List']
 
-#Races: [Race Number, Name, Description]
-races = [[12, 'Big Race!', 'Claiming $7,500 (Age 1 F&M) @ 6F'], [8, 'Age Race', 'Claiming $9,500 (Ages 2-5 F&M) @ 6F'], 
-		[9, 'No Wins', 'Claiming $4,500 (0 Wins F&M) @ 6F'], [20, 'Over 1 Win', 'Claiming $7,500 (F&M) @ 6F']]
+#Races: [Race Number, Name, Description, Datetime]
+races = [[12, 'Big Race!', 'Claiming $7,500 (Age 1 F&M) @ 6F','2014-05-22 10:30:00'], [8, 'Age Race', 'Claiming $9,500 (Ages 2-5 F&M) @ 6F', '2014-05-29 9:30:00'], 
+		[9, 'No Wins', 'Claiming $4,500 (0 Wins F&M) @ 6F', '2014-06-01 12:00:00'], [20, 'Over 1 Win', 'Claiming $7,500 (F&M) @ 6F', '2014-06-10 14:00:00']]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Seconds, Thirds, Earnings, Owner Email, Trainer Email]
-horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01', 10, 5, 3, 4, 423445, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01-', 10, 5, 3, 4, 423445, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Test Horse', 'BC', 'R', '2008-11-01', 22, 4, 8, 3, 199999, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Date Test', 'CA', 'M', '2013-05-05', 11, 0, 0, 0, 1000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
 
@@ -63,6 +63,8 @@ end
 
 races.each do |race|
 	new_race = Race.find_or_create_by!(race_number: race[0], name: race[1], description: race[2])
+	date = DateTime.parse(race[3]).to_s
+	new_race.race_datetime = date
 	if new_race.save
 		puts 'CREATED RACE: ' << new_race.name
 	end

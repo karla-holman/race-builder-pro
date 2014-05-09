@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require bootstrap
+//= require bootstrap-datetimepicker
 //= require_tree .
 
 $(document).ready(function() {
@@ -21,12 +22,10 @@ $(document).ready(function() {
     	dateFormat: "yy-mm-dd"
   	});
 
-  	$(".horse-statuses input:checkbox").change(function(){
-  		form = $(this).closest("form");
-    	attemptUpdate(form);
-    	return false;
-  	});
-
+  	$('#datetimepicker').datetimepicker({
+        format: 'yyyy-mm-dd hh:mm:ss'
+      });
+  	
   	function attemptUpdate(f)
 	{
 	  $.ajax({
