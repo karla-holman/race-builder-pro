@@ -48,8 +48,8 @@ $(document).ready(function() {
 	      } 
 	    }
      	form = $(this).closest("form");
-			attemptUpdate(form);
-			return false;
+		attemptUpdate(form);
+		return false;
   	});
 
   	function attemptUpdate(f)
@@ -62,11 +62,7 @@ $(document).ready(function() {
 	  {
 	    if(data.success)
 	    {
-	    	//(f).spin(false);
-	      $.ajax({
-  		 	url: "/horses/refresh_partial", 
-  		  	type: "POST"
-  		  });
+	    	(f).spin(false);
 	    }
 	    else
 	    {

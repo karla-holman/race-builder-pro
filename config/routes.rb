@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  get 'activities/index'
+
   resources :race_conditions
 
   resources :horse_conditions
@@ -17,8 +19,7 @@ RailsDevisePundit::Application.routes.draw do
 
   resources :horses
 
-  post 'horses/refresh_partial' => "horses#refresh_partial"
-  get 'horses/refresh_partial' => "horses#refresh_partial"
+  resources :activities
 
   root :to => "home#index"
   devise_for :users, :controllers => {:registrations => "registrations"}

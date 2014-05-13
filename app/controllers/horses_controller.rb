@@ -57,9 +57,7 @@ class HorsesController < ApplicationController
     end
     if @race_ids.any?
       @races = Race.where("id IN (?)", @race_ids)
-      $races = @races
     end
-    $horse = @horse
   end
 
   # GET /horses/new
@@ -84,6 +82,7 @@ class HorsesController < ApplicationController
     @horse = Horse.new(horse_params)
     respond_to do |format|
       if @horse.save
+        @horse.create_activity :create, owner: current_user
         horse_status = HorseStatus.new(:horse_id => @horse.id, :status_id => 2)
         horse_status.save
         format.html { redirect_to horses_url, notice: 'Horse was successfully created.' }
@@ -113,6 +112,7 @@ class HorsesController < ApplicationController
     else
       respond_to do |format|
         if @horse.update(horse_params)
+          @horse.create_activity :update, owner: current_user
           format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
           format.json { render action: 'index', status: :ok, location: @horse }
         else
@@ -120,15 +120,6 @@ class HorsesController < ApplicationController
           format.json { render json: @horse.errors, status: :unprocessable_entity }
         end
       end
-    end
-  end
-
-  def refresh_partial
-    @horse = $horse
-    @races = $races
-
-    respond_to do |format|
-      format.js
     end
   end
 

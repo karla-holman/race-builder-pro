@@ -31,6 +31,10 @@ class UsersController < ApplicationController
   end
 
   def update
+    if secure_params[:password].blank?
+      secure_params.delete("password")
+      secure_params.delete("password_confirmation")
+    end
     @user = User.find(params[:id])
     authorize @user
     if @user.update_attributes(secure_params)
@@ -55,7 +59,7 @@ class UsersController < ApplicationController
   private
 
   def secure_params
-    params.require(:user).permit(:role, :name, :email, :password)
+    params.require(:user).permit(:role, :name, :email, :password, :password, :password_confirmation)
   end
 
 end

@@ -1,4 +1,6 @@
 class Horse < ActiveRecord::Base
+	include PublicActivity::Common
+
 	has_many :horsestatuses
 	has_many :statuses, :through => :horsestatuses
 

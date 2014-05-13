@@ -16,6 +16,7 @@ gem 'pundit'
 gem "tzinfo-data"
 gem "simple_form"
 gem 'bootstrap-datetimepicker-rails'
+gem 'public_activity'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :mri_21, :rbx]
