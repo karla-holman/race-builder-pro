@@ -41,9 +41,8 @@
             <% else %>
               None
             <% end %>
-
               Status:
-              <%= Status.find(horse).name %>">
+              <%= Status.find(HorseStatus.find(horse.id).status_id).name %>">
             <% if current_user.admin? %>
             <td><%= horse.id %></td>
             <% end %>

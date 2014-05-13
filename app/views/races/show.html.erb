@@ -3,7 +3,7 @@
 		<h4>Conditions:</h4>
 		<%= render 'condition' %>
 	</div>
-	<div class="col-xs-6">
+	<div class="col-xs-9">
 		<div class="row">
 			<ol class="breadcrumb">
 			  <li><%= link_to 'Race List', races_path %></li>
@@ -16,10 +16,44 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-3 horse-info-list-group">
-		<h4>Horses:</h4>
-		<% @horses.each do |horse| %>
-				<li><%= horse.name %></li>
+	<div class="col-xs-9">
+		<table class="table table-condensed table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+          <th>Gender</th>
+          <th>Age</th>
+          <th>Starts</th>
+          <th>Firsts</th>
+          <th>Seconds</th>
+          <th>Thirds</th>
+          <th>Race Status</th>
+          <th colspan="1"></th>
+				</tr>
+			</thead>
+			<% if @horseraces %>
+				<tbody>
+	        <% @horseraces.each do |horserace| %>
+	        	<% horse = Horse.find(horserace.horse_id) %>
+	          <tr class="top">
+	            <td><%= horse.name %></td>
+	            <td><%= horse.gender %></td>
+	            <td>
+	             <% def age(dob)
+	                now = Time.now.utc.to_date
+	                now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+	              end %>
+	              <%= age(horse.DOB.to_date) %>
+	            </td>
+	            <td><%= horse.starts %></td>
+	            <td><%= horse.firsts %></td>
+	            <td><%= horse.seconds %></td>
+	            <td><%= horse.thirds %></td>
+	            <td><%= horserace.status %></td>
+	          </tr>
+	        <% end %>
+	      </tbody>
 			<% end %>
+		</table>
 	</div>
 </div>

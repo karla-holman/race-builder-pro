@@ -29,24 +29,9 @@
 							<th>I/C</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="race-list">
 						<% if @races %>
-							<% @races.each do |race| %>
-								<tr class="top"  data-toggle="tooltip" data-placement="right" title="
-								    Conditions: 
-								    <% if race.conditions.any?
-								      race.conditions.each do |condition| %>
-								        <%= condition.name %>
-								      <% end %>
-								    <% else %>
-								      None
-								    <% end %>">
-									<td><%= race.name %></td>
-									<td><%= race.description %></td>
-									<td>5</td>
-									<td><input type="checkbox"></input> / <input type="checkbox"></input></td>
-								</tr>
-							<% end %>
+							<%= render 'races' %>
 						<% end %>
 					</tbody>
 				</table>

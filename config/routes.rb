@@ -17,6 +17,8 @@ RailsDevisePundit::Application.routes.draw do
 
   resources :horses
 
+  post 'horses/refresh_partial' => "horses#refresh_partial"
+  get 'horses/refresh_partial' => "horses#refresh_partial"
 
   root :to => "home#index"
   devise_for :users, :controllers => {:registrations => "registrations"}

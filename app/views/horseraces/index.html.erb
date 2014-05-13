@@ -13,6 +13,7 @@
           <th>Horse</th>
           <th>Race</th>
           <th>Entered</th>
+          <th>Status</h>
           <th colspan="1"></th>
         </tr>
       </thead>
@@ -28,6 +29,11 @@
               <% if horserace.entered? %>
                 <%= horserace.entered.to_time.strftime('%b %d, %Y') %>
               <% end %>
+            </td>
+            <td>
+              <% if horserace.status? %>
+                  <%= horserace.status %>
+                <% end %>
             </td>
             <td>
               <%= link_to 'Edit', edit_horserace_path(horserace), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>

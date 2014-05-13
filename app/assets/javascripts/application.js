@@ -24,8 +24,34 @@ $(document).ready(function() {
 
   	$('#datetimepicker').datetimepicker({
         format: 'yyyy-mm-dd hh:mm:ss'
-      });
-  	
+     });
+
+  	$('[data-toggle="tooltip"]').tooltip({'placement': 'right'});
+
+  	$("#horse_status_status_id").change(function(){
+  		form = $(this).closest("form");
+  		attemptUpdate(form);
+  		return false;
+  	});
+
+  	$(".condition-list").change(function(){
+  		form = $(this).closest("form");
+  		attemptUpdate(form);
+  		return false
+  	});
+
+  	$(".edit_horserace").change(function(){
+  		if($('#confirm_racestatus').is(":checked")) {
+	     	message = confirm("Once you confirm for a race there is no unconfirm, do you still want to confirm for this race?");
+	      if(!message) {
+  				return false;
+	      } 
+	    }
+     	form = $(this).closest("form");
+			attemptUpdate(form);
+			return false;
+  	});
+
   	function attemptUpdate(f)
 	{
 	  $.ajax({
@@ -36,7 +62,11 @@ $(document).ready(function() {
 	  {
 	    if(data.success)
 	    {
-	      $(f).spin(false);
+	    	//(f).spin(false);
+	      $.ajax({
+  		 	url: "/horses/refresh_partial", 
+  		  	type: "POST"
+  		  });
 	    }
 	    else
 	    {
@@ -46,7 +76,6 @@ $(document).ready(function() {
 	      }
 	    }
 	  });
-
 	  return false;
 	}
 

@@ -16,7 +16,7 @@ class RacesController < ApplicationController
   def show
     @conditions = Condition.all
     @categories = Category.all
-    @horses = Horse.all
+    @horseraces = Horserace.where("status = ? OR status = ? AND race_id = ?", "interested", "confirmed", @race.id)
     @current_conditions = RaceCondition.where(:race => @race)
   end
 

@@ -1,0 +1,28 @@
+<% @races.each do |race| %>
+	<tr class="top"  data-toggle="tooltip" data-placement="right" title="
+	    Conditions: 
+	    <% if race.conditions.any?
+	      race.conditions.each do |condition| %>
+	        <%= condition.name %>
+	      <% end %>
+	    <% else %>
+	      None
+	    <% end %>">
+	    <%= puts "HORSE: " << @horse.name %>
+	   <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
+		<td><%= race.name %></td>
+		<td><%= race.description %></td>
+		<td><%= race.horseraces.where(:status => "interested").count %></td>
+		<% if @horserace.status == "confirmed" %>
+			<td>C</td>
+		<% else %>
+			<td ><%= form_for(@horserace)  do |f| %>
+						<%= check_box("horserace", "status", {}, "interested", "") %> / 
+					<% end %>
+					<%= form_for(@horserace)  do |f| %>
+						<%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "confirmed", "") %>
+					<% end %>
+			</td>
+		<% end %>
+	</tr>
+<% end %>
