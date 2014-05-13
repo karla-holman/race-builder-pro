@@ -46,6 +46,10 @@ class HorsesController < ApplicationController
               if condition.value == @horse.gender
                 success = "yes"
               end 
+            when 'Bred'
+              if condition.value == @horse.POB
+                success = "yes"
+              end 
             end
             if success != "yes"
               @race_ids.pop
@@ -128,6 +132,7 @@ class HorsesController < ApplicationController
   def destroy
     @horse.destroy
     respond_to do |format|
+      @horse.create_activity :destroy, owner: current_user
       format.html { redirect_to horses_url }
       format.json { head :no_content }
     end

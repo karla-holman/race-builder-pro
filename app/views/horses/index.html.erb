@@ -68,6 +68,8 @@
             <td>
               <% if horse.earnings? %>
                 <%= number_to_currency(horse.earnings, precision: 2) %>
+              <% else %>
+                <%= number_to_currency(0, precision: 2) %>
               <% end %>
             </td>
             <td><%= horse.owner.name %></td>

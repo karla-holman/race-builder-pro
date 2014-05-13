@@ -1,4 +1,6 @@
 class Race < ActiveRecord::Base
+	include PublicActivity::Common
+	
 	has_many :horseraces
 	has_many :horses, :through => :horseraces
 

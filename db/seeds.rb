@@ -15,26 +15,33 @@ puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
 categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off'] , 'Equipment'=>['Blinkers On', 'Blinkers Off', 'No Blinkers'], 
-			'Other Equipment'=>['Cheek Piece', 'Cornell Collar', 'Front Wraps', 'Nasal Strip'], 'Age'=>['Ages 2-5', 'Age 1'], 
-			'Wins'=> ['More Than 1 First', '0 Firsts'], 'Gender' => ['M', 'F', 'C', 'G', 'H', 'R']] 
+			'Other Equipment'=>['Cheek Piece', 'Cornell Collar', 'Front Wraps', 'Nasal Strip'], 'Age'=>['3+ Years Old', '3 Years Old'], 
+			'Wins'=> ['Maiden', 'NW2'], 'Gender' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['WA']] 
 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List']
 
 #Races: [Race Number, Name, Description, Datetime]
-races = [[12, 'Big Race!', 'Claiming $7,500 (Age 1 F&M) @ 6F','2014-05-22 10:30:00'], [8, 'Age Race', 'Claiming $9,500 (Ages 2-5 F&M) @ 6F', '2014-05-29 9:30:00'], 
-		[9, 'No Wins', 'Claiming $4,500 (0 Wins F&M) @ 6F', '2014-06-01 12:00:00'], [20, 'Over 1 Win', 'Claiming $7,500 (F&M) @ 6F', '2014-06-10 14:00:00']]
+races = [[1, 'Maiden Claiming Purse $9,975', 'INCLUDES $2,494 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (3 years old)','2014-05-22 10:30:00'], 
+		[2, 'Washington Maiden Claiming Purse $7,875', 'INCLUDES $2,363 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (washington bred, fillies and mares, 3 years and older)', '2014-05-29 9:30:00'], 
+		[3, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'], 
+		[4, 'NW2 Claiming $7,500', 'INCLUDES $1,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (3 years and older)', '2014-06-10 14:00:00']]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Seconds, Thirds, Earnings, Owner Email, Trainer Email]
-horses = [['Owen\'s Horse', 'KY', 'C', '2012-04-01-', 10, 5, 3, 4, 423445, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Test Horse', 'BC', 'R', '2008-11-01', 22, 4, 8, 3, 199999, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Date Test', 'CA', 'M', '2013-05-05', 11, 0, 0, 0, 1000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
+horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 2, 2, 10000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Greg Hope', 'CA', 'C', '2011-11-01', 0, 0, 0, 0, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Jacob Pollowitz', 'WA', 'F', '2010-05-05', 1, 0, 0, 1, 2000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Sharon Hope', 'WA', 'F', '2010-05-05', 2, 0, 1, 1, 1000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Alison Pollowitz', 'WA', 'M', '2009-05-05', 3, 0, 2, 1, 5000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Michael Pollowitz', 'KY', 'F', '2010-05-05', 7, 0, 3, 0, 8000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Sire and Son', 'W', 'C', '2011-05-05', 25, 7, 3, 2, 30000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Hope Media', 'KY', 'G', '2010-05-05', 7, 1, 2, 3, 8000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
 
 categories.each do |category, conditions|
 	new_category = Category.find_or_create_by!(name: category)
 	case new_category.name
 	when 'Age', 'Wins'
 		new_category.datatype = 'Range'
-	when 'Gender'
+	when 'Gender', 'Bred'
 		new_category.datatype = 'Value'
 	else
 		new_category.datatype = 'Bool'
@@ -85,20 +92,20 @@ horses.each do |horse|
 	end
 end
 
-condition = Condition.find_by_name('Ages 2-5')
-condition.lowerbound = 2
-condition.upperbound = 5
+condition = Condition.find_by_name('3+ Years Old')
+condition.lowerbound = 3
 condition.save
-condition = Condition.find_by_name('Age 1')
-condition.lowerbound = 1
-condition.upperbound = 1
+condition = Condition.find_by_name('3 Years Old')
+condition.lowerbound = 3
+condition.upperbound = 3
 condition.save
-condition = Condition.find_by_name('More Than 1 First')
-condition.lowerbound = 2
-condition.save
-condition = Condition.find_by_name('0 Firsts')
+condition = Condition.find_by_name('Maiden')
 condition.lowerbound = 0
 condition.upperbound = 0
+condition.save
+condition = Condition.find_by_name('NW2')
+condition.lowerbound = 0
+condition.upperbound = 1
 condition.save
 
 

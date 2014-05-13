@@ -36,6 +36,7 @@ class RacesController < ApplicationController
 
     respond_to do |format|
       if @race.save
+        @race.create_activity :create, owner: current_user
         format.html { redirect_to races_url, notice: 'Race was successfully created.' }
         format.json { render action: 'index', status: :created, location: @races }
       else
@@ -63,6 +64,7 @@ class RacesController < ApplicationController
     else
       respond_to do |format|
         if @race.update(race_params)
+          @race.create_activity :update, owner: current_user
           format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
           format.json { render action: 'index', status: :ok, location: @races }
         else
@@ -78,6 +80,7 @@ class RacesController < ApplicationController
   def destroy
     @race.destroy
     respond_to do |format|
+      @race.create_activity :destroy, owner: current_user
       format.html { redirect_to races_url }
       format.json { head :no_content }
     end

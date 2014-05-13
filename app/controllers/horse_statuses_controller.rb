@@ -58,6 +58,7 @@ class HorseStatusesController < ApplicationController
   def update
     respond_to do |format|
       if @horse_status.update(horse_status_params)
+        @horse_status.create_activity :update, owner: current_user
         format.html { redirect_to horse_statuses_url, notice: 'Horse status was successfully updated.' }
         format.json { render action: 'show', status: :ok, location: @horse_status }
       else
