@@ -33,7 +33,7 @@ development:
   database: rbp_development
   pool: 5
   username: postgres
-  password:	paradise1
+  password:	newo#1988
 
 test:
   adapter: postgresql
@@ -41,7 +41,7 @@ test:
   database: rbp_test
   pool: 5
   username: postgres
-  password: paradise1
+  password: newo#1988
 
 production:
   adapter: postgresql
@@ -49,5 +49,5 @@ production:
   database: rbp_production
   pool: 5
   username: postgres
-  password: paradise1
+  password: newo#1988
 
