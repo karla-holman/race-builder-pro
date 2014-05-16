@@ -63,6 +63,14 @@
       <%= f.label :earnings %>
       <%= f.text_field :earnings, :autofocus => true, class: 'form-control' %>
     </div>
+    <div class="form-group">
+      <%= f.label 'Last Win' %>
+      <%= f.text_field :last_win, :autofocus => true, class: 'date-picker form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :last_claiming_level %>
+      <%= f.text_field :last_claiming_level, :autofocus => true, class: 'form-control' %>
+    </div>
   </div>
 </div>
 <% end %>

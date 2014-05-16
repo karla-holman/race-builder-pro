@@ -1,5 +1,5 @@
 class HorsesController < ApplicationController
-  before_action :set_horse, only: [:show, :edit, :update, :destroy]
+  before_action :set_horse, only: [:show, :edit, :update, :destroy, :profile]
 
   # GET /horses
   # GET /horses.json
@@ -13,6 +13,29 @@ class HorsesController < ApplicationController
     else
       @horses = Horse.where(:owner_id => current_user.id)
     end
+  end
+
+  # get /HORSES/1/profile
+  def profile
+    @categories = Category.where(:datatype => "Bool")
+    @statuses = Status.all
+    @category = @categories.pluck(:id)
+    @conditions = Condition.where("category_id IN (?)", @category)
+    @current_status = HorseStatus.where(:horse => @horse).first
+    @horse_conditions = @horse.conditions.pluck(:condition_id)
+    @race_ids = Array.new()
+
+    @horse.races.all.each do |race|
+      @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id)
+      if @horserace.status == "interested" || @horserace.status == "confirmed"
+        @race_ids.push (race.id)
+      end
+    end
+
+    if @race_ids.any?
+      @races = Race.where("id IN (?)", @race_ids)
+    end
+
   end
 
   # GET /horses/1
@@ -29,33 +52,39 @@ class HorsesController < ApplicationController
     Race.all.each do |race|
       bool_conditions = race.conditions.where("category_id IN (?)", @category).pluck(:condition_id)
       specific_conditions = race.conditions.pluck(:condition_id) - bool_conditions
-      if (@horse_conditions - bool_conditions).empty?
-        @race_ids.push(race.id)
-        if (specific_conditions.any?)
-          specific_conditions.each do |specific_condition|
-            condition = Condition.find(specific_condition)
-            category = condition.category           
-            case category.name
-            when 'Age'
-              specific_value  = age(@horse.DOB.to_date)
-              success = filter_range(condition, specific_value)
-            when 'Wins'
-              specific_value = @horse.firsts
-              success = filter_range(condition, specific_value)
-            when 'Gender'
-              if condition.value == @horse.gender
+      @race_ids.push(race.id)       
+      if (specific_conditions.any?)
+        specific_conditions.each do |specific_condition|
+          condition = Condition.find(specific_condition)
+          category = condition.category           
+          case category.name
+          when 'Age'
+            specific_value  = age(@horse.DOB.to_date)
+            success = filter_range(condition, specific_value)
+          when 'Wins'
+            specific_value = @horse.firsts
+            success = filter_range(condition, specific_value)
+          when 'Gender'
+            if condition.value == @horse.gender
+              success = "yes"
+            end 
+          when 'Bred'
+            if condition.value == @horse.POB
+              success = "yes"
+            end 
+          when 'Hasn\'t Won Since'
+            if @horse.last_win
+              if condition.value.to_i > @horse.last_win.year
                 success = "yes"
-              end 
-            when 'Bred'
-              if condition.value == @horse.POB
-                success = "yes"
-              end 
-            end
-            if success != "yes"
-              @race_ids.pop
-              break
-            end        
+              end
+            else
+              success = "yes"
+            end 
           end
+          if success != "yes"
+            @race_ids.pop
+            break
+          end        
         end
       end
     end
@@ -173,6 +202,6 @@ class HorsesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def horse_params
-      params.require(:horse).permit(:name, :POB, :gender, :DOB, :starts, :firsts, :seconds, :thirds, :earnings, :owner_id, :trainer_id, :condition_ids => [])
+      params.require(:horse).permit(:name, :POB, :gender, :DOB, :starts, :firsts, :seconds, :thirds, :earnings, :owner_id, :last_win, :last_claiming_level, :trainer_id, :condition_ids => [])
     end
 end

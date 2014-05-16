@@ -11,9 +11,6 @@
     <table class="table table-condensed table-hover">
       <thead>
         <tr>
-          <% if current_user.admin? %>
-          <th>ID</th>
-          <% end %>
           <th>Name</th>
           <th>POB</th>
           <th>Gender</th>
@@ -24,6 +21,8 @@
           <th>Seconds</th>
           <th>Thirds</th>
           <th>Earnings</th>
+          <th>Last Claiming Level</th>
+          <th>Status</th>
           <th>Owner</th>
           <th>Trainer</th>
           <th colspan="1"></th>
@@ -40,12 +39,7 @@
               <% end %>
             <% else %>
               None
-            <% end %>
-              Status:
-              <%= Status.find(HorseStatus.find(horse.id).status_id).name %>">
-            <% if current_user.admin? %>
-            <td><%= horse.id %></td>
-            <% end %>
+            <% end %>">
             <td><%= horse.name %></td>
             <td><%= horse.POB %></td>
             <td><%= horse.gender %></td>
@@ -72,10 +66,19 @@
                 <%= number_to_currency(0, precision: 2) %>
               <% end %>
             </td>
+            <td>
+              <% if horse.last_claiming_level? %>
+                <%= number_to_currency(horse.last_claiming_level, precision: 2) %>
+              <% else %>
+                <%= number_to_currency(0, precision: 2) %>
+              <% end %>
+            </td>
+            <td><%= Status.find(HorseStatus.find(horse.id).status_id).name %></td>
             <td><%= horse.owner.name %></td>
             <td><%= horse.trainer.name %></td>
             <td>
-              <%= link_to 'Show', horse, :class => 'btn btn-primary btn-xs' %>
+              <%= link_to 'Race Select', horse, :class => 'btn btn-primary btn-xs' %>
+              <%= link_to 'Profile', horse_path(horse)+"/profile", :class => 'btn btn-info btn-xs'%>
               <% if current_user.admin? %>
                 <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
                 <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>

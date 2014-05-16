@@ -15,6 +15,7 @@
 //= require jquery.ui.all
 //= require bootstrap
 //= require bootstrap-datetimepicker
+//= require dataTables/jquery.dataTables
 //= require_tree .
 
 $(document).ready(function() {
@@ -28,7 +29,30 @@ $(document).ready(function() {
 
   	$('[data-toggle="tooltip"]').tooltip({'placement': 'right'});
 
-  	$("#horse_status_status_id").change(function(){
+  	$('.table').dataTable({
+  	sPaginationType: "full_numbers",
+    "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+      switch(aData[11]){
+        case 'Race Ready':
+          $('td', nRow).eq(11).css('color', 'green')
+          break;
+        case 'Not Race Ready':
+          $('td', nRow).eq(11).css('color', 'red')
+          break;
+        case 'Resting From Race':
+          $('td', nRow).eq(11).css('color', 'yellow')
+          break;
+        case 'Steward\'s List':
+          $('td', nRow).eq(11).css('color', 'blue')
+          break;
+        case 'Vet\'s List':
+          $('td', nRow).eq(11).css('color', 'blue')
+          break;
+        }
+    	}
+		});
+
+  	$(".horse-attribute").change(function(){
   		form = $(this).closest("form");
   		attemptUpdate(form);
   		return false;

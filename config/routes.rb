@@ -21,6 +21,8 @@ RailsDevisePundit::Application.routes.draw do
 
   resources :activities
 
+  get '/horses/:id/profile' => 'horses#profile'
+
   root :to => "home#index"
   devise_for :users, :controllers => {:registrations => "registrations"}
   
