@@ -70,12 +70,18 @@ $(document).ready(function() {
   		if($('#confirm_racestatus').is(":checked")) {
 	     	message = confirm("Once you confirm for a race there is no unconfirm, do you still want to confirm for this race?");
 	      if(!message) {
+          location.reload(true);
   				return false;
-	      } 
+	      }
+        else{
+          form = $(this).closest("form");
+          attemptUpdate(form);
+          return false;
+        } 
 	    }
-     	form = $(this).closest("form");
-		attemptUpdate(form);
-		return false;
+      form = $(this).closest("form");
+      attemptUpdate(form);
+      return false;
   	});
 
   	function attemptUpdate(f)
@@ -88,7 +94,8 @@ $(document).ready(function() {
 	  {
 	    if(data.success)
 	    {
-	    	(f).spin(false);
+	    	//(f).spin(false);
+        location.reload(true);
 	    }
 	    else
 	    {

@@ -17,7 +17,11 @@
             <ul class="condition-list">
             <% category.conditions.each do |condition| %>
               <%= hidden_field_tag 'horse[condition_ids][]', nil %>
-              <li><%= check_box_tag "horse[condition_ids][]", condition.id, @horse.conditions.include?(condition) %> <%= condition.name %> </li>
+              <% if PendingCondition.where(:horse_id => @horse.id, :condition_id => condition.id).any? %>
+                <li><%= condition.name %> Pending Approval</li>
+              <% else %>
+                <li><%= check_box_tag "horse[condition_ids][]", condition.id, @horse.conditions.include?(condition) %> <%= condition.name %> </li>
+              <% end %>
             <% end %>
             </ul>
           </li>

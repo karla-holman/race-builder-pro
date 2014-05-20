@@ -130,28 +130,29 @@ class HorsesController < ApplicationController
   # PATCH/PUT /horses/1
   # PATCH/PUT /horses/1.json
   def update
-    if params[:condition_ids]
-      current_conditions = HorseCondition.where(:horse => @horse)
-      params[:condition_ids].each do |condition|
-        HorseCondition.find_or_create_by!(condition_id: condition, horse_id: @horse.id)
+    current_conditions = HorseCondition.where(:horse => @horse)
+    if horse_params[:condition_ids]
+      horse_params[:condition_ids].each do |condition|
+        if HorseCondition.where(condition_id: condition, horse_id: @horse.id).empty? && !condition.empty?   
+          pending_condition = PendingCondition.find_or_create_by!(condition_id: condition, horse_id: @horse.id, action: "add") 
+        end
       end
+      current_conditions = current_conditions.pluck(:condition_id) - horse_params[:condition_ids]
       current_conditions.each do |condition|
-        found = params[:condition_ids].find(condition.id)
-        if found
-        else
-          condition.destroy
-        end
+        puts "pending remove condition"
+        PendingCondition.find_or_create_by!(condition_id: condition, horse_id: @horse.id, action: "remove")
       end
-    else
-      respond_to do |format|
-        if @horse.update(horse_params)
+    end
+    respond_to do |format|
+      if @horse.update(horse_params)
+        if !horse_params[:condition_ids]
           @horse.create_activity :update, owner: current_user
-          format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
-          format.json { render action: 'index', status: :ok, location: @horse }
-        else
-          format.html { render action: 'edit' }
-          format.json { render json: @horse.errors, status: :unprocessable_entity }
         end
+        format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
+        format.json { render action: 'index', status: :ok, location: @horse }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @horse.errors, status: :unprocessable_entity }
       end
     end
   end

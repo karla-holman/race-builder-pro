@@ -43,42 +43,62 @@
 	</div>
 <% end %>
 <div class="row">
-	<h4>Upcoming Races: </h4>
-	<% @races.order("race_datetime ASC").each do |race| %>
-		<a href="<%= race_path(race) %>">
-			<div class="col-xs-3 userbox well">
-				<h4><%= race.name %></h4>
-				<ul class="condition-list no-indent">
-					<li>Date: <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %></li>
-					<li>Conditions:
-						<% if race.conditions.any? %>
-							<ul class="condition-list no-indent">
-	              <% race.conditions.each do |condition| %>
-	                <%= condition.name %>
-	              <% end %>
-	            </ul>
-	          <% else %>
-	            None
-	          <% end %> 
-					</li>
-					<% if current_user.admin? %>
-						<li>Horses:
-							<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "interested", "confirmed", race.id) %>
-							<% if horsestatuses.any? %>
+	<% if current_user.admin? %>
+		<div class="col-xs-8">
+	<% else %>
+		<div class="col-xs-12">
+	<% end %>
+		<h4>Upcoming Races: </h4>
+		<% @races.order("race_datetime ASC").each do |race| %>
+			<a href="<%= race_path(race) %>">
+				<div class="col-xs-3 userbox well">
+					<h4><%= race.name %></h4>
+					<ul class="condition-list no-indent">
+						<li>Date: <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %></li>
+						<li>Conditions:
+							<% if race.conditions.any? %>
 								<ul class="condition-list no-indent">
-									<% horsestatuses.each do |horsestatus| %>
-										<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
-									<% end %>
+		              <% race.conditions.each do |condition| %>
+		                <%= condition.name %>
+		              <% end %>
 		            </ul>
 		          <% else %>
 		            None
-		          <% end %>
+		          <% end %> 
 						</li>
-					<% end %>
-				</ul>
-			</div>
-		</a>
+						<% if current_user.admin? %>
+							<li>Horses:
+								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "interested", "confirmed", race.id) %>
+								<% if horsestatuses.any? %>
+									<ul class="condition-list no-indent">
+										<% horsestatuses.each do |horsestatus| %>
+											<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
+										<% end %>
+			            </ul>
+			          <% else %>
+			            None
+			          <% end %>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+			</a>
+		<% end %>
+	</div>
+	<% if current_user.admin? %>
+		<div class="col-xs-4">
+			<h4>Pending Approvals</h4>
+			<ul class="condition-list no-indent">
+			<% @pending_approvals.each do |condition| %>
+				<li><%= Horse.find(condition.horse_id).name %> <%=condition.action%> <%= Condition.find(condition.condition_id).name %>
+					<%= link_to 'Approve', condition, method: :approve, :class => 'btn btn-primary btn-xs' %>
+					<%= link_to 'Deny', condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+				</li>
+			<% end %>
+			</ul>
+		</div>
 	<% end %>
+
 </div>
 <p>Race Builder Pro is a web application designed to revolutionize horse racing’s current entry process, which no longer allows for an optimal race program. Presently, horse racing uses an antiquated, reactive approach that has hindered horsemen’s confidence to find races for their horses and has limited the ability for racetracks to maximize field size. Thus, the primary objective of The Racing Secretary project is to create a viable alternative that will revitalize the entry process using a fresh, proactive technology.</p>
 

@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :pending_conditions
+
   get 'activities/index'
 
   resources :race_conditions
@@ -20,6 +22,8 @@ RailsDevisePundit::Application.routes.draw do
   resources :horses
 
   resources :activities
+
+  post 'pending_conditions/:id' => 'pending_conditions#approve'
 
   get '/horses/:id/profile' => 'horses#profile'
 

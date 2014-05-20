@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140520161304) do
+ActiveRecord::Schema.define(version: 20140520182039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,6 +90,14 @@ ActiveRecord::Schema.define(version: 20140520161304) do
     t.string   "POB"
     t.date     "last_win"
     t.decimal  "last_claiming_level"
+  end
+
+  create_table "pending_conditions", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "action"
+    t.integer  "horse_id"
+    t.integer  "condition_id"
   end
 
   create_table "race_conditions", force: true do |t|
