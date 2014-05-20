@@ -8,7 +8,7 @@
     <% if current_user.admin? %>
       <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-xs' %>
     <% end %>
-    <table class="table table-condensed table-hover">
+    <table id="stable-table" class="table table-condensed table-hover">
       <thead>
         <tr>
           <th>Name</th>

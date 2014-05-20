@@ -1,6 +1,6 @@
 updated race
 <% if activity.trackable %>
-  <%= link_to activity.trackable.name, activity.trackable %>
+  <%= link_to activity.trackable.name, activity.trackable %> on <%= activity.created_at.strftime('%b %d, %Y at %l:%M %P') %>
 <% else %>
   which has since been removed 
 <% end %>

@@ -29,8 +29,10 @@ $(document).ready(function() {
 
   	$('[data-toggle="tooltip"]').tooltip({'placement': 'right'});
 
-  	$('.table').dataTable({
-  	sPaginationType: "full_numbers",
+  	$('.generic-table').dataTable({sPaginationType: "full_numbers"});
+
+    $('#stable-table').dataTable({
+    sPaginationType: "full_numbers",
     "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
       switch(aData[11]){
         case 'Race Ready':
@@ -49,10 +51,10 @@ $(document).ready(function() {
           $('td', nRow).eq(11).css('color', 'blue')
           break;
         }
-    	}
-		});
+      }
+    });
 
-  	$(".horse-attribute").change(function(){
+  	$(".attribute").change(function(){
   		form = $(this).closest("form");
   		attemptUpdate(form);
   		return false;
