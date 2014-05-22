@@ -1,7 +1,17 @@
 RailsDevisePundit::Application.routes.draw do
-  resources :pending_conditions
+  get 'tels/friday' => 'tels#friday'
+  get 'tels/saturday' => 'tels#saturday'
+  get 'tels/sunday' => 'tels#sunday'
+
+  post 'pending_conditions/:id' => 'pending_conditions#approve'
+
+  get '/horses/:id/profile' => 'horses#profile'
 
   get 'activities/index'
+
+  resources :tels
+
+  resources :pending_conditions
 
   resources :race_conditions
 
@@ -23,11 +33,8 @@ RailsDevisePundit::Application.routes.draw do
 
   resources :activities
 
-  post 'pending_conditions/:id' => 'pending_conditions#approve'
-
-  get '/horses/:id/profile' => 'horses#profile'
-
   root :to => "home#index"
+  
   devise_for :users, :controllers => {:registrations => "registrations"}
   
   resources :users do
