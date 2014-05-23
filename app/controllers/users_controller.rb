@@ -31,14 +31,11 @@ class UsersController < ApplicationController
   end
 
   def update
-    if secure_params[:password].blank?
-      secure_params.delete("password")
-      secure_params.delete("password_confirmation")
-    end
     @user = User.find(params[:id])
+
     authorize @user
     if @user.update_attributes(secure_params)
-      @user.save(validate: false)
+      @user.save
       redirect_to users_path, :notice => "User updated."
     else
       redirect_to users_path, :alert => "Unable to update user."
