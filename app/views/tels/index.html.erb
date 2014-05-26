@@ -4,16 +4,13 @@
     <table class="table table-condensed table-hover generic-table">
       <thead>
         <tr>
-          <th>Rank</th>
           <th>Name</th>
           <th>Description</th>
           <th>Purse</th>
           <th>Claiming Level</th>
           <th>Commited</th>
-          <th colspan="1"></th>
         </tr>
       </thead>
-
       <tbody>
         <% @races.each do |race| %>
           <tr class="top"  data-toggle="tooltip" data-placement="right" title="
@@ -25,7 +22,6 @@
                     <% else %>
                       None
                     <% end %>">
-            <td>?</td>
             <td><%= race.name %></td>
             <td><%= race.description %></td>
             <td>
@@ -41,7 +37,7 @@
               <% else %>
                 <%= number_to_currency(0, precision: 2) %>
               <% end %>
-              <td>10</td>
+              <td><%= race.horseraces.where(:status => "confirmed").count %></td>
             </td>
           </tr>
         <% end %>

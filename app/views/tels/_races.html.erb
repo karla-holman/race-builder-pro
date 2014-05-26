@@ -1,0 +1,19 @@
+<% if @tels.empty? %>
+  <tr>
+    <td><div style="min-height: 300px;"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+<% end %>
+<% @tels.each do |tel| %>
+  <tr>
+    <% race = Race.find(tel.race_id) %>
+    <td><%= tel.section %></td>
+    <td><%= race.name %></td>
+    <td><%= race.description %></td>
+    <td><%= race.horseraces.where(:status => "confirmed").count %></td>
+    <td><%= link_to 'Remove from TEL', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
+  </tr>
+<% end %>

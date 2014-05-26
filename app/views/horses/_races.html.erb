@@ -8,7 +8,6 @@
 	    <% else %>
 	      None
 	    <% end %>">
-	    <%= puts "HORSE: " << @horse.name %>
 	   <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
 		<td><%= race.name %></td>
 		<td><%= race.description %></td>

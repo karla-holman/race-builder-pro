@@ -11,13 +11,12 @@
           <th>Purse</th>
           <th>Claiming Level</th>
           <th># Commited</th>
-          <th colspan="1"></th>
         </tr>
       </thead>
       <tbody>
         <% @races.each do |race| %>
           <tr class="top">
-            <td><%= race.name %></td>
+            <td><div class="invisible"><%=race.id%></div> <%= race.name %></td>
             <td><%= race.description %></td>
             <td>
               <% if race.claiming_purse? %>
@@ -34,7 +33,6 @@
               <% end %>
             </td>
             <td><%= race.horseraces.where(:status => "confirmed").count %></td>
-            <td><%= link_to 'Add to TEL', new_tel_path(:race_id => race.id, :day => @day), :class => 'btn btn-primary btn-xs' %></td>
           </tr>
         <% end %>
       </tbody>
@@ -53,25 +51,9 @@
         </tr>
       </thead>
       <tbody>
-        <% if @tels.empty? %>
-          <tr>
-            <td><div style="min-height: 300px;"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        <% end %>
-        <% @tels.each do |tel| %>
-          <tr>
-            <% race = Race.find(tel.race_id) %>
-            <td><%= tel.section %></td>
-            <td><%= race.name %></td>
-            <td><%= race.description %></td>
-            <td><%= race.horseraces.where(:status => "confirmed").count %></td>
-            <td><%= link_to 'Remove from TEL', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
-          </tr>
-        <% end %>
+        <div id="race-partial">
+          <%= render 'races'%>
+        </div>
       </tbody>
     </table>
   </div>

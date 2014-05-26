@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140523173556) do
+ActiveRecord::Schema.define(version: 20140526174848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(version: 20140523173556) do
     t.decimal  "last_claiming_level"
   end
 
+  add_index "horses", ["name"], name: "index_horses_on_name", unique: true, using: :btree
+
   create_table "pending_conditions", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -132,6 +134,8 @@ ActiveRecord::Schema.define(version: 20140523173556) do
     t.datetime "updated_at"
     t.string   "day"
   end
+
+  add_index "tels", ["race_id"], name: "index_tels_on_race_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

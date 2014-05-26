@@ -45,8 +45,8 @@ class TelsController < ApplicationController
 
   # GET /tels/new
   def new
-    @race_id = params[:race_id]
-    @day = params[:day]
+    @race_id = tel_params[:race_id]
+    @day = tel_params[:day]
     @tel = Tel.new
   end
 
@@ -89,7 +89,7 @@ class TelsController < ApplicationController
   def destroy
     @tel.destroy
     respond_to do |format|
-      format.html { redirect_to tels_url }
+      format.html { redirect_to :back }
       format.json { head :no_content }
     end
   end

@@ -168,33 +168,6 @@ class HorsesController < ApplicationController
     end
   end
 
-  def age(dob)
-    now = Time.now.utc.to_date
-    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-  end
-
-  def filter_range(condition, value)
-    if condition.lowerbound.nil?
-      if value > condition.upperbound
-        return "no"
-      else
-        return "yes"
-      end
-    elsif condition.upperbound.nil?
-      if value < condition.lowerbound
-        return "no"
-      else
-        return "yes"
-      end
-    else
-      if condition.upperbound < value || value < condition.lowerbound
-        return "no"
-      else
-        return "yes"
-      end
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_horse

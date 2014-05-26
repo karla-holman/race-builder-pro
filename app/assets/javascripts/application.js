@@ -24,7 +24,7 @@ $(document).ready(function() {
   	});
 
   	$('#datetimepicker').datetimepicker({
-        format: 'yyyy-mm-dd hh:mm:ss'
+        format: 'yyyy-MM-dd hh:mm:ss'
      });
 
   	$('[data-toggle="tooltip"]').tooltip({'placement': 'right'});
@@ -83,7 +83,7 @@ $(document).ready(function() {
       "bFilter": false,
       "paging":  false,
       "aaSorting": [[ 0, "desc" ], [ 3, "desc" ]],
-      "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [0,1,2,3] }],
+      "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [0,1,2,3,4] }],
       "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
         switch(aData[0]){
           case 'Protocol':
@@ -96,14 +96,14 @@ $(document).ready(function() {
       }
     });
 
-    // $('#drag-table').dataTable({
-    //   "bPaginate": false,
-    //   "bInfo" : false,
-    //   "bFilter": false,
-    //   "paging":  false,
-    //   "aaSorting": [[ 4, "desc" ]],
-    //   "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [0,1,2,3,4,5,6,7] }, { "bVisible": false, "aTargets": [5,6] }]
-    // });
+    $('#drag-table').dataTable({
+      "bPaginate": false,
+      "bInfo" : false,
+      "bFilter": false,
+      "paging":  false,
+      "aaSorting": [[ 4, "desc" ]],
+      "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [0,1,2,3,4] }]
+    });
 
   	$(".attribute").change(function(){
   		form = $(this).closest("form");
@@ -130,22 +130,27 @@ $(document).ready(function() {
 
     $("#tel-table tr").droppable({
       drop: function(event, ui) {
+        var id = $(ui.draggable).text().match(/\d/);
+        id = id[0];
+        var race_day = $("#race-day").data('day');
         $("#dialog-confirm").dialog({
           resizable: false,
           height:140,
           modal: true,
           buttons: {
             "Protocol": function() {
-              $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Protocol", race_id: "1", day: $("#race-day").data('day')}}});
+              $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Protocol", race_id: id, day: race_day}}});
               $(this).dialog("close");
               $(c.tr).remove();
               $(c.helper).remove();
+              location.reload(true);
             },
             "Alternate": function() {
-              $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Alternate", race_id: "1", day: $("#race-day").data('day')}}});
+              $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Alternate", race_id: id, day: race_day}}});
               $(this).dialog("close");
               $(c.tr).remove();
               $(c.helper).remove();
+              location.reload(true);
             },
             Cancel: function() {
               $(this).dialog("close");
