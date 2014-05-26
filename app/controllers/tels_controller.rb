@@ -12,10 +12,15 @@ class TelsController < ApplicationController
   def friday
     get_weekend
     @tels = Tel.where(:day => "Friday")
-    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @friday.end_of_day, @friday.beginning_of_day)
-    @tels = Tel.where(:day => "Friday")
-    @day = "Friday"
+    tel_ids = @tels.pluck(:race_id)
 
+    if tel_ids.any?
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @friday.end_of_day, @friday.beginning_of_day, tel_ids)
+    else
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @friday.end_of_day, @friday.beginning_of_day)
+    end
+
+    @day = "Friday"
     render "day"
   end
 
@@ -23,18 +28,29 @@ class TelsController < ApplicationController
     get_weekend
     @tels = Tel.where(:day => "Saturday")
     tel_ids = @tels.pluck(:race_id)
-    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @saturday.end_of_day, @saturday.beginning_of_day, tel_ids)
+    
+    if tel_ids.any?
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @saturday.end_of_day, @saturday.beginning_of_day, tel_ids)
+    else
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @saturday.end_of_day, @saturday.beginning_of_day)
+    end
+    
     @day = "Saturday"
-
     render "day"
   end
 
   def sunday
     get_weekend
-    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @sunday.end_of_day, @sunday.beginning_of_day)
     @tels = Tel.where(:day => "Sunday")
-    @day = "Sunday"
+    tel_ids = @tels.pluck(:race_id)
 
+    if tel_ids.any?
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @sunday.end_of_day, @sunday.beginning_of_day, tel_ids)
+    else
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @sunday.end_of_day, @sunday.beginning_of_day)
+    end
+
+    @day = "Sunday"
     render "day"
   end
 

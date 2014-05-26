@@ -16,7 +16,7 @@
       <tbody>
         <% @races.each do |race| %>
           <tr class="top">
-            <td><div class="invisible"><%=race.id%></div> <%= race.name %></td>
+            <td><div class="invisible"><%= race.id %></div> <%= race.name %></td>
             <td><%= race.description %></td>
             <td>
               <% if race.claiming_purse? %>
