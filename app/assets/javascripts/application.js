@@ -55,27 +55,55 @@ $(document).ready(function() {
     });
 
     $('#stable-table').dataTable({
-    sPaginationType: "full_numbers",
-    "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-      switch(aData[11]){
-        case 'Race Ready':
-          $('td', nRow).eq(11).css('color', 'green')
-          break;
-        case 'Not Race Ready':
-          $('td', nRow).eq(11).css('color', 'red')
-          break;
-        case 'Resting From Race':
-          $('td', nRow).eq(11).css('color', 'yellow')
-          break;
-        case 'Steward\'s List':
-          $('td', nRow).eq(11).css('color', 'blue')
-          break;
-        case 'Vet\'s List':
-          $('td', nRow).eq(11).css('color', 'blue')
-          break;
+      sPaginationType: "full_numbers",
+      "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+        switch(aData[11]){
+          case 'Race Ready':
+            $('td', nRow).eq(11).css('color', 'green')
+            break;
+          case 'Not Race Ready':
+            $('td', nRow).eq(11).css('color', 'red')
+            break;
+          case 'Resting From Race':
+            $('td', nRow).eq(11).css('color', 'yellow')
+            break;
+          case 'Steward\'s List':
+            $('td', nRow).eq(11).css('color', 'blue')
+            break;
+          case 'Vet\'s List':
+            $('td', nRow).eq(11).css('color', 'blue')
+            break;
         }
       }
     });
+
+    $('#tel-table').dataTable({
+      "bPaginate": false,
+      "bInfo" : false,
+      "bFilter": false,
+      "paging":  false,
+      "aaSorting": [[ 0, "desc" ], [ 3, "desc" ]],
+      "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [0,1,2,3] }],
+      "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+        switch(aData[0]){
+          case 'Protocol':
+            $(nRow).eq(0).css('color', 'green')
+            break;
+          case 'Alternate':
+            $(nRow).eq(0).css('color', 'red')
+            break;
+        }
+      }
+    });
+
+    // $('#drag-table').dataTable({
+    //   "bPaginate": false,
+    //   "bInfo" : false,
+    //   "bFilter": false,
+    //   "paging":  false,
+    //   "aaSorting": [[ 4, "desc" ]],
+    //   "aoColumnDefs": [{ 'bSortable': false, 'aTargets': [0,1,2,3,4,5,6,7] }, { "bVisible": false, "aTargets": [5,6] }]
+    // });
 
   	$(".attribute").change(function(){
   		form = $(this).closest("form");
@@ -88,6 +116,48 @@ $(document).ready(function() {
   		attemptUpdate(form);
   		return false
   	});
+
+    var c = {};
+
+    $("#drag-table tr").draggable({
+      helper: "clone",
+      zIndex: 100,
+      start: function(event, ui) {
+        c.tr = this;
+        c.helper = ui.helper;
+      }
+    });
+
+    $("#tel-table tr").droppable({
+      drop: function(event, ui) {
+        $("#dialog-confirm").dialog({
+          resizable: false,
+          height:140,
+          modal: true,
+          buttons: {
+            "Protocol": function() {
+              $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Protocol", race_id: "1", day: $("#race-day").data('day')}}});
+              $(this).dialog("close");
+              $(c.tr).remove();
+              $(c.helper).remove();
+            },
+            "Alternate": function() {
+              $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Alternate", race_id: "1", day: $("#race-day").data('day')}}});
+              $(this).dialog("close");
+              $(c.tr).remove();
+              $(c.helper).remove();
+            },
+            Cancel: function() {
+              $(this).dialog("close");
+            }
+          }
+        });
+        
+      }
+    });
+
+
+
 
   	function attemptUpdate(f)
 	{

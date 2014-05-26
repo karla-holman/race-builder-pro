@@ -179,8 +179,7 @@ horses.each do |horse|
 		puts 'CREATED HORSE STATUS: '<< Status.find(horse_status.status_id).name
 	end
 end
-tel_race = Tel.new(:race_id => 2, :level => 1, :section => "Protocol", :day => "Friday")
-tel_race.save
+
 condition = Condition.find_by_name('3+ Years Old')
 condition.lowerbound = 3
 condition.save

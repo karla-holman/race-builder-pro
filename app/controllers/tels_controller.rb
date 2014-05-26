@@ -11,8 +11,8 @@ class TelsController < ApplicationController
 
   def friday
     get_weekend
+    @tels = Tel.where(:day => "Friday")
     @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @friday.end_of_day, @friday.beginning_of_day)
-    @races.sort_by
     @tels = Tel.where(:day => "Friday")
     @day = "Friday"
 
@@ -21,8 +21,9 @@ class TelsController < ApplicationController
 
   def saturday
     get_weekend
-    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @saturday.end_of_day, @saturday.beginning_of_day)
     @tels = Tel.where(:day => "Saturday")
+    tel_ids = @tels.pluck(:race_id)
+    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @saturday.end_of_day, @saturday.beginning_of_day, tel_ids)
     @day = "Saturday"
 
     render "day"
@@ -44,6 +45,8 @@ class TelsController < ApplicationController
 
   # GET /tels/new
   def new
+    @race_id = params[:race_id]
+    @day = params[:day]
     @tel = Tel.new
   end
 
@@ -105,6 +108,6 @@ class TelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tel_params
-      params[:tel]
+      params.require(:tel).permit(:day, :race_id, :level, :section)
     end
 end

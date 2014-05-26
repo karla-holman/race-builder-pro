@@ -22,16 +22,12 @@ class RacesController < ApplicationController
     @interested = Horse.where("id IN (?)", interested_ids)
     
     if @confirmed.empty? && @interested.empty?
-      "BOTH EMPTY"
       possible_horses = Horse.all
     elsif @confirmed.empty?
-      puts "NO CONFIRMED"
       possible_horses = Horse.where("id not IN (?)", interested_ids)
     elsif @interested.empty?
-      puts "NO INTERESTED"
       possible_horses = Horse.where("id not IN (?)", confirmed_ids)
     else
-      puts "ELSE"
       possible_horses = Horse.where("id not IN (?) and id not IN (?)", confirmed_ids, interested_ids)
     end
 
@@ -141,6 +137,11 @@ class RacesController < ApplicationController
       format.html { redirect_to races_url }
       format.json { head :no_content }
     end
+  end
+
+  def age(dob)
+    now = Time.now.utc.to_date
+    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
   end
 
   def filter_range(condition, value)

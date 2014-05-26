@@ -1,29 +1,22 @@
 <div class="row">
   <div class="col-xs-6">
     <h2>Eligible <%= @day %> Races</h2>
-    <table class="table table-condensed table-hover">
+    <div id="race-day" data-day="<%= @day %>"></div>
+    <div id="dialog-confirm" title="Protocol or Alternate?"></div>
+    <table id="drag-table" class="table table-condensed table-hover">
       <thead>
         <tr>
-          <th>Rank</th>
           <th>Name</th>
           <th>Description</th>
           <th>Purse</th>
           <th>Claiming Level</th>
           <th># Commited</th>
+          <th colspan="1"></th>
         </tr>
       </thead>
       <tbody>
         <% @races.each do |race| %>
-          <tr class="top"  data-toggle="tooltip" data-placement="right" title="
-                    Conditions: 
-                    <% if race.conditions.any?
-                      race.conditions.each do |condition| %>
-                        <%= condition.name %>
-                      <% end %>
-                    <% else %>
-                      None
-                    <% end %>">
-            <td>?</td>
+          <tr class="top">
             <td><%= race.name %></td>
             <td><%= race.description %></td>
             <td>
@@ -39,8 +32,9 @@
               <% else %>
                 <%= number_to_currency(0, precision: 2) %>
               <% end %>
-              <td><%= race.horseraces.where(:status => "confirmed").count %></td>
             </td>
+            <td><%= race.horseraces.where(:status => "confirmed").count %></td>
+            <td><%= link_to 'Add to TEL', new_tel_path(:race_id => race.id, :day => @day), :class => 'btn btn-primary btn-xs' %></td>
           </tr>
         <% end %>
       </tbody>
@@ -48,23 +42,34 @@
   </div>
   <div class="col-xs-6">
     <h2>Races to Run</h2>
-    <table class="table table-condensed table-hover">
+    <table id="tel-table" class="table table-condensed table-hover">
       <thead>
         <tr>
           <th>Race Type</th>
           <th>Name</th>
           <th>Description</th>
           <th># Committed</th>
+          <th colspan="1"></th>
         </tr>
       </thead>
       <tbody>
+        <% if @tels.empty? %>
+          <tr>
+            <td><div style="min-height: 300px;"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% end %>
         <% @tels.each do |tel| %>
           <tr>
             <% race = Race.find(tel.race_id) %>
-            <td><%= tel.section %> <%= tel.level %></td>
+            <td><%= tel.section %></td>
             <td><%= race.name %></td>
             <td><%= race.description %></td>
             <td><%= race.horseraces.where(:status => "confirmed").count %></td>
+            <td><%= link_to 'Remove from TEL', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
           </tr>
         <% end %>
       </tbody>
