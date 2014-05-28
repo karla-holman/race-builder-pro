@@ -1,20 +1,29 @@
-<div class="row">
-  <div class="col-xs-12" style="text-align:center;">
-    <h1>Activity Log</h1>
-    <ul class = "condition-list">
-	    <% @activities.each do |activity| %>
-	    	<li>
-		    	<% if activity.owner %>
-						<%= link_to activity.owner.name, activity.owner %>
-					<% else %>
-						SEED FILE
-					<% end %>
-					<%= render_activity activity %>
-				</li>
-	    <% end %>
-  	</ul>
-  </div>
-</div>
+<%if current_user.admin? %>
+	<div class="row">
+	  <div class="col-xs-12" style="text-align:center;">
+	    <h1>Activity Log</h1>
+	    <ul class = "condition-list">
+		    <% @activities.each do |activity| %>
+		    	<li>
+			    	<% if activity.owner %>
+							<%= link_to activity.owner.name, activity.owner %>
+						<% else %>
+							SEED FILE
+						<% end %>
+						<%= render_activity activity %>
+					</li>
+		    <% end %>
+	  	</ul>
+	  </div>
+	</div>
+<% else %>
+	<div class="row">
+	  <div class="col-xs-12" style="text-align:center;">
+	    <h1>Admin's Only</h1>
+	  </div>
+	</div>
+<% end %>
+
 
 
 

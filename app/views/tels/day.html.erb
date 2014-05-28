@@ -3,7 +3,11 @@
     <h2>Eligible <%= @day %> Races</h2>
     <div id="race-day" data-day="<%= @day %>"></div>
     <div id="dialog-confirm" title="Protocol or Alternate?"></div>
-    <table id="drag-table" class="table table-condensed table-hover">
+    <%if current_user.admin? %>
+      <table id="drag-table" class="table table-condensed table-hover">
+    <% else %>
+      <table class="table table-condensed table-hover generic-table">
+    <% end %>
       <thead>
         <tr>
           <th>Name</th>
