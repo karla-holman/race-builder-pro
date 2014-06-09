@@ -43,11 +43,7 @@
 	</div>
 <% end %>
 <div class="row">
-	<% if current_user.admin? %>
-		<div class="col-xs-8">
-	<% else %>
-		<div class="col-xs-12">
-	<% end %>
+	<div class="col-xs-8">
 		<h4>Upcoming Races: </h4>
 		<% @races.order("race_datetime ASC").each do |race| %>
 			<a href="<%= race_path(race) %>">
@@ -89,10 +85,22 @@
 		<div class="col-xs-4">
 			<h4>Pending Approvals</h4>
 			<ul class="condition-list no-indent">
-			<% @pending_approvals.each do |condition| %>
-				<li><%= Horse.find(condition.horse_id).name %> <%=condition.action%> <%= Condition.find(condition.condition_id).name %>
-					<%= link_to 'Approve', condition, method: :approve, :class => 'btn btn-primary btn-xs' %>
-					<%= link_to 'Deny', condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+			<% @condition_requests.each do |notification| %>
+				<li><%= Horse.find(notification.send_id).name %> <%= notification.action %> <%= Condition.find(notification.recv_id).name %>
+					<%= link_to 'Approve', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
+					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+				</li>
+			<% end %>
+			</ul>
+		</div>
+	<% else %>
+		<div class="col-xs-4">
+			<h4>Race Suggestions</h4>
+			<ul class="condition-list no-indent">
+			<% @suggestions.each do |notification| %>
+				<li><%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
+					<%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary  btn-xs' %>
+					<%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger   btn-xs' %>
 				</li>
 			<% end %>
 			</ul>

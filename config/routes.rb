@@ -1,17 +1,23 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :notifications
+
   get 'tels/friday' => 'tels#friday'
   get 'tels/saturday' => 'tels#saturday'
   get 'tels/sunday' => 'tels#sunday'
+  get 'races/update_status' => 'races#update_status'
+  get 'races/menu' => 'races#menu'
+  post 'races/add_winner' => 'races#add_winner'
+  post 'races/scratch_horse' => 'races#scratch_horse'
+  get 'races/menu/levelOne' => 'races#levelOne'
+  get 'races/schedule' => 'races#schedule'
 
-  post 'pending_conditions/:id' => 'pending_conditions#approve'
+  post 'notifications/:id' => 'notifications#approve'
 
   get '/horses/:id/profile' => 'horses#profile'
 
   get 'activities/index'
 
   resources :tels
-
-  resources :pending_conditions
 
   resources :race_conditions
 

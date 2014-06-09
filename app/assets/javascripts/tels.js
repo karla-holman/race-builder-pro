@@ -30,6 +30,11 @@ $(document).ready(function() {
     }
   });
 
+  $('#tel-index-table').dataTable({
+    "aaSorting": [[ 4, "desc" ]],
+    "sPaginationType": "full_numbers"
+  });
+
 	//Below is all code for the drag and drop functionality
   var c = {};
 
@@ -56,15 +61,7 @@ $(document).ready(function() {
         height:140,
         modal: true,
         buttons: {
-          "Protocol": function() {
-            $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Protocol", race_id: id, day: race_day}}}).done(function(data){
-              location.reload(true);
-            });
-            $(this).dialog("close");
-            $(c.tr).remove();
-            $(c.helper).remove();
-          },
-          "Alternate": function() {
+          "OK": function() {
             $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Alternate", race_id: id, day: race_day}}}).done(function(data){
               location.reload(true);
             });

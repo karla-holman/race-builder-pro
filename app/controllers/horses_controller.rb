@@ -133,14 +133,21 @@ class HorsesController < ApplicationController
     current_conditions = HorseCondition.where(:horse => @horse)
     if horse_params[:condition_ids]
       horse_params[:condition_ids].each do |condition|
-        if HorseCondition.where(condition_id: condition, horse_id: @horse.id).empty? && !condition.empty?   
-          pending_condition = PendingCondition.find_or_create_by!(condition_id: condition, horse_id: @horse.id, action: "add") 
+        if HorseCondition.where(condition_id: condition, horse_id: @horse.id).empty? && !condition.empty?
+          if Condition.find(condition).name == "Blinkers On"
+            notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "add")
+          else
+            HorseCondition.find_or_create_by!(:horse_id => @horse.id, :condition_id => condition)
+          end
         end
       end
       current_conditions = current_conditions.pluck(:condition_id) - horse_params[:condition_ids]
       current_conditions.each do |condition|
-        puts "pending remove condition"
-        PendingCondition.find_or_create_by!(condition_id: condition, horse_id: @horse.id, action: "remove")
+        if Condition.find(condition).name == "Blinkers On"
+          notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "remove")
+        else
+          HorseCondition.where(:horse_id => @horse.id, :condition_id => condition).delete_all
+        end
       end
     end
     respond_to do |format|
@@ -176,6 +183,6 @@ class HorsesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def horse_params
-      params.require(:horse).permit(:name, :POB, :gender, :DOB, :starts, :firsts, :seconds, :thirds, :earnings, :owner_id, :last_win, :last_claiming_level, :trainer_id, :condition_ids => [])
+      params.require(:horse).permit(:name, :POB, :gender, :DOB, :starts, :firsts, :seconds, :owner_id, :last_win, :last_claiming_level, :trainer_id, :condition_ids => [])
     end
 end

@@ -2,7 +2,7 @@
   <div class="col-xs-6">
     <h2>Eligible <%= @day %> Races</h2>
     <div id="race-day" data-day="<%= @day %>"></div>
-    <div id="dialog-confirm" title="Protocol or Alternate?"></div>
+    <div id="dialog-confirm" title="Add Alternate to TEL?"></div>
     <%if current_user.admin? %>
       <table id="drag-table" class="table table-condensed table-hover">
     <% else %>
@@ -65,17 +65,17 @@
     <div class="row">
       <% if @day != "Friday" %>
         <div class="col-xs-3 well userbox">
-          <%= link_to "Friday "+@friday.to_s, tels_friday_path %>
+          <%= link_to "Friday "+@friday.strftime('%b %d, %Y'), tels_friday_path %>
         </div>
       <% end %>
       <% if @day != "Saturday" %>
         <div class="col-xs-3 well userbox">    
-          <%= link_to "Saturday "+@saturday.to_s, tels_saturday_path %>
+          <%= link_to "Saturday "+@saturday.strftime('%b %d, %Y'), tels_saturday_path %>
         </div>
       <% end %>
       <% if @day != "Sunday" %>
         <div class="col-xs-3 well userbox">
-          <%= link_to "Sunday "+@sunday.to_s, tels_sunday_path %>
+          <%= link_to "Sunday "+@sunday.strftime('%b %d, %Y'), tels_sunday_path %>
         </div>
       <% end %>
     </div>

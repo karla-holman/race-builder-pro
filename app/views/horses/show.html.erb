@@ -10,10 +10,7 @@
 				<% if @horse.DOB? %>
 		            <h4><%= @horse.DOB.to_time.strftime('%b %d, %Y') %></h4>
 				<% end %>
-				<h4>(<%= @horse.starts %>-<%= @horse.firsts %>-<%= @horse.seconds %>-<%= @horse.thirds %>)</h4>
-				<% if @horse.earnings? %>
-		            <h4><%= number_to_currency(@horse.earnings, precision: 2) %></h4>
-		      	<% end %>
+				<h4>(<%= @horse.starts %>-<%= @horse.firsts %>)</h4>
 			</div>
 			<div class="col-xs-12">
 				<table id="racestatus-table" class="table table-condensed table-hover">

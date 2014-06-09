@@ -14,61 +14,55 @@ puts 'CREATED TRAINER: ' << trainer.email
 puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
-categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off'] , 'Equipment'=>['Blinkers On', 'Blinkers Off', 'No Blinkers'], 
+categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off'] , 'Equipment'=>['Blinkers On'], 
 			'Other Equipment'=>['Cheek Piece', 'Cornell Collar', 'Front Wraps', 'Nasal Strip'], 'Age'=>['3+ Years Old', '3 Years Old'], 
 			'Wins'=> ['Maiden', 'NW2'], 'Gender' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['WA'], 'Hasn\'t Won Since' => ['2012']] 
 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List']
 
 #Races: [Race Number, Name, Description, Datetime]
-races = [[1, 'Maiden Claiming Purse $9,975', 'INCLUDES $2,494 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (3 years old)','2014-05-30 10:30:00'], 
-		[2, 'Washington Maiden Claiming Purse $7,875', 'INCLUDES $2,363 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (washington bred, fillies and mares, 3 years and older)', '2014-05-31 9:30:00'], 
-		[3, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'], 
-		[4, 'NW2 Claiming $7,500', 'INCLUDES $1,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (3 years and older)', '2014-06-01 14:00:00'], [3, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[5, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-30 10:30:00'],
-		[6, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-30 12:00:00'],
-		[7, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-30 12:00:00'],
-		[8, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-30 12:00:00'],
-		[9, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-30 12:00:00'],
-		[10, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-31 12:00:00'],
-		[11, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-31 12:00:00'],
-		[12, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-31 12:00:00'],
-		[13, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-31 12:00:00'],
-		[14, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-31 12:00:00'],
-		[15, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-31 12:00:00'],
-		[16, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-31 12:00:00'],
-		[17, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[18, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[19, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[20, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[21, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[22, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[23, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[24, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[25, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[26, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[27, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[28, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[29, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[30, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[31, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[32, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[33, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[34, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[35, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00'],
-		[36, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[37, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00'],
-		[92, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00']]
+races = [[1, 'Maiden Claiming Purse $9,975', 'INCLUDES $2,494 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (3 years old)','2014-06-14 10:30:00', 'Draft', "Protocol"], 
+		[2, 'Washington Maiden Claiming Purse $7,875', 'INCLUDES $2,363 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (washington bred, fillies and mares, 3 years and older)', '2014-06-13 9:30:00', 'Draft', "Protocol"], 
+		[3, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-14 12:00:00', 'Draft', "Protocol"], 
+		[4, 'NW2 Claiming $7,500', 'INCLUDES $1,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION (3 years and older)', '2014-06-14 14:00:00', 'Draft', "Protocol"], 
+		[3, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-14 12:00:00', 'Draft', "Alternate"],
+		[5, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 10:30:00', 'Draft', "Alternate"],
+		[6, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Alternate"],
+		[7, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Alternate"],
+		[8, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Alternate"],
+		[9, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Alternate"],
+		[10, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Protocol"],
+		[11, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Protocol"],
+		[12, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Protocol"],
+		[13, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Draft', "Protocol"],
+		[14, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[15, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[16, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[17, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[18, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[19, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[20, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[21, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[22, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[23, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[24, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-15 12:00:00', 'Published', "Protocol"],
+		[25, 'Washington Open Race Claiming $20,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-01 12:00:00', 'Published', "Protocol"],
+		[26, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-01 12:00:00', 'Published', "Protocol"],
+		[27, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-01 12:00:00', 'Published', "Protocol"],
+		[28, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-05-01 12:00:00', 'Published', "Protocol"],
+		[29, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00', 'Published', "Stakes"],
+		[30, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-07-01 12:00:00', 'Published', "Stakes"],
+		[92, 'Open Race Claiming $8,000', 'INCLUDES $2,000 FROM THE MUCKLESHOOT INDIAN TRIBE ECONOMIC DEVELOPMENT CONTRIBUTION', '2014-06-01 12:00:00', 'Published', "Stakes"]]
 
-#Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Seconds, Thirds, Earnings, Owner Email, Trainer Email]
-horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 2, 2, 10000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Greg Hope', 'CA', 'C', '2011-11-01', 0, 0, 0, 0, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Jacob Pollowitz', 'WA', 'F', '2010-05-05', 1, 0, 0, 1, 2000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Sharon Hope', 'WA', 'F', '2010-05-05', 2, 0, 1, 1, 1000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Alison Pollowitz', 'WA', 'M', '2009-05-05', 3, 0, 2, 1, 5000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Michael Pollowitz', 'KY', 'F', '2010-05-05', 7, 0, 3, 0, 8000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Sire and Son', 'W', 'C', '2011-05-05', 25, 7, 3, 2, 30000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Hope Media', 'KY', 'G', '2010-05-05', 7, 1, 2, 3, 8000, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
+#Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Owner Email, Trainer Email]
+horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Greg Hope', 'CA', 'C', '2011-11-01', 0, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Jacob Pollowitz', 'WA', 'F', '2010-05-05', 1, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Sharon Hope', 'WA', 'F', '2010-05-05', 2, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Alison Pollowitz', 'WA', 'M', '2009-05-05', 3, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Michael Pollowitz', 'KY', 'F', '2010-05-05', 7, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Sire and Son', 'W', 'C', '2011-05-05', 25, 7, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Hope Media', 'KY', 'G', '2010-05-05', 7, 1, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
 
 categories.each do |category, conditions|
 	new_category = Category.find_or_create_by!(name: category)
@@ -103,7 +97,7 @@ statuses.each do |status|
 end
 
 races.each do |race|
-	new_race = Race.find_or_create_by!(race_number: race[0], name: race[1], description: race[2])
+	new_race = Race.find_or_create_by!(race_number: race[0], name: race[1], description: race[2], status: race[4], race_type: race[5])
 	date = DateTime.parse(race[3]).to_s
 	new_race.race_datetime = date
 	if new_race.save
@@ -113,10 +107,10 @@ end
 
 horses.each do |horse|
 	dob = DateTime.parse(horse[3]).to_date.to_s
-	owner = User.find_by_email(horse[9])
-	trainer = User.find_by_email(horse[10])
+	owner = User.find_by_email(horse[6])
+	trainer = User.find_by_email(horse[7])
 	new_horse = Horse.find_or_create_by!(name: horse[0], POB: horse[1], gender: horse[2], DOB: dob, starts: horse[4], 
-										firsts: horse[5], seconds: horse[6], thirds: horse[7], earnings: horse[8], owner_id: owner.id, trainer_id: trainer.id)
+										firsts: horse[5], owner_id: owner.id, trainer_id: trainer.id)
 	horse_status = HorseStatus.new(:horse_id => new_horse.id, :status_id => 2)
 	if new_horse.save
 		puts 'CREATED HORSE: ' << new_horse.name
@@ -126,6 +120,13 @@ horses.each do |horse|
 	end
 end
 
+race1 = Race.find_by_name('Washington Open Race Claiming $20,000')
+race2 = Race.find_by_name('Maiden Claiming Purse $9,975')
+horse = Horse.find_by_name('Owen Hope')
+newhorserace = Horserace.new(:horse_id => horse.id, :race_id => race1.id, :status => "confirmed")
+newhorserace.save
+newhorserace = Horserace.new(:horse_id => horse.id, :race_id => race2.id, :status => "confirmed")
+newhorserace.save
 condition = Condition.find_by_name('3+ Years Old')
 condition.lowerbound = 3
 condition.save

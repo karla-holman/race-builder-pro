@@ -6,7 +6,7 @@ class TelsController < ApplicationController
   def index
     @tels = Tel.all
     get_weekend
-    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @sunday.end_of_day, @friday.beginning_of_day)
+    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @sunday.end_of_day, @friday.beginning_of_day)
   end
 
   def friday
@@ -15,9 +15,9 @@ class TelsController < ApplicationController
     tel_ids = @tels.pluck(:race_id)
 
     if tel_ids.any?
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @friday.end_of_day, @friday.beginning_of_day, tel_ids)
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?) AND race_type = 'Alternate'", @friday.end_of_day, @friday.beginning_of_day, tel_ids)
     else
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @friday.end_of_day, @friday.beginning_of_day)
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @friday.end_of_day, @friday.beginning_of_day)
     end
 
     @day = "Friday"
@@ -30,9 +30,9 @@ class TelsController < ApplicationController
     tel_ids = @tels.pluck(:race_id)
     
     if tel_ids.any?
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @saturday.end_of_day, @saturday.beginning_of_day, tel_ids)
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?) AND race_type = 'Alternate'", @saturday.end_of_day, @saturday.beginning_of_day, tel_ids)
     else
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @saturday.end_of_day, @saturday.beginning_of_day)
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @saturday.end_of_day, @saturday.beginning_of_day)
     end
     
     @day = "Saturday"
@@ -45,9 +45,9 @@ class TelsController < ApplicationController
     tel_ids = @tels.pluck(:race_id)
 
     if tel_ids.any?
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @sunday.end_of_day, @sunday.beginning_of_day, tel_ids)
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?) AND race_type = 'Alternate'", @sunday.end_of_day, @sunday.beginning_of_day, tel_ids)
     else
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @sunday.end_of_day, @sunday.beginning_of_day)
+      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @sunday.end_of_day, @sunday.beginning_of_day)
     end
 
     @day = "Sunday"

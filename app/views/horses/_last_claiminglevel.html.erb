@@ -10,6 +10,6 @@
   </div>
   <% end %>
   <div class="form-group attribute">
-    <%= f.text_field :last_claiming_level, :autofocus => true, class: 'form-control' %>
+    <%= f.text_field :last_claiming_level, :value => number_to_currency(f.object.last_claiming_level, :precision => 2), :autofocus => true, class: 'form-control' %>
   </div>
 <% end %>

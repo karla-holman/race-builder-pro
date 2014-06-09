@@ -7,7 +7,6 @@
 		<div class="row">
 			<ol class="breadcrumb">
 			  <li><%= link_to 'Stable', horses_path %></li>
-			  <li><%= link_to 'Race Select', @horse %></li>
 			  <li class="active"><%= @horse.name %>
 			</ol>
 			<div class="col-xs-12 horse-info">
@@ -15,10 +14,7 @@
 				<% if @horse.DOB? %>
 		            <h4><%= @horse.DOB.to_time.strftime('%b %d, %Y') %></h4>
 				<% end %>
-				<h4>(<%= @horse.starts %>-<%= @horse.firsts %>-<%= @horse.seconds %>-<%= @horse.thirds %>)</h4>
-				<% if @horse.earnings? %>
-		            <h4><%= number_to_currency(@horse.earnings, precision: 2) %></h4>
-		      	<% end %>
+				<h4>(<%= @horse.starts %>-<%= @horse.firsts %>)</h4>
 			</div>
 			<div class="col-xs-12">
 				<table class="table table-condensed table-hover racestatus-table">

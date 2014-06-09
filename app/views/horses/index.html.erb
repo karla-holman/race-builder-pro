@@ -1,10 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
     <h1><%= current_user.name %>'s Stable</h1>
-    <%= form_tag(horses_path, :method => "get", id: "search-form") do %>
-      <%= text_field_tag :search, params[:search], placeholder: "Search Horses" %>
-      <%= submit_tag "Search", :name => nil %>
-    <% end %>
     <% if current_user.admin? %>
       <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-xs' %>
     <% end %>
@@ -18,9 +14,6 @@
           <th>DOB</th>
           <th>Starts</th>
           <th>Firsts</th>
-          <th>Seconds</th>
-          <th>Thirds</th>
-          <th>Earnings</th>
           <th>Last Claiming Level</th>
           <th>Status</th>
           <th>Owner</th>
@@ -57,15 +50,6 @@
             </td>
             <td><%= horse.starts %></td>
             <td><%= horse.firsts %></td>
-            <td><%= horse.seconds %></td>
-            <td><%= horse.thirds %></td>
-            <td>
-              <% if horse.earnings? %>
-                <%= number_to_currency(horse.earnings, precision: 2) %>
-              <% else %>
-                <%= number_to_currency(0, precision: 2) %>
-              <% end %>
-            </td>
             <td>
               <% if horse.last_claiming_level? %>
                 <%= number_to_currency(horse.last_claiming_level, precision: 2) %>
@@ -77,8 +61,7 @@
             <td><%= horse.owner.name %></td>
             <td><%= horse.trainer.name %></td>
             <td>
-              <%= link_to 'Race Select', horse, :class => 'btn btn-primary btn-xs' %>
-              <%= link_to 'Profile', horse_path(horse)+"/profile", :class => 'btn btn-info btn-xs'%>
+              <%= link_to 'Profile', horse_path(horse)+"/profile", :class => 'btn btn-success btn-xs'%>
               <% if current_user.admin? %>
                 <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
                 <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>

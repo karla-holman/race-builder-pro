@@ -1,8 +1,10 @@
 <%# add navigation links to this file %>
 <ul class="nav navbar-nav">
 	<li><%= link_to 'Stable', horses_path %></li>
+	<li><%= link_to 'Race Schedule', races_schedule_path %></li>
+		<li><%= link_to 'Race Menu', races_menu_path %></li>
 	<%if current_user.admin? %>
-		<li><%= link_to 'Races', races_path %></li>
+		<li><%= link_to 'Race List', races_path %></li>
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">TEL <b class="caret"></b></a>
 			<ul class="dropdown-menu">
