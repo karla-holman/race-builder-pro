@@ -121,12 +121,14 @@
 			              		<button class="suggestion btn btn-primary btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Suggest Race</button>
 			              	<% end %>
 			              	</td>
-			              <% elsif horserace.any? %>
-			              	<td>SCRATCHED</td>			              
-			              <% elsif racegroup[0] == "Confirmed"%>
-			              	<td>
-			              		<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
-			              	</td>
+			              <% elsif horserace.any? %>			              
+				              <% if horserace[0].status == "confirmed"%>
+				              	<td>
+				              		<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
+				              	</td>
+				              <% elsif horserace[0].status == "scratched"%>
+				              	<td>Scratched</td>
+			              	<% end %>
 			              <% end %>
 				          </tr>
 				        <% end %>

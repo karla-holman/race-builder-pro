@@ -95,6 +95,13 @@ class RacesController < ApplicationController
 
   def schedule
     @races = Race.where("race_type = (?) OR race_type = (?)", "Protocol", "Stakes")
+    if current_user.admin?
+      @horses = Horse.all
+    elsif current_user.trainer?
+      @horses = Horse.where(:trainer_id => current_user.id)
+    else
+      @horses = Horse.where(:owner_id => current_user.id)
+    end 
   end
 
   def levelOne
