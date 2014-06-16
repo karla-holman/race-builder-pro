@@ -37,31 +37,6 @@ $(document).ready(function() {
 		return false
 	});
 
-	//Datatable so functionality works on ever page of table
-	//When horse confirms, or is interested submit the form
-	$('#racestatus-table').dataTable({
-    sPaginationType: "full_numbers",
-    "fnDrawCallback": function( oSettings ) {
-      $(".edit_horserace").change(function(){
-        if($('#confirm_racestatus').is(":checked")) {
-          message = confirm("Once you confirm for a race there is no unconfirm, do you still want to confirm for this race?");
-          if(!message) {
-            location.reload(true);
-            return false;
-          }
-          else{
-            form = $(this).closest("form");
-            attemptUpdate(form);
-            return false;
-          } 
-        }
-        form = $(this).closest("form");
-        attemptUpdate(form);
-        return false;
-      });
-    }
-  });
-
 	//function to try and submit form, currently will reload page after a successful submit
 	function attemptUpdate(f){
 	  $.ajax({

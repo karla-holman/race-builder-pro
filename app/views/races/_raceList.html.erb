@@ -1,0 +1,80 @@
+<div class="page-info" horse="<%=@horse.id%>" 
+  <% if @age %>
+    age="<%=@age.id%>" 
+  <%end%>
+  <% if @win %>
+    win="<%=@win.id%>" 
+  <%end%>
+></div>
+<div class="col-xs-3">
+  <p>
+  <% if @age %>
+    Age<%= collection_select(:menu, :age_id, @ages, :id, :name, {:selected => @age.id, :include_blank => 'None'}) %>
+  <% else %>
+    Age<%= collection_select(:menu, :age_id, @ages, :id, :name, {:prompt => 'None'}) %>
+  <% end %>
+  </p>
+</div>
+<div class="col-xs-3">
+  <p>
+  <% if @win %>
+    Wins<%= collection_select(:menu, :win_id, @wins, :id, :name, {:selected => @win.id, :include_blank => 'None'}) %>
+  <% else %>
+    Wins<%= collection_select(:menu, :win_id, @wins, :id, :name, {:prompt => 'None'}) %>
+  <% end %>
+  </p>
+</div>
+<div class="col-xs-3">
+  <p>
+  Claiming Value Here
+  </p>
+</div>
+<table id="racelist-table" class="table table-condensed table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th># Interested</th>
+      <th>Purse</th>
+      <th>Claiming Level</th>
+      <th>I/C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @races %>
+      <% @races.each do |race| %>
+  			<tr class="top">
+  			  <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
+  				<td><%= race.name %></td>
+  				<td><%= race.description %></td>
+  				<td><%= race.horseraces.where(:status => "interested").count %></td>
+  				<td>
+            <% if race.claiming_purse? %>
+              <%= number_to_currency(race.claiming_purse, precision: 2) %>
+            <% else %>
+              <%= number_to_currency(0, precision: 2) %>
+            <% end %>
+          </td>
+          <td>
+            <% if race.claiming_level? %>
+              <%= number_to_currency(race.claiming_level, precision: 2) %>
+            <% else %>
+              <%= number_to_currency(0, precision: 2) %>
+            <% end %>
+          </td>
+  				<% if @horserace.status == "confirmed" %>
+  					<td>C</td>
+  				<% else %>
+  					<td ><%= form_for(@horserace)  do |f| %>
+  								<%= check_box("horserace", "status", {}, "interested", "") %> / 
+  							<% end %>
+  							<%= form_for(@horserace)  do |f| %>
+  								<%= check_box("horserace", "status", {:class => 'confirm_racestatus'}, "confirmed", "") %>
+  							<% end %>
+  					</td>
+  				<% end %>
+  			</tr>
+  		<% end %>
+    <% end %>
+  </tbody>
+</table>

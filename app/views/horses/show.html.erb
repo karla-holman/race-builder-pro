@@ -1,9 +1,13 @@
-	<div class="col-xs-12">
+<div class="row">
+	<div class="col-xs-3 horse-info-list-group">
+		<h4>Conditions:</h4>
+		<%= render 'condition' %>
+	</div>
+	<div class="col-xs-6">
 		<div class="row">
 			<ol class="breadcrumb">
 			  <li><%= link_to 'Stable', horses_path %></li>
-			  <li class="active">Race Select</li>
-			  <li><%= link_to @horse.name, horse_path(@horse)+"/profile" %></li>
+			  <li class="active"><%= @horse.name %>
 			</ol>
 			<div class="col-xs-12 horse-info">
 				<h1><%= @horse.name %> (<%= @horse.POB %>)</h1>
@@ -13,7 +17,7 @@
 				<h4>(<%= @horse.starts %>-<%= @horse.firsts %>)</h4>
 			</div>
 			<div class="col-xs-12">
-				<table id="racestatus-table" class="table table-condensed table-hover">
+				<table class="table table-condensed table-hover racestatus-table">
 					<thead>
 						<tr>
 							<th>Name</th>
@@ -29,6 +33,20 @@
 					</tbody>
 				</table>
 			</div>
+		</div>
+	</div>
+	<div class="col-xs-3">
+		<div class="horse-info-list-group edit_status">
+			<h4>Status:</h4>
+			<%= render 'status' %>
+		</div>
+		<div class="horse-info-list-group">
+			<h4>Last Win: </h4>
+			<%= render 'last_win' %>
+		</div>
+		<div class="horse-info-list-group">
+			<h4>Last Claiming Level: </h4>
+			<%= render 'last_claiminglevel' %>
 		</div>
 	</div>
 </div>

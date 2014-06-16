@@ -18,7 +18,7 @@ class RacesController < ApplicationController
     @confirmed = Horse.where("id IN (?)", confirmed_ids)
     
     if @race.race_datetime < Date.today
-      @finished = "yes"
+      render "raceFinished"
     else
       @categories = Category.all - Category.where(:datatype => "Bool")
       @race_conditions = RaceCondition.where(:race => @race)
@@ -91,6 +91,7 @@ class RacesController < ApplicationController
     else
       @horses = Horse.where(:owner_id => current_user.id)
     end
+
   end
 
   def schedule
@@ -104,10 +105,88 @@ class RacesController < ApplicationController
     end 
   end
 
-  def levelOne
-    if params[:horse_id]
-      @horse = Horse.find(params[:horse_id])
+  def raceList
+    @horse = Horse.find(params[:horse_id])
+    if params[:age_id].blank?
+    else
+      @age = Condition.find(params[:age_id])
     end
+    if params[:win_id].blank?
+    else
+      @win = Condition.find(params[:win_id])
+    end
+
+    @categories = Category.where(:datatype => "Bool")
+    @statuses = Status.all
+    @category = @categories.pluck(:id)
+    @conditions = Condition.where("category_id IN (?)", @category)
+    @current_status = HorseStatus.where(:horse => @horse).first
+    @horse_conditions = @horse.conditions.pluck(:condition_id)
+    @race_ids = Array.new()
+    @claiming_levels = Array.new()
+    
+    Race.all.each do |race|
+      bool_conditions = race.conditions.where("category_id IN (?)", @category).pluck(:condition_id)
+      specific_conditions = race.conditions.pluck(:condition_id) - bool_conditions
+      @race_ids.push(race.id)   
+      if (specific_conditions.any?)
+        specific_conditions.each do |specific_condition|
+          condition = Condition.find(specific_condition)
+          category = condition.category           
+          case category.name
+          when 'Age'
+            if @age
+              if @age == condition
+                specific_value  = age(@horse.DOB.to_date)
+                success = filter_range(condition, specific_value)
+              end
+            else
+              specific_value  = age(@horse.DOB.to_date)
+              success = filter_range(condition, specific_value)
+            end
+          when 'Wins'
+            if @win
+              if @win == condition
+                  specific_value = @horse.firsts
+                  success = filter_range(condition, specific_value)
+                end
+            else
+              specific_value = @horse.firsts
+              success = filter_range(condition, specific_value)
+            end
+          when 'Gender'
+            if condition.value == @horse.gender
+              success = "yes"
+            end 
+          when 'Bred'
+            if condition.value == @horse.POB
+              success = "yes"
+            end 
+          when 'Hasn\'t Won Since'
+            if @horse.last_win
+              if condition.value.to_i > @horse.last_win.year
+                success = "yes"
+              end
+            else
+              success = "yes"
+            end 
+          end
+          if success != "yes"
+            @race_ids.pop
+            break
+          end        
+        end
+      elsif @age || @win
+        @race_ids.pop
+      end
+    end
+    if @race_ids.any?
+      @races = Race.where("id IN (?)", @race_ids)
+    end
+    ageId = Category.find_by_name("Age")
+    winId = Category.find_by_name("Wins")
+    @ages = Condition.where(:category_id => ageId)
+    @wins = Condition.where(:category_id => winId)
 
     respond_to do |format|
       format.js
@@ -186,7 +265,6 @@ class RacesController < ApplicationController
   def scratch_horse
     horse_race = Horserace.where(:race_id => params[:race_id], :horse_id => params[:horse_id])
     horse_race[0].status = 'scratched'
-
     horse_race[0].save
 
     respond_to do |format|
@@ -213,6 +291,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :is_protocol, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :is_protocol, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :age_id, :condition_ids => [])
     end
 end

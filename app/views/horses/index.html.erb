@@ -61,7 +61,7 @@
             <td><%= horse.owner.name %></td>
             <td><%= horse.trainer.name %></td>
             <td>
-              <%= link_to 'Profile', horse_path(horse)+"/profile", :class => 'btn btn-success btn-xs'%>
+              <%= link_to 'Show', horse, :class => 'btn btn-success btn-xs'%>
               <% if current_user.admin? %>
                 <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
                 <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>

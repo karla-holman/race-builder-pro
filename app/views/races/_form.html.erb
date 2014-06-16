@@ -41,8 +41,8 @@
         <%= f.text_field :claiming_level, :autofocus => true, class: 'form-control' %>
       </div>
       <div class="form-group">
-        <%= f.label "Protocol Race" %>
-        <%= f.check_box :is_protocol %>
+        <%= f.label "Race Type" %>
+        <%= f.select :race_type, options_for_select(["Protocol", "Stakes", "Alternate"]) %>
       </div>
       <div class="form-group">
         <%= f.select :status, options_for_select(["Draft", "Published"]) %>

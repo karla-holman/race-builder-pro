@@ -1,10 +1,18 @@
-<div class="row">
-	<div class="col-xs-3">
-		<h4>Your Stable:</h4>
-		<%= collection_select(:menu, :horse_id, @horses,:id, :name, {:prompt => 'Please select a horse'}) %>
-	</div>
-	<div class="col-xs-12">
-		<div id="levelOne" class="col-xs-5">
-		</div>
-	</div>
+<div class="col-xs-8">
+  <h1>Race Menu</h1>
+ </div>
+<div class="col-xs-5">
+	<h4>
+	Choose Your Horse<%= collection_select(:menu, :horse_id, @horses,:id, :name, {:prompt => 'Please select a horse'}) %>
+	</h4>
 </div>
+<div class="col-xs-12">
+	<div id="racemenu"></div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,87 @@
+$('#racemenu').empty().append('<%= j render "raceList" %>')
+
+$("#menu_age_id").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), win_id: $(".page-info").attr("win")},
+       success: function(response) {
+          $('#racemenu').html(resonse);
+       }
+    })
+  });
+
+$("#menu_win_id").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {win_id: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age")},
+       success: function(response) {
+          $('#racemenu').html(resonse);
+       }
+    })
+  });
+
+$('#racelist-table').dataTable({
+    sPaginationType: "full_numbers",
+    "fnDrawCallback": function( oSettings ) {
+      $(".edit_horserace").change(function(){
+        if($('.confirm_racestatus').is(":checked")) {
+          message = confirm("Once you confirm for a race there is no unconfirm, do you still want to confirm for this race?");
+          if(!message) {
+          	  $.ajax({
+						     url : 'menu/raceList',
+						     method: "GET",
+						     data: "horse_id=" + $(".page-info").attr("horse"),
+						     success: function(response) {
+						     		$('#racemenu').html(resonse);
+						     }
+							})
+            return false;
+          }
+          else{
+            form = $(this).closest("form");
+            attemptUpdate(form);
+            return false;
+          } 
+        }
+        form = $(this).closest("form");
+        attemptUpdate(form);
+        return false;
+      });
+    }
+  });
+
+//function to try and submit form, currently will reload page after a successful submit
+function attemptUpdate(f){
+  $.ajax({
+    type: "POST",
+    data: $(f).serialize(),
+    url: $(f).attr("action")
+  }).complete(function(data)
+  {
+    if(data.success)
+    {
+    	$.ajax({
+		     url : 'menu/raceList',
+		     method: "GET",
+		     data: "horse_id=" + $(".page-info").attr("horse"),
+		     success: function(response) {
+		     		$('#racemenu').html(resonse);
+		     }
+			})
+    }
+    else
+    {
+      if(data.message)
+      {
+        alert(data.message);
+      }
+    }
+  });
+  return false;
+}
+
+
+
+

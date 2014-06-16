@@ -1,14 +1,15 @@
 $(document).ready(function() {
 	$("#menu_horse_id").change(function(){
 		$.ajax({
-		     url : 'menu/levelOne',
-		     method: "GET",
-		     data: "horse_id=" + $(this).val(),
-		     success: function(response) {
-		     		$('#levelOne').html(resonse);
-		     }
-		  })
+	     url : 'menu/raceList',
+	     method: "GET",
+	     data: "horse_id=" + $(this).val(),
+	     success: function(response) {
+	     		$('#racemenu').html(resonse);
+	     }
+		})
 	});
+
 
 	$('.suggestion').on('click', function (e) {
 		var horse_id = $(this).attr("horse");

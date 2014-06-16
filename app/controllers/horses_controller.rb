@@ -15,12 +15,13 @@ class HorsesController < ApplicationController
     end
   end
 
-  # get /HORSES/1/profile
-  def profile
+  # GET /horses/1
+  # GET /horses/1.json
+  def show
     @categories = Category.where(:datatype => "Bool")
     @statuses = Status.all
-    @category = @categories.pluck(:id)
-    @conditions = Condition.where("category_id IN (?)", @category)
+    @category_ids = @categories.pluck(:id)
+    @conditions = Condition.where("category_id IN (?)", @category_ids)
     @current_status = HorseStatus.where(:horse => @horse).first
     @horse_conditions = @horse.conditions.pluck(:condition_id)
     @race_ids = Array.new()
@@ -32,62 +33,6 @@ class HorsesController < ApplicationController
       end
     end
 
-    if @race_ids.any?
-      @races = Race.where("id IN (?)", @race_ids)
-    end
-
-  end
-
-  # GET /horses/1
-  # GET /horses/1.json
-  def show
-    @categories = Category.where(:datatype => "Bool")
-    @statuses = Status.all
-    @category = @categories.pluck(:id)
-    @conditions = Condition.where("category_id IN (?)", @category)
-    @current_status = HorseStatus.where(:horse => @horse).first
-    @horse_conditions = @horse.conditions.pluck(:condition_id)
-    @race_ids = Array.new()
-    
-    Race.all.each do |race|
-      bool_conditions = race.conditions.where("category_id IN (?)", @category).pluck(:condition_id)
-      specific_conditions = race.conditions.pluck(:condition_id) - bool_conditions
-      @race_ids.push(race.id)       
-      if (specific_conditions.any?)
-        specific_conditions.each do |specific_condition|
-          condition = Condition.find(specific_condition)
-          category = condition.category           
-          case category.name
-          when 'Age'
-            specific_value  = age(@horse.DOB.to_date)
-            success = filter_range(condition, specific_value)
-          when 'Wins'
-            specific_value = @horse.firsts
-            success = filter_range(condition, specific_value)
-          when 'Gender'
-            if condition.value == @horse.gender
-              success = "yes"
-            end 
-          when 'Bred'
-            if condition.value == @horse.POB
-              success = "yes"
-            end 
-          when 'Hasn\'t Won Since'
-            if @horse.last_win
-              if condition.value.to_i > @horse.last_win.year
-                success = "yes"
-              end
-            else
-              success = "yes"
-            end 
-          end
-          if success != "yes"
-            @race_ids.pop
-            break
-          end        
-        end
-      end
-    end
     if @race_ids.any?
       @races = Race.where("id IN (?)", @race_ids)
     end
@@ -150,6 +95,7 @@ class HorsesController < ApplicationController
         end
       end
     end
+    
     respond_to do |format|
       if @horse.update(horse_params)
         if !horse_params[:condition_ids]
