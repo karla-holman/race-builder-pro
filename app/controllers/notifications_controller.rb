@@ -25,6 +25,12 @@ class NotificationsController < ApplicationController
   def approve
     if @notification.action == "add"
       HorseCondition.find_or_create_by!(:horse_id => @notification.send_id, :condition_id => @notification.recv_id)
+    elsif @notification.action == "Nominate"
+      horserace = Horserace.new
+      horserace.horse_id = @notification.recv_id
+      horserace.race_id = @notification.send_id
+      horserace.status = 'confirmed'
+      horserace.save
     else
       HorseCondition.where(:horse_id => @notification.send_id, :condition_id => @notification.recv_id).delete_all
     end
@@ -43,7 +49,7 @@ class NotificationsController < ApplicationController
 
     respond_to do |format|
       if @notification.save
-        format.html { redirect_to :back, notice: 'Suggestion Sent' }
+        format.html { redirect_to :back, notice: 'Notification Sent' }
       else
         format.html { render :back }
         format.json { render json: @notification.errors, status: :unprocessable_entity }
@@ -70,7 +76,7 @@ class NotificationsController < ApplicationController
   def destroy
     if @notification.action == "add"
       HorseCondition.where(:horse_id => @notification.send_id, :condition_id => @notification.recv_id).delete_all
-    else
+    elsif @notification.action == "remove"
       HorseCondition.find_or_create_by!(:horse_id => @notification.send_id, :condition_id => @notification.recv_id)
     end
 

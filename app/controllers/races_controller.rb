@@ -105,6 +105,17 @@ class RacesController < ApplicationController
     end 
   end
 
+  def stakes
+    @races = Race.where(:race_type => "Stakes")
+    if current_user.admin?
+      @horses = Horse.all
+    elsif current_user.trainer?
+      @horses = Horse.where(:trainer_id => current_user.id)
+    else
+      @horses = Horse.where(:owner_id => current_user.id)
+    end
+  end
+
   def raceList
     @horse = Horse.find(params[:horse_id])
     if params[:age_id].blank?

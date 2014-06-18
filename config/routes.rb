@@ -9,6 +9,7 @@ RailsDevisePundit::Application.routes.draw do
   get 'races/menu' => 'races#menu'
   get 'races/menu/raceList' => 'races#raceList'
   get 'races/schedule' => 'races#schedule'
+   get 'races/stakes' => 'races#stakes'
   post 'races/add_winner' => 'races#add_winner'
   post 'races/scratch_horse' => 'races#scratch_horse'
 

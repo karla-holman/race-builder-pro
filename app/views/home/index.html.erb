@@ -93,6 +93,17 @@
 			<% end %>
 			</ul>
 		</div>
+		<div class="col-xs-4">
+			<h4>Nomination Requests</h4>
+			<ul class="condition-list no-indent">
+			<% @nominations.each do |notification| %>
+				<li>Nominate <%= Horse.find(notification.recv_id).name %> For <%= Race.find(notification.send_id).name %>
+					<%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
+					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+				</li>
+			<% end %>
+			</ul>
+		</div>
 	<% else %>
 		<div class="col-xs-4">
 			<h4>Race Suggestions</h4>

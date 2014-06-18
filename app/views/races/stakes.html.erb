@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <h1>Protocol and Stakes Schedule</h1>
+    <h1>Stakes Schedule</h1>
     <table class="table table-condensed table-hover generic-table">
       <thead>
         <tr>
@@ -24,7 +24,7 @@
             <% conditions = race.conditions %>
             <% if conditions.any? %>
                 <% conditions.each do |condition| %>
-                    <%= condition.name %>
+                  <%= condition.name %>
                 <% end %>
             <% else %>
               None
@@ -33,11 +33,7 @@
             <td>?</td>
             <td>?</td>
             <td>
-              <% if race.race_type == "Stakes" %>
-                <%= collection_select(:schedule, :horse_id, @horses,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
-              <% else %>
-                <%= link_to 'View', race, :class => 'btn btn-primary btn-xs' %>
-              <% end %>
+              <%= collection_select(:schedule, :horse_id, @horses,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id' }) %>
             </td>        
           </tr>
         <% end %>
