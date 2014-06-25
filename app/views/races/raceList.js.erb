@@ -4,7 +4,7 @@ $("#menu_age_id").change(function(){
     $.ajax({
        url : 'menu/raceList',
        method: "GET",
-       data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), win_id: $(".page-info").attr("win")},
+       data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), win_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"), claiming_level: $(".page-info").attr("claiming")},
        success: function(response) {
           $('#racemenu').html(resonse);
        }
@@ -15,7 +15,29 @@ $("#menu_win_id").change(function(){
     $.ajax({
        url : 'menu/raceList',
        method: "GET",
-       data: {win_id: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age")},
+       data: {win_id: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age"), gender_id: $(".page-info").attr("gender"), claiming_level: $(".page-info").attr("claiming")},
+       success: function(response) {
+          $('#racemenu').html(resonse);
+       }
+    })
+  });
+
+$("#menu_gender_id").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {gender_id: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age"), win_id: $(".page-info").attr("win"), claiming_level: $(".page-info").attr("claiming")},
+       success: function(response) {
+          $('#racemenu').html(resonse);
+       }
+    })
+  });
+
+$("#Claiming_Level").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {claiming_level: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age"), win_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender")},
        success: function(response) {
           $('#racemenu').html(resonse);
        }
