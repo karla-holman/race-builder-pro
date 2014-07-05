@@ -36,7 +36,7 @@
                 <%= number_to_currency(0, precision: 2) %>
               <% end %>
             </td>
-            <td><%= race.horseraces.where(:status => "confirmed").count %></td>
+            <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
           </tr>
         <% end %>
       </tbody>

@@ -28,7 +28,7 @@ class HorsesController < ApplicationController
 
     @horse.races.all.each do |race|
       @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id)
-      if @horserace.status == "interested" || @horserace.status == "confirmed"
+      if @horserace.status == "Interested" || @horserace.status == "Confirmed"
         @race_ids.push (race.id)
       end
     end
@@ -80,7 +80,7 @@ class HorsesController < ApplicationController
       horse_params[:condition_ids].each do |condition|
         if HorseCondition.where(condition_id: condition, horse_id: @horse.id).empty? && !condition.empty?
           if Condition.find(condition).name == "Blinkers On"
-            notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "add")
+            notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "Add")
           else
             HorseCondition.find_or_create_by!(:horse_id => @horse.id, :condition_id => condition)
           end
@@ -89,7 +89,7 @@ class HorsesController < ApplicationController
       current_conditions = current_conditions.pluck(:condition_id) - horse_params[:condition_ids]
       current_conditions.each do |condition|
         if Condition.find(condition).name == "Blinkers On"
-          notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "remove")
+          notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "Remove")
         else
           HorseCondition.where(:horse_id => @horse.id, :condition_id => condition).delete_all
         end

@@ -2,20 +2,14 @@
 	<ol class="breadcrumb">
 	  <li><%= link_to 'Race List', races_path %></li>
 	  <li class="active"><%= @race.name %></li>
+	  <li><%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish' %></li>
 	</ol>
-	<div class="col-xs-12 horse-info">
-		<h1><%= @race.name %></h1>
-	</div>
 	<div class="col-xs-3 horse-info-list-group">
 		<h4>Conditions:</h4>
 		<%= render 'condition' %>
 	</div>
 	<div class="col-xs-6">
 		<div class="row">
-			<ol class="breadcrumb">
-			  <li><%= link_to 'Race List', races_path %></li>
-			  <li class="active"><%= @race.name %></li>
-			</ol>
 			<div class="col-xs-12 horse-info">
 				<h1><%= @race.name %></h1>
 				<% if @race.status == "Draft"%>
@@ -90,7 +84,7 @@
 			              	<td>
 			              		<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
 			              	</td>
-			              <% elsif horserace[0].status == "scratched"%>
+			              <% elsif horserace[0].status == "Scratched"%>
 			              	<td>Scratched</td>
 		              	<% end %>
 		              <% end %>

@@ -25,7 +25,7 @@
 		          <% end %> 
 						</li>
 						<li>Races:
-							<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "interested", "confirmed", horse.id) %>
+							<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
 							<% if racestatuses.any? %>
 								<ul class="condition-list no-indent">
 									<% racestatuses.each do |racestatus| %>
@@ -64,7 +64,7 @@
 						</li>
 						<% if current_user.admin? %>
 							<li>Horses:
-								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "interested", "confirmed", race.id) %>
+								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
 								<% if horsestatuses.any? %>
 									<ul class="condition-list no-indent">
 										<% horsestatuses.each do |horsestatus| %>

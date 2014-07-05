@@ -13,7 +13,7 @@
     <td><%= tel.section %></td>
     <td><%= race.name %></td>
     <td><%= race.description %></td>
-    <td><%= race.horseraces.where(:status => "confirmed").count %></td>
+    <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
     <td><%= link_to 'Remove from TEL', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
   </tr>
 <% end %>

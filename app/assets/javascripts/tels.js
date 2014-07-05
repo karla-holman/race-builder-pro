@@ -23,6 +23,9 @@ $(document).ready(function() {
         case 'Protocol':
           $(nRow).eq(0).css('color', 'green')
           break;
+        case 'Stakes':
+          $(nRow).eq(0).css('color', 'green')
+          break;
         case 'Alternate':
           $(nRow).eq(0).css('color', 'red')
           break;

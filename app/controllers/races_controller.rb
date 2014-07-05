@@ -1,5 +1,5 @@
 class RacesController < ApplicationController
-  before_action :set_race, only: [:show, :edit, :update, :destroy]
+  before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish]
 
   # GET /races
   # GET /races.json
@@ -11,71 +11,72 @@ class RacesController < ApplicationController
     end
   end
 
+  def racefinish
+    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "confirmed", "scratched").pluck(:horse_id)
+    @confirmed = Horse.where("id IN (?)", confirmed_ids)
+  end
+
   # GET /races/1
   # GET /races/1.json
   def show
     confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "confirmed", "scratched").pluck(:horse_id)
     @confirmed = Horse.where("id IN (?)", confirmed_ids)
+  
+    @categories = Category.all - Category.where(:datatype => "Bool")
+    @race_conditions = RaceCondition.where(:race => @race)
+    interested_ids = Horserace.where(:race_id => @race.id, :status => "interested").pluck(:horse_id)
+    @interested = Horse.where("id IN (?)", interested_ids)
     
-    if @race.race_datetime < Date.today
-      render "raceFinished"
+    if @confirmed.empty? && @interested.empty?
+      possible_horses = Horse.all
+    elsif @confirmed.empty?
+      possible_horses = Horse.where("id not IN (?)", interested_ids)
+    elsif @interested.empty?
+      possible_horses = Horse.where("id not IN (?)", confirmed_ids)
     else
-      @categories = Category.all - Category.where(:datatype => "Bool")
-      @race_conditions = RaceCondition.where(:race => @race)
-      interested_ids = Horserace.where(:race_id => @race.id, :status => "interested").pluck(:horse_id)
-      @interested = Horse.where("id IN (?)", interested_ids)
-      
-      if @confirmed.empty? && @interested.empty?
-        possible_horses = Horse.all
-      elsif @confirmed.empty?
-        possible_horses = Horse.where("id not IN (?)", interested_ids)
-      elsif @interested.empty?
-        possible_horses = Horse.where("id not IN (?)", confirmed_ids)
-      else
-        possible_horses = Horse.where("id not IN (?) and id not IN (?)", confirmed_ids, interested_ids)
-      end
+      possible_horses = Horse.where("id not IN (?) and id not IN (?)", confirmed_ids, interested_ids)
+    end
 
-      @horse_ids = Array.new()
-      possible_horses.each do |horse|
-        @horse_ids.push(horse.id)
-        @race_conditions.each do |racecondition|
-          condition = Condition.find(racecondition.condition_id)
-          category = condition.category  
-          case category.name
-          when 'Age'
-            specific_value  = age(horse.DOB.to_date)
-            success = filter_range(condition, specific_value)
-          when 'Wins'
-            specific_value = horse.firsts
-            success = filter_range(condition, specific_value)
-          when 'Gender'
-            if condition.value == horse.gender
-              success = "yes"
-            end 
-          when 'Bred'
-            if condition.value == horse.POB
-              success = "yes"
-            end 
-          when 'Hasn\'t Won Since'
-            if horse.last_win
-              if condition.value.to_i > horse.last_win.year
-                success = "yes"
-              end
-            end
-          else
+    @horse_ids = Array.new()
+    possible_horses.each do |horse|
+      @horse_ids.push(horse.id)
+      @race_conditions.each do |racecondition|
+        condition = Condition.find(racecondition.condition_id)
+        category = condition.category  
+        case category.name
+        when 'Age'
+          specific_value  = age(horse.DOB.to_date)
+          success = filter_range(condition, specific_value)
+        when 'Wins'
+          specific_value = horse.firsts
+          success = filter_range(condition, specific_value)
+        when 'Gender'
+          if condition.value == horse.gender
             success = "yes"
           end 
-          if success != "yes"
-            @horse_ids.pop
-            break
+        when 'Bred'
+          if condition.value == horse.POB
+            success = "yes"
+          end 
+        when 'Hasn\'t Won Since'
+          if horse.last_win
+            if condition.value.to_i > horse.last_win.year
+              success = "yes"
+            end
           end
+        else
+          success = "yes"
+        end 
+        if success != "yes"
+          @horse_ids.pop
+          break
         end
       end
-      if @horse_ids.any?
-        @eligible = Horse.where("id IN (?)", @horse_ids)
-      end
-      @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
     end
+    if @horse_ids.any?
+      @eligible = Horse.where("id IN (?)", @horse_ids)
+    end
+    @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
   end
 
   # GET /races/new
@@ -118,9 +119,6 @@ class RacesController < ApplicationController
 
   def raceList
     @horse = Horse.find(params[:horse_id])
-    if params[:claiming_value]
-      puts << params[:claiming_level]
-    end
     if params[:age_id].blank?
     else
       @age = Condition.find(params[:age_id])
@@ -135,7 +133,6 @@ class RacesController < ApplicationController
     end
     if params[:claiming_level].blank?
     else
-      puts << params[:claiming_level]
       @claiming_level = params[:claiming_level]
     end
 
@@ -191,7 +188,7 @@ class RacesController < ApplicationController
             end
           when 'Gender'
             if @gender
-              if condition == @gender 
+              if condition.value == @gender.value 
                 success = "yes"
               end
             elsif condition.value == @horse.gender

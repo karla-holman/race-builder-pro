@@ -30,7 +30,15 @@
               None
             <% end %>
             </td>
-            <td>?</td>
+            <% if race.distance <= 1 %>
+              <% if race.distance_type == 'Furlongs' %>
+                <td><%= race.distance %> Furlong</td>
+              <% else %>
+                <td><%= race.distance %> Mile</td>
+              <% end %>
+            <% else %>
+              <td><%= race.distance %> <%= race.distance_type %></td>
+            <% end %>
             <td>?</td>
             <td>
               <%= collection_select(:schedule, :horse_id, @horses,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id' }) %>
