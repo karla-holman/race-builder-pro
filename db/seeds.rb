@@ -21,13 +21,13 @@ categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
 #Races: [Race Number, Name, Description, Datetime]
-races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-07-04 10:30:00', 'Published', "Alternate",'Furlongs', 4.5], 
-		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-07-04 9:30:00', 'Published', "Alternate", 'Furlongs', 6], 
-		[3, 'Open Race Claiming $8,000', '', '2014-07-05 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5], 
-		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-07-05 14:00:00', 'Draft', "Protocol", 'Miles', 1], 
-		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-07-5 10:30:00', 'Draft', "Alternate", 'Miles', 1.25],
-		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-07-06 10:30:00', 'Draft', "Stakes", 'Miles', 1.5],
-		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-07-06 12:00:00', 'Published', "Stakes", 'Miles', 1.25]]
+races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-07-11 10:30:00', 'Published', "Alternate",'Furlongs', 4.5], 
+		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-07-12 9:30:00', 'Published', "Alternate", 'Furlongs', 6], 
+		[3, 'Open Race Claiming $8,000', '', '2014-07-11 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5], 
+		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-07-13 14:00:00', 'Draft', "Protocol", 'Miles', 1], 
+		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-07-11 10:30:00', 'Draft', "Alternate", 'Miles', 1.25],
+		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-07-12 10:30:00', 'Draft', "Stakes", 'Miles', 1.5],
+		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-07-13 12:00:00', 'Published', "Stakes", 'Miles', 1.25]]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Owner Email, Trainer Email]
 horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
