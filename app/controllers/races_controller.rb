@@ -12,19 +12,19 @@ class RacesController < ApplicationController
   end
 
   def racefinish
-    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "confirmed", "scratched").pluck(:horse_id)
+    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched").pluck(:horse_id)
     @confirmed = Horse.where("id IN (?)", confirmed_ids)
   end
 
   # GET /races/1
   # GET /races/1.json
   def show
-    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "confirmed", "scratched").pluck(:horse_id)
+    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched").pluck(:horse_id)
     @confirmed = Horse.where("id IN (?)", confirmed_ids)
   
     @categories = Category.all - Category.where(:datatype => "Bool")
     @race_conditions = RaceCondition.where(:race => @race)
-    interested_ids = Horserace.where(:race_id => @race.id, :status => "interested").pluck(:horse_id)
+    interested_ids = Horserace.where(:race_id => @race.id, :status => "Interested").pluck(:horse_id)
     @interested = Horse.where("id IN (?)", interested_ids)
     
     if @confirmed.empty? && @interested.empty?
@@ -307,7 +307,7 @@ class RacesController < ApplicationController
 
   def scratch_horse
     horse_race = Horserace.where(:race_id => params[:race_id], :horse_id => params[:horse_id])
-    horse_race[0].status = 'scratched'
+    horse_race[0].status = 'Scratched'
     horse_race[0].save
 
     respond_to do |format|

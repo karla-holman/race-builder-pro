@@ -11,15 +11,15 @@
 		<% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
 		<td><%= race.name %></td>
 		<td><%= race.description %></td>
-		<td><%= race.horseraces.where(:status => "interested").count %></td>
-		<% if @horserace.status == "confirmed" %>
+		<td><%= race.horseraces.where(:status => "Interested").count %></td>
+		<% if @horserace.status == "Confirmed" %>
 			<td>C</td>
 		<% else %>
 			<td ><%= form_for(@horserace) do |f| %>
-				<%= check_box("horserace", "status", {}, "interested", "") %> /
+				<%= check_box("horserace", "status", {}, "Interested", "") %> /
 			<% end %>
 			<%= form_for(@horserace) do |f| %>
-				<%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "confirmed", "") %>
+				<%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
 			<% end %>
 			</td>
 		<% end %>

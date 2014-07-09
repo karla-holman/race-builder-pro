@@ -64,7 +64,7 @@
   			  <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
   				<td><%= race.name %></td>
   				<td><%= race.description %></td>
-  				<td><%= race.horseraces.where(:status => "interested").count %></td>
+  				<td><%= race.horseraces.where(:status => "Interested").count %></td>
   				<td>
             <% if race.claiming_purse? %>
               <%= number_to_currency(race.claiming_purse, precision: 2) %>
@@ -79,14 +79,14 @@
               <%= number_to_currency(0, precision: 2) %>
             <% end %>
           </td>
-  				<% if @horserace.status == "confirmed" %>
+  				<% if @horserace.status == "Confirmed" %>
   					<td>C</td>
   				<% else %>
   					<td ><%= form_for(@horserace)  do |f| %>
-  								<%= check_box("horserace", "status", {}, "interested", "") %> / 
+  								<%= check_box("horserace", "status", {}, "Interested", "") %> / 
   							<% end %>
   							<%= form_for(@horserace)  do |f| %>
-  								<%= check_box("horserace", "status", {:class => 'confirm_racestatus'}, "confirmed", "") %>
+  								<%= check_box("horserace", "status", {:class => 'confirm_racestatus'}, "Confirmed", "") %>
   							<% end %>
   					</td>
   				<% end %>
