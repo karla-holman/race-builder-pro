@@ -21,13 +21,20 @@ categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
 #Races: [Race Number, Name, Description, Datetime]
-races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-07-11 10:30:00', 'Published', "Alternate",'Furlongs', 4.5], 
-		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-07-12 9:30:00', 'Published', "Alternate", 'Furlongs', 6], 
-		[3, 'Open Race Claiming $8,000', '', '2014-07-11 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5], 
-		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-07-13 14:00:00', 'Draft', "Protocol", 'Miles', 1], 
-		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-07-11 10:30:00', 'Draft', "Alternate", 'Miles', 1.25],
-		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-07-12 10:30:00', 'Draft', "Stakes", 'Miles', 1.5],
-		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-07-13 12:00:00', 'Published', "Stakes", 'Miles', 1.25]]
+races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-07-11 10:30:00', 'Published', "Alternate",'Furlongs', 4.5, 5000, 150000], 
+		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-07-12 9:30:00', 'Published', "Alternate", 'Furlongs', 6, 2000, 8000], 
+		[3, 'Open Race Claiming $8,000', '', '2014-07-11 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 6000, 2000], 
+		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-07-13 14:00:00', 'Draft', "Protocol", 'Miles', 1, 10000, 13000], 
+		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-07-11 10:30:00', 'Draft', "Alternate", 'Miles', 1.25, 6000, 7600],
+		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-07-12 10:30:00', 'Draft', "Stakes", 'Miles', 1.5, 2500, 1500],
+		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-07-13 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 3600, 5000],
+		[8, 'Maiden Claiming Purse $19,975', '(Maiden, 2YO)','2014-07-11 10:30:00', 'Published', "Alternate",'Furlongs', 4.5, 7000, 9000], 
+		[9, 'Washington Maiden Claiming Purse $17,875', '(washington bred)', '2014-07-12 9:30:00', 'Published', "Alternate", 'Furlongs', 6, 5000, 7000], 
+		[10, 'Open Race Claiming $18,000', '', '2014-07-11 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 8999, 11000], 
+		[11, 'NW2 Claiming $17,500', '(NW2)', '2014-07-13 14:00:00', 'Draft', "Protocol", 'Miles', 1, 3100, 6000], 
+		[12, 'Cahill Road $500,000', '3+','2014-07-13 10:30:00', 'Draft', "Alternate", 'Miles', 1.25, 14000, 10000],
+		[13, 'WA State Legislators Stakes $325,000', '3YO, F/M, WA', '2014-07-12 10:30:00', 'Draft', "Stakes", 'Miles', 1.5, 4200, 8000],
+		[14, 'Hastings Stakes $715,000', '2YO WA', '2014-07-13 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 1800, 16000]]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Owner Email, Trainer Email]
 horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
@@ -72,7 +79,7 @@ statuses.each do |status|
 end
 
 races.each do |race|
-	new_race = Race.find_or_create_by!(race_number: race[0], name: race[1], description: race[2], status: race[4], race_type: race[5], distance_type: race[6], distance: race[7])
+	new_race = Race.find_or_create_by!(race_number: race[0], name: race[1], description: race[2], status: race[4], race_type: race[5], distance_type: race[6], distance: race[7], claiming_level: race[8], claiming_purse: race[9])
 	date = DateTime.parse(race[3]).to_s
 	new_race.race_datetime = date
 	if new_race.save
@@ -97,9 +104,15 @@ end
 
 race1 = Race.find_by_name('Open Race Claiming $8,000')
 race2 = Race.find_by_name('NWSS Cahill Road Stakes $75,000')
+race3 = Race.find_by_name('Hastings Stakes $715,000')
+race4 = Race.find_by_name('Open Race Claiming $18,000')
 @tel = Tel.new(:race_id => race1.id, :section => 'Protocol', :day => 'Friday')
 @tel.save
-@tel = Tel.new(:race_id => race2.id, :section => 'Stakes', :day => 'Sunday')
+@tel = Tel.new(:race_id => race2.id, :section => 'Stakes', :day => 'Saturday')
+@tel.save
+@tel = Tel.new(:race_id => race4.id, :section => 'Protocol', :day => 'Friday')
+@tel.save
+@tel = Tel.new(:race_id => race3.id, :section => 'Stakes', :day => 'Sunday')
 @tel.save
 
 condition = Condition.find_by_name('3+')
