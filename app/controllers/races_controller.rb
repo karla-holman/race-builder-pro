@@ -149,6 +149,9 @@ class RacesController < ApplicationController
     if !params[:noWinsSince_id].blank?
       @noWinsSince = Condition.find(params[:noWinsSince_id])
     end
+    if !params[:distance].blank?
+      @distance = params[:distance]
+    end
 
     @horse = Horse.find(params[:horse_id])
     @race_ids = Array.new()
@@ -166,7 +169,6 @@ class RacesController < ApplicationController
       @winsCheck = "false"
       @genderCheck = "false"
       @noWinsSinceCheck = "false"
-      puts "SET TO UNSET"
       @genderFLAG = "unset"
       @genderCON = "unset"
       if race.conditions
@@ -178,10 +180,12 @@ class RacesController < ApplicationController
             horseAge  = age(@horse.DOB.to_date)
             valid = filter_range(condition, horseAge)
             if valid == "no"
+                puts "REMOVE AGE NOT VALID"
                 @remove = "yes"
             elsif @age
               if @age != condition
                 @remove = "yes"
+                puts "REMOVE AGE NOT CONDITION"
               end           
             end
           when 'Wins'
@@ -190,9 +194,11 @@ class RacesController < ApplicationController
             valid = filter_range(condition, horseWins)
             if valid == "no"
               @remove = "yes"
+              puts "REMOVE WINS NOT VALID"
             elsif @wins
               if @wins != condition
                 @remove = "yes"
+                puts "REMOVE WINS NOT CONDITION"
               end
             end
           when 'Gender'
@@ -232,40 +238,67 @@ class RacesController < ApplicationController
             end
           end
         end
-        if @remove == "yes"
-          @race_ids.pop
-        elsif @genderFLAG == "true"
-          @race_ids.pop
-        elsif @age
-          if @ageCheck == "false"
-            @race_ids.pop
-          end
-        elsif @wins
+        check = "check"
+        if @wins && check == "check"
           if @winsCheck == "false"
             @race_ids.pop
+            check = "skip"
+          else
+            check = "check"
           end
-        elsif @gender
+        end
+        if @age && check == "check"
+          if @ageCheck == "false"
+            @race_ids.pop
+            check = "skip"
+          else
+            check = "check"
+          end
+        end
+        if @gender && check == "check"
           if @genderCheck == "false"
             @race_ids.pop
+            check = "skip"
           elsif @genderFLAG == "true" || @genderCON == "true"
             @race_ids.pop
+            check = "skip"
+          else
+            check = "check"
           end
-        elsif @noWinsSince
-          if @noWinsSinceCheck == "false"
+        end
+        if @distance && check == "check"
+          if @distance == "Long" && race.distance_type != "Miles"
             @race_ids.pop
+            check = "skip"
+          elsif @distance == "Short" && race.distance_type != "Furlongs"
+            @race_ids.pop
+            check = "skip"
+          else
+            check = "check"
           end
-        else
-          if @lower_claiming && @upper_claiming
-            if (@lower_claiming.to_f > race.claiming_level) || (@upper_claiming.to_f < race.claiming_level)
+        end
+        if check == "check"
+          if @remove == "yes"
+            @race_ids.pop
+          elsif @genderFLAG == "true"
+            @race_ids.pop
+          elsif @noWinsSince
+            if @noWinsSinceCheck == "false"
               @race_ids.pop
             end
-          elsif @lower_claiming
-            if (@lower_claiming.to_f > race.claiming_level)
-              @race_ids.pop
-            end
-          elsif @upper_claiming
-            if (@upper_claiming.to_f < race.claiming_level)
-              @race_ids.pop
+          else
+            if @lower_claiming && @upper_claiming
+              if (@lower_claiming.to_f > race.claiming_level) || (@upper_claiming.to_f < race.claiming_level)
+                @race_ids.pop
+              end
+            elsif @lower_claiming
+              if (@lower_claiming.to_f > race.claiming_level)
+                @race_ids.pop
+              end
+            elsif @upper_claiming
+              if (@upper_claiming.to_f < race.claiming_level)
+                @race_ids.pop
+              end
             end
           end
         end
@@ -281,6 +314,12 @@ class RacesController < ApplicationController
         if (@upper_claiming.to_f < race.claiming_level)
           @race_ids.pop
         end
+      elsif @distance
+        if @distance == "Long" && race.distance_type != "Miles"
+          @race_ids.pop
+        elsif @distance == "Short" && race.distance_type != "Furlongs"
+          @race_ids.pop
+        end
       elsif (@age || @wins || @gender || @noWinsSince)
         @race_ids.pop
       end
@@ -294,6 +333,7 @@ class RacesController < ApplicationController
     @genderList = Condition.where(:category_id => Category.find_by_name("Gender"))
     @winList = Condition.where(:category_id => Category.find_by_name("Wins"))
     @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
+    @claiming_levels.sort!
 
     respond_to do |format|
       format.js
@@ -398,6 +438,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming_level, :lower_claiming_level,:age_id, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :condition_ids => [])
     end
 end

@@ -8,6 +8,22 @@ $("#menu_age_id").change(function(){
        wins_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"), 
        lower_claiming: $(".page-info").attr("lower-claiming"), 
        upper_claiming: $(".page-info").attr("upper-claiming"), 
+       noWinsSince_id: $(".page-info").attr("noWinsSince"),
+       distance: $(".page-info").attr("distance")},
+       success: function(response) {
+          $('#racemenu').html(resonse);
+       }
+    })
+  });
+
+$("#Distances").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {distance: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       wins_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"), age_id: $(".page-info").attr("age"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       upper_claiming: $(".page-info").attr("upper-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
           $('#racemenu').html(resonse);
@@ -22,7 +38,7 @@ $("#menu_noWinsSince_id").change(function(){
        data: {noWinsSince_id: $(this).val(), age_id: $(".page-info").attr("age"), 
        horse_id: $(".page-info").attr("horse"), wins_id: $(".page-info").attr("win"), 
        gender_id: $(".page-info").attr("gender"), 
-       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), distance: $(".page-info").attr("distance"),
        upper_claiming: $(".page-info").attr("upper-claiming")},
        success: function(response) {
           $('#racemenu').html(resonse);
@@ -36,7 +52,7 @@ $("#menu_wins_id").change(function(){
        method: "GET",
        data: {wins_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), gender_id: $(".page-info").attr("gender"), 
-       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), distance: $(".page-info").attr("distance"),
        upper_claiming: $(".page-info").attr("upper-claiming"),
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
@@ -51,7 +67,7 @@ $("#menu_gender_id").change(function(){
        method: "GET",
        data: {gender_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
-       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), distance: $(".page-info").attr("distance"),
        upper_claiming: $(".page-info").attr("upper-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
@@ -66,7 +82,7 @@ $("#Lower_Claiming_Level").change(function(){
        method: "GET",
        data: {lower_claiming: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
-       gender_id: $(".page-info").attr("gender"), 
+       gender_id: $(".page-info").attr("gender"), distance: $(".page-info").attr("distance"),
        upper_claiming: $(".page-info").attr("upper-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
@@ -81,7 +97,7 @@ $("#Upper_Claiming_Level").change(function(){
        method: "GET",
        data: {upper_claiming: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
-       gender_id: $(".page-info").attr("gender"), 
+       gender_id: $(".page-info").attr("gender"), distance: $(".page-info").attr("distance"),
        lower_claiming: $(".page-info").attr("lower-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
