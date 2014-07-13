@@ -3,21 +3,24 @@ $(document).ready(function() {
 	$('#stable-table').dataTable({
     sPaginationType: "full_numbers",
     "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-      switch(aData[11]){
+      switch(aData[6]){
         case 'Race Ready':
-          $('td', nRow).eq(11).css('color', 'green')
+          $('td', nRow).eq(6).css('color', 'green')
           break;
         case 'Not Race Ready':
-          $('td', nRow).eq(11).css('color', 'red')
+          $('td', nRow).eq(6).css('color', 'red')
+          break;
+        case 'Inactive':
+          $('td', nRow).eq(6).css('color', 'red')
           break;
         case 'Resting From Race':
-          $('td', nRow).eq(11).css('color', 'yellow')
+          $('td', nRow).eq(6).css('color', 'yellow')
           break;
         case 'Steward\'s List':
-          $('td', nRow).eq(11).css('color', 'blue')
+          $('td', nRow).eq(6).css('color', 'blue')
           break;
         case 'Vet\'s List':
-          $('td', nRow).eq(11).css('color', 'blue')
+          $('td', nRow).eq(6).css('color', 'blue')
           break;
       }
     }

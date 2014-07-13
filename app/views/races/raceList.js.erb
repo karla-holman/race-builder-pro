@@ -4,18 +4,41 @@ $("#menu_age_id").change(function(){
     $.ajax({
        url : 'menu/raceList',
        method: "GET",
-       data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), win_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"), claiming_level: $(".page-info").attr("claiming")},
+       data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       wins_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       upper_claiming: $(".page-info").attr("upper-claiming"), 
+       noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
           $('#racemenu').html(resonse);
        }
     })
   });
 
-$("#menu_win_id").change(function(){
+$("#menu_noWinsSince_id").change(function(){
     $.ajax({
        url : 'menu/raceList',
        method: "GET",
-       data: {win_id: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age"), gender_id: $(".page-info").attr("gender"), claiming_level: $(".page-info").attr("claiming")},
+       data: {noWinsSince_id: $(this).val(), age_id: $(".page-info").attr("age"), 
+       horse_id: $(".page-info").attr("horse"), wins_id: $(".page-info").attr("win"), 
+       gender_id: $(".page-info").attr("gender"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       upper_claiming: $(".page-info").attr("upper-claiming")},
+       success: function(response) {
+          $('#racemenu').html(resonse);
+       }
+    })
+  });
+
+$("#menu_wins_id").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {wins_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       age_id: $(".page-info").attr("age"), gender_id: $(".page-info").attr("gender"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       upper_claiming: $(".page-info").attr("upper-claiming"),
+       noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
           $('#racemenu').html(resonse);
        }
@@ -26,18 +49,41 @@ $("#menu_gender_id").change(function(){
     $.ajax({
        url : 'menu/raceList',
        method: "GET",
-       data: {gender_id: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age"), win_id: $(".page-info").attr("win"), claiming_level: $(".page-info").attr("claiming")},
+       data: {gender_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       upper_claiming: $(".page-info").attr("upper-claiming"), 
+       noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
           $('#racemenu').html(resonse);
        }
     })
   });
 
-$("#Claiming_Level").change(function(){
+$("#Lower_Claiming_Level").change(function(){
     $.ajax({
        url : 'menu/raceList',
        method: "GET",
-       data: {claiming_level: $(this).val(), horse_id: $(".page-info").attr("horse"), age_id: $(".page-info").attr("age"), win_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender")},
+       data: {lower_claiming: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+       gender_id: $(".page-info").attr("gender"), 
+       upper_claiming: $(".page-info").attr("upper-claiming"), 
+       noWinsSince_id: $(".page-info").attr("noWinsSince")},
+       success: function(response) {
+          $('#racemenu').html(resonse);
+       }
+    })
+  });
+
+$("#Upper_Claiming_Level").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {upper_claiming: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+       gender_id: $(".page-info").attr("gender"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
           $('#racemenu').html(resonse);
        }

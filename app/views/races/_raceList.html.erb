@@ -1,49 +1,72 @@
 <div class="page-info" horse="<%=@horse.id%>" 
   <% if @age %>
-    age="<%=@age.id%>" 
+    age="<%= @age.id %>" 
   <%end%>
-  <% if @win %>
-    win="<%=@win.id%>" 
+  <% if @wins %>
+    win="<%= @wins.id %>" 
   <%end%>
   <% if @gender %>
-    gender="<%=@gender.id%>" 
+    gender="<%= @gender.id %>" 
   <%end%>
-  <% if @claiming_level %>
-    claiming="<%=@claiming_level%>" 
+  <% if @lower_claiming %>
+    lower-claiming="<%=@lower_claiming%>" 
+  <%end%>
+  <% if @upper_claiming %>
+    upper-claiming="<%=@upper_claiming%>" 
+  <%end%>
+  <% if @noWinsSince %>
+    noWinsSince="<%= @noWinsSince.id %>" 
   <%end%>
 ></div>
-<div class="col-xs-3">
+<div><%= link_to 'Horse Profile', @horse, :class => 'btn btn-success btn-xs'%></div>
+<div class="col-xs-2">
   <p>
   <% if @age %>
-    Age <%= collection_select(:menu, :age_id, @ages, :id, :name, {:selected => @age.id, :include_blank => 'None'}) %>
+    Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'None'}) %>
   <% else %>
-    Age <%= collection_select(:menu, :age_id, @ages, :id, :name, {:prompt => 'None'}) %>
+    Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'None'}) %>
   <% end %>
   </p>
 </div>
-<div class="col-xs-3">
+<div class="col-xs-2">
   <p>
-  <% if @win %>
-    Wins <%= collection_select(:menu, :win_id, @wins, :id, :name, {:selected => @win.id, :include_blank => 'None'}) %>
+  <% if @wins %>
+    Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'None'}) %>
   <% else %>
-    Wins <%= collection_select(:menu, :win_id, @wins, :id, :name, {:prompt => 'None'}) %>
+    Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'None'}) %>
   <% end %>
   </p>
 </div>
-<div class="col-xs-3">
+<div class="col-xs-2">
   <p>
   <% if @gender %>
-    Gender <%= collection_select(:menu, :gender_id, @genders, :id, :name, {:selected => @gender.id, :include_blank => 'None'}) %>
+    Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:selected => @gender.id, :include_blank => 'None'}) %>
   <% else %>
-    Gender <%= collection_select(:menu, :gender_id, @genders, :id, :name, {:prompt => 'None'}) %>
+    Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:prompt => 'None'}) %>
   <% end %>
   </p>
 </div>
-<div class="col-xs-3">
-  <% if @claiming_level %>
-  Claiming Level <%= select_tag "Claiming Level", options_for_select(@claiming_levels), :selected => @claiming_level %>
+<div class="col-xs-2">
+  <p>
+  <% if @noWinsSince %>
+    No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
   <% else %>
-    Claiming Level <%= select_tag "Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
+    No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
+  <% end %>
+  </p>
+</div>
+<div class="col-xs-2">
+  <% if @lower_claiming %>
+  Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels, @lower_claiming), :prompt => 'None' %>
+  <% else %>
+    Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
+  <% end %>
+</div>
+<div class="col-xs-2">
+  <% if @upper_claiming %>
+  Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels, @upper_claiming), :prompt => 'None' %>
+  <% else %>
+    Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
   <% end %>
 </div>
 <table id="racelist-table" class="table table-condensed table-hover">

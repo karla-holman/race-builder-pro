@@ -11,8 +11,6 @@
           <th>POB</th>
           <th>Gender</th>
           <th>Age</th>
-          <th>DOB</th>
-          <th>Starts</th>
           <th>Firsts</th>
           <th>Last Claiming Level</th>
           <th>Status</th>
@@ -43,12 +41,6 @@
               end %>
               <%= age(horse.DOB.to_date) %>
             </td>
-            <td>
-              <% if horse.DOB? %>
-                <%= horse.DOB.to_time.strftime('%b %d, %Y') %>
-              <% end %>
-            </td>
-            <td><%= horse.starts %></td>
             <td><%= horse.firsts %></td>
             <td>
               <% if horse.last_claiming_level? %>

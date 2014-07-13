@@ -40,9 +40,10 @@ class RacesController < ApplicationController
     @horse_ids = Array.new()
     possible_horses.each do |horse|
       @horse_ids.push(horse.id)
+      @genderFlag = "unset"
       @race_conditions.each do |racecondition|
         condition = Condition.find(racecondition.condition_id)
-        category = condition.category  
+        category = condition.category
         case category.name
         when 'Age'
           specific_value  = age(horse.DOB.to_date)
@@ -51,26 +52,36 @@ class RacesController < ApplicationController
           specific_value = horse.firsts
           success = filter_range(condition, specific_value)
         when 'Gender'
+          success = "yes"
           if condition.value == horse.gender
-            success = "yes"
+            @genderFlag = "yes"
+          elsif @genderFlag != "yes"
+            @genderFlag = "no"
           end 
         when 'Bred'
           if condition.value == horse.POB
             success = "yes"
+          else
+            success = "no"
           end 
         when 'Hasn\'t Won Since'
           if horse.last_win
             if condition.value.to_i > horse.last_win.year
               success = "yes"
+            else
+              success = "no"
             end
+          else
+            success = "yes"
           end
-        else
-          success = "yes"
-        end 
+        end
         if success != "yes"
           @horse_ids.pop
           break
-        end
+        end 
+      end
+      if @genderFlag != "yes" && @genderFlag != "unset"
+        @horse_ids.pop
       end
     end
     if @horse_ids.any?
@@ -92,7 +103,9 @@ class RacesController < ApplicationController
     else
       @horses = Horse.where(:owner_id => current_user.id)
     end
-
+    if params[:horse_id]
+      @horse = Horse.find(params[:horse_id])
+    end
   end
 
   def schedule
@@ -118,118 +131,169 @@ class RacesController < ApplicationController
   end
 
   def raceList
-    @horse = Horse.find(params[:horse_id])
-    if params[:age_id].blank?
-    else
+    if !params[:age_id].blank?
       @age = Condition.find(params[:age_id])
     end
-    if params[:win_id].blank?
-    else
-      @win = Condition.find(params[:win_id])
+    if !params[:wins_id].blank?
+      @wins = Condition.find(params[:wins_id])
     end
-    if params[:gender_id].blank?
-    else
+    if !params[:gender_id].blank?
       @gender = Condition.find(params[:gender_id])
     end
-    if params[:claiming_level].blank?
-    else
-      @claiming_level = params[:claiming_level]
+    if !params[:lower_claiming].blank?
+      @lower_claiming = params[:lower_claiming]
+    end
+    if !params[:upper_claiming].blank?
+      @upper_claiming = params[:upper_claiming]
+    end
+    if !params[:noWinsSince_id].blank?
+      @noWinsSince = Condition.find(params[:noWinsSince_id])
     end
 
-    @categories = Category.where(:datatype => "Bool")
-    @statuses = Status.all
-    @category = @categories.pluck(:id)
-    @conditions = Condition.where("category_id IN (?)", @category)
-    @current_status = HorseStatus.where(:horse => @horse).first
-    @horse_conditions = @horse.conditions.pluck(:condition_id)
+    @horse = Horse.find(params[:horse_id])
     @race_ids = Array.new()
     @claiming_levels = Array.new()
     
     Race.all.each do |race|
-      bool_conditions = race.conditions.where("category_id IN (?)", @category).pluck(:condition_id)
-      specific_conditions = race.conditions.pluck(:condition_id) - bool_conditions
-      @race_ids.push(race.id)  
-      if (race.claiming_level?)
-        if @claiming_levels.include? race.claiming_level
-        else
+      @race_ids.push(race.id)
+      if race.claiming_level
+        if !@claiming_levels.include? race.claiming_level
           @claiming_levels.push(race.claiming_level)
         end
       end
-      if (specific_conditions.any?)
-        specific_conditions.each do |specific_condition|
-          if @claiming_level
-            if @claiming_level != race.claiming_level
-              race_ids.pop
-              break
-            end
-          end
-          condition = Condition.find(specific_condition)
-          category = condition.category           
+      @remove = "no"
+      @ageCheck = "false"
+      @winsCheck = "false"
+      @genderCheck = "false"
+      @noWinsSinceCheck = "false"
+      puts "SET TO UNSET"
+      @genderFLAG = "unset"
+      @genderCON = "unset"
+      if race.conditions
+        race.conditions.each do |condition|
+          category = condition.category
           case category.name
           when 'Age'
-            if @age
-              if @age == condition
-                specific_value  = age(@horse.DOB.to_date)
-                success = filter_range(condition, specific_value)
-              end
-            else
-              specific_value  = age(@horse.DOB.to_date)
-              success = filter_range(condition, specific_value)
+            @ageCheck = "true"
+            horseAge  = age(@horse.DOB.to_date)
+            valid = filter_range(condition, horseAge)
+            if valid == "no"
+                @remove = "yes"
+            elsif @age
+              if @age != condition
+                @remove = "yes"
+              end           
             end
           when 'Wins'
-            if @win
-              if @win == condition
-                  specific_value = @horse.firsts
-                  success = filter_range(condition, specific_value)
-                end
-            else
-              specific_value = @horse.firsts
-              success = filter_range(condition, specific_value)
+            @winsCheck = "true"
+            horseWins = @horse.firsts
+            valid = filter_range(condition, horseWins)
+            if valid == "no"
+              @remove = "yes"
+            elsif @wins
+              if @wins != condition
+                @remove = "yes"
+              end
             end
           when 'Gender'
+            @genderCheck = "true"
             if @gender
-              if condition.value == @gender.value 
-                success = "yes"
+              if @gender == condition
+                @genderCON = "false"
+              elsif @gender != condition && @genderCON != "false"
+                @genderCON = "true"
               end
-            elsif condition.value == @horse.gender
-              success = "yes"
-            end 
-          when 'Bred'
-            if condition.value == @horse.POB
-              success = "yes"
-            end 
-          when 'Hasn\'t Won Since'
-            if @horse.last_win
-              if condition.value.to_i > @horse.last_win.year
-                success = "yes"
+              if @horse.gender == condition.value
+                @genderFLAG = "false"
+              elsif @horse.gender != condition.value && @genderFLAG != "false"
+                @genderFLAG = "true"
               end
             else
-              success = "yes"
+              if @horse.gender == condition.value
+                @genderFLAG = "false"
+              elsif @horse.gender != condition.value && @genderFLAG != "false"
+                @genderFLAG = "true"
+              end
+            end
+          when 'Bred'
+            if condition.value == @horse.POB
+              @remove = "yes"
             end 
+          when 'Hasn\'t Won Since'
+            @noWinsSinceCheck = "true"
+            if @horse.last_win
+              if condition.value.to_i > @horse.last_win.year
+                @remove = "yes"
+              elsif @noWinsSince
+                if @noWinsSince != condition
+                  @remove = "yes"
+                end
+              end
+            end
           end
-          if success != "yes"
-            @race_ids.pop
-            break
-          end        
         end
-      elsif @age || @win || @gender
-        @race_ids.pop
-      elsif @claiming_level
-        if @claiming_level != race.claiming_level
+        if @remove == "yes"
+          @race_ids.pop
+        elsif @genderFLAG == "true"
+          @race_ids.pop
+        elsif @age
+          if @ageCheck == "false"
+            @race_ids.pop
+          end
+        elsif @wins
+          if @winsCheck == "false"
+            @race_ids.pop
+          end
+        elsif @gender
+          if @genderCheck == "false"
+            @race_ids.pop
+          elsif @genderFLAG == "true" || @genderCON == "true"
+            @race_ids.pop
+          end
+        elsif @noWinsSince
+          if @noWinsSinceCheck == "false"
+            @race_ids.pop
+          end
+        else
+          if @lower_claiming && @upper_claiming
+            if (@lower_claiming.to_f > race.claiming_level) || (@upper_claiming.to_f < race.claiming_level)
+              @race_ids.pop
+            end
+          elsif @lower_claiming
+            if (@lower_claiming.to_f > race.claiming_level)
+              @race_ids.pop
+            end
+          elsif @upper_claiming
+            if (@upper_claiming.to_f < race.claiming_level)
+              @race_ids.pop
+            end
+          end
+        end
+      elsif @lower_claiming && @upper_claiming
+        if (@lower_claiming.to_f > race.claiming_level) || (@upper_claiming.to_f < race.claiming_level)
           @race_ids.pop
         end
+      elsif @lower_claiming
+        if (@lower_claiming.to_f > race.claiming_level)
+          @race_ids.pop
+        end
+      elsif @upper_claiming
+        if (@upper_claiming.to_f < race.claiming_level)
+          @race_ids.pop
+        end
+      elsif (@age || @wins || @gender || @noWinsSince)
+        @race_ids.pop
       end
     end
+
     if @race_ids.any?
       @races = Race.where("id IN (?)", @race_ids)
     end
 
-    ageId = Category.find_by_name("Age")
-    winId = Category.find_by_name("Wins")
-    genderID = Category.find_by_name("Gender")
-    @ages = Condition.where(:category_id => ageId)
-    @genders = Condition.where(:category_id => genderID)
-    @wins = Condition.where(:category_id => winId)
+    @ageList = Condition.where(:category_id => Category.find_by_name("Age"))
+    @genderList = Condition.where(:category_id => Category.find_by_name("Gender"))
+    @winList = Condition.where(:category_id => Category.find_by_name("Wins"))
+    @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
 
     respond_to do |format|
       format.js
@@ -334,6 +398,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :age_id, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming_level, :lower_claiming_level,:age_id, :condition_ids => [])
     end
 end

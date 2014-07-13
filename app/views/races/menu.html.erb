@@ -3,7 +3,12 @@
  </div>
 <div class="col-xs-5">
 	<h4>
-	Choose Your Horse<%= collection_select(:menu, :horse_id, @horses,:id, :name, {:prompt => 'Please select a horse'}) %>
+		<% if @horse %>
+			<div id='specificHorse' horse="<%=@horse.id%>"></div>
+	    	Choose Your Horse<%= collection_select(:menu, :horse_id, @horses, :id, :name, {:selected => @horse.id, :include_blank => 'None'}) %>
+	  	<% else %>
+	    	Choose Your Horse<%= collection_select(:menu, :horse_id, @horses,:id, :name, {:prompt => 'Please select a horse'}) %>
+	  	<% end %>	
 	</h4>
 </div>
 <div class="col-xs-12">

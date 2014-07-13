@@ -1,4 +1,15 @@
 $(document).ready(function() {
+	if($("#menu_horse_id").val() ){
+		$.ajax({
+	     url : 'menu/raceList',
+	     method: "GET",
+	     data: "horse_id=" + $("#specificHorse").attr("horse"),
+	     success: function(response) {
+	     		$('#racemenu').html(resonse);
+	     }
+		})
+	}
+
 	$("#menu_horse_id").change(function(){
 		$.ajax({
 	     url : 'menu/raceList',
