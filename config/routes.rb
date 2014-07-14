@@ -5,6 +5,9 @@ RailsDevisePundit::Application.routes.draw do
   get 'tels/saturday' => 'tels#saturday'
   get 'tels/sunday' => 'tels#sunday'
   
+  post 'horses/transferowner' => 'horses#ownerTransfer'
+  post 'horses/transfertrainer' => 'horses#trainerTransfer'
+
   get 'races/update_status' => 'races#update_status'
   get 'races/menu' => 'races#menu'
   get 'races/:id/racefinish' => 'races#racefinish'
@@ -13,6 +16,9 @@ RailsDevisePundit::Application.routes.draw do
   get 'races/stakes' => 'races#stakes'
   post 'races/add_winner' => 'races#add_winner'
   post 'races/scratch_horse' => 'races#scratch_horse'
+
+  get 'users/new' => 'users#new'
+  post 'users/createuser' => 'users#create'
 
   post 'notifications/:id' => 'notifications#approve'
 

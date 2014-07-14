@@ -9,7 +9,7 @@
           <th>Type</th>
           <th>Conditions</th>
           <th>Distance</th>
-          <th>Noms Close</th> 
+          <th>Noms/Race Close</th> 
           <th colspan="1"></th>
         </tr>
       </thead>
@@ -39,9 +39,13 @@
             <% else %>
               <td><%= race.distance %> <%= race.distance_type %></td>
             <% end %>
-            <td>?</td>
+            <td><%= race.close_date.strftime('%b %d, %Y') %></td>
             <td>
+              <% if @today > race.close_date %>
+                CLOSED
+              <% else %>
               <%= collection_select(:schedule, :horse_id, @horses,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id' }) %>
+              <% end %>
             </td>        
           </tr>
         <% end %>

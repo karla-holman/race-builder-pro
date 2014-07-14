@@ -41,7 +41,7 @@ $(document).ready(function() {
 	$('.winner').on('click', function (e) {
 		var horse_id = $(this).attr("horse");
 		var race_id = $(this).attr("race");
-	  $.ajax({url: "add_winner", type: "POST", data: {race_id: race_id, horse_id: horse_id}}).done(function(data){
+	  $.ajax({url: "/races/add_winner", type: "POST", data: {race_id: race_id, horse_id: horse_id}}).done(function(data){
 					location.reload(true);
 		});
 	})
@@ -49,9 +49,26 @@ $(document).ready(function() {
 	$('.scratch').on('click', function (e) {
 		var horse_id = $(this).attr("horse");
 		var race_id = $(this).attr("race");
-	  $.ajax({url: "scratch_horse", type: "POST", data: { race_id: race_id, horse_id: horse_id}}).done(function(data){
+	  $.ajax({url: "/races/scratch_horse", type: "POST", data: { race_id: race_id, horse_id: horse_id}}).done(function(data){
 					location.reload(true);
 		});
 	})
+
+
+	$(".transferOwner").change(function(){
+		var owner_id = $(this).val();
+		var horse_id = $(this).attr("horse");
+	  $.ajax({url: "/horses/transferowner", type: "POST", data: {horse: {owner_id: owner_id, horse_id: horse_id}}}).done(function(data){
+			location.reload(true);
+		});
+	});
+
+	$(".transferTrainer").change(function(){
+		var trainer_id = $(this).val();
+		var horse_id = $(this).attr("horse");
+	  $.ajax({url: "/horses/transfertrainer", type: "POST", data: {horse: {trainer_id: trainer_id, horse_id: horse_id}}}).done(function(data){
+			location.reload(true);
+		});
+	});
 
 })

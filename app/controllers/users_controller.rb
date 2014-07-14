@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
-  after_action :verify_authorized, except: [:show]
+  after_action :verify_authorized, except: [:show, :new, :create]
 
   def index
     if params[:search]
@@ -30,6 +30,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def new
+    if current_user.admin?
+      @newuser = User.new
+    else
+        redirect_to root_path, :alert => "Access denied."
+    end
+  end
+
+  def create
+    if current_user.admin?
+      @newuser = User.new(:email => secure_params[:email], :password => secure_params[:password], :name => secure_params[:name], :role => secure_params[:role])
+      if @newuser.save
+        flash[:notice] = "Successfully created User." 
+        redirect_to users_path
+      else
+        render :action => 'new'
+      end
+    else
+      redirect_to root_path, :alert => "Access denied."
+    end
+  end
+
   def update
     @user = User.find(params[:id])
 
@@ -56,7 +78,7 @@ class UsersController < ApplicationController
   private
 
   def secure_params
-    params.require(:user).permit(:role, :name, :email, :password, :password, :password_confirmation)
+    params.require(:user).permit(:role, :name, :email, :password, :password_confirmation)
   end
 
 end

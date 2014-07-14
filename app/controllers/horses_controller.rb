@@ -15,6 +15,29 @@ class HorsesController < ApplicationController
     end
   end
 
+
+  def ownerTransfer
+    horse = Horse.find(horse_params[:horse_id])
+    horse.owner_id = horse_params[:owner_id]
+
+    if horse.save
+      respond_to do |format|
+        format.html { redirect_to :back }
+      end
+    end
+  end
+
+  def trainerTransfer
+    horse = Horse.find(horse_params[:horse_id])
+    horse.trainer_id = horse_params[:trainer_id]
+
+    if horse.save
+      respond_to do |format|
+        format.html { redirect_to :back }
+      end
+    end
+  end
+
   # GET /horses/1
   # GET /horses/1.json
   def show
@@ -129,6 +152,6 @@ class HorsesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def horse_params
-      params.require(:horse).permit(:name, :POB, :gender, :DOB, :starts, :firsts, :seconds, :owner_id, :last_win, :last_claiming_level, :trainer_id, :condition_ids => [])
+      params.require(:horse).permit(:name, :POB, :gender, :DOB, :starts, :firsts, :seconds, :owner_id, :horse_id, :last_win, :last_claiming_level, :trainer_id, :condition_ids => [])
     end
 end

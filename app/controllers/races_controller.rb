@@ -14,6 +14,8 @@ class RacesController < ApplicationController
   def racefinish
     confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched").pluck(:horse_id)
     @confirmed = Horse.where("id IN (?)", confirmed_ids)
+    @trainers = User.where(:role => 1)
+    @owners = User.where(:role => 0)
   end
 
   # GET /races/1
@@ -21,9 +23,7 @@ class RacesController < ApplicationController
   def show
     confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched").pluck(:horse_id)
     @confirmed = Horse.where("id IN (?)", confirmed_ids)
-  
     @categories = Category.all - Category.where(:datatype => "Bool")
-    @race_conditions = RaceCondition.where(:race => @race)
     interested_ids = Horserace.where(:race_id => @race.id, :status => "Interested").pluck(:horse_id)
     @interested = Horse.where("id IN (?)", interested_ids)
     
@@ -41,8 +41,7 @@ class RacesController < ApplicationController
     possible_horses.each do |horse|
       @horse_ids.push(horse.id)
       @genderFlag = "unset"
-      @race_conditions.each do |racecondition|
-        condition = Condition.find(racecondition.condition_id)
+      @race.conditions.each do |condition|
         category = condition.category
         case category.name
         when 'Age'
@@ -110,6 +109,7 @@ class RacesController < ApplicationController
 
   def schedule
     @races = Race.where("race_type = (?) OR race_type = (?)", "Protocol", "Stakes")
+    @today = Date.today
     if current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
@@ -121,6 +121,7 @@ class RacesController < ApplicationController
 
   def stakes
     @races = Race.where(:race_type => "Stakes")
+    @today = Date.today
     if current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
