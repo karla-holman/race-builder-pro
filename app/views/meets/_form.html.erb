@@ -1,0 +1,34 @@
+<%= form_for(@meet) do |f| %>
+  <% if @meet.errors.any? %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="error_explanation">
+        <h2><%= pluralize(@meet.errors.count, "error") %> prohibited this meet from being saved:</h2>
+        <ul>
+        <% @meet.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    </div>
+    <div class="col-xs-12 col-md-6">  
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
+      </div>
+      <div class="form-group">
+      	<%= f.label 'Start Date' %>
+      	<%= f.text_field :start_date, :autofocus => true, class: 'date-picker form-control' %>
+    	</div>
+    	<div class="form-group">
+      	<%= f.label 'End Date' %>
+      	<%= f.text_field :end_date, :autofocus => true, class: 'date-picker form-control' %>
+    	</div>
+      <div class="form-group">
+        <%= f.submit :class => 'btn btn-success btn-sm'%>
+        <%= link_to 'Back', meets_path, :class => 'btn btn-danger btn-sm' %>
+      </div>
+    </div>
+  </div>
+<% end %>

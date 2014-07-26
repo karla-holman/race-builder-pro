@@ -55,17 +55,16 @@ $(document).ready(function() {
   $("#tel-table tr").droppable({
     drop: function(event, ui) {
     	//getting the ID of the race, should be the first number
-      var id = $(ui.draggable).text().match(/\d+/);
-      id = id[0];
-      //grab race day from hidden div
-      var race_day = $("#race-day").data('day');
+      var race_id = $(ui.draggable).text().match(/\d+/);
+      race_id = race_id[0];
+      var tel_id = $("#tel-id").data('tel');
       $("#dialog-confirm").dialog({
         resizable: false,
         height:140,
         modal: true,
         buttons: {
           "OK": function() {
-            $.ajax({url: "/tels", type: "POST", data: {tel: { section: "Alternate", race_id: id, day: race_day}}}).done(function(data){
+            $.ajax({url: "/tels/add_race", type: "POST", data: {tel: {race_id: race_id, tel_id: tel_id}}}).done(function(data){
               location.reload(true);
             });
             $(this).dialog("close");
@@ -80,4 +79,10 @@ $(document).ready(function() {
     }
   });
 
+  $('.remove_from_tel').on('click', function (e) {
+    var race_id = $(this).attr("race");
+    $.ajax({url: "/tels/remove_race", type: "POST", data: {tel: {race_id: race_id}}}).done(function(data){
+          location.reload(true);
+    });
+  })
 })

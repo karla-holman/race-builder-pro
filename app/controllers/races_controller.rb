@@ -336,6 +336,12 @@ class RacesController < ApplicationController
     @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
     @claiming_levels.sort!
 
+    confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
+
+    if confirmed_race.any?
+      @confirmed = true
+    end
+
     respond_to do |format|
       format.js
     end

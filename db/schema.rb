@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140713231021) do
+ActiveRecord::Schema.define(version: 20140726164027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,14 @@ ActiveRecord::Schema.define(version: 20140713231021) do
 
   add_index "horses", ["name"], name: "index_horses_on_name", unique: true, using: :btree
 
+  create_table "meets", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "start_date"
+    t.datetime "end_date"
+  end
+
   create_table "notifications", force: true do |t|
     t.integer  "send_id"
     t.integer  "recv_id"
@@ -136,6 +144,7 @@ ActiveRecord::Schema.define(version: 20140713231021) do
     t.decimal  "distance"
     t.string   "distance_type"
     t.datetime "close_date"
+    t.integer  "tel_id"
   end
 
   create_table "statuses", force: true do |t|
@@ -145,14 +154,11 @@ ActiveRecord::Schema.define(version: 20140713231021) do
   end
 
   create_table "tels", force: true do |t|
-    t.integer  "race_id"
-    t.string   "section"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "day"
+    t.datetime "weekend_start"
+    t.integer  "meet_id"
   end
-
-  add_index "tels", ["race_id"], name: "index_tels_on_race_id", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

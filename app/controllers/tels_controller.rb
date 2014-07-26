@@ -1,23 +1,22 @@
 class TelsController < ApplicationController
-  before_action :set_tel, only: [:show, :edit, :update, :destroy]
+  before_action :set_tel, only: [:show, :edit, :update, :destroy, :friday, :saturday, :sunday]
 
   # GET /tels
   # GET /tels.json
   def index
     @tels = Tel.all
-    get_weekend
-    @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @sunday.end_of_day, @friday.beginning_of_day)
   end
 
   def friday
-    get_weekend
-    @tels = Tel.where(:day => "Friday")
-    tel_ids = @tels.pluck(:race_id)
+    get_weekend(@tel.weekend_start)
 
-    if tel_ids.any?
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?) AND race_type = 'Alternate'", @friday.end_of_day, @friday.beginning_of_day, tel_ids)
+    @tel_races = @tel.races.where("race_datetime <= (?) AND race_datetime >= (?)", @friday.end_of_day, @friday.beginning_of_day)
+    tel_ids = @tel_races.pluck(:id)
+    
+    if tel_ids.empty?
+      @alternates = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @friday.end_of_day, @friday.beginning_of_day)
     else
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @friday.end_of_day, @friday.beginning_of_day)
+      @alternates = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @friday.end_of_day, @friday.beginning_of_day, tel_ids)
     end
 
     @day = "Friday"
@@ -25,29 +24,31 @@ class TelsController < ApplicationController
   end
 
   def saturday
-    get_weekend
-    @tels = Tel.where(:day => "Saturday")
-    tel_ids = @tels.pluck(:race_id)
+    get_weekend(@tel.weekend_start)
+
+    @tel_races = @tel.races.where("race_datetime <= (?) AND race_datetime >= (?)", @saturday.end_of_day, @saturday.beginning_of_day)
+    tel_ids = @tel_races.pluck(:id)
     
-    if tel_ids.any?
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?) AND race_type = 'Alternate'", @saturday.end_of_day, @saturday.beginning_of_day, tel_ids)
+    if tel_ids.empty?
+      @alternates = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @saturday.end_of_day, @saturday.beginning_of_day)
     else
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @saturday.end_of_day, @saturday.beginning_of_day)
+      @alternates = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @saturday.end_of_day, @saturday.beginning_of_day, tel_ids)
     end
-    
+
     @day = "Saturday"
     render "day"
   end
 
   def sunday
-    get_weekend
-    @tels = Tel.where(:day => "Sunday")
-    tel_ids = @tels.pluck(:race_id)
+    get_weekend(@tel.weekend_start)
 
-    if tel_ids.any?
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?) AND race_type = 'Alternate'", @sunday.end_of_day, @sunday.beginning_of_day, tel_ids)
+    @tel_races = @tel.races.where("race_datetime <= (?) AND race_datetime >= (?)", @sunday.end_of_day, @sunday.beginning_of_day)
+    tel_ids = @tel_races.pluck(:id)
+
+    if tel_ids.empty?
+      @alternates = Race.where("race_datetime <= (?) AND race_datetime >= (?)", @sunday.end_of_day, @sunday.beginning_of_day)
     else
-      @races = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND race_type = 'Alternate'", @sunday.end_of_day, @sunday.beginning_of_day)
+      @alternates = Race.where("race_datetime <= (?) AND race_datetime >= (?) AND id not IN (?)", @sunday.end_of_day, @sunday.beginning_of_day, tel_ids)
     end
 
     @day = "Sunday"
@@ -57,13 +58,25 @@ class TelsController < ApplicationController
   # GET /tels/1
   # GET /tels/1.json
   def show
+    get_weekend(@tel.weekend_start)
+    @races = Race.where("race_datetime <= ? AND race_datetime >= ?", @sunday.end_of_day, @friday.beginning_of_day)
   end
 
   # GET /tels/new
   def new
-    @race_id = tel_params[:race_id]
-    @day = tel_params[:day]
-    @tel = Tel.new
+    @tel = Tel.new()
+  end
+
+  def add_race
+    @race = Race.find(tel_params[:race_id])
+    @race.tel_id = tel_params[:tel_id]
+    @race.save
+  end
+
+  def remove_race
+    @race = Race.find(tel_params[:race_id])
+    @race.tel_id = ''
+    @race.save
   end
 
   # GET /tels/1/edit
@@ -110,10 +123,10 @@ class TelsController < ApplicationController
     end
   end
 
-  def get_weekend
-    @sunday = Date.today.sunday
-    @saturday = @sunday.days_ago(1)
-    @friday = @sunday.days_ago(2)
+  def get_weekend(start)
+    @friday = start
+    @saturday = @friday.tomorrow
+    @sunday = @saturday.tomorrow
   end
 
   private
@@ -124,6 +137,6 @@ class TelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tel_params
-      params.require(:tel).permit(:day, :race_id, :level, :section)
+      params.require(:tel).permit(:race_id, :tel_id)
     end
 end

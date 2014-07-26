@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-6">
     <h2>Eligible <%= @day %> Races</h2>
-    <div id="race-day" data-day="<%= @day %>"></div>
+    <div id="tel-id" data-tel="<%= @tel.id %>"></div>
     <div id="dialog-confirm" title="Add Alternate to TEL?"></div>
     <%if current_user.admin? %>
       <table id="drag-table" class="table table-condensed table-hover">
@@ -18,9 +18,9 @@
         </tr>
       </thead>
       <tbody>
-        <% @races.each do |race| %>
+        <% @alternates.each do |race| %>
           <tr class="top">
-            <td><div class="invisible"><%= race.id %></div> <%= race.name %></td>
+            <td><div class="invisible"><%= race.id %></div><%= race.name %></td>
             <td><%= race.description %></td>
             <td>
               <% if race.claiming_purse? %>
@@ -47,10 +47,12 @@
     <table id="tel-table" class="table table-condensed table-hover">
       <thead>
         <tr>
-          <th>Race Type</th>
+          <th>Type</th>
           <th>Name</th>
           <th>Description</th>
-          <th># Committed</th>
+          <th>Purse</th>
+          <th>Claiming Level</th>
+          <th># Commited</th>
           <th colspan="1"></th>
         </tr>
       </thead>
@@ -65,19 +67,22 @@
     <div class="row">
       <% if @day != "Friday" %>
         <div class="col-xs-3 well userbox">
-          <%= link_to "Friday "+@friday.strftime('%b %d, %Y'), tels_friday_path %>
+          <%= link_to "Friday "+@friday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/friday' %>
         </div>
       <% end %>
       <% if @day != "Saturday" %>
         <div class="col-xs-3 well userbox">    
-          <%= link_to "Saturday "+@saturday.strftime('%b %d, %Y'), tels_saturday_path %>
+          <%= link_to "Saturday "+@saturday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/saturday' %>
         </div>
       <% end %>
       <% if @day != "Sunday" %>
         <div class="col-xs-3 well userbox">
-          <%= link_to "Sunday "+@sunday.strftime('%b %d, %Y'), tels_sunday_path %>
+          <%= link_to "Sunday "+@sunday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/sunday' %>
         </div>
       <% end %>
+      <div class="col-xs-3 well userbox">
+        <%= link_to "Back To List ", @tel %>
+      </div>
     </div>
   </div>
 </div>

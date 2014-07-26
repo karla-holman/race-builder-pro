@@ -1,19 +1,34 @@
-<% if @tels.empty? %>
+<% if @tel_races.empty? %>
   <tr>
     <td><div style="min-height: 300px;"></td>
+    <td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
     <td></td>
   </tr>
 <% end %>
-<% @tels.each do |tel| %>
+<% @tel_races.each do |race| %>
   <tr>
-    <% race = Race.find(tel.race_id) %>
-    <td><%= tel.section %></td>
+    <td><%= race.race_type %></td>
     <td><%= race.name %></td>
     <td><%= race.description %></td>
+    <td>
+      <% if race.claiming_purse? %>
+        <%= number_to_currency(race.claiming_purse, precision: 2) %>
+      <% else %>
+        <%= number_to_currency(0, precision: 2) %>
+      <% end %>
+    </td>
+    <td>
+      <% if race.claiming_level? %>
+        <%= number_to_currency(race.claiming_level, precision: 2) %>
+      <% else %>
+        <%= number_to_currency(0, precision: 2) %>
+      <% end %>
+    </td>
     <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
-    <td><%= link_to 'Remove from TEL', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
+    <td><button type="button" class="btn btn-danger btn-xs remove_from_tel" race="<%=race.id%>">Remove</button>
   </tr>
 <% end %>

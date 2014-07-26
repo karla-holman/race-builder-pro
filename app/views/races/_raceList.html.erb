@@ -122,17 +122,30 @@
               <%= number_to_currency(0, precision: 2) %>
             <% end %>
           </td>
-  				<% if @horserace.status == "Confirmed" %>
-  					<td>C</td>
-  				<% else %>
-  					<td ><%= form_for(@horserace)  do |f| %>
-  								<%= check_box("horserace", "status", {}, "Interested", "") %> / 
-  							<% end %>
-  							<%= form_for(@horserace)  do |f| %>
-  								<%= check_box("horserace", "status", {:class => 'confirm_racestatus'}, "Confirmed", "") %>
-  							<% end %>
-  					</td>
-  				<% end %>
+          <% if @horserace.status == "Confirmed" %>
+            <td>
+              Confirmed: 
+              <%= form_for(@horserace) do |f| %>
+                <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+              <% end %>
+            </td>
+  				<% elsif Date.today() >= race.close_date %>
+            <td>Closed</td>
+          <% elsif @confirmed%>
+            <td ><%= form_for(@horserace) do |f| %>
+              <%= check_box("horserace", "status", {}, "Interested", "") %> /
+            <% end %>
+            A
+            </td>
+          <% else %>
+            <td ><%= form_for(@horserace) do |f| %>
+              <%= check_box("horserace", "status", {}, "Interested", "") %> /
+            <% end %>
+            <%= form_for(@horserace) do |f| %>
+              <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+            <% end %>
+            </td>
+          <% end %>
   			</tr>
   		<% end %>
     <% end %>

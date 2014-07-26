@@ -48,9 +48,11 @@ class HorsesController < ApplicationController
     @current_status = HorseStatus.where(:horse => @horse).first
     @horse_conditions = @horse.conditions.pluck(:condition_id)
     @race_ids = Array.new()
-
     @horse.races.all.each do |race|
       @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id)
+      if @horserace.status == "Confirmed"
+        @comfirmed = true
+      end
       if @horserace.status == "Interested" || @horserace.status == "Confirmed"
         @race_ids.push (race.id)
       end

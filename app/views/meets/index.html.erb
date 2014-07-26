@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>Meets</h1>
+    <% if current_user.admin? %>
+      <%= link_to 'New Meet', new_meet_path, :class => 'btn btn-primary btn-xs' %>
+    <% end %>
+    <table class="table table-condensed table-hover generic-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @meets.each do |meet| %>
+          <tr>
+            <td><%= meet.name %></td>
+            <td><%= meet.start_date.strftime('%b %d, %Y') %></td>
+            <td><%= meet.end_date.strftime('%b %d, %Y') %></td>
+            <td>
+              <%= link_to 'Show', meet, :class => 'btn btn-primary btn-xs' %>
+              <%= link_to 'Edit', edit_meet_path(meet), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+              <%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
