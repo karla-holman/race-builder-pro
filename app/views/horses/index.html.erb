@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <h1><%= current_user.name %>'s Stable</h1>
+    <h1><%= current_user.first_name %> <%= current_user.last_name %>'s Stable</h1>
     <% if current_user.admin? %>
       <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-xs' %>
     <% end %>
@@ -50,8 +50,8 @@
               <% end %>
             </td>
             <td><%= Status.find(HorseStatus.find(horse.id).status_id).name %></td>
-            <td><%= horse.owner.name %></td>
-            <td><%= horse.trainer.name %></td>
+            <td><%= horse.owner.first_name %> <%= horse.owner.last_name %></td>
+            <td><%= horse.trainer.first_name %> <%= horse.trainer.last_name %></td>
             <td>
               <%= link_to 'Show', horse, :class => 'btn btn-success btn-xs'%>
               <% if current_user.admin? %>

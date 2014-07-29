@@ -1,0 +1,7 @@
+class AddLastNamePhoneNumber < ActiveRecord::Migration
+  def change
+  	rename_column :users, :name, :first_name
+  	add_column :users, :last_name, :string
+  	add_column :users, :phone, :string
+  end
+end

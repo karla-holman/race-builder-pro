@@ -44,8 +44,14 @@
               <% if @today > race.close_date %>
                 CLOSED
               <% else %>
-              <%= collection_select(:schedule, :horse_id, @horses,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id' }) %>
-              <% end %>
+                  <% @horse_list = Array.new()
+                    @horses.each do |horse|
+                      if Notification.where(:action => "Nominate", :recv_id => horse.id, :send_id => race.id).empty? && Horserace.where(:race_id => race.id, :horse_id => horse.id).empty?
+                        @horse_list.push(horse)
+                      end
+                    end %>
+                  <%= collection_select(:schedule, :horse_id, @horse_list,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
+                <% end %>
             </td>        
           </tr>
         <% end %>

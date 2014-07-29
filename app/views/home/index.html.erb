@@ -1,6 +1,6 @@
 <h2>
 	<% if !current_user.nil? %>
-		<%= current_user.name %>, 
+		<%= current_user.first_name %>, 
 	<% end %> 
 	Welcome to Race Builder Pro
 </h2>
@@ -45,7 +45,45 @@
 <div class="row">
 	<div class="col-xs-8">
 		<h4>Upcoming Races: </h4>
-		<% @races.order("race_datetime ASC").each do |race| %>
+		<% @next_races.order("race_datetime ASC").each do |race| %>
+			<a href="<%= race_path(race) %>">
+				<div class="col-xs-3 userbox well">
+					<h4><%= race.name %></h4>
+					<ul class="condition-list no-indent">
+						<li>Date: <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %></li>
+						<li>Conditions:
+							<% if race.conditions.any? %>
+								<ul class="condition-list no-indent">
+		              <% race.conditions.each do |condition| %>
+		                <%= condition.name %>
+		              <% end %>
+		            </ul>
+		          <% else %>
+		            None
+		          <% end %> 
+						</li>
+						<% if current_user.admin? %>
+							<li>Horses:
+								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
+								<% if horsestatuses.any? %>
+									<ul class="condition-list no-indent">
+										<% horsestatuses.each do |horsestatus| %>
+											<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
+										<% end %>
+			            </ul>
+			          <% else %>
+			            None
+			          <% end %>
+							</li>
+						<% end %>
+					</ul>
+				</div>
+			</a>
+		<% end %>
+	</div>
+	<div class="col-xs-8">
+		<h4>Last Weeks' Races: </h4>
+		<% @previous_races.order("race_datetime ASC").each do |race| %>
 			<a href="<%= race_path(race) %>">
 				<div class="col-xs-3 userbox well">
 					<h4><%= race.name %></h4>
@@ -82,7 +120,7 @@
 		<% end %>
 	</div>
 	<% if current_user.admin? %>
-		<div class="col-xs-4">
+		<div class="col-xs-3">
 			<h4>Pending Approvals</h4>
 			<ul class="condition-list no-indent">
 			<% @condition_requests.each do |notification| %>
@@ -93,19 +131,21 @@
 			<% end %>
 			</ul>
 		</div>
-		<div class="col-xs-4">
+		<div class="col-xs-3">
 			<h4>Nomination Requests</h4>
 			<ul class="condition-list no-indent">
 			<% @nominations.each do |notification| %>
-				<li>Nominate <%= Horse.find(notification.recv_id).name %> For <%= Race.find(notification.send_id).name %>
+				<% @race = Race.find(notification.send_id) %>
+				<li>Nominate <%= Horse.find(notification.recv_id).name %> For <%= @race.name %>
 					<%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
 					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+					<%= link_to 'View Race', @race, :class => 'btn btn-info  btn-xs' %>
 				</li>
 			<% end %>
 			</ul>
 		</div>
 	<% else %>
-		<div class="col-xs-4">
+		<div class="col-xs-3">
 			<h4>Race Suggestions</h4>
 			<ul class="condition-list no-indent">
 			<% @suggestions.each do |notification| %>

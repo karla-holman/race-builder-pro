@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     if params[:search]
-      @users = User.search(params[:search]).order("name ASC")
+      @users = User.search(params[:search]).order("last_name ASC")
     else
       @users = User.all
     end    
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 
   def create
     if current_user.admin?
-      @newuser = User.new(:email => secure_params[:email], :password => secure_params[:password], :name => secure_params[:name], :role => secure_params[:role])
+      @newuser = User.new(:email => secure_params[:email], :password => secure_params[:password], :first_name => secure_params[:first_name], :last_name => secure_params[:last_name], :phone => secure_params[:phone], :role => secure_params[:role])
       if @newuser.save
         flash[:notice] = "Successfully created User." 
         redirect_to users_path
@@ -78,7 +78,7 @@ class UsersController < ApplicationController
   private
 
   def secure_params
-    params.require(:user).permit(:role, :name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:role, :first_name, :last_name, :phone, :email, :password, :password_confirmation)
   end
 
 end

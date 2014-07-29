@@ -78,6 +78,13 @@ class NotificationsController < ApplicationController
       HorseCondition.where(:horse_id => @notification.send_id, :condition_id => @notification.recv_id).delete_all
     elsif @notification.action == "Remove"
       HorseCondition.find_or_create_by!(:horse_id => @notification.send_id, :condition_id => @notification.recv_id)
+    elsif @notification.action == "Nominate"
+      horserace = Horserace.new
+      horserace.horse_id = @notification.recv_id
+      horserace.race_id = @notification.send_id
+      horserace.status = 'Denied'
+      horserace.save
+    else
     end
 
     @notification.destroy

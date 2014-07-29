@@ -1,5 +1,10 @@
 <div class="row">
   <div class="col-xs-12">
+    <ol class="breadcrumb">
+      <li><%= link_to 'Meet List', meets_path %></li>
+      <li><%= link_to @meet.name, @meet %></li>
+      <li class="active">Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></li>
+    </ol>
     <h1>Race Database For The Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></h1>
     <div class="col-xs-3 well userbox">
       <%= link_to "Friday Tel "+@friday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/friday'%>

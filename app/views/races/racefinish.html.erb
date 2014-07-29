@@ -38,8 +38,8 @@
             		<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
             	<% end %>
             </td>
-            <td><%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.name, o.id]}, horse.owner.id), :class => 'transferOwner', :horse => horse.id%></td>
-            <td><%= select_tag "Transfer Trainer", options_for_select(@trainers.collect{ |o| [o.name, o.id]}, horse.trainer.id), :class => 'transferTrainer', :horse => horse.id %></td>
+            <td><%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.first_name + ' ' + o.last_name, o.id]}, horse.owner.id), :class => 'transferOwner', :horse => horse.id%></td>
+            <td><%= select_tag "Transfer Trainer", options_for_select(@trainers.collect{ |o| [o.first_name + ' ' + o.last_name, o.id]}, horse.trainer.id), :class => 'transferTrainer', :horse => horse.id %></td>
           </tr>
         <% end %>
       </tbody>

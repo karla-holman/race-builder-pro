@@ -22,19 +22,36 @@ class RacesController < ApplicationController
   # GET /races/1.json
   def show
     confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched").pluck(:horse_id)
-    @confirmed = Horse.where("id IN (?)", confirmed_ids)
-    @categories = Category.all - Category.where(:datatype => "Bool")
     interested_ids = Horserace.where(:race_id => @race.id, :status => "Interested").pluck(:horse_id)
+    denied_ids = Horserace.where(:race_id => @race.id, :status => "Denied").pluck(:horse_id)
+    pending_ids = Notification.where(:action => "Nominate", :send_id => @race.id).pluck(:recv_id)
+    @confirmed = Horse.where("id IN (?)", confirmed_ids)
     @interested = Horse.where("id IN (?)", interested_ids)
+    @denied = Horse.where("id IN (?)", denied_ids)
+    @pending = Horse.where("id IN (?)", pending_ids)
+    @categories = Category.all - Category.where(:datatype => "Bool")
     
-    if @confirmed.empty? && @interested.empty?
+    if @race.race_type == 'Stakes'
       possible_horses = Horse.all
-    elsif @confirmed.empty?
-      possible_horses = Horse.where("id not IN (?)", interested_ids)
-    elsif @interested.empty?
-      possible_horses = Horse.where("id not IN (?)", confirmed_ids)
+      if !@confirmed.empty?
+        possible_horses = possible_horses.where("id not IN (?)", confirmed_ids)
+      end
+      if !@pending.empty?
+        possible_horses = possible_horses.where("id not IN (?)", pending_ids)
+      end
+      if !@denied.empty?
+        possible_horses = possible_horses.where("id not IN (?)", denied_ids)
+      end
     else
-      possible_horses = Horse.where("id not IN (?) and id not IN (?)", confirmed_ids, interested_ids)
+      if @confirmed.empty? && @interested.empty?
+        possible_horses = Horse.all
+      elsif @confirmed.empty?
+        possible_horses = Horse.where("id not IN (?)", interested_ids)
+      elsif @interested.empty?
+        possible_horses = Horse.where("id not IN (?)", confirmed_ids)
+      else
+        possible_horses = Horse.where("id not IN (?) and id not IN (?)", confirmed_ids, interested_ids)
+      end
     end
 
     @horse_ids = Array.new()
@@ -86,7 +103,12 @@ class RacesController < ApplicationController
     if @horse_ids.any?
       @eligible = Horse.where("id IN (?)", @horse_ids)
     end
-    @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
+
+    if @race.race_type == 'Stakes'
+      @race_groups = [["Confirmed", @confirmed], ["Pending", @pending], ["Denied", @denied], ["Eligible", @eligible]]
+    else
+      @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
+    end
   end
 
   # GET /races/new
@@ -327,7 +349,7 @@ class RacesController < ApplicationController
     end
 
     if @race_ids.any?
-      @races = Race.where("id IN (?)", @race_ids)
+      @races = Race.where("id IN (?) AND race_type = 'Alternate'", @race_ids)
     end
 
     @ageList = Condition.where(:category_id => Category.find_by_name("Age"))
@@ -435,6 +457,10 @@ class RacesController < ApplicationController
       format.html { redirect_to races_url }
       format.json { head :no_content }
     end
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
   private

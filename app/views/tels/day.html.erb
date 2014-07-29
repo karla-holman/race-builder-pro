@@ -1,4 +1,9 @@
 <div class="row">
+  <ol class="breadcrumb">
+    <li><%= link_to 'Meet List', meets_path %></li>
+    <li><%= link_to @meet.name, @meet %></li>
+    <li class="active">Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></li>
+  </ol>
   <div class="col-xs-6">
     <h2>Eligible <%= @day %> Races</h2>
     <div id="tel-id" data-tel="<%= @tel.id %>"></div>
