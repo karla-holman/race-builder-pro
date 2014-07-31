@@ -26,15 +26,15 @@ races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-08-01 12:00:0
 		[3, 'Open Race Claiming $8,000', '', '2014-08-01 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 6000, 2000, '2014-07-27 12:00:00'], 
 		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-08-01 12:00:00', 'Draft', "Protocol", 'Miles', 1, 10000, 13000, '2014-07-29 12:00:00'], 
 		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-08-02 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 6000, 7600, '2014-07-29 12:00:00'],
-		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-08-02 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 2500, 1500, '2014-07-29 12:00:00'],
+		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-08-02 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 2500, 1500, '2014-07-31 12:00:00'],
 		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-08-02 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 3600, 5000, '2014-07-29 12:00:00'],
 		[8, 'Maiden Claiming Purse $19,975', '(Maiden, 2YO)','2014-08-02 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 7000, 9000,'2014-07-29 12:00:00'], 
 		[9, 'Washington Maiden Claiming Purse $17,875', '(washington bred)', '2014-08-03 12:00:00', 'Published', "Alternate", 'Furlongs', 6, 5000, 7000, '2014-07-30 12:00:00'], 
 		[10, 'Open Race Claiming $18,000', '', '2014-08-03 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 8999, 11000, '2014-07-30 12:00:00'], 
-		[11, 'NW2 Claiming $17,500', '(NW2)', '2014-08-03 12:00:00', 'Draft', "Protocol", 'Miles', 1, 3100, 6000, '2014-07-30 12:00:00'], 
-		[12, 'Cahill Road $500,000', '3+','2014-08-03 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 14000, 10000, '2014-07-30 12:00:00'],
+		[11, 'NW2 Claiming $17,500', '(NW2)', '2014-08-03 12:00:00', 'Draft', "Protocol", 'Miles', 1, 3100, 6000, '2014-07-31 12:00:00'], 
+		[12, 'Cahill Road $500,000', '3+','2014-08-03 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 14000, 10000, '2014-07-31 12:00:00'],
 		[13, 'WA State Legislators Stakes $325,000', '3YO, F/M, WA', '2014-08-03 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 4200, 8000, '2014-07-30 12:00:00'],
-		[14, 'Hastings Stakes $715,000', '2YO WA', '2014-08-03 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 1800, 16000, '2014-07-30 12:00:00']]
+		[14, 'Hastings Stakes $715,000', '2YO WA', '2014-08-03 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 1800, 16000, '2014-07-31 12:00:00']]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Owner Email, Trainer Email]
 horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],

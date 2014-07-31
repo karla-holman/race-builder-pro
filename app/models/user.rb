@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   end
 
   def self.search(query)
-  	where("lower(first_name) like ? OR lower(email) like ? OR lower(last_name) like ?", "%#{query}%".downcase, "%#{query}%".downcase, "%#{query}%".downcase)
+  	where("lower(name) like ? OR lower(email) like ?", "%#{query}%".downcase, "%#{query}%".downcase)
 	end
 
   def after_sign_in

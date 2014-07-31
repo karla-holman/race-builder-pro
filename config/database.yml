@@ -32,22 +32,22 @@ development:
   encoding: unicode
   database: rbp_development
   pool: 5
-  username: postgres
-  password:	newo#1988
+  username: kwalter
+  password:	paradise1
    
 test:
   adapter: postgresql
   encoding: unicode
   database: rbp_test
   pool: 5
-  username: postgres
-  password: newo#1988
+  username: kwalter
+  password: paradise1
 
 production:
   adapter: postgresql
   encoding: unicode
   database: rbp_production
   pool: 5
-  username: postgres
-  password: newo#1988
+  username: kwalter
+  password: paradise1
 
