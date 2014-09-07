@@ -10,6 +10,9 @@ class Horse < ActiveRecord::Base
 	has_many :horseraces
 	has_many :races, :through => :horseraces
 
+	has_many :horse_meets
+	has_many :meets, :through => :horse_meets
+
 	has_many :race_winners
 
 	belongs_to :owner, class_name: 'User'

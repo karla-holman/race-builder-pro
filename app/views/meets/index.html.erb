@@ -8,6 +8,7 @@
       <thead>
         <tr>
           <th>Name</th>
+          <th>Race Days</th>
           <th>Start Date</th>
           <th>End Date</th>
           <th colspan="1"></th>
@@ -17,6 +18,7 @@
         <% @meets.each do |meet| %>
           <tr>
             <td><%= meet.name %></td>
+            <td><%= meet.race_days %></td>
             <td><%= meet.start_date.strftime('%b %d, %Y') %></td>
             <td><%= meet.end_date.strftime('%b %d, %Y') %></td>
             <td>

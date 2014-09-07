@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :horse_meets
+
   resources :meets
 
   resources :notifications

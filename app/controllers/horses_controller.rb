@@ -58,6 +58,18 @@ class HorsesController < ApplicationController
       end
     end
 
+    meet = Meet.all.order('start_date DESC').first
+    horsemeet = @horse.horse_meets.where(:meet_id => meet.id)
+    weeks = (meet.end_date.to_date - meet.start_date.to_date).to_i / 7
+
+    if horsemeet.empty?
+      puts @horse.week_running
+      @startsLeft = (weeks/@horse.week_running).floor   
+    else
+      @startsLeft = (weeks/@horse.week_running).floor - horsemeet.starts
+    end
+
+
     if @race_ids.any?
       @races = Race.where("id IN (?)", @race_ids)
     end

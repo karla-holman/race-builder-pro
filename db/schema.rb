@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731061134) do
+ActiveRecord::Schema.define(version: 20140907185651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,14 @@ ActiveRecord::Schema.define(version: 20140731061134) do
     t.datetime "updated_at"
   end
 
+  create_table "horse_meets", force: true do |t|
+    t.integer  "horse_id"
+    t.integer  "meet_id"
+    t.integer  "starts"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "horse_statuses", force: true do |t|
     t.integer  "horse_id"
     t.integer  "status_id"
@@ -88,6 +96,7 @@ ActiveRecord::Schema.define(version: 20140731061134) do
     t.date     "last_win"
     t.decimal  "last_claiming_level"
     t.string   "URL"
+    t.integer  "week_running"
   end
 
   add_index "horses", ["name"], name: "index_horses_on_name", unique: true, using: :btree
@@ -98,6 +107,7 @@ ActiveRecord::Schema.define(version: 20140731061134) do
     t.datetime "updated_at"
     t.datetime "start_date"
     t.datetime "end_date"
+    t.integer  "race_days"
   end
 
   create_table "notifications", force: true do |t|
@@ -158,6 +168,7 @@ ActiveRecord::Schema.define(version: 20140731061134) do
     t.datetime "updated_at"
     t.datetime "weekend_start"
     t.integer  "meet_id"
+    t.integer  "week_number"
   end
 
   create_table "users", force: true do |t|

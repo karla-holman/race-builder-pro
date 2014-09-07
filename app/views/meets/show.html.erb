@@ -7,8 +7,9 @@
 		<div class="row">
 			<div class="col-xs-12 ">
 				<h1><%= @meet.name %></h1>
-				<h4>Start Date: <%= @meet.start_date.strftime('%b %d, %Y') %>  
-				End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></h4>
+				<h4><%= @meet.race_days %> days</h4>
+				<h4>Start Date: <%= @meet.start_date.strftime('%b %d, %Y') %></h4>
+				<h4>End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></h4>
 			</div>
 			<div class="col-xs-12">
 				<% if current_user.admin? %>
@@ -23,6 +24,7 @@
 			<table class="table table-condensed table-hover generic-table">
 				<thead>
 					<tr>
+						<th>Week Number</th>
 						<th>Weekend Of</th>
 						<th colspan="1"></th>
 					</tr>
@@ -30,6 +32,7 @@
 				<tbody>
 				<% @tels.each do |tel| %>
         	<tr>
+        	<td><%= tel.week_number %></td>
           	<td><%= tel.weekend_start.strftime('%b %d, %Y') %></td>
           	<td>
           	<%= link_to 'Show', tel, :class => 'btn btn-primary btn-xs' %>

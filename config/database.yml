@@ -34,7 +34,7 @@ development:
   pool: 5
   username: postgres
   password:	newo#1988
-   
+
 test:
   adapter: postgresql
   encoding: unicode
