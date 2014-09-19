@@ -9,155 +9,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="" name="description">
     <meta content="" name="author">
-    <link href="assets/plugins/jquery-metrojs/MetroJs.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="assets/plugins/shape-hover/css/demo.css" />
-    <link rel="stylesheet" type="text/css" href="assets/plugins/shape-hover/css/component.css" />
-    <link rel="stylesheet" type="text/css" href="assets/plugins/owl-carousel/owl.carousel.css" />
-    <link rel="stylesheet" type="text/css" href="assets/plugins/owl-carousel/owl.theme.css" />
-    <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link href="assets/plugins/jquery-slider/css/jquery.sidr.light.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="/assets/plugins/jquery-metrojs/MetroJs.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/assets/plugins/shape-hover/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/plugins/shape-hover/css/component.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/plugins/owl-carousel/owl.carousel.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/plugins/owl-carousel/owl.theme.css" />
+    <link href="/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="/assets/plugins/jquery-slider/css/jquery.sidr.light.css" rel="stylesheet" type="text/css" media="screen"/>
     <link rel="stylesheet" href="assets/plugins/jquery-ricksaw-chart/css/rickshaw.css" type="text/css" media="screen" >
     <link rel="stylesheet" href="assets/plugins/Mapplic/mapplic/mapplic.css" type="text/css" media="screen" >
     <!-- BEGIN CORE CSS FRAMEWORK -->
-    <link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css"/>
     <!-- END CORE CSS FRAMEWORK -->
     <!-- BEGIN CSS TEMPLATE -->
-    <link href="assets/css/themes/simple/style.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/themes/simple/responsive.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
-    <link href="assets/css/magic_space.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/themes/simple/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/themes/simple/responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/magic_space.css" rel="stylesheet" type="text/css"/>
     <!-- END CSS TEMPLATE -->
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Race Builder Pro" %>">
     <%= csrf_meta_tags %>
   </head>
   <body class="">
-    <div class="header navbar navbar-inverse ">
-      <!-- BEGIN TOP NAVIGATION BAR -->
-      <div class="navbar-inner">
-        <div class="header-seperation">
-          <ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">
-            <li class="dropdown"> <a id="main-menu-toggle" href="#main-menu"  class="" >
-              <div class="iconset top-menu-toggle-white"></div>
-              </a> </li>
-          </ul>
-          <!-- BEGIN LOGO -->
-          <a href="index.html"><h2>Race Builder Pro</h2><!-- <img src="assets/img/logo.png" class="logo" alt=""  data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21"/> --></a>
-          <!-- END LOGO -->
-        </div>
-        <!-- END RESPONSIVE MENU TOGGLER -->
-        <div class="header-quick-nav" >
-          <!-- BEGIN TOP NAVIGATION MENU -->
-          <div class="pull-left">
-            <ul class="nav quick-section">
-              <li class="quicklinks"> <a href="#" class="" id="layout-condensed-toggle" >
-                <div class="iconset top-menu-toggle-dark"></div>
+      <div class="header navbar navbar-inverse ">
+        <!-- BEGIN TOP NAVIGATION BAR -->
+        <div class="navbar-inner">
+          <div class="header-seperation">
+            <ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">
+              <li class="dropdown"> <a id="main-menu-toggle" href="#main-menu"  class="" >
+                <div class="iconset top-menu-toggle-white"></div>
                 </a> </li>
             </ul>
-            <ul class="nav quick-section">
-              <li class="quicklinks"> <a href="#" class="" >
-                <div class="iconset top-reload"></div>
-                </a> </li>
-            </ul>
+            <!-- BEGIN LOGO -->
+            <a href="index.html"><h2>Race Builder Pro</h2><!-- <img src="assets/img/logo.png" class="logo" alt=""  data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21"/> --></a>
+            <!-- END LOGO -->
           </div>
-          <!-- END TOP NAVIGATION MENU -->
-          <!-- BEGIN CHAT TOGGLER -->
-          <div class="pull-right">
-            <div class="chat-toggler"> <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notifications">
-              <div class="user-details">
-                <div class="username"> <span class="badge badge-important">3</span> Owen <span class="bold">Hope</span> </div>
+          <% if user_signed_in? %>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <div class="header-quick-nav" >
+              <!-- BEGIN TOP NAVIGATION MENU -->
+              <div class="pull-left">
+                <ul class="nav quick-section">
+                  <li class="quicklinks"> <a href="#" class="" id="layout-condensed-toggle" >
+                    <div class="iconset top-menu-toggle-dark"></div>
+                    </a> </li>
+                </ul>
+                <ul class="nav quick-section">
+                  <li class="quicklinks"> <a href="#" class="" >
+                    <div class="iconset top-reload"></div>
+                    </a> </li>
+                </ul>
               </div>
-              <div class="iconset top-down-arrow"></div>
-              </a>
-              <div id="notification-list" style="display:none">
-                <div style="width:300px">
-                  <div class="notification-messages info">
-                    <div class="user-profile"> <img src="assets/img/profiles/d.jpg"  alt="" data-src="assets/img/profiles/d.jpg" data-src-retina="assets/img/profiles/d2x.jpg" width="35" height="35"> </div>
-                    <div class="message-wrapper">
-                      <div class="heading"> David Nester - Commented on your wall </div>
-                      <div class="description"> Meeting postponed to tomorrow </div>
-                      <div class="date pull-left"> A min ago </div>
-                    </div>
-                    <div class="clearfix"></div>
+              <!-- END TOP NAVIGATION MENU -->
+              <!-- BEGIN CHAT TOGGLER -->
+              <div class="pull-right">
+                <div class="chat-toggler"> <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notifications">
+                  <div class="user-details">
+                    <div class="username"> <span class="badge badge-important">3</span> Owen <span class="bold">Hope</span> </div>
                   </div>
-                  <div class="notification-messages danger">
-                    <div class="iconholder"> <i class="icon-warning-sign"></i> </div>
-                    <div class="message-wrapper">
-                      <div class="heading"> Server load limited </div>
-                      <div class="description"> Database server has reached its daily capicity </div>
-                      <div class="date pull-left"> 2 mins ago </div>
+                  <div class="iconset top-down-arrow"></div>
+                  </a>
+                  <div id="notification-list" style="display:none">
+                    <div style="width:300px">
+                      <div class="notification-messages info">
+                        <div class="user-profile"> <img src="assets/img/profiles/d.jpg"  alt="" data-src="assets/img/profiles/d.jpg" data-src-retina="assets/img/profiles/d2x.jpg" width="35" height="35"> </div>
+                        <div class="message-wrapper">
+                          <div class="heading"> David Nester - Commented on your wall </div>
+                          <div class="description"> Meeting postponed to tomorrow </div>
+                          <div class="date pull-left"> A min ago </div>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="notification-messages danger">
+                        <div class="iconholder"> <i class="icon-warning-sign"></i> </div>
+                        <div class="message-wrapper">
+                          <div class="heading"> Server load limited </div>
+                          <div class="description"> Database server has reached its daily capicity </div>
+                          <div class="date pull-left"> 2 mins ago </div>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="notification-messages success">
+                        <div class="user-profile"> <img src="assets/img/profiles/h.jpg"  alt="" data-src="assets/img/profiles/h.jpg" data-src-retina="assets/img/profiles/h2x.jpg" width="35" height="35"> </div>
+                        <div class="message-wrapper">
+                          <div class="heading"> You haveve got 150 messages </div>
+                          <div class="description"> 150 newly unread messages in your inbox </div>
+                          <div class="date pull-left"> An hour ago </div>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
                     </div>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="notification-messages success">
-                    <div class="user-profile"> <img src="assets/img/profiles/h.jpg"  alt="" data-src="assets/img/profiles/h.jpg" data-src-retina="assets/img/profiles/h2x.jpg" width="35" height="35"> </div>
-                    <div class="message-wrapper">
-                      <div class="heading"> You haveve got 150 messages </div>
-                      <div class="description"> 150 newly unread messages in your inbox </div>
-                      <div class="date pull-left"> An hour ago </div>
-                    </div>
-                    <div class="clearfix"></div>
                   </div>
                 </div>
               </div>
+              <!-- END CHAT TOGGLER -->
             </div>
-          </div>
-          <!-- END CHAT TOGGLER -->
+          <% end %>
+          <!-- END TOP NAVIGATION MENU -->
         </div>
-        <!-- END TOP NAVIGATION MENU -->
+        <!-- END TOP NAVIGATION BAR -->
       </div>
-      <!-- END TOP NAVIGATION BAR -->
-    </div>
     <!-- BEGIN CONTAINER -->
     <div class="page-container row-fluid">
       <!-- BEGIN SIDEBAR -->
-      <div class="page-sidebar" id="main-menu">
-        <!-- BEGIN MINI-PROFILE -->
-        <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
-          <div class="user-info-wrapper">
-            <div class="profile-wrapper"> <!-- <img src="assets/img/profiles/avatar.jpg"  alt="" data-src="assets/img/profiles/avatar.jpg" data-src-retina="assets/img/profiles/avatar2x.jpg" width="69" height="69" /> --> </div>
-            <div class="user-info">
-              <div class="greeting">Welcome</div>
-              <div class="username">Owen <span class="semi-bold">Hope</span></div>
-              <div class="status">Status<a href="#">
-                <div class="status-icon green"></div>
-                Online</a></div>
+      <% if user_signed_in? %>
+        <div class="page-sidebar" id="main-menu">
+          <!-- BEGIN MINI-PROFILE -->
+          <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
+            <div class="user-info-wrapper">
+              <div class="profile-wrapper"> <!-- <img src="assets/img/profiles/avatar.jpg"  alt="" data-src="assets/img/profiles/avatar.jpg" data-src-retina="assets/img/profiles/avatar2x.jpg" width="69" height="69" /> --> </div>
+              <div class="user-info">
+                <div class="greeting">Welcome</div>
+                <div class="username">Owen <span class="semi-bold">Hope</span></div>
+                <div class="status">Status<a href="#">
+                  <div class="status-icon green"></div>
+                  Online</a></div>
+              </div>
             </div>
+            <!-- END MINI-PROFILE -->
+            <!-- BEGIN SIDEBAR MENU -->
+            <p class="menu-title">Admin <span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
+            <ul>
+              <li class=""> <a href="widgets.html"> <i class="fa fa-th"></i> <span class="title">Dashboard</span></a> </li>
+              <li class=""> <a href="widgets.html"> <i class="fa fa-th"></i> <span class="title">Stable</span></a></li>
+              <li class=""> <a href="javascript:;"> <i class="fa fa-th"></i> <span class="title">Schedule</span> <span class="arrow "></span> </a>
+                <ul class="sub-menu">
+                  <li > <a href="grids_simple.html">Option #1</a> </li>
+                  <li > <a href="grids_draggable.html">Option #2 </a> </li>
+                </ul>
+              </li>
+              <li class=""> <a href="javascript:;"> <i class="fa fa-th"></i> <span class="title">Options</span> <span class="arrow "></span> </a>
+                <ul class="sub-menu">
+                  <li > <a href="grids_simple.html">Option #1</a> </li>
+                  <li > <a href="grids_draggable.html">Option #2 </a> </li>
+                </ul>
+              </li>
+            </ul>
+            <div class="clearfix"></div>
+            <!-- END SIDEBAR MENU -->
           </div>
-          <!-- END MINI-PROFILE -->
-          <!-- BEGIN SIDEBAR MENU -->
-          <p class="menu-title">Admin <span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
-          <ul>
-            <li class=""> <a href="widgets.html"> <i class="fa fa-th"></i> <span class="title">Dashboard</span></a> </li>
-            <li class=""> <a href="widgets.html"> <i class="fa fa-th"></i> <span class="title">Stable</span></a></li>
-            <li class=""> <a href="javascript:;"> <i class="fa fa-th"></i> <span class="title">Schedule</span> <span class="arrow "></span> </a>
-              <ul class="sub-menu">
-                <li > <a href="grids_simple.html">Option #1</a> </li>
-                <li > <a href="grids_draggable.html">Option #2 </a> </li>
-              </ul>
-            </li>
-            <li class=""> <a href="javascript:;"> <i class="fa fa-th"></i> <span class="title">Options</span> <span class="arrow "></span> </a>
-              <ul class="sub-menu">
-                <li > <a href="grids_simple.html">Option #1</a> </li>
-                <li > <a href="grids_draggable.html">Option #2 </a> </li>
-              </ul>
-            </li>
-          </ul>
-          <div class="clearfix"></div>
-          <!-- END SIDEBAR MENU -->
         </div>
-      </div>
-      <div class="footer-widget">
-        <div class="progress transparent progress-small no-radius no-margin">
-          <div data-percentage="79%" class="progress-bar progress-bar-success animate-progress-bar" ></div>
+        <div class="footer-widget">
+          <div class="progress transparent progress-small no-radius no-margin">
+            <div data-percentage="79%" class="progress-bar progress-bar-success animate-progress-bar" ></div>
+          </div>
+          <div class="pull-right">
+            <div class="details-status"> <span data-animation-duration="560" data-value="86" class="animate-number"></span>% </div>
+            <a href="lockscreen.html"><i class="fa fa-power-off"></i></a></div>
         </div>
-        <div class="pull-right">
-          <div class="details-status"> <span data-animation-duration="560" data-value="86" class="animate-number"></span>% </div>
-          <a href="lockscreen.html"><i class="fa fa-power-off"></i></a></div>
-      </div>
+      <% end %>
       <!-- END SIDEBAR -->
       <!-- BEGIN PAGE CONTAINER-->
       <div class="page-content">
