@@ -1,32 +1,18 @@
 <%= form_for(@horse)  do |f| %>
-  <% if @horse.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@horse.errors.count, "error") %> prohibited this horse condition from being saved:</h2>
-    <ul>
-    <% @horse.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
-  <% end %>
-  <div class="form-group">
-    <div class="form-group">
-      <ul class="condition-list no-indent">
-        <% @categories.each do |category| %>
-          <li><%= category.name %>
-            <ul class="condition-list">
-            <% category.conditions.each do |condition| %>
-              <%= hidden_field_tag 'horse[condition_ids][]', nil %>
-              <% if Notification.where(:send_id => @horse.id, :recv_id => condition.id).any? %>
-                <li><%= condition.name %> Pending Approval</li>
-              <% else %>
-                <li><%= check_box_tag "horse[condition_ids][]", condition.id, @horse.conditions.include?(condition) %> <%= condition.name %> </li>
-              <% end %>
-            <% end %>
-            </ul>
-          </li>
+<ul class="condition-list">
+  <% @categories.each do |category| %>
+    <li><%= category.name %>
+      <ul class="condition-list">
+      <% category.conditions.each do |condition| %>
+        <%= hidden_field_tag 'horse[condition_ids][]', nil %>
+        <% if Notification.where(:send_id => @horse.id, :recv_id => condition.id).any? %>
+          <li><%= condition.name %> Pending Approval</li>
+        <% else %>
+          <li><%= check_box_tag "horse[condition_ids][]", condition.id, @horse.conditions.include?(condition) %> <%= condition.name %> </li>
         <% end %>
+      <% end %>
       </ul>
-    </div>
-  </div>
+    </li>
+  <% end %>
+</ul>
 <% end %>

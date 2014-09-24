@@ -1,68 +1,75 @@
+<div class="page-title">
+<% if current_user.admin? %>
+  <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-cons' %>
+<% end %>
+<h3><%= current_user.name %>'s Stable</h3>
+</div>
 <div class="row">
-  <div class="col-xs-12">
-    <h1><%= current_user.name %>'s Stable</h1>
-    <% if current_user.admin? %>
-      <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-xs' %>
-    <% end %>
-    <table id="stable-table" class="table table-condensed table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>POB</th>
-          <th>Gender</th>
-          <th>Age</th>
-          <th>Firsts</th>
-          <th>Last Claiming Level</th>
-          <th>Status</th>
-          <th>Owner</th>
-          <th>Trainer</th>
-          <th colspan="1"></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @horses.each do |horse| %>
-          <tr class="top"  data-toggle="tooltip" data-placement="right" title="
-            Conditions: 
-            <% if horse.conditions.any?
-              horse.conditions.each do |condition| %>
-                <%= condition.name %>
-              <% end %>
-            <% else %>
-              None
-            <% end %>">
-            <td><%= horse.name %></td>
-            <td><%= horse.POB %></td>
-            <td><%= horse.gender %></td>
-            <td>
-             <% def age(dob)
-                now = Time.now.utc.to_date
-                now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-              end %>
-              <%= age(horse.DOB.to_date) %>
-            </td>
-            <td><%= horse.firsts %></td>
-            <td>
-              <% if horse.last_claiming_level? %>
-                <%= number_to_currency(horse.last_claiming_level, precision: 2) %>
-              <% else %>
-                <%= number_to_currency(0, precision: 2) %>
-              <% end %>
-            </td>
-            <td><%= Status.find(HorseStatus.find(horse.id).status_id).name %></td>
-            <td><%= horse.owner.name %></td>
-            <td><%= horse.trainer.name %></td>
-            <td>
-              <%= link_to 'Show', horse, :class => 'btn btn-success btn-xs'%>
-              <% if current_user.admin? %>
-                <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-                <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
-              <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="col-md-12">
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+          <div class="col-md-12">
+            <table id="stable-table" class="table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>POB</th>
+                  <th>Gender</th>
+                  <th>Age</th>
+                  <th>Firsts</th>
+                  <th>Last Claiming Level</th>
+                  <th>Status</th>
+                  <th>Owner</th>
+                  <th>Trainer</th>
+                  <th colspan="1"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @horses.each do |horse| %>
+                  <tr class="top"  data-toggle="tooltip" data-placement="right" title="
+                    Conditions: 
+                    <% if horse.conditions.any?
+                      horse.conditions.each do |condition| %>
+                        <%= condition.name %>
+                      <% end %>
+                    <% else %>
+                      None
+                    <% end %>">
+                    <td><%= horse.name %></td>
+                    <td><%= horse.POB %></td>
+                    <td><%= horse.gender %></td>
+                    <td>
+                     <% def age(dob)
+                        now = Time.now.utc.to_date
+                        now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+                      end %>
+                      <%= age(horse.DOB.to_date) %>
+                    </td>
+                    <td><%= horse.firsts %></td>
+                    <td>
+                      <% if horse.last_claiming_level? %>
+                        <%= number_to_currency(horse.last_claiming_level, precision: 2) %>
+                      <% else %>
+                        <%= number_to_currency(0, precision: 2) %>
+                      <% end %>
+                    </td>
+                    <td><%= Status.find(HorseStatus.find(horse.id).status_id).name %></td>
+                    <td><%= horse.owner.name %></td>
+                    <td><%= horse.trainer.name %></td>
+                    <td>
+                      <%= link_to 'Show', horse, :class => 'btn btn-success btn-xs'%>
+                      <% if current_user.admin? %>
+                        <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+                        <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
+                      <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-

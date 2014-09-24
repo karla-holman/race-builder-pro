@@ -1,0 +1,1 @@
+$('#conditionPartial').empty().append('<%= j render "condition" %>')

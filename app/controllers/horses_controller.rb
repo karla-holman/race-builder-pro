@@ -1,5 +1,5 @@
 class HorsesController < ApplicationController
-  before_action :set_horse, only: [:show, :edit, :update, :destroy, :profile]
+  before_action :set_horse, only: [:show, :edit, :update, :destroy, :profile, :raceList]
 
   # GET /horses
   # GET /horses.json
@@ -69,6 +69,10 @@ class HorsesController < ApplicationController
       @startsLeft = (weeks/@horse.week_running).floor - horsemeet.starts
     end
 
+    confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
+    if confirmed_race.any?
+      @confirmed = true
+    end
 
     if @race_ids.any?
       @races = Race.where("id IN (?)", @race_ids)
@@ -137,14 +141,39 @@ class HorsesController < ApplicationController
       if @horse.update(horse_params)
         if !horse_params[:condition_ids]
           @horse.create_activity :update, owner: current_user
+          format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
+          format.json { render action: 'index', status: :ok, location: @horse }
+        else
+          @categories = Category.where(:datatype => "Bool")
+          format.js
         end
-        format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
-        format.json { render action: 'index', status: :ok, location: @horse }
+
       else
         format.html { render action: 'edit' }
         format.json { render json: @horse.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def raceList
+    @race_ids = Array.new()
+    @horse.races.all.each do |race|
+      @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id)
+      if @horserace.status == "Confirmed"
+        @comfirmed = true
+      end
+      if @horserace.status == "Interested" || @horserace.status == "Confirmed"
+        @race_ids.push (race.id)
+      end
+    end
+    if @race_ids.any?
+      @races = Race.where("id IN (?)", @race_ids)
+    end
+
+    respond_to do |format|
+      format.js
+    end
+
   end
 
   # DELETE /horses/1

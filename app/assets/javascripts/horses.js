@@ -28,22 +28,13 @@ $(document).ready(function() {
 
   $('#racestatus-table').dataTable({
     sPaginationType: "full_numbers",
+    searching: false,
+    info: false
 		"fnDrawCallback": function( oSettings ) {
 			$(".edit_horserace").change(function(){
-				if($('#confirm_racestatus').is(":checked")) {
-					message = confirm("Once you confirm for a race there is no unconfirm, do you still want to confirm for this race?");
-					if(!message) {
-						location.reload(true);
-						return false;
-					}
-					else{
-						form = $(this).closest("form");
-						attemptUpdate(form);
-						return false;
-					} 
-				}
 				form = $(this).closest("form");
 				attemptUpdate(form);
+				location.reload()
 				return false;
 			});
 		}
@@ -63,7 +54,6 @@ $(document).ready(function() {
 		return false
 	});
 
-	//function to try and submit form, currently will reload page after a successful submit
 	function attemptUpdate(f){
 	  $.ajax({
 	    type: "POST",
@@ -73,8 +63,7 @@ $(document).ready(function() {
 	  {
 	    if(data.success)
 	    {
-	    	//(f).spin(false);
-	      location.reload(true);
+	    	(f).spin(false);
 	    }
 	    else
 	    {

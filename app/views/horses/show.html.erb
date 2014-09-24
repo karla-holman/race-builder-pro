@@ -1,55 +1,58 @@
+<ul class="breadcrumb">
+	<li><%= link_to 'Stable', horses_path %></li>
+	<li class="active"><%= @horse.name %>
+	<li><%= link_to 'Go To Race Menu', races_menu_path(:horse_id => @horse.id) %></li>
+</ul>
 <div class="row">
-	<div class="col-xs-3 horse-info-list-group">
-		<h4>Conditions:</h4>
-		<%= render 'condition' %>
-	</div>
-	<div class="col-xs-6">
-		<div class="row">
-			<ol class="breadcrumb">
-			  <li><%= link_to 'Stable', horses_path %></li>
-			  <li class="active"><%= @horse.name %>
-			  <li><%= link_to 'Go To Race Menu', races_menu_path(:horse_id => @horse.id) %></li>
-			</ol>
-			<div class="col-xs-12 horse-info">
-				<h1><%= @horse.name %> (<%= @horse.POB %>)</h1>
-				<% if @horse.DOB? %>
-		            <h4><%= @horse.DOB.to_time.strftime('%b %d, %Y') %></h4>
-				<% end %>
-				<h4><%= @horse.week_running %> Week Running</h4>
-				<h4><%= @startsLeft %> Starts Left</h4>
-				<h4>(<%= @horse.starts %>-<%= @horse.firsts %>)</h4>
-			</div>
-			<div class="col-xs-12">
-				<table id="racestatus-table" class="table table-condensed table-hover">
-					<thead>
-						<tr>
-							<th>Name</th>
-							<th>Race Description</th>
-							<th>Total #</th>
-							<th>I/C</th>
-						</tr>
-					</thead>
-					<tbody id="race-list">
-						<% if @races %>
-							<%= render 'races' %>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-3">
-		<div class="horse-info-list-group edit_status">
-			<h4>Status:</h4>
-			<%= render 'status' %>
-		</div>
-		<div class="horse-info-list-group">
-			<h4>Last Win: </h4>
-			<%= render 'last_win' %>
-		</div>
-		<div class="horse-info-list-group">
-			<h4>Last Claiming Level: </h4>
-			<%= render 'last_claiminglevel' %>
-		</div>
-	</div>
+  <div class="col-md-12">
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+        	<div class="col-md-3">
+        		<h3>Conditions:</h3>
+        		<div id="conditionPartial">
+							<%= render 'condition' %>
+						</div>
+        	</div>
+        	<div class="col-md-6">
+        		<div class="center">
+	        		<h2><%= @horse.name %> (<%= @horse.POB %>)</h2>
+	        		<h4>Age: <% def age(dob)
+	                        now = Time.now.utc.to_date
+	                        now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+	                      end %>
+	                      <%= age(@horse.DOB.to_date) %>
+	            </h4>
+	            <h4><%= @horse.week_running %> Week Running</h4>
+							<h4><%= @startsLeft %> Starts Left</h4>
+							<h4>(Starts: <%= @horse.starts %> Firsts: <%= @horse.firsts %>)</h4>
+						</div>
+						<table id="racestatus-table" class="table table-condensed table-hover">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Race Description</th>
+									<th>Total #</th>
+									<th>I/C</th>
+								</tr>
+							</thead>
+							<tbody id="race-list">
+								<% if @races %>
+									<%= render 'races' %>
+								<% end %>
+							</tbody>
+						</table>
+        	</div>
+	        <div class="col-md-3">
+						<h4>Status:</h4>
+						<%= render 'status' %>
+						<h4>Last Win: </h4>
+						<%= render 'last_win' %>
+						<h4>Last Claiming Level: </h4>
+						<%= render 'last_claiminglevel' %>
+	        </div>
+	      </div>
+      </div>
+    </div>
+  </div>
 </div>
