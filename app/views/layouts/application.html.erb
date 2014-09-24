@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta content="" name="description">
     <meta content="" name="author">
+    <%= javascript_include_tag "application" %>
     <link href="/assets/plugins/jquery-metrojs/MetroJs.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/assets/plugins/shape-hover/css/demo.css" />
     <link rel="stylesheet" type="text/css" href="/assets/plugins/shape-hover/css/component.css" />
@@ -28,6 +29,7 @@
     <link href="/assets/css/themes/coporate/responsive.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/magic_space.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/customStyle.css" rel="stylesheet" type="text/css"/>
     <!-- END CSS TEMPLATE -->
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Race Builder Pro" %>">
     <%= csrf_meta_tags %>
