@@ -1,0 +1,64 @@
+<!-- BEGIN MINI-PROFILE -->
+<div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
+  <div class="user-info-wrapper">
+    <div class="profile-wrapper"><img src="/assets/img/profiles/avatar.jpg"  alt="" data-src="/assets/img/profiles/avatar.jpg" data-src-retina="/assets/img/profiles/avatar2x.jpg" width="69" height="69" /></div>
+    <div class="user-info">
+      <div class="greeting">Welcome</div>
+      <div class="username"><%= current_user.name %></div>
+      <div class="status">Status<a href="#">
+        <div class="status-icon green"></div>
+        Online</a>
+      </div>
+    </div>
+  </div>
+  <!-- END MINI-PROFILE -->
+  <!-- BEGIN SIDEBAR MENU -->
+  <p class="menu-title">Browse <span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
+  <ul>
+    <li class="">
+      <%= link_to root_path do %>
+        <i class="fa fa-dashboard"></i><span class="title">Dashboard</span> 
+      <% end %>
+    </li>
+    <li class="">
+      <%= link_to horses_path do %>
+        <i class="fa fa-flag-checkered"></i><span class="title">Stable</span> 
+      <% end %>
+    </li>
+    <li class="">
+      <%= link_to races_menu_path do %>
+        <i class="fa fa-flag-checkered"></i><span class="title">Race Menu</span> 
+      <% end %>
+    </li>
+    <li class=""> <a href="javascript:;"> <i class="fa fa-calendar-o"></i><span class="title">Schedule</span> <span class="arrow "></span></a>
+      <ul class="sub-menu">
+        <li><%= link_to 'Protocol + Stakes', races_schedule_path %></li>
+        <li><%= link_to 'Stakes', races_stakes_path %></li>
+      </ul>
+    </li>
+  </ul>
+  <%if current_user.admin? %>
+    <p class="menu-title">Admin <span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
+    <ul>
+      <li class="">
+        <%= link_to meets_path do %>
+          <i class="fa fa-flag-checkered"></i><span class="title">Meets</span> 
+        <% end %>
+      </li>
+      <li class="">
+        <%= link_to races_path do %>
+          <i class="fa fa-flag-checkered"></i><span class="title">Race List</span> 
+        <% end %>
+      </li>
+      <li class=""> <a href="javascript:;"> <i class="fa fa-calendar-o"></i><span class="title">Options</span> <span class="arrow "></span></a>
+      <ul class="sub-menu">
+        <li><%= link_to 'Conditions', conditions_path %></li>
+        <li><%= link_to 'Categories', categories_path %></li>
+        <li><%= link_to 'Statuses', statuses_path %></li>
+      </ul>
+    </li>
+    </ul>
+  <% end %>
+  <div class="clearfix"></div>
+  <!-- END SIDEBAR MENU -->
+</div>
