@@ -1,9 +1,13 @@
-.condition-list{
+.race-menu-selectors select {
+	width: auto;
+}
+
+.condition-list {
 	list-style: none;
 	margin-bottom: 10px;
 	padding-left: 10px;
 }
 
-.center{
+.center {
 	text-align: center;
 }

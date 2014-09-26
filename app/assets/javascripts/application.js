@@ -15,21 +15,8 @@
 //= require jquery-ui
 //= require_tree .
 
-$(document).ready(function() {
-  //Date Picker Format
-  $(".date-picker").datepicker({
-  	dateFormat: "yy-mm-dd"
-	});
-
-  //Date Time Picker Format
-	$('#datetimepicker').datetimepicker({
-      format: 'yyyy-MM-dd hh:mm:ss'
-   });
-
-  //Tooltip options
-	$('[data-toggle="tooltip"]').tooltip({'placement': 'right'});
-
-  //Base Style for generic tables
-	$('.generic-table').dataTable({sPaginationType: "full_numbers"});
-
-})
+$(function() {
+  $('.datepicker').datepicker({
+    format: 'mm-dd-yyyy'
+  });
+});

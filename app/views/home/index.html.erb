@@ -1,163 +1,189 @@
-<h2>
-	<% if !current_user.nil? %>
+	<h1>
+		<% if !current_user.nil? %>
 		<%= current_user.name %>, 
-	<% end %> 
-	Welcome to Race Builder Pro
-</h2>
-<h5>Version: 2.0</h5>
-<% if !current_user.admin? %>
+		<% end %> 
+		Welcome to Race Builder Pro
+	</h1>
+	<h5>Version: 2.0</h5>
+	<% if !current_user.admin? %>
 	<div class="row">
 		<h4>Current Stable:</h4>
 		<% @horses.each do |horse| %>
-			<a href="<%= horse_path(horse) %>">
-				<div class="col-xs-3 userbox well">
-					<h4><%= horse.name %></h4>
-					<ul class="condition-list no-indent">
-						<li>Conditions:
-							<% if horse.conditions.any? %>
-								<ul class="condition-list no-indent">
-		              <% horse.conditions.each do |condition| %>
-		                <%= condition.name %>
-		              <% end %>
-		            </ul>
-		          <% else %>
-		            None
-		          <% end %> 
-						</li>
-						<li>Races:
-							<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
-							<% if racestatuses.any? %>
-								<ul class="condition-list no-indent">
-									<% racestatuses.each do |racestatus| %>
-										<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
+		<a href="<%= horse_path(horse) %>">
+			<div class="col-xs-3 userbox well">
+				<h4><%= horse.name %></h4>
+				<ul class="condition-list no-indent">
+					<li>Conditions:
+						<% if horse.conditions.any? %>
+						<ul class="condition-list no-indent">
+							<% horse.conditions.each do |condition| %>
+							<%= condition.name %>
+							<% end %>
+						</ul>
+						<% else %>
+						None
+						<% end %> 
+					</li>
+					<li>Races:
+						<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
+						<% if racestatuses.any? %>
+						<ul class="condition-list no-indent">
+							<% racestatuses.each do |racestatus| %>
+							<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
+							<% end %>
+						</ul>
+						<% else %>
+						None
+						<% end %> 
+					</li>
+				</ul>
+			</div>
+		</a>
+		<% end %>
+	</div>
+	<% end %>
+	<div class="row">
+		
+		<div class="col-xs-8">
+			<h3>Upcoming Races: </h3>
+			<div class="panel-group" id="accordion" data-toggle="collapse">
+				<% @next_races.order("race_datetime ASC").each do |race| %>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#<%=race.id%>">
+								<%= race.name %> - <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %>
+							</a>
+						</h4>
+					</div>
+					<div id="<%=race.id%>" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<h4>Conditions</h4>
+									<% if race.conditions.any? %>
+										<ul class="condition-list no-indent">
+											<% race.conditions.each do |condition| %>
+											<%= condition.name %>
+											<% end %>
+										</ul>
+									<% else %>
+										None
+									<% end %> 
+								</div>
+								<div class="col-xs-12 col-md-6">
+									<h4>Horses</h4>
+									<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
+									<% if horsestatuses.any? %>
+										<ul class="condition-list no-indent">
+											<% horsestatuses.each do |horsestatus| %>
+											<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
+											<% end %>
+										</ul>
+									<% else %>
+										None
 									<% end %>
-		            </ul>
-		          <% else %>
-		            None
-		          <% end %> 
-						</li>
-					</ul>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</a>
-		<% end %>
-	</div>
-<% end %>
-<div class="row">
-	<div class="col-xs-8">
-		<h4>Upcoming Races: </h4>
-		<% @next_races.order("race_datetime ASC").each do |race| %>
-			<a href="<%= race_path(race) %>">
-				<div class="col-xs-3 userbox well">
-					<h4><%= race.name %></h4>
-					<ul class="condition-list no-indent">
-						<li>Date: <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %></li>
-						<li>Conditions:
-							<% if race.conditions.any? %>
-								<ul class="condition-list no-indent">
-		              <% race.conditions.each do |condition| %>
-		                <%= condition.name %>
-		              <% end %>
-		            </ul>
-		          <% else %>
-		            None
-		          <% end %> 
-						</li>
-						<% if current_user.admin? %>
-							<li>Horses:
-								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
-								<% if horsestatuses.any? %>
-									<ul class="condition-list no-indent">
-										<% horsestatuses.each do |horsestatus| %>
+				<%end%>
+			</div>
+		</div>
+
+
+
+
+		<div class="col-xs-8">
+			<h3>Last Weeks' Races: </h3>
+			<div class="panel-group" id="accordion" data-toggle="collapse">
+				<% @previous_races.order("race_datetime ASC").each do |race| %>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#<%=race.id%>">
+								<%= race.name %> - <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %>
+							</a>
+						</h4>
+					</div>
+					<div id="<%=race.id%>" class="panel-collapse collapse">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-xs-12 col-md-6">
+									<h4>Conditions</h4>
+									<% if race.conditions.any? %>
+										<ul class="condition-list no-indent">
+											<% race.conditions.each do |condition| %>
+											<%= condition.name %>
+											<% end %>
+										</ul>
+									<% else %>
+										None
+									<% end %> 
+								</div>
+								<div class="col-xs-12 col-md-6">
+									<h4>Horses</h4>
+									<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
+									<% if horsestatuses.any? %>
+										<ul class="condition-list no-indent">
+											<% horsestatuses.each do |horsestatus| %>
 											<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
-										<% end %>
-			            </ul>
-			          <% else %>
-			            None
-			          <% end %>
-							</li>
-						<% end %>
-					</ul>
+											<% end %>
+										</ul>
+									<% else %>
+										None
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-			</a>
-		<% end %>
-	</div>
-	<div class="col-xs-8">
-		<h4>Last Weeks' Races: </h4>
-		<% @previous_races.order("race_datetime ASC").each do |race| %>
-			<a href="<%= race_path(race) %>">
-				<div class="col-xs-3 userbox well">
-					<h4><%= race.name %></h4>
-					<ul class="condition-list no-indent">
-						<li>Date: <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %></li>
-						<li>Conditions:
-							<% if race.conditions.any? %>
-								<ul class="condition-list no-indent">
-		              <% race.conditions.each do |condition| %>
-		                <%= condition.name %>
-		              <% end %>
-		            </ul>
-		          <% else %>
-		            None
-		          <% end %> 
-						</li>
-						<% if current_user.admin? %>
-							<li>Horses:
-								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
-								<% if horsestatuses.any? %>
-									<ul class="condition-list no-indent">
-										<% horsestatuses.each do |horsestatus| %>
-											<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
-										<% end %>
-			            </ul>
-			          <% else %>
-			            None
-			          <% end %>
-							</li>
-						<% end %>
-					</ul>
-				</div>
-			</a>
-		<% end %>
-	</div>
-	<% if current_user.admin? %>
+				<%end%>
+			</div>
+		</div>
+
+
+
+
+		<% if current_user.admin? %>
 		<div class="col-xs-3">
-			<h4>Pending Approvals</h4>
+			<h3>Pending Approvals</h3>
 			<ul class="condition-list no-indent">
-			<% @condition_requests.each do |notification| %>
+				<% @condition_requests.each do |notification| %>
 				<li><%= Horse.find(notification.send_id).name %> <%= notification.action %> <%= Condition.find(notification.recv_id).name %>
 					<%= link_to 'Approve', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
 					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
 				</li>
-			<% end %>
+				<% end %>
 			</ul>
 		</div>
 		<div class="col-xs-3">
-			<h4>Nomination Requests</h4>
+			<h3>Nomination Requests</h3>
 			<ul class="condition-list no-indent">
-			<% @nominations.each do |notification| %>
+				<% @nominations.each do |notification| %>
 				<% @race = Race.find(notification.send_id) %>
 				<li>Nominate <%= Horse.find(notification.recv_id).name %> For <%= @race.name %>
 					<%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
 					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
 					<%= link_to 'View Race', @race, :class => 'btn btn-info  btn-xs' %>
 				</li>
-			<% end %>
+				<% end %>
 			</ul>
 		</div>
-	<% else %>
+		<% else %>
 		<div class="col-xs-3">
-			<h4>Race Suggestions</h4>
+			<h3>Race Suggestions</h3>
 			<ul class="condition-list no-indent">
-			<% @suggestions.each do |notification| %>
+				<% @suggestions.each do |notification| %>
 				<li><%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
 					<%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary  btn-xs' %>
 					<%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger   btn-xs' %>
 				</li>
-			<% end %>
+				<% end %>
 			</ul>
 		</div>
-	<% end %>
+		<% end %>
+	</div>
 
-</div>
-<p>Race Builder Pro is a web application designed to revolutionize horse racing’s current entry process, which no longer allows for an optimal race program. Presently, horse racing uses an antiquated, reactive approach that has hindered horsemen’s confidence to find races for their horses and has limited the ability for racetracks to maximize field size. Thus, the primary objective of The Racing Secretary project is to create a viable alternative that will revitalize the entry process using a fresh, proactive technology.</p>
 

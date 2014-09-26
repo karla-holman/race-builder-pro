@@ -1,153 +1,150 @@
-<div class="page-info" horse="<%=@horse.id%>" 
-  <% if @age %>
+<div class="row">
+  <div class="page-info" horse="<%=@horse.id%>" 
+    <% if @age %>
     age="<%= @age.id %>" 
-  <%end%>
-  <% if @wins %>
+    <%end%>
+    <% if @wins %>
     win="<%= @wins.id %>" 
-  <%end%>
-  <% if @gender %>
+    <%end%>
+    <% if @gender %>
     gender="<%= @gender.id %>" 
-  <%end%>
-  <% if @lower_claiming %>
+    <%end%>
+    <% if @lower_claiming %>
     lower-claiming="<%=@lower_claiming%>" 
-  <%end%>
-  <% if @upper_claiming %>
+    <%end%>
+    <% if @upper_claiming %>
     upper-claiming="<%=@upper_claiming%>" 
-  <%end%>
-  <% if @noWinsSince %>
+    <%end%>
+    <% if @noWinsSince %>
     noWinsSince="<%= @noWinsSince.id %>" 
-  <%end%>
-  <% if @distance %>
+    <%end%>
+    <% if @distance %>
     distance="<%= @distance %>" 
-  <%end%>
-></div>
-<div><%= link_to 'Horse Profile', @horse, :class => 'btn btn-success btn-xs'%></div>
-<div class="col-xs-1">
-  <p>
-  <% if @age %>
-    Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'All'}) %>
-  <% else %>
-    Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'All'}) %>
-  <% end %>
-  </p>
-</div>
-<div class="col-xs-1">
-  <p>
-  <% if @wins %>
-    Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
-  <% else %>
-    Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
-  <% end %>
-  </p>
-</div>
-<div class="col-xs-2">
-  <p>
-  <% if @gender %>
-    Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:selected => @gender.id, :include_blank => 'All'}) %>
-  <% else %>
-    Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:prompt => 'All'}) %>
-  <% end %>
-  </p>
-</div>
-<div class="col-xs-2">
-  <p>
-  <% if @noWinsSince %>
-    No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
-  <% else %>
-    No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
-  <% end %>
-  </p>
-</div>
-<div class="col-xs-2">
-  <% if @lower_claiming %>
-  Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels, @lower_claiming), :prompt => 'None' %>
-  <% else %>
-    Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
-  <% end %>
-</div>
-<div class="col-xs-2">
-  <% if @upper_claiming %>
-  Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels, @upper_claiming), :prompt => 'None' %>
-  <% else %>
-    Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
-  <% end %>
-</div>
-<div class="col-xs-2">
-  <% if @distance %>
-  Distances <%= select_tag "Distances", options_for_select(['Short', 'Long'], @distance), :prompt => 'All' %>
-  <% else %>
-    Distances <%= select_tag "Distances", options_for_select(['Short', 'Long']), :prompt => 'All'  %>
-  <% end %>
-</div>
-<table id="racelist-table" class="table table-condensed table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th># Interested</th>
-      <th>Distance</th>
-      <th>Purse</th>
-      <th>Claiming Level</th>
-      <th>I/C</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @races %>
+    <%end%>>
+  </div>
+  <div class="col-xs-12 well">
+    <div class="row race-menu-selectors">
+      <div class="col-xs-1">
+          <% if @age %>
+          Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'All'}) %>
+          <% else %>
+          Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'All'}) %>
+          <% end %>
+      </div>
+      <div class="col-xs-1">
+        <% if @gender %>
+        Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:selected => @gender.id, :include_blank => 'All'}) %>
+        <% else %>
+        Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:prompt => 'All'}) %>
+        <% end %>
+      </div>
+      <div class="col-xs-1">
+        <% if @wins %>
+        Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
+        <% else %>
+        Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
+        <% end %>
+      </div>
+      <div class="col-xs-2">
+        <% if @noWinsSince %>
+        No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
+        <% else %>
+        No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
+        <% end %>
+      </div>
+      <div class="col-xs-2">
+        <% if @lower_claiming %>
+        Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels, @lower_claiming), :prompt => 'None' %>
+        <% else %>
+        Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
+        <% end %>
+      </div>
+      <div class="col-xs-2">
+        <% if @upper_claiming %>
+        Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels, @upper_claiming), :prompt => 'None' %>
+        <% else %>
+        Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
+        <% end %>
+      </div>
+      <div class="col-xs-2">
+        <% if @distance %>
+        Distances <%= select_tag "Distances", options_for_select(['Short', 'Long'], @distance), :prompt => 'All' %>
+        <% else %>
+        Distances <%= select_tag "Distances", options_for_select(['Short', 'Long']), :prompt => 'All'  %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <table id="racelist-table" class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th># Interested</th>
+        <th>Distance</th>
+        <th>Purse</th>
+        <th>Claiming Level</th>
+        <th>I/C</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @races %>
       <% @races.each do |race| %>
-  			<tr class="top">
-  			  <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
-  				<td><%= race.name %></td>
-  				<td><%= race.description %></td>
-  				<td><%= race.horseraces.where(:status => "Interested").count %></td>
-          <% if race.distance <= 1 %>
-            <% if race.distance_type == 'Furlongs' %>
-              <td><%= race.distance %> Furlong</td>
-            <% else %>
-              <td><%= race.distance %> Mile</td>
-            <% end %>
+      <tr class="top">
+        <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
+        <td><%= race.name %></td>
+        <td><%= race.description %></td>
+        <td><%= race.horseraces.where(:status => "Interested").count %></td>
+        <% if race.distance <= 1 %>
+        <% if race.distance_type == 'Furlongs' %>
+        <td><%= race.distance %> Furlong</td>
+        <% else %>
+        <td><%= race.distance %> Mile</td>
+        <% end %>
+        <% else %>
+        <td><%= race.distance %> <%= race.distance_type %></td>
+        <% end %>
+        <td>
+          <% if race.claiming_purse? %>
+          <%= number_to_currency(race.claiming_purse, precision: 2) %>
           <% else %>
-            <td><%= race.distance %> <%= race.distance_type %></td>
+          <%= number_to_currency(0, precision: 2) %>
           <% end %>
-  				<td>
-            <% if race.claiming_purse? %>
-              <%= number_to_currency(race.claiming_purse, precision: 2) %>
-            <% else %>
-              <%= number_to_currency(0, precision: 2) %>
-            <% end %>
-          </td>
-          <td>
-            <% if race.claiming_level? %>
-              <%= number_to_currency(race.claiming_level, precision: 2) %>
-            <% else %>
-              <%= number_to_currency(0, precision: 2) %>
-            <% end %>
-          </td>
-          <% if @horserace.status == "Confirmed" %>
-            <td>
-              Confirmed: 
-              <%= form_for(@horserace) do |f| %>
-                <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-              <% end %>
-            </td>
-  				<% elsif Date.today() >= race.close_date %>
-            <td>Closed</td>
-          <% elsif @confirmed%>
-            <td ><%= form_for(@horserace) do |f| %>
-              <%= check_box("horserace", "status", {}, "Interested", "") %> /
-            <% end %>
-            A
-            </td>
+        </td>
+        <td>
+          <% if race.claiming_level? %>
+          <%= number_to_currency(race.claiming_level, precision: 2) %>
           <% else %>
-            <td ><%= form_for(@horserace) do |f| %>
-              <%= check_box("horserace", "status", {}, "Interested", "") %> /
-            <% end %>
-            <%= form_for(@horserace) do |f| %>
-              <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-            <% end %>
-            </td>
+          <%= number_to_currency(0, precision: 2) %>
           <% end %>
-  			</tr>
-  		<% end %>
-    <% end %>
-  </tbody>
-</table>
+        </td>
+        <% if @horserace.status == "Confirmed" %>
+        <td>
+          Confirmed: 
+          <%= form_for(@horserace) do |f| %>
+          <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+          <% end %>
+        </td>
+        <% elsif Date.today() >= race.close_date %>
+        <td>Closed</td>
+        <% elsif @confirmed%>
+        <td ><%= form_for(@horserace) do |f| %>
+          <%= check_box("horserace", "status", {}, "Interested", "") %> /
+          <% end %>
+          A
+        </td>
+        <% else %>
+        <td ><%= form_for(@horserace) do |f| %>
+          <%= check_box("horserace", "status", {}, "Interested", "") %> /
+          <% end %>
+          <%= form_for(@horserace) do |f| %>
+          <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+          <% end %>
+        </td>
+        <% end %>
+      </tr>
+      <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

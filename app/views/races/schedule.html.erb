@@ -44,7 +44,7 @@
             <td>
               <% if race.race_type == "Stakes" %>
                 <% if @today > race.close_date %>
-                CLOSED
+                <span class="label label-important">Closed</span>
                 <% else %>
                   <% @horse_list = Array.new()
                     @horses.each do |horse|
