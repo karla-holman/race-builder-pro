@@ -1,3 +1,7 @@
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "horse_show.js" %>
+  <%= javascript_include_tag "horses.js" %>
+<% end %>
 <ul class="breadcrumb">
 	<li><%= link_to 'Stable', horses_path %></li>
 	<li class="active"><%= @horse.name %>
@@ -34,6 +38,10 @@
 									<th>Race Description</th>
 									<th>Total #</th>
 									<th>I/C</th>
+									<th style="display: none;">Date</th>
+									<th style="display: none;">Conditions</th>
+									<th style="display: none;">Distance</th>
+									<th style="display: none">Claiming Level</th>
 								</tr>
 							</thead>
 							<tbody id="race-list">

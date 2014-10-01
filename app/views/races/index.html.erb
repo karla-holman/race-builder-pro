@@ -1,3 +1,6 @@
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "race_index.js" %>
+<% end %>
 <div class="row">
   <div class="col-xs-12">
     <h2><%= current_user.name %>'s Races</h2>
@@ -6,17 +9,15 @@
     <% end %>
   </div>
   <div class="col-xs-12">
-    <table class="table table-condensed table-hover generic-table">
+    <table id="raceindex-table" class="table table-condensed table-hover">
       <thead>
         <tr>
-          <% if current_user.admin? %>
-          <th>ID</th>
-          <% end %>
           <th>Number</th>
-          <th>Name</th>
-          <th>Description</th>
+          <th>Name</th> 
           <th>Purse</th>
-          <th>Claiming Level</th>
+          <th style="display: none;">Conditions</th>
+          <th style="display: none;">Description</th>
+          <th style="display: none;">Claiming Level</th>
           <th>Status</th>
           <th colspan="1"></th>
         </tr>
@@ -24,21 +25,9 @@
 
       <tbody>
         <% @races.each do |race| %>
-          <tr class="top"  data-toggle="tooltip" data-placement="right" title="
-                    Conditions: 
-                    <% if race.conditions.any?
-                      race.conditions.each do |condition| %>
-                        <%= condition.name %>
-                      <% end %>
-                    <% else %>
-                      None
-                    <% end %>">
-            <% if current_user.admin? %>
-            <td><%= race.id %></td>
-            <% end %>
+          <tr>
             <td><%= race.race_number %></td>
             <td><%= race.name %></td>
-            <td><%= race.description %></td>
             <td>
               <% if race.claiming_purse? %>
                 <%= number_to_currency(race.claiming_purse, precision: 2) %>
@@ -46,7 +35,18 @@
                 <%= number_to_currency(0, precision: 2) %>
               <% end %>
             </td>
-            <td>
+            <td style="display: none;">
+            <% conditions = race.conditions %>
+            <% if conditions.any? %>
+                <% conditions.each do |condition| %>
+                    <%= condition.name %>
+                <% end %>
+            <% else %>
+              None
+            <% end %>
+            </td>
+            <td style="display: none;"><%= race.description %></td>
+            <td style="display: none;">
               <% if race.claiming_level? %>
                 <%= number_to_currency(race.claiming_level, precision: 2) %>
               <% else %>

@@ -1,15 +1,19 @@
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "race_schedule.js" %>
+<% end %>
 <div class="row">
   <div class="col-xs-12">
     <h1>Stakes Schedule</h1>
-    <table class="table table-condensed table-hover generic-table">
+    <table id="schedule-table"class="table table-condensed table-hover">
       <thead>
         <tr>
           <th>Date</th>
           <th>Name</th>
           <th>Type</th>
-          <th>Conditions</th>
-          <th>Distance</th>
-          <th>Noms/Race Close</th> 
+          <th style="display: none;">Conditions</th>
+          <th style="display: none;">Distance</th>
+          <th style="display: none;">Claiming Level</th>
+          <th>Noms Close</th> 
           <th colspan="1"></th>
         </tr>
       </thead>
@@ -20,11 +24,11 @@
             <td><%= race.race_datetime.strftime('%b %d, %Y') %></td>
             <td><%= race.name %></td>
             <td><%= race.race_type %>
-            <td>
+            <td style="display: none;">
             <% conditions = race.conditions %>
             <% if conditions.any? %>
                 <% conditions.each do |condition| %>
-                  <%= condition.name %>
+                    <%= condition.name %>
                 <% end %>
             <% else %>
               None
@@ -32,13 +36,20 @@
             </td>
             <% if race.distance <= 1 %>
               <% if race.distance_type == 'Furlongs' %>
-                <td><%= race.distance %> Furlong</td>
+                <td style="display: none;"><%= race.distance %> Furlong</td>
               <% else %>
-                <td><%= race.distance %> Mile</td>
+                <td style="display: none;"><%= race.distance %> Mile</td>
               <% end %>
             <% else %>
-              <td><%= race.distance %> <%= race.distance_type %></td>
+              <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
             <% end %>
+            <td style="display: none">
+            <% if race.claiming_purse? %>
+              <%= number_to_currency(race.claiming_purse, precision: 2) %>
+            <% else %>
+                <%= number_to_currency(0, precision: 2) %>
+            <% end %>
+            </td>
             <td><%= race.close_date.strftime('%b %d, %Y') %></td>
             <td>
               <% if @today > race.close_date %>
