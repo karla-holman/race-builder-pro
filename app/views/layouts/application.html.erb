@@ -8,7 +8,6 @@
     <meta content="" name="description">
     <meta content="" name="author">
     <%= javascript_include_tag "application" %>
-    <%= yield :javascript_includes %>
     <link href="/assets/plugins/jquery-metrojs/MetroJs.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="/assets/plugins/shape-hover/css/demo.css" />
     <link rel="stylesheet" type="text/css" href="/assets/plugins/shape-hover/css/component.css" />
@@ -52,16 +51,9 @@
           <%= render 'layouts/sidebar_links' %>
         </div>
         <div class="footer-widget">
-          <div class="progress transparent progress-small no-radius no-margin">
-            <div data-percentage="79%" class="progress-bar progress-bar-success animate-progress-bar" >
-            </div>
-          </div>
-          <div class="pull-right">
-            <div class="details-status">
-              <span data-animation-duration="560" data-value="86" class="animate-number"></span>%
-            </div>
+          <div>
             <%= link_to destroy_user_session_path, :method => :delete do %>
-              <i class="fa fa-power-off"></i>
+              <i class="fa fa-power-off"></i> Log Out
             <% end %>
           </div>
         </div>
@@ -123,7 +115,6 @@
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN CORE TEMPLATE JS -->
     <script src="/assets/js/core.js" type="text/javascript"></script>
-
     <!-- END CORE TEMPLATE JS -->
   </body>
 </html>

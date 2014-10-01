@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
     <h1>Horse Conditions</h1>
-    <%= link_to 'New Horse Condition', new_horse_condition_path, :class => 'btn btn-primary btn-xs'  %>
+    <%= link_to 'New Horse Condition', new_horse_condition_path, :class => 'btn btn-primary btn-small'  %>
     <table class="table table-condensed table-hover">
       <thead>
         <tr>
@@ -23,8 +23,8 @@
             <td><%= horse_condition.horse.name %></td>
             <td><%= horse_condition.condition.name %></td>
             <td>
-              <%= link_to 'Edit', edit_horse_condition_path(horse_condition), :class => 'btn btn-warning btn-xs'%>
-              <%= link_to 'Destroy', horse_condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
+              <%= link_to 'Edit', edit_horse_condition_path(horse_condition), :class => 'btn btn-warning btn-mini'%>
+              <%= link_to 'Destroy', horse_condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
             </td>
           </tr>
         <% end %>

@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <h2><%= current_user.name %>'s Stable</h2>
     <% if current_user.admin? %>
-      <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-cons' %>
+      <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-small' %>
     <% end %>
   </div>
   <div class="col-xs-12">
@@ -47,7 +47,7 @@
                   <%= number_to_currency(0, precision: 2) %>
                 <% end %>
               </td>
-              <td><%= Status.find(HorseStatus.find(horse.id).status_id).name %></td>
+              <td><span class="label"><%= Status.find(HorseStatus.find(horse.id).status_id).name %></span></td>
               <td style="display:none;"><%= horse.owner.name %></td>
               <td style="display:none;"><%= horse.trainer.name %></td>
               <td style="display:none;">
@@ -60,10 +60,10 @@
               <% end %>
               </td>
               <td>
-                <%= link_to 'Show', horse, :class => 'btn btn-success btn-xs'%>
+                <%= link_to 'Show', horse, :class => 'btn btn-success btn-mini'%>
                 <% if current_user.admin? %>
-                  <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-                  <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+                  <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
+                  <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
                 <% end %>
               </td>
             </tr>

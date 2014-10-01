@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
     <h2>RBP Conditions</h2>
-    <%= link_to 'New Condition', new_condition_path, :class => 'btn btn-primary btn-xs' %>
+    <%= link_to 'New Condition', new_condition_path, :class => 'btn btn-primary btn-small' %>
   </div>
   <div class="col-xs-12">
     <table class="table table-condensed table-hover">
@@ -23,8 +23,8 @@
               <% end %>
             </td>
             <td>
-              <%= link_to 'Edit', edit_condition_path(condition), :class => 'btn btn-warning btn-xs' %>
-              <%= link_to 'Destroy', condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
+              <%= link_to 'Edit', edit_condition_path(condition), :class => 'btn btn-warning btn-mini' %>
+              <%= link_to 'Destroy', condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
             </td>
           </tr>
         <% end %>

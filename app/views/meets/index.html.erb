@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <h2>Meets</h2>
     <% if current_user.admin? %>
-      <%= link_to 'New Meet', new_meet_path, :class => 'btn btn-primary btn-xs' %>
+      <%= link_to 'New Meet', new_meet_path, :class => 'btn btn-primary btn-small' %>
     <% end %>
   </div>
   <div class="col-xs-12">
@@ -24,9 +24,9 @@
             <td><%= meet.start_date.strftime('%b %d, %Y') %></td>
             <td><%= meet.end_date.strftime('%b %d, %Y') %></td>
             <td>
-              <%= link_to 'Show', meet, :class => 'btn btn-primary btn-xs' %>
-              <%= link_to 'Edit', edit_meet_path(meet), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-              <%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+              <%= link_to 'Show', meet, :class => 'btn btn-success btn-mini' %>
+              <%= link_to 'Edit', edit_meet_path(meet), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
+              <%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
             </td>
           </tr>
         <% end %>

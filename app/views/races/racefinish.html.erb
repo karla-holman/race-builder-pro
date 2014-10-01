@@ -28,14 +28,14 @@
             <% elsif Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'Scratched').any? %>
             	SCRATCHED
             <% else %>
-            	<button class="winner btn btn-primary btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Winner</button>
+            	<button class="winner btn btn-primary btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Winner</button>
             <% end %>
             </td>
             <td>
             	<% if Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'Scratched').any? %>
             		SCRATCHED 
             	<% else %>
-            		<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
+            		<button class="scratch btn btn-danger btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
             	<% end %>
             </td>
             <td><%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.name, o.id]}, horse.owner.id), :class => 'transferOwner', :horse => horse.id%></td>

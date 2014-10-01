@@ -1,4 +1,4 @@
-<h1>Listing horse_meets</h1>
+<h2>Listing horse_meets</h2>
 
 <table>
   <thead>
@@ -12,7 +12,7 @@
       <tr>
         <td><%= link_to 'Show', horse_meet %></td>
         <td><%= link_to 'Edit', edit_horse_meet_path(horse_meet) %></td>
-        <td><%= link_to 'Destroy', horse_meet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', horse_meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini'%></td>
       </tr>
     <% end %>
   </tbody>

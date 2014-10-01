@@ -20,7 +20,8 @@
           <tr class="top">
             <td><%= race.race_datetime.strftime('%b %d, %Y') %></td>
             <td><%= race.name %></td>
-            <td><%= race.race_type %>
+            <td><%if race.race_type == 'Protocol' %><span class="label label-success"><%= race.race_type %></span><%else%><span class="label label-inverse"><%= race.race_type %><%end%>
+            </td>
             <td style="display: none;">
             <% conditions = race.conditions %>
             <% if conditions.any? %>
@@ -62,7 +63,7 @@
                   <%= collection_select(:schedule, :horse_id, @horse_list,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
                 <% end %>
               <% else %>
-                <%= link_to 'View', race, :class => 'btn btn-primary btn-xs' %>
+                <%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
               <% end %>
             </td>        
           </tr>

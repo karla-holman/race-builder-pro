@@ -43,8 +43,7 @@
 	</div>
 	<% end %>
 	<div class="row">
-		
-		<div class="col-xs-8">
+		<div class="col-xs-12">
 			<h3>Upcoming Races: </h3>
 			<div class="panel-group" id="accordion" data-toggle="collapse">
 				<% @next_races.order("race_datetime ASC").each do |race| %>
@@ -92,10 +91,7 @@
 			</div>
 		</div>
 
-
-
-
-		<div class="col-xs-8">
+		<div class="col-xs-12">
 			<h3>Last Weeks' Races: </h3>
 			<div class="panel-group" id="accordion" data-toggle="collapse">
 				<% @previous_races.order("race_datetime ASC").each do |race| %>
@@ -142,48 +138,6 @@
 				<%end%>
 			</div>
 		</div>
-
-
-
-
-		<% if current_user.admin? %>
-		<div class="col-xs-3">
-			<h3>Pending Approvals</h3>
-			<ul class="condition-list no-indent">
-				<% @condition_requests.each do |notification| %>
-				<li><%= Horse.find(notification.send_id).name %> <%= notification.action %> <%= Condition.find(notification.recv_id).name %>
-					<%= link_to 'Approve', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
-					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
-				</li>
-				<% end %>
-			</ul>
-		</div>
-		<div class="col-xs-3">
-			<h3>Nomination Requests</h3>
-			<ul class="condition-list no-indent">
-				<% @nominations.each do |notification| %>
-				<% @race = Race.find(notification.send_id) %>
-				<li>Nominate <%= Horse.find(notification.recv_id).name %> For <%= @race.name %>
-					<%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
-					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
-					<%= link_to 'View Race', @race, :class => 'btn btn-info  btn-xs' %>
-				</li>
-				<% end %>
-			</ul>
-		</div>
-		<% else %>
-		<div class="col-xs-3">
-			<h3>Race Suggestions</h3>
-			<ul class="condition-list no-indent">
-				<% @suggestions.each do |notification| %>
-				<li><%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
-					<%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary  btn-xs' %>
-					<%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger   btn-xs' %>
-				</li>
-				<% end %>
-			</ul>
-		</div>
-		<% end %>
 	</div>
 
 

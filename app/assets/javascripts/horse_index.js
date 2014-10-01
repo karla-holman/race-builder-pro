@@ -35,22 +35,22 @@ $(document).ready(function() {
         fnRowCallback  : function (nRow, aData) {
             switch(aData[7]){
             case 'Race Ready':
-              $('td', nRow).eq(7).css('color', 'green')
+              $('span', nRow).eq(7).addClass("label-success")
               break;
             case 'Not Race Ready':
-              $('td', nRow).eq(7).css('color', 'red')
+               $('span', nRow).eq(7).addClass("label-danger")
               break;
             case 'Inactive':
-              $('td', nRow).eq(7).css('color', 'red')
+               $('span', nRow).eq(7).addClass("label-default")
               break;
             case 'Resting From Race':
-              $('td', nRow).eq(7).css('color', 'yellow')
+               $('span', nRow).eq(7).addClass("label-warning")
               break;
             case 'Steward\'s List':
-              $('td', nRow).eq(7).css('color', 'blue')
+               $('span', nRow).eq(7).addClass("label-inverse")
               break;
             case 'Vet\'s List':
-              $('td', nRow).eq(7).css('color', 'blue')
+               $('span', nRow).eq(7).addClass("label-inverse")
               break;
           }
         },

@@ -38,7 +38,7 @@
         Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:prompt => 'All'}) %>
         <% end %>
       </div>
-      <div class="col-xs-1">
+      <div class="col-xs-2">
         <% if @wins %>
         Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
         <% else %>
@@ -94,7 +94,7 @@
         <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
         <td><%= race.name %></td>
         <td><%= race.description %></td>
-        <td><%= race.horseraces.where(:status => "Interested").count %></td>
+        <td><span class="badge badge-inverse"><%= race.horseraces.where(:status => "Interested").count %></span></td>
         <% if race.distance <= 1 %>
         <% if race.distance_type == 'Furlongs' %>
         <td><%= race.distance %> Furlong</td>

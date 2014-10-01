@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
     <h1>RBP Statuses</h1>
-    <%= link_to 'New Status', new_status_path, :class => 'btn btn-primary btn-xs' %>
+    <%= link_to 'New Status', new_status_path, :class => 'btn btn-primary btn-small' %>
     <table class="table table-condensed table-hover">
       <thead>
         <tr>
@@ -14,8 +14,8 @@
           <tr>
             <td><%= status.name %></td>
             <td>
-              <%= link_to 'Edit', edit_status_path(status), :class => 'btn btn-warning btn-xs' %>
-              <%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
+              <%= link_to 'Edit', edit_status_path(status), :class => 'btn btn-warning btn-mini' %>
+              <%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
             </td>
           </tr>
         <% end %>

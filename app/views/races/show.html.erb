@@ -76,7 +76,7 @@
 		              	<% if Notification.where(:send_id => @race.id, :recv_id => horse.id, :action => "Suggest").any? %>
 		              	<button class="btn btn-danger btn-xs">Suggested</button>
 		              	<% else %>
-		              		<button class="suggestion btn btn-primary btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Suggest Race</button>
+		              		<button class="suggestion btn btn-success btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Suggest Race</button>
 		              	<% end %>
 		              	</td>
 		              <% elsif horserace.any? %>			              
