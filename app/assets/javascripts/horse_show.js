@@ -63,18 +63,3 @@ $(document).ready(function() {
     
         $(".select2-wrapper").select2({minimumResultsForSearch: -1});
 });
-
-
-/* Formating function for row details */
-function fnFormatDetails ( oTable, nTr )
-{
-    var aData = oTable.fnGetData( nTr );
-    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Date: </td><td>'+aData[5]+'</td></tr>';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[6]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[7]+'</td></tr>';
-    sOut += '<tr><td>Claiming Level: </td><td>'+aData[8]+'</td></tr>';
-    sOut += '</table>';
-     
-    return sOut;
-}
