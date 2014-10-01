@@ -4,34 +4,38 @@
     <%= link_to 'New Condition', new_condition_path, :class => 'btn btn-primary btn-small' %>
   </div>
   <div class="col-xs-12">
-    <table class="table table-condensed table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Category ID</th>
-          <th>Category</th>
-          <th colspan="1"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @conditions.each do |condition| %>
-          <tr>
-            <td><%= condition.name %></td>
-            <td>
-              <% if condition.category != nil %>
-              <%= condition.category.name %>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to 'Edit', edit_condition_path(condition), :class => 'btn btn-warning btn-mini' %>
-              <%= link_to 'Destroy', condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+          <div class="col-xs-12">
+            <table class="genericTable table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category ID</th>
+                  <th>Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @conditions.each do |condition| %>
+                  <tr>
+                    <td><%= condition.name %></td>
+                    <td>
+                      <% if condition.category != nil %>
+                      <%= condition.category.name %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to 'Edit', edit_condition_path(condition), :class => 'btn btn-warning btn-mini' %>
+                      <%= link_to 'Destroy', condition, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-
-

@@ -13,18 +13,18 @@ $(document).ready(function() {
     nCloneTd.innerHTML = '<i class="fa fa-plus-circle"></i>';
     nCloneTd.className = "center";
      
-    $('#racestatus-table thead tr').each( function () {
+    $('.detailTable thead tr').each( function () {
         this.insertBefore( nCloneTh, this.childNodes[0] );
     } );
      
-    $('#racestatus-table tbody tr').each( function () {
+    $('.detailTable tbody tr').each( function () {
         this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[0] );
     } );
      
     /*
      * Initialse DataTables, with no sorting on the 'details' column
      */
-    var oTable = $('#racestatus-table').dataTable( {
+    var oTable = $('.detailTable').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bSortClasses": false,
        "aaSorting": [],
@@ -33,17 +33,15 @@ $(document).ready(function() {
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },
     });
-
-    $("div.toolbar").html('<div class="table-tools-actions"><button class="btn btn-primary" style="margin-left:12px" id="test2">Add</button></div>');
     
-    $('#racestatus-table_wrapper .dataTables_filter input').addClass("input-medium ");
-    $('#racestatus-table_wrapper .dataTables_length select').addClass("span12"); 
+    $('.detailTable_wrapper .dataTables_filter input').addClass("input-medium ");
+    $('.detailTable_wrapper .dataTables_length select').addClass("span12"); 
     
     /* Add event listener for opening and closing details
      * Note that the indicator for showing which row is open is not controlled by DataTables,
      * rather it is done here
      */
-    $('#racestatus-table tbody td i').live('click', function () {
+    $('.detailTable tbody td i').live('click', function () {
         var nTr = $(this).parents('tr')[0];
         if ( oTable.fnIsOpen(nTr) )
         {

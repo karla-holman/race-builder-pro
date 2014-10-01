@@ -9,7 +9,7 @@ $(document).ready(function() {
     /*
      * Initialse DataTables, with no sorting on the 'details' column
      */
-    var oTable = $('#meet_index-table').dataTable( {
+    var oTable = $('.genericTable').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bSortClasses": false,
        "aaSorting": [],
@@ -19,6 +19,6 @@ $(document).ready(function() {
         },
     });
     
-    $('#meet_index-table_wrapper .dataTables_filter input').addClass("input-medium ");
-    $('#meet_index-table_wrapper .dataTables_length select').addClass("span12"); 
+    $('.genericTalbe_wrapper .dataTables_filter input').addClass("input-medium ");
+    $('.meet_index-table_wrapper .dataTables_length select').addClass("span12"); 
 });

@@ -55,8 +55,6 @@ $(document).ready(function() {
           }
         },
     });
-
-    $("div.toolbar").html('<div class="table-tools-actions"><button class="btn btn-primary" style="margin-left:12px" id="test2">Add</button></div>');
     
     $('#stable-table_wrapper .dataTables_filter input').addClass("input-medium ");
     $('#stable-table_wrapper .dataTables_length select').addClass("span12"); 
