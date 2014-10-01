@@ -21,20 +21,20 @@ categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
 #Races: [Race Number, Name, Description, Datetime]
-races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-09-19 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 5000, 150000,'2014-09-30 12:00:00'], 
-		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-09-19', 'Published', "Alternate", 'Furlongs', 6, 2000, 8000, '2014-09-30 12:00:00'], 
-		[3, 'Open Race Claiming $8,000', '', '2014-09-19 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 6000, 2000, '2014-09-30 12:00:00'], 
-		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-09-20 12:00:00', 'Draft', "Protocol", 'Miles', 1, 10000, 13000, '2014-09-30 12:00:00'], 
-		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-09-20 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 6000, 7600, '2014-09-30 12:00:00'],
-		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-09-20 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 2500, 1500, '2014-09-30 12:00:00'],
-		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-09-21 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 3600, 5000, '2014-09-30 12:00:00'],
-		[8, 'Maiden Claiming Purse $19,975', '(Maiden, 2YO)','2014-09-20 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 7000, 9000,'2014-09-30 12:00:00'], 
-		[9, 'Washington Maiden Claiming Purse $17,875', '(washington bred)', '2014-09-20 12:00:00', 'Published', "Alternate", 'Furlongs', 6, 5000, 7000, '2014-09-30 12:00:00'], 
-		[10, 'Open Race Claiming $18,000', '', '2014-09-21 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 8999, 11000, '2014-09-30 12:00:00'], 
-		[11, 'NW2 Claiming $17,500', '(NW2)', '2014-09-21 12:00:00', 'Draft', "Protocol", 'Miles', 1, 3100, 6000, '2014-09-30 12:00:00'], 
-		[12, 'Cahill Road $500,000', '3+','2014-09-20 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 14000, 10000, '2014-09-30 12:00:00'],
-		[13, 'WA State Legislators Stakes $325,000', '3YO, F/M, WA', '2014-09-21 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 4200, 8000, '2014-09-30 12:00:00'],
-		[14, 'Hastings Stakes $715,000', '2YO WA', '2014-09-19 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 1800, 16000, '2014-09-30 12:00:00']]
+races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-10-03 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 5000, 150000,'2014-10-03 12:00:00'], 
+		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-10-03', 'Published', "Alternate", 'Furlongs', 6, 2000, 8000, '2014-10-03 12:00:00'], 
+		[3, 'Open Race Claiming $8,000', '', '2014-10-03 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 6000, 2000, '2014-10-03 12:00:00'], 
+		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-10-04 12:00:00', 'Draft', "Protocol", 'Miles', 1, 10000, 13000, '2014-10-03 12:00:00'], 
+		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-10-04 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 6000, 7600, '2014-10-03 12:00:00'],
+		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-10-04 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 2500, 1500, '2014-10-03 12:00:00'],
+		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-10-05 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 3600, 5000, '2014-10-03 12:00:00'],
+		[8, 'Maiden Claiming Purse $19,975', '(Maiden, 2YO)','2014-10-05 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 7000, 9000,'2014-10-03 12:00:00'], 
+		[9, 'Washington Maiden Claiming Purse $17,875', '(washington bred)', '2014-10-05 12:00:00', 'Published', "Alternate", 'Furlongs', 6, 5000, 7000, '2014-10-03 12:00:00'], 
+		[10, 'Open Race Claiming $18,000', '', '2014-09-27 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 8999, 11000, '2014-09-30 12:00:00'], 
+		[11, 'NW2 Claiming $17,500', '(NW2)', '2014-09-28 12:00:00', 'Draft', "Protocol", 'Miles', 1, 3100, 6000, '2014-09-30 12:00:00'], 
+		[12, 'Cahill Road $500,000', '3+','2014-09-29 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 14000, 10000, '2014-09-30 12:00:00'],
+		[13, 'WA State Legislators Stakes $325,000', '3YO, F/M, WA', '2014-09-27 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 4200, 8000, '2014-09-30 12:00:00'],
+		[14, 'Hastings Stakes $715,000', '2YO WA', '2014-09-29 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 1800, 16000, '2014-09-30 12:00:00']]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Owner Email, Trainer Email, Week Running]
 horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com', 2],
@@ -46,7 +46,7 @@ horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com
 		['Sire and Son', 'W', 'C', '2011-05-05', 25, 7, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com', 3],
 		['Hope Media', 'KY', 'G', '2010-05-05', 7, 1, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com', 2]]
 
-new_meet = Meet.find_or_create_by!(name: 'Summer 2014', start_date: '2014-04-01 00:00:00', end_date: '2014-08-30 12:00:00', race_days: 60)
+new_meet = Meet.find_or_create_by!(name: 'Summer 2014', start_date: '2014-04-01 00:00:00', end_date: '2014-10-30 12:00:00', race_days: 60)
 new_meet.save
 meet = Meet.find_by_name('Summer 2014')
 new_tel = Tel.find_or_create_by!(weekend_start: '2014-09-05 00:00:00', meet_id: meet.id, week_number: 1)
