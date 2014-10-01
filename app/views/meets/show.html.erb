@@ -1,28 +1,24 @@
+<ul class="breadcrumb">
+	<li><%= link_to 'Meet List', meets_path %></li>
+	<li class="active"><%= @meet.name %></li>
+</ul>
 <div class="row">
-	<ol class="breadcrumb">
-	  <li><%= link_to 'Meet List', meets_path %></li>
-	  <li class="active"><%= @meet.name %></li>
-	</ol>
-	<div class="col-xs-6">
-		<div class="row">
-			<div class="col-xs-12 ">
-				<h1><%= @meet.name %></h1>
-				<h4><%= @meet.race_days %> days</h4>
-				<h4>Start Date: <%= @meet.start_date.strftime('%b %d, %Y') %></h4>
-				<h4>End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></h4>
-			</div>
-			<div class="col-xs-12">
-				<% if current_user.admin? %>
-	      			<%= link_to 'New Tel', new_tel_path({tel: {:meet_id=> @meet.id}}), :class => 'btn btn-primary btn-xs' %>
-	    		<% end %>
-	    	</div>
-		</div>
-	</div>
-	<h2> Tels </h2>
-	<div class="col-xs-6">
-		<div class ="race-list-table">
-			<table class="table table-condensed table-hover generic-table">
-				<thead>
+  <div class="col-xs-12">
+    <h2><%= @meet.name %></h2>
+    <h4><%= @meet.race_days %> days</h4>
+	<h4>Start Date: <%= @meet.start_date.strftime('%b %d, %Y') %></h4>
+	<h4>End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></h4>
+	<% if current_user.admin? %>
+		<%= link_to 'New Tel', new_tel_path({tel: {:meet_id=> @meet.id}}), :class => 'btn btn-primary btn-xs' %>
+	<% end %>
+  </div>
+  <div class="col-xs-12">
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+          <div class="col-xs-12">
+            <table id="meet_show-table" class="table table-condensed table-hover">
+              	<thead>
 					<tr>
 						<th>Week Number</th>
 						<th>Weekend Of</th>
@@ -30,18 +26,21 @@
 					</tr>
 				</thead>
 				<tbody>
-				<% @tels.each do |tel| %>
-        	<tr>
-        	<td><%= tel.week_number %></td>
-          	<td><%= tel.weekend_start.strftime('%b %d, %Y') %></td>
-          	<td>
-          	<%= link_to 'Show', tel, :class => 'btn btn-primary btn-xs' %>
-            	<%= link_to 'Edit', edit_tel_path(tel), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-            	<%= link_to 'Destroy', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
-        	</tr>
-        <% end %>
-		    </tbody>
-			</table>
-		</div>
-	</div>
+					<% @tels.each do |tel| %>
+		        	<tr>
+		        	<td><%= tel.week_number %></td>
+		          	<td><%= tel.weekend_start.strftime('%b %d, %Y') %></td>
+		          	<td>
+		          	<%= link_to 'Show', tel, :class => 'btn btn-primary btn-xs' %>
+		            	<%= link_to 'Edit', edit_tel_path(tel), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+		            	<%= link_to 'Destroy', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
+		        	</tr>
+	        		<% end %>
+		    	</tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
