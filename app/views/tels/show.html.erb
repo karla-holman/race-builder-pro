@@ -1,11 +1,11 @@
+<ol class="breadcrumb">
+  <li><%= link_to 'Meet List', meets_path %></li>
+  <li><%= link_to @meet.name, @meet %></li>
+  <li class="active">Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></li>
+</ol>
 <div class="row">
   <div class="col-xs-12">
-    <ol class="breadcrumb">
-      <li><%= link_to 'Meet List', meets_path %></li>
-      <li><%= link_to @meet.name, @meet %></li>
-      <li class="active">Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></li>
-    </ol>
-    <h1>Race Database For The Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></h1>
+    <h2>Race Database For The Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></h2>
     <div class="col-xs-3 well userbox">
       <%= link_to "Friday Tel "+@friday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/friday'%>
     </div>
@@ -15,28 +15,24 @@
     <div class="col-xs-3 well userbox">
       <%= link_to "Sunday Tel "+@sunday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/sunday' %>
     </div>
-    <h1>All Weekend Races</h1>
-    <table id="tel-index-table" class="table table-condensed table-hover">
+  </div>
+  <div class="col-xs-12">
+    <table id="tel-index-table" class="detailTable table table-condensed table-hover">
       <thead>
         <tr>
           <th>Name</th>
           <th>Description</th>
           <th>Purse</th>
-          <th>Claiming Level</th>
           <th>Commited</th>
+          <th style="display: none;">Date</th>
+          <th style="display: none;">Conditions</th>
+          <th style="display: none;">Distance</th>
+          <th style="display: none">Claiming Level</th>
         </tr>
       </thead>
       <tbody>
         <% @races.each do |race| %>
-          <tr class="top"  data-toggle="tooltip" data-placement="right" title="
-                    Conditions: 
-                    <% if race.conditions.any?
-                      race.conditions.each do |condition| %>
-                        <%= condition.name %>
-                      <% end %>
-                    <% else %>
-                      None
-                    <% end %>">
+          <tr >
             <td><%= race.name %></td>
             <td><%= race.description %></td>
             <td>
@@ -46,13 +42,32 @@
                 <%= number_to_currency(0, precision: 2) %>
               <% end %>
             </td>
-            <td>
+            <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+            <td style="display: none;"><%=race.race_datetime.strftime('%I:%M %P, %b %d, %Y')%></td>
+            <td style="display: none;">
+              <% if race.conditions.any? %>
+                <% race.conditions.each do |condition| %>
+                    | <%= condition.name %> |
+                <% end %>
+              <% else %>
+                | None |
+              <% end %>
+              </td>
+              <% if race.distance <= 1 %>
+                <% if race.distance_type == 'Furlongs' %>
+                  <td style="display: none;"><%= race.distance %> Furlong</td>
+                <% else %>
+                  <td style="display: none;"><%= race.distance %> Mile</td>
+                <% end %>
+              <% else %>
+                <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
+              <% end %>
+            <td style="display: none;">
               <% if race.claiming_level? %>
                 <%= number_to_currency(race.claiming_level, precision: 2) %>
               <% else %>
                 <%= number_to_currency(0, precision: 2) %>
               <% end %>
-              <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
             </td>
           </tr>
         <% end %>
@@ -60,3 +75,18 @@
     </table>
   </div>
 </div>
+<script>
+  /* Formating function for row details */
+  function fnFormatDetails ( oTable, nTr )
+  {
+    var aData = oTable.fnGetData( nTr );
+    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
+    sOut += '<tr><td>Date: </td><td>'+aData[5]+'</td></tr>';
+    sOut += '<tr><td>Conditions: </td><td>'+aData[6]+'</td></tr>';
+    sOut += '<tr><td>Distance:</td><td>'+aData[7]+'</td></tr>';
+    sOut += '<tr><td>Claiming Level: </td><td>'+aData[8]+'</td></tr>';
+    sOut += '</table>';
+   
+    return sOut;
+  }
+</script>

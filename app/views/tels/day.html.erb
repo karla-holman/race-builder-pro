@@ -11,7 +11,7 @@
     <%if current_user.admin? %>
       <table id="drag-table" class="table table-condensed table-hover">
     <% else %>
-      <table class="table table-condensed table-hover generic-table">
+      <table class="table table-condensed table-hover genericTable">
     <% end %>
       <thead>
         <tr>
@@ -54,8 +54,6 @@
         <tr>
           <th>Type</th>
           <th>Name</th>
-          <th>Description</th>
-          <th>Purse</th>
           <th>Claiming Level</th>
           <th># Commited</th>
           <th colspan="1"></th>

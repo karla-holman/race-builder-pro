@@ -1,99 +1,125 @@
+<ul class="breadcrumb">
+	<li><%= link_to 'Race List', races_path %></li>
+	<li class="active"><%= @race.name %></li>
+	<li><%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish' %></li>
+</ul>
 <div class="row">
-	<ol class="breadcrumb">
-	  <li><%= link_to 'Race List', races_path %></li>
-	  <li class="active"><%= @race.name %></li>
-	  <li><%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish' %></li>
-	</ol>
-	<div class="col-xs-3 horse-info-list-group">
-		<h4>Conditions:</h4>
-		<%= render 'condition' %>
-	</div>
-	<div class="col-xs-6">
-		<div class="row">
-			<div class="col-xs-12 horse-info">
-				<h1><%= @race.name %></h1>
-				<% if @race.status == "Draft"%>
-          <%= link_to 'Publish Race', {:controller => "races", :action => "update_status", :status => "Published", :id => @race.id }, :class => 'btn btn-info btn-s' %>
-        <% else %>
-          <%= link_to 'Change to Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => @race.id }, :class => 'btn btn-warning btn-s' %>
-        <% end %>
-				<h4>Race Number: <%= @race.race_number %></h4>
-				<h4><%= @race.description %></h4>
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-6">
-		<% @race_groups.each do |racegroup| %>
-			<div class ="race-list-table">
-				<h4><%= racegroup[0] %></h4>
-				<table class="table table-condensed table-hover generic-table race-show-table">
-					<thead>
-						<tr>
-							<th>Name</th>
-		          <th>Gender</th>
-		          <th>Age</th>
-		          <th>Starts</th>
-		          <th>Firsts</th>
-		          <th>Race Status</th>
-		          <th>Prev Claiming Level</th>
-		          <% if racegroup[0] == "Eligible" || racegroup[0] == "Confirmed" %>
-		          	<th colspan="1"></th>
-		          <% end %>
-						</tr>
-					</thead>
-					<% if racegroup[1] %>
-						<tbody>
-			        <% racegroup[1].each do |horse| %>
-			          <tr class="top">
-			          	<% horserace = Horserace.where(:race_id => @race.id, :horse_id => horse.id) %>
-			            <td><%= horse.name %></td>
-			            <td><%= horse.gender %></td>
-			            <td>
-			             <% def age(dob)
-			                now = Time.now.utc.to_date
-			                now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-			              end %>
-			              <%= age(horse.DOB.to_date) %>
-			            </td>
-			            <td><%= horse.starts %></td>
-			            <td><%= horse.firsts %></td>
-			            <td>
-			            	<% if horserace.any? %>
-			            		<%= horserace[0].status %>
-			            	<% else %>
-			            		<%= racegroup[0] %>
-			            	<% end %>
-			            </td>
-			            <td>
-			            	<% if horse.last_claiming_level? %>
-	                		<%= number_to_currency(horse.last_claiming_level, precision: 2) %>
-	              		<% else %>
-	                		<%= number_to_currency(0, precision: 2) %>
-	              		<% end %>
-	              	</td>
-	              	<% if racegroup[0] == "Eligible" %>
-		              	<td>
-		              	<% if Notification.where(:send_id => @race.id, :recv_id => horse.id, :action => "Suggest").any? %>
-		              	<button class="btn btn-danger btn-xs">Suggested</button>
-		              	<% else %>
-		              		<button class="suggestion btn btn-success btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Suggest Race</button>
-		              	<% end %>
-		              	</td>
-		              <% elsif horserace.any? %>			              
-			              <% if horserace[0].status == "Confirmed"%>
-			              	<td>
-			              		<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
-			              	</td>
-			              <% elsif horserace[0].status == "Scratched"%>
-			              	<td>Scratched</td>
-		              	<% end %>
-		              <% end %>
-			          </tr>
+  <div class="col-md-12">
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+        	<div class="col-md-3">
+        		<h3>Conditions:</h3>
+        		<div id="conditionPartial">
+							<%= render 'condition' %>
+						</div>
+        	</div>
+        	<div class="col-md-9">
+        		<div class="center">
+        			<h1><%= @race.name %></h1>
+							<% if @race.status == "Draft"%>
+			          <%= link_to 'Publish Race', {:controller => "races", :action => "update_status", :status => "Published", :id => @race.id }, :class => 'btn btn-info btn-s' %>
+			        <% else %>
+			          <%= link_to 'Change to Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => @race.id }, :class => 'btn btn-warning btn-s' %>
 			        <% end %>
-			      </tbody>
-					<% end %>
-				</table>
-			</div>
-		<% end %>
-	</div>
+						</div>
+						<% @race_groups.each do |racegroup| %>
+							<h4><%= racegroup[0] %></h4>
+							<table class="genericTable table table-condensed table-hover">
+								<thead>
+									<tr>
+										<th>Name</th>
+					          <th>Gender</th>
+					          <th>Age</th>
+					          <th>Starts</th>
+					          <th>Firsts</th>
+					          <th>Race Status</th>
+					          <th>Prev Claiming Level</th>
+					          <th style="display:none;">Owner</th>
+			              <th style="display:none;">Trainer</th>
+			              <th style="display:none;">Conditions</th>
+			              <th colspan="1"></th>
+									</tr>
+								</thead>
+								<% if racegroup[1] %>
+									<tbody>
+						        <% racegroup[1].each do |horse| %>
+						          <tr >
+						          	<% horserace = Horserace.where(:race_id => @race.id, :horse_id => horse.id) %>
+						            <td><%= horse.name %></td>
+						            <td><%= horse.gender %></td>
+						            <td>
+						             <% def age(dob)
+						                now = Time.now.utc.to_date
+						                now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+						              end %>
+						              <%= age(horse.DOB.to_date) %>
+						            </td>
+						            <td><%= horse.starts %></td>
+						            <td><%= horse.firsts %></td>
+						            <td>
+						            	<% if horserace.any? %>
+						            		<%= horserace[0].status %>
+						            	<% else %>
+						            		<%= racegroup[0] %>
+						            	<% end %>
+						            </td>
+						            <td>
+						            	<% if horse.last_claiming_level? %>
+				                		<%= number_to_currency(horse.last_claiming_level, precision: 2) %>
+				              		<% else %>
+				                		<%= number_to_currency(0, precision: 2) %>
+				              		<% end %>
+				              	</td>
+				              	<td style="display:none;"><%= horse.owner.name %></td>
+					              <td style="display:none;"><%= horse.trainer.name %></td>
+					              <td style="display:none;">
+					              <% if horse.conditions.any? %>
+					                <% horse.conditions.each do |condition| %>
+					                  | <%= condition.name %> |
+					                <% end %>
+					              <% else %>
+					                | None |
+					              <% end %>
+					              </td>
+					              <td>
+				              	<% if racegroup[0] == "Eligible" %>
+					              	<% if Notification.where(:send_id => @race.id, :recv_id => horse.id, :action => "Suggest").any? %>
+					              	<button class="btn btn-danger btn-xs">Suggested</button>
+					              	<% else %>
+					              		<button class="suggestion btn btn-success btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Suggest Race</button>
+					              	<% end %>
+					              <% elsif horserace.any? %>			              
+						              <% if horserace[0].status == "Confirmed"%>
+						              	<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
+						              <% elsif horserace[0].status == "Scratched"%>
+						              	Scratched
+					              	<% end %>
+					              <% end %>
+					              </td>
+						          </tr>
+						        <% end %>
+						      </tbody>
+								<% end %>
+							</table>
+						<% end %>
+					</div>
+	      </div>
+      </div>
+    </div>
+  </div>
 </div>
+<script>
+	  /* Formating function for row details */
+  function fnFormatDetails ( oTable, nTr )
+  {
+    var aData = oTable.fnGetData( nTr );
+    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
+    sOut += '<tr><td>Horse Conditions:</td><td>'+aData[10]+'</td></tr>';
+    sOut += '<tr><td>Trainer:</td><td>'+aData[9]+'</td></tr>';
+    sOut += '<tr><td>Owner:</td><td>'+aData[8]+'</td></tr>';
+    sOut += '</table>';
+     
+    return sOut;
+  }
+</script>

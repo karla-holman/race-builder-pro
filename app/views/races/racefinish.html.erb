@@ -1,48 +1,56 @@
+<ul class="breadcrumb">
+  <li><%= link_to 'Race List', races_path %></li>
+  <li class="active"><%= @race.name %></li>
+  <li><%= link_to 'Before Race View', @race %></li>
+</ul>
 <div class="row">
-	<ol class="breadcrumb">
-	  <li><%= link_to 'Race List', races_path %></li>
-	  <li class="active"><%= @race.name %></li>
-      <li><%= link_to 'Before Race View', @race %></li>
-	</ol>
-	<div class="col-xs-12 horse-info">
-		<h1><%= @race.name %></h1>
-	</div>
-	<div class="col-xs-6">
-		<table class="table table-condensed table-hover generic-table">
-			<thead>
-				<tr>
-					<th>Name</th>
-        	       <th colspan="1"></th>
-        	       <th colspan="1"></th>
+  <div class="col-xs-12">
+    <h2><%= @race.name %></h2>
+  </div>
+  <div class="col-xs-12">
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+          <div class="col-xs-12">
+            <table class="genericTable table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                   <th colspan="1"></th>
+                   <th colspan="1"></th>
                    <th>Transfer Owner</th>
                    <th>Transfer Trainer</th>
-				</tr>
-			</thead>
-			<tbody>
-        <% @confirmed.each do |horse| %>
-          <tr class="top">
-            <td><%= horse.name %></td>
-            <td>
-            <% if RaceWinner.where(:horse_id => horse.id, :race_id => @race.id).any? %>
-            	WON
-            <% elsif Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'Scratched').any? %>
-            	SCRATCHED
-            <% else %>
-            	<button class="winner btn btn-primary btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Winner</button>
-            <% end %>
-            </td>
-            <td>
-            	<% if Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'Scratched').any? %>
-            		SCRATCHED 
-            	<% else %>
-            		<button class="scratch btn btn-danger btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
-            	<% end %>
-            </td>
-            <td><%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.name, o.id]}, horse.owner.id), :class => 'transferOwner', :horse => horse.id%></td>
-            <td><%= select_tag "Transfer Trainer", options_for_select(@trainers.collect{ |o| [o.name, o.id]}, horse.trainer.id), :class => 'transferTrainer', :horse => horse.id %></td>
-          </tr>
-        <% end %>
-      </tbody>
-		</table>
-	</div>
+                </tr>
+              </thead>
+              <tbody>
+                <% @confirmed.each do |horse| %>
+                  <tr class="top">
+                    <td><%= horse.name %></td>
+                    <td>
+                    <% if RaceWinner.where(:horse_id => horse.id, :race_id => @race.id).any? %>
+                      WON
+                    <% elsif Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'Scratched').any? %>
+                      SCRATCHED
+                    <% else %>
+                      <button class="winner btn btn-primary btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Winner</button>
+                    <% end %>
+                    </td>
+                    <td>
+                      <% if Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'Scratched').any? %>
+                        SCRATCHED 
+                      <% else %>
+                        <button class="scratch btn btn-danger btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
+                      <% end %>
+                    </td>
+                    <td><%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.name, o.id]}, horse.owner.id), :class => 'transferOwner', :horse => horse.id%></td>
+                    <td><%= select_tag "Transfer Trainer", options_for_select(@trainers.collect{ |o| [o.name, o.id]}, horse.trainer.id), :class => 'transferTrainer', :horse => horse.id %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

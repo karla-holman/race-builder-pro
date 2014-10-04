@@ -19,6 +19,6 @@ $(document).ready(function() {
         },
     });
     
-    $('.genericTalbe_wrapper .dataTables_filter input').addClass("input-medium ");
-    $('.meet_index-table_wrapper .dataTables_length select').addClass("span12"); 
+    $('.genericTable_wrapper .dataTables_filter input').addClass("input-medium ");
+    $('.genericTable-table_wrapper .dataTables_length select').addClass("span12"); 
 });

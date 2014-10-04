@@ -5,7 +5,6 @@ $(document).ready(function() {
 	     method: "GET",
 	     data: "horse_id=" + $("#specificHorse").attr("horse"),
 	     success: function(response) {
-	     		$('#racemenu').html(resonse);
 	     }
 		})
 	}
@@ -16,7 +15,6 @@ $(document).ready(function() {
 	     method: "GET",
 	     data: "horse_id=" + $(this).val(),
 	     success: function(response) {
-	     		$('#racemenu').html(resonse);
 	     }
 		})
 	});

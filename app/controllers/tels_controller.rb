@@ -1,5 +1,6 @@
 class TelsController < ApplicationController
   before_action :set_tel, only: [:show, :edit, :update, :destroy, :friday, :saturday, :sunday]
+  skip_before_filter  :verify_authenticity_token
 
   # GET /tels
   # GET /tels.json

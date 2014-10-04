@@ -11,7 +11,7 @@ $("#menu_age_id").change(function(){
        noWinsSince_id: $(".page-info").attr("noWinsSince"),
        distance: $(".page-info").attr("distance")},
        success: function(response) {
-          $('#racemenu').html(resonse);
+          $('#racemenu').html(repsonse);
        }
     })
   });
@@ -26,7 +26,7 @@ $("#Distances").change(function(){
        upper_claiming: $(".page-info").attr("upper-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
-          $('#racemenu').html(resonse);
+          $('#racemenu').html(response);
        }
     })
   });
@@ -41,7 +41,7 @@ $("#menu_noWinsSince_id").change(function(){
        lower_claiming: $(".page-info").attr("lower-claiming"), distance: $(".page-info").attr("distance"),
        upper_claiming: $(".page-info").attr("upper-claiming")},
        success: function(response) {
-          $('#racemenu').html(resonse);
+          $('#racemenu').html(response);
        }
     })
   });
@@ -56,7 +56,7 @@ $("#menu_wins_id").change(function(){
        upper_claiming: $(".page-info").attr("upper-claiming"),
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
-          $('#racemenu').html(resonse);
+          $('#racemenu').html(response);
        }
     })
   });
@@ -71,7 +71,7 @@ $("#menu_gender_id").change(function(){
        upper_claiming: $(".page-info").attr("upper-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
-          $('#racemenu').html(resonse);
+          $('#racemenu').html(response);
        }
     })
   });
@@ -86,7 +86,6 @@ $("#Lower_Claiming_Level").change(function(){
        upper_claiming: $(".page-info").attr("upper-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
-          $('#racemenu').html(resonse);
        }
     })
   });
@@ -101,7 +100,6 @@ $("#Upper_Claiming_Level").change(function(){
        lower_claiming: $(".page-info").attr("lower-claiming"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
-          $('#racemenu').html(resonse);
        }
     })
   });
@@ -118,7 +116,6 @@ $('#racelist-table').dataTable({
 						     method: "GET",
 						     data: "horse_id=" + $(".page-info").attr("horse"),
 						     success: function(response) {
-						     		$('#racemenu').html(resonse);
 						     }
 							})
             return false;
@@ -151,7 +148,6 @@ function attemptUpdate(f){
 		     method: "GET",
 		     data: "horse_id=" + $(".page-info").attr("horse"),
 		     success: function(response) {
-		     		$('#racemenu').html(resonse);
 		     }
 			})
     }
@@ -165,7 +161,4 @@ function attemptUpdate(f){
   });
   return false;
 }
-
-
-
 
