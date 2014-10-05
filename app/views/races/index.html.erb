@@ -6,66 +6,73 @@
     <% end %>
   </div>
   <div class="col-xs-12">
-    <table class="detailTable table table-condensed table-hover">
-      <thead>
-        <tr>
-          <th>Number</th>
-          <th>Name</th> 
-          <th>Purse</th>
-          <th style="display: none;">Conditions</th>
-          <th style="display: none;">Description</th>
-          <th style="display: none;">Claiming Level</th>
-          <th>Status</th>
-          <th colspan="1"></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @races.each do |race| %>
-          <tr>
-            <td><%= race.race_number %></td>
-            <td><%= race.name %></td>
-            <td>
-              <% if race.claiming_purse? %>
-                <%= number_to_currency(race.claiming_purse, precision: 2) %>
-              <% else %>
-                <%= number_to_currency(0, precision: 2) %>
-              <% end %>
-            </td>
-            <td style="display: none;">
-            <% conditions = race.conditions %>
-            <% if conditions.any? %>
-                <% conditions.each do |condition| %>
-                    <%= condition.name %>
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+          <div class="col-xs-12">
+            <table class="detailTable table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Number</th>
+                  <th>Name</th> 
+                  <th>Purse</th>
+                  <th style="display: none;">Conditions</th>
+                  <th style="display: none;">Description</th>
+                  <th style="display: none;">Claiming Level</th>
+                  <th>Status</th>
+                  <th colspan="1"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @races.each do |race| %>
+                  <tr>
+                    <td><%= race.race_number %></td>
+                    <td><%= race.name %></td>
+                    <td>
+                      <% if race.claiming_purse? %>
+                        <%= number_to_currency(race.claiming_purse, precision: 2) %>
+                      <% else %>
+                        <%= number_to_currency(0, precision: 2) %>
+                      <% end %>
+                    </td>
+                    <td style="display: none;">
+                    <% conditions = race.conditions %>
+                    <% if conditions.any? %>
+                        <% conditions.each do |condition| %>
+                            <%= condition.name %>
+                        <% end %>
+                    <% else %>
+                      None
+                    <% end %>
+                    </td>
+                    <td style="display: none;"><%= race.description %></td>
+                    <td style="display: none;">
+                      <% if race.claiming_level? %>
+                        <%= number_to_currency(race.claiming_level, precision: 2) %>
+                      <% else %>
+                        <%= number_to_currency(0, precision: 2) %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if race.status == "Draft"%>
+                        <%= link_to 'Published', {:controller => "races", :action => "update_status", :status => "Published", :id => race.id }, :class => 'btn btn-success btn-mini' %>
+                      <% else %>
+                        <%= link_to 'Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => race.id }, :class => 'btn btn-danger btn-mini' %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to 'Show', race, :class => 'btn btn-success btn-mini' %>
+                      <%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
+                      <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %>
+                    </td>
+                  </tr>
                 <% end %>
-            <% else %>
-              None
-            <% end %>
-            </td>
-            <td style="display: none;"><%= race.description %></td>
-            <td style="display: none;">
-              <% if race.claiming_level? %>
-                <%= number_to_currency(race.claiming_level, precision: 2) %>
-              <% else %>
-                <%= number_to_currency(0, precision: 2) %>
-              <% end %>
-            </td>
-            <td>
-              <% if race.status == "Draft"%>
-                <%= link_to 'Published', {:controller => "races", :action => "update_status", :status => "Published", :id => race.id }, :class => 'btn btn-success btn-mini' %>
-              <% else %>
-                <%= link_to 'Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => race.id }, :class => 'btn btn-danger btn-mini' %>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to 'Show', race, :class => 'btn btn-success btn-mini' %>
-              <%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
-              <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>
