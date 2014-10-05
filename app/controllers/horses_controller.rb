@@ -122,6 +122,7 @@ class HorsesController < ApplicationController
         if HorseCondition.where(condition_id: condition, horse_id: @horse.id).empty? && !condition.empty?
           if Condition.find(condition).name == "Blinkers On"
             notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "Add")
+            @horse.create_activity :add_blinkers, owner: current_user
           else
             HorseCondition.find_or_create_by!(:horse_id => @horse.id, :condition_id => condition)
           end
@@ -131,6 +132,7 @@ class HorsesController < ApplicationController
       current_conditions.each do |condition|
         if Condition.find(condition).name == "Blinkers On"
           notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: condition, action: "Remove")
+          @horse.create_activity :remove_blinkers, owner: current_user
         else
           HorseCondition.where(:horse_id => @horse.id, :condition_id => condition).delete_all
         end
