@@ -11,3 +11,11 @@
 .center {
 	text-align: center;
 }
+
+.grid {
+	margin-top: 25px;
+}
+
+.grid.simple .grid-body.no-border {
+	padding: 25px;
+}
