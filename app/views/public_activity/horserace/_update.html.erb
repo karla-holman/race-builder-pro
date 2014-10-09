@@ -1,0 +1,7 @@
+<% if activity.trackable %>
+	changed <%= link_to Horse.find(activity.trackable.horse_id).name, Horse.find(activity.trackable.horse_id) %>'s status to
+	<%= activity.parameters[:status]%> for 
+	<%= link_to Race.find(activity.trackable.race_id).name, Race.find(activity.trackable.race_id) %>
+	on <%= activity.created_at.strftime('%b %d, %Y at %l:%M %P') %>
+<% end %>
+

@@ -39,7 +39,7 @@
                     <% conditions = race.conditions %>
                     <% if conditions.any? %>
                         <% conditions.each do |condition| %>
-                            <%= condition.name %>
+                            | <%= condition.name %> |
                         <% end %>
                     <% else %>
                       None

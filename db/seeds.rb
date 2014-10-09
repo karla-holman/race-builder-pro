@@ -21,20 +21,20 @@ categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
 #Races: [Race Number, Name, Description, Datetime]
-races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-10-03 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 5000, 150000,'2014-10-03 12:00:00'], 
-		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-10-03', 'Published', "Alternate", 'Furlongs', 6, 2000, 8000, '2014-10-03 12:00:00'], 
-		[3, 'Open Race Claiming $8,000', '', '2014-10-03 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 6000, 2000, '2014-10-03 12:00:00'], 
-		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-10-04 12:00:00', 'Draft', "Protocol", 'Miles', 1, 10000, 13000, '2014-10-03 12:00:00'], 
-		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-10-04 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 6000, 7600, '2014-10-03 12:00:00'],
-		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-10-04 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 2500, 1500, '2014-10-03 12:00:00'],
-		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-10-05 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 3600, 5000, '2014-10-03 12:00:00'],
-		[8, 'Maiden Claiming Purse $19,975', '(Maiden, 2YO)','2014-10-05 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 7000, 9000,'2014-10-03 12:00:00'], 
-		[9, 'Washington Maiden Claiming Purse $17,875', '(washington bred)', '2014-10-05 12:00:00', 'Published', "Alternate", 'Furlongs', 6, 5000, 7000, '2014-10-03 12:00:00'], 
-		[10, 'Open Race Claiming $18,000', '', '2014-09-27 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 8999, 11000, '2014-09-30 12:00:00'], 
-		[11, 'NW2 Claiming $17,500', '(NW2)', '2014-09-28 12:00:00', 'Draft', "Protocol", 'Miles', 1, 3100, 6000, '2014-09-30 12:00:00'], 
-		[12, 'Cahill Road $500,000', '3+','2014-09-29 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 14000, 10000, '2014-09-30 12:00:00'],
-		[13, 'WA State Legislators Stakes $325,000', '3YO, F/M, WA', '2014-09-27 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 4200, 8000, '2014-09-30 12:00:00'],
-		[14, 'Hastings Stakes $715,000', '2YO WA', '2014-09-29 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 1800, 16000, '2014-09-30 12:00:00']]
+races = [[1, 'Maiden Claiming Purse $9,975', '(Maiden, 3YO)','2014-10-10 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 5000, 150000,'2014-10-09 12:00:00'], 
+		[2, 'Washington Maiden Claiming Purse $7,875', '(washington bred, F/M, 3+)', '2014-10-10 12:00:00', 'Published', "Alternate", 'Furlongs', 6, 2000, 8000, '2014-10-09 12:00:00'], 
+		[3, 'Open Race Claiming $8,000', '', '2014-10-10 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 6000, 2000, '2014-10-09 12:00:00'], 
+		[4, 'NW2 Claiming $7,500', '(3+, NW2)', '2014-10-10 12:00:00', 'Draft', "Protocol", 'Miles', 1, 10000, 13000, '2014-10-09 12:00:00'], 
+		[5, 'Hastings Handicap $50,000', '3+, F/M','2014-10-11 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 6000, 7600, '2014-10-09 12:00:00'],
+		[6, 'WA State Legislators Stakes $35,000', '3YO, F/M, WA', '2014-10-11 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 2500, 1500, '2014-10-12 12:00:00'],
+		[7, 'NWSS Cahill Road Stakes $75,000', '2YO WA', '2014-10-11 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 3600, 5000, '2014-10-12 12:00:00'],
+		[8, 'Maiden Claiming Purse $19,975', '(Maiden, 2YO)','2014-10-11 12:00:00', 'Published', "Alternate",'Furlongs', 4.5, 7000, 9000,'2014-10-12 12:00:00'], 
+		[9, 'Washington Maiden Claiming Purse $17,875', '(washington bred)', '2014-10-11 12:00:00', 'Published', "Alternate", 'Furlongs', 6, 5000, 7000, '2014-10-12 12:00:00'], 
+		[10, 'Open Race Claiming $18,000', '', '2014-10-12 12:00:00', 'Published', "Protocol", 'Furlongs', 5.5, 8999, 11000, '2014-10-11 12:00:00'], 
+		[11, 'NW2 Claiming $17,500', '(NW2)', '2014-10-12 12:00:00', 'Draft', "Protocol", 'Miles', 1, 3100, 6000, '2014-10-11 12:00:00'], 
+		[12, 'Cahill Road $500,000', '3+','2014-10-12 12:00:00', 'Draft', "Alternate", 'Miles', 1.25, 14000, 10000, '2014-10-11 12:00:00'],
+		[13, 'WA State Legislators Stakes $325,000', '3YO, F/M, WA', '2014-10-12 12:00:00', 'Draft', "Stakes", 'Miles', 1.5, 4200, 8000, '2014-10-11 12:00:00'],
+		[14, 'Hastings Stakes $715,000', '2YO WA', '2014-10-12 12:00:00', 'Published', "Stakes", 'Miles', 1.25, 1800, 16000, '2014-10-11 12:00:00']]
 
 #Horses: [Name, POB, Gender, DOB(year,month, day), Starts, Firsts, Owner Email, Trainer Email, Week Running]
 horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com', 2],
@@ -49,7 +49,7 @@ horses = [['Owen Hope', 'KY', 'G', '2011-04-01', 5, 0, 'owner@hopemediahouse.com
 new_meet = Meet.find_or_create_by!(name: 'Summer 2014', start_date: '2014-04-01 00:00:00', end_date: '2014-10-30 12:00:00', race_days: 60)
 new_meet.save
 meet = Meet.find_by_name('Summer 2014')
-new_tel = Tel.find_or_create_by!(weekend_start: '2014-09-05 00:00:00', meet_id: meet.id, week_number: 1)
+new_tel = Tel.find_or_create_by!(weekend_start: '2014-10-10 00:00:00', meet_id: meet.id, week_number: 1)
 new_tel.save
 
 categories.each do |category, conditions|
@@ -108,25 +108,119 @@ horses.each do |horse|
 	end
 end
 
-condition = Condition.find_by_name('3+')
-condition.lowerbound = 3
-condition.save
-condition = Condition.find_by_name('3YO')
-condition.lowerbound = 3
-condition.upperbound = 3
-condition.save
-condition = Condition.find_by_name('2YO')
-condition.lowerbound = 2
-condition.upperbound = 2
-condition.save
-condition = Condition.find_by_name('Maiden')
-condition.lowerbound = 0
-condition.upperbound = 0
-condition.save
-condition = Condition.find_by_name('NW2')
-condition.lowerbound = 0
-condition.upperbound = 1
-condition.save
+threeplus = Condition.find_by_name('3+')
+threeplus.lowerbound = 3
+threeplus.save
+three = Condition.find_by_name('3YO')
+three.lowerbound = 3
+three.upperbound = 3
+three.save
+two = Condition.find_by_name('2YO')
+two.lowerbound = 2
+two.upperbound = 2
+two.save
+maiden = Condition.find_by_name('Maiden')
+maiden.lowerbound = 0
+maiden.upperbound = 0
+maiden.save
+nwtwo = Condition.find_by_name('NW2')
+nwtwo.lowerbound = 0
+nwtwo.upperbound = 1
+nwtwo.save
+female = Condition.find_by_name('F')
+male = Condition.find_by_name('M')
+washington = Condition.find_by_name('WA')
+
+
+
+
+race = Race.find_by_name('Maiden Claiming Purse $9,975')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: three.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: maiden.id)
+race_condition.save
+
+race = Race.find_by_name('Washington Maiden Claiming Purse $7,875')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: threeplus.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: female.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: male.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: washington.id)
+race_condition.save
+
+race = Race.find_by_name('NW2 Claiming $7,500')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: threeplus.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: nwtwo.id)
+race_condition.save
+
+race = Race.find_by_name('Hastings Handicap $50,000')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: threeplus.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: female.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: male.id)
+race_condition.save
+
+race = Race.find_by_name('WA State Legislators Stakes $35,000')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: three.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: female.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: male.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: washington.id)
+race_condition.save
+
+race = Race.find_by_name('NWSS Cahill Road Stakes $75,000')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: two.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: washington.id)
+race_condition.save
+
+race = Race.find_by_name('Maiden Claiming Purse $19,975')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: maiden.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: two.id)
+race_condition.save
+
+race = Race.find_by_name('Washington Maiden Claiming Purse $17,875')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: washington.id)
+race_condition.save
+
+race = Race.find_by_name('NW2 Claiming $17,500')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: nwtwo.id)
+race_condition.save
+
+race = Race.find_by_name('Cahill Road $500,000')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: threeplus.id)
+race_condition.save
+
+race = Race.find_by_name('WA State Legislators Stakes $325,000')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: three.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: female.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: male.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: washington.id)
+race_condition.save
+
+race = Race.find_by_name('Hastings Stakes $715,000')
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: washington.id)
+race_condition.save
+race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: two.id)
+race_condition.save
+
+
+
+
+
+
+
+
 
 
 

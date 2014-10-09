@@ -75,89 +75,99 @@
       </div>
     </div>
   </div>
-  <table id="racelist-table" class="genericTable table table-condensed table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th># Interested</th>
-        <th>Distance</th>
-        <th>Purse</th>
-        <th style="display: none;">Conditions</th>
-        <th style="display: none;">Description</th>
-        <th style="display: none;">Claiming Level</th>
-        <th>I/C</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% if @races %>
-      <% @races.each do |race| %>
-      <tr class="top">
-        <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
-        <td><%= race.name %></td>
-        <td><span class="badge badge-inverse"><%= race.horseraces.where(:status => "Interested").count %></span></td>
-        <% if race.distance <= 1 %>
-        <% if race.distance_type == 'Furlongs' %>
-        <td><%= race.distance %> Furlong</td>
-        <% else %>
-        <td><%= race.distance %> Mile</td>
-        <% end %>
-        <% else %>
-        <td><%= race.distance %> <%= race.distance_type %></td>
-        <% end %>
-        <td>
-          <% if race.claiming_purse? %>
-          <%= number_to_currency(race.claiming_purse, precision: 2) %>
-          <% else %>
-          <%= number_to_currency(0, precision: 2) %>
-          <% end %>
-        </td>
-        <td style="display: none;">
-            <% conditions = race.conditions %>
-            <% if conditions.any? %>
-                <% conditions.each do |condition| %>
-                    <%= condition.name %>
+  <div class="col-xs-12">
+    <div class="grid simple">
+      <div class="grid-body no-border">
+        <div class="row">
+          <div class="col-xs-12">
+            <table id="racelist-table" class="genericTable table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th># Interested</th>
+                  <th>Distance</th>
+                  <th>Purse</th>
+                  <th style="display: none;">Conditions</th>
+                  <th style="display: none;">Description</th>
+                  <th style="display: none;">Claiming Level</th>
+                  <th>I/C</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if @races %>
+                <% @races.each do |race| %>
+                <tr class="top">
+                  <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
+                  <td><%= race.name %></td>
+                  <td><span class="badge badge-inverse"><%= race.horseraces.where(:status => "Interested").count %></span></td>
+                  <% if race.distance <= 1 %>
+                  <% if race.distance_type == 'Furlongs' %>
+                  <td><%= race.distance %> Furlong</td>
+                  <% else %>
+                  <td><%= race.distance %> Mile</td>
+                  <% end %>
+                  <% else %>
+                  <td><%= race.distance %> <%= race.distance_type %></td>
+                  <% end %>
+                  <td>
+                    <% if race.claiming_purse? %>
+                    <%= number_to_currency(race.claiming_purse, precision: 2) %>
+                    <% else %>
+                    <%= number_to_currency(0, precision: 2) %>
+                    <% end %>
+                  </td>
+                  <td style="display: none;">
+                      <% conditions = race.conditions %>
+                      <% if conditions.any? %>
+                          <% conditions.each do |condition| %>
+                              | <%= condition.name %> |
+                          <% end %>
+                      <% else %>
+                        None
+                      <% end %>
+                      </td>
+                  <td style="display: none;"><%= race.description %></td>
+                  <td style="display: none;">
+                    <% if race.claiming_level? %>
+                      <%= number_to_currency(race.claiming_level, precision: 2) %>
+                    <% else %>
+                      <%= number_to_currency(0, precision: 2) %>
+                    <% end %>
+                  </td>
+                  <% if @horserace.status == "Confirmed" %>
+                  <td>
+                    Confirmed: 
+                    <%= form_for(@horserace) do |f| %>
+                    <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+                    <% end %>
+                  </td>
+                  <% elsif Date.today() >= race.close_date %>
+                  <td>Closed</td>
+                  <% elsif @confirmed%>
+                  <td ><%= form_for(@horserace) do |f| %>
+                    <%= check_box("horserace", "status", {}, "Interested", "") %> /
+                    <% end %>
+                    A
+                  </td>
+                  <% else %>
+                  <td ><%= form_for(@horserace) do |f| %>
+                    <%= check_box("horserace", "status", {}, "Interested", "") %> /
+                    <% end %>
+                    <%= form_for(@horserace) do |f| %>
+                    <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+                    <% end %>
+                  </td>
+                  <% end %>
+                </tr>
                 <% end %>
-            <% else %>
-              None
-            <% end %>
-            </td>
-        <td style="display: none;"><%= race.description %></td>
-        <td style="display: none;">
-          <% if race.claiming_level? %>
-            <%= number_to_currency(race.claiming_level, precision: 2) %>
-          <% else %>
-            <%= number_to_currency(0, precision: 2) %>
-          <% end %>
-        </td>
-        <% if @horserace.status == "Confirmed" %>
-        <td>
-          Confirmed: 
-          <%= form_for(@horserace) do |f| %>
-          <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-          <% end %>
-        </td>
-        <% elsif Date.today() >= race.close_date %>
-        <td>Closed</td>
-        <% elsif @confirmed%>
-        <td ><%= form_for(@horserace) do |f| %>
-          <%= check_box("horserace", "status", {}, "Interested", "") %> /
-          <% end %>
-          A
-        </td>
-        <% else %>
-        <td ><%= form_for(@horserace) do |f| %>
-          <%= check_box("horserace", "status", {}, "Interested", "") %> /
-          <% end %>
-          <%= form_for(@horserace) do |f| %>
-          <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-          <% end %>
-        </td>
-        <% end %>
-      </tr>
-      <% end %>
-      <% end %>
-    </tbody>
-  </table>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
   /* Formating function for row details */

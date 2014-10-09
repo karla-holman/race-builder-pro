@@ -46,6 +46,12 @@ class HorseracesController < ApplicationController
   def update
     respond_to do |format|
       if @horserace.update(horserace_params)
+        if (@horserace.status.empty?)
+          status = "Uninterested"
+        else
+          status = @horserace.status
+        end
+        @horserace.create_activity :update, parameters: {status: status}, owner: current_user
         format.html { redirect_to horseraces_url, notice: 'Horserace was successfully updated.' }
         format.json { render action: 'index', status: :ok, location: @horseraces }
       else
