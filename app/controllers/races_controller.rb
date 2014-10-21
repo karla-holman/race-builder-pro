@@ -31,7 +31,7 @@ class RacesController < ApplicationController
     @pending = Horse.where("id IN (?)", pending_ids)
     @categories = Category.all - Category.where(:datatype => "Bool")
     
-    if @race.race_type == 'Stakes'
+    if @race.type == 'Stakes'
       possible_horses = Horse.all
       if !@confirmed.empty?
         possible_horses = possible_horses.where("id not IN (?)", confirmed_ids)
@@ -62,7 +62,7 @@ class RacesController < ApplicationController
         category = condition.category
         case category.name
         when 'Age'
-          specific_value  = age(horse.DOB.to_date)
+          specific_value  = age(horse.birth_year)
           success = filter_range(condition, specific_value)
         when 'Wins'
           specific_value = horse.firsts
@@ -104,7 +104,7 @@ class RacesController < ApplicationController
       @eligible = Horse.where("id IN (?)", @horse_ids)
     end
 
-    if @race.race_type == 'Stakes'
+    if @race.type == 'Stakes'
       @race_groups = [["Confirmed", @confirmed], ["Pending", @pending], ["Denied", @denied], ["Eligible", @eligible]]
     else
       @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
@@ -130,7 +130,7 @@ class RacesController < ApplicationController
   end
 
   def schedule
-    @races = Race.where("race_type = (?) OR race_type = (?)", "Protocol", "Stakes")
+    @races = Race.where("type = (?) OR type = (?)", "Protocol", "Stakes")
     @today = Date.today
     if current_user.admin?
       @horses = Horse.all
@@ -142,7 +142,7 @@ class RacesController < ApplicationController
   end
 
   def stakes
-    @races = Race.where(:race_type => "Stakes")
+    @races = Race.where(:type => "Stakes")
     @today = Date.today
     if current_user.admin?
       @horses = Horse.all
@@ -163,12 +163,6 @@ class RacesController < ApplicationController
     if !params[:gender_id].blank?
       @gender = Condition.find(params[:gender_id])
     end
-    if !params[:lower_claiming].blank?
-      @lower_claiming = params[:lower_claiming]
-    end
-    if !params[:upper_claiming].blank?
-      @upper_claiming = params[:upper_claiming]
-    end
     if !params[:noWinsSince_id].blank?
       @noWinsSince = Condition.find(params[:noWinsSince_id])
     end
@@ -178,15 +172,9 @@ class RacesController < ApplicationController
 
     @horse = Horse.find(params[:horse_id])
     @race_ids = Array.new()
-    @claiming_levels = Array.new()
     
     Race.all.each do |race|
       @race_ids.push(race.id)
-      if race.claiming_level
-        if !@claiming_levels.include? race.claiming_level
-          @claiming_levels.push(race.claiming_level)
-        end
-      end
       @remove = "no"
       @ageCheck = "false"
       @winsCheck = "false"
@@ -200,15 +188,13 @@ class RacesController < ApplicationController
           case category.name
           when 'Age'
             @ageCheck = "true"
-            horseAge  = age(@horse.DOB.to_date)
+            horseAge  = age(@horse.birth_date)
             valid = filter_range(condition, horseAge)
             if valid == "no"
-                puts "REMOVE AGE NOT VALID"
                 @remove = "yes"
             elsif @age
               if @age != condition
                 @remove = "yes"
-                puts "REMOVE AGE NOT CONDITION"
               end           
             end
           when 'Wins'
@@ -217,11 +203,9 @@ class RacesController < ApplicationController
             valid = filter_range(condition, horseWins)
             if valid == "no"
               @remove = "yes"
-              puts "REMOVE WINS NOT VALID"
             elsif @wins
               if @wins != condition
                 @remove = "yes"
-                puts "REMOVE WINS NOT CONDITION"
               end
             end
           when 'Gender'
@@ -309,33 +293,7 @@ class RacesController < ApplicationController
             if @noWinsSinceCheck == "false"
               @race_ids.pop
             end
-          else
-            if @lower_claiming && @upper_claiming
-              if (@lower_claiming.to_f > race.claiming_level) || (@upper_claiming.to_f < race.claiming_level)
-                @race_ids.pop
-              end
-            elsif @lower_claiming
-              if (@lower_claiming.to_f > race.claiming_level)
-                @race_ids.pop
-              end
-            elsif @upper_claiming
-              if (@upper_claiming.to_f < race.claiming_level)
-                @race_ids.pop
-              end
-            end
           end
-        end
-      elsif @lower_claiming && @upper_claiming
-        if (@lower_claiming.to_f > race.claiming_level) || (@upper_claiming.to_f < race.claiming_level)
-          @race_ids.pop
-        end
-      elsif @lower_claiming
-        if (@lower_claiming.to_f > race.claiming_level)
-          @race_ids.pop
-        end
-      elsif @upper_claiming
-        if (@upper_claiming.to_f < race.claiming_level)
-          @race_ids.pop
         end
       elsif @distance
         if @distance == "Long" && race.distance_type != "Miles"
@@ -349,14 +307,13 @@ class RacesController < ApplicationController
     end
 
     if @race_ids.any?
-      @races = Race.where("id IN (?) AND race_type = 'Alternate'", @race_ids)
+      @races = Race.where("id IN (?) AND type = 'Alternate'", @race_ids)
     end
 
     @ageList = Condition.where(:category_id => Category.find_by_name("Age"))
     @genderList = Condition.where(:category_id => Category.find_by_name("Gender"))
     @winList = Condition.where(:category_id => Category.find_by_name("Wins"))
     @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
-    @claiming_levels.sort!
 
     confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
 

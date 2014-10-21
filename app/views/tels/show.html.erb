@@ -1,37 +1,33 @@
 <ol class="breadcrumb">
   <li><%= link_to 'Meet List', meets_path %></li>
   <li><%= link_to @meet.name, @meet %></li>
-  <li class="active">Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></li>
+  <li class="active">Week Of <%= @tel.start_date.strftime('%b %d, %Y') %></li>
 </ol>
 <div class="row">
   <div class="col-xs-12">
-    <h2>Race Database For The Weekend Of <%= @tel.weekend_start.strftime('%b %d, %Y') %></h2>
-    <div class="col-xs-3 well userbox">
-      <%= link_to "Friday Tel "+@friday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/friday'%>
-    </div>
-    <div class="col-xs-3 well userbox">
-      <%= link_to "Saturday Tel "+@saturday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/saturday' %>
-    </div>
-    <div class="col-xs-3 well userbox">
-      <%= link_to "Sunday Tel "+@sunday.strftime('%b %d, %Y'), '/tels/'+@tel.id.to_s+'/sunday' %>
-    </div>
+    <h2>Race Database For The Week Of <%= @tel.start_date.strftime('%b %d, %Y') %></h2>
+    <% if current_user.admin? %>
+      <%= link_to 'New Day', new_day_path({day: {:tel_id=> @tel.id}}), :class => 'btn btn-primary btn-xs' %>
+    <% end %>
+    <% @tel.days.each do |day| %>
+      <div class="col-xs-3 well userbox">
+        <%= link_to day.date.strftime('%A'), day %>
+      </div>
+    <% end %>
   </div>
   <div class="col-xs-12">
     <div class="grid simple">
       <div class="grid-body no-border">
         <div class="row">
           <div class="col-xs-12">
-            <table id="tel-index-table" class="detailTable table table-condensed table-hover">
+            <table class="detailTable table table-condensed table-hover">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
-                  <th>Purse</th>
                   <th>Commited</th>
-                  <th style="display: none;">Date</th>
                   <th style="display: none;">Conditions</th>
                   <th style="display: none;">Distance</th>
-                  <th style="display: none">Claiming Level</th>
                 </tr>
               </thead>
               <tbody>
@@ -39,15 +35,7 @@
                   <tr >
                     <td><%= race.name %></td>
                     <td><%= race.description %></td>
-                    <td>
-                      <% if race.claiming_purse? %>
-                        <%= number_to_currency(race.claiming_purse, precision: 2) %>
-                      <% else %>
-                        <%= number_to_currency(0, precision: 2) %>
-                      <% end %>
-                    </td>
                     <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
-                    <td style="display: none;"><%=race.race_datetime.strftime('%I:%M %P, %b %d, %Y')%></td>
                     <td style="display: none;">
                       <% if race.conditions.any? %>
                         <% race.conditions.each do |condition| %>
@@ -66,13 +54,6 @@
                       <% else %>
                         <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
                       <% end %>
-                    <td style="display: none;">
-                      <% if race.claiming_level? %>
-                        <%= number_to_currency(race.claiming_level, precision: 2) %>
-                      <% else %>
-                        <%= number_to_currency(0, precision: 2) %>
-                      <% end %>
-                    </td>
                   </tr>
                 <% end %>
               </tbody>
@@ -89,10 +70,8 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Date: </td><td>'+aData[5]+'</td></tr>';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[6]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[7]+'</td></tr>';
-    sOut += '<tr><td>Claiming Level: </td><td>'+aData[8]+'</td></tr>';
+    sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
+    sOut += '<tr><td>Distance:</td><td>'+aData[5]+'</td></tr>';
     sOut += '</table>';
    
     return sOut;

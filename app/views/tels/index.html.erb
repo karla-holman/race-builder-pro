@@ -7,14 +7,14 @@
     <table class="table table-condensed table-hover generic-table">
       <thead>
         <tr>
-          <th>Weekend Start Date</th>
+          <th>Week Start Date</th>
           <th colspan="1"></th>
         </tr>
       </thead>
       <tbody>
         <% @tels.each do |tel| %>
           <tr>
-            <td><%= tel.weekend_start.strftime('%b %d, %Y') %></td>
+            <td><%= tel.start_date.strftime('%b %d, %Y') %></td>
             <td>
               <%= link_to 'Show', tel, :class => 'btn btn-primary btn-xs' %>
               <%= link_to 'Edit', edit_tel_path(tel), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>

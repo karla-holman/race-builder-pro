@@ -1,3 +1,4 @@
 class Tel < ActiveRecord::Base
-	has_many :races
+	has_many :days
+	belongs_to :meet
 end

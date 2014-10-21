@@ -1,15 +1,14 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :days
+
   resources :horse_meets
 
   resources :meets
 
   resources :notifications
 
-  get 'tels/:id/friday' => 'tels#friday'
-  get 'tels/:id/saturday' => 'tels#saturday'
-  get 'tels/:id/sunday' => 'tels#sunday'
-  post 'tels/add_race' => 'tels#add_race'
-  post 'tels/remove_race' => 'tels#remove_race'
+  post 'days/add_race' => 'days#add_race'
+  post 'days/remove_race' => 'days#remove_race'
   
   post 'horses/transferowner' => 'horses#ownerTransfer'
   post 'horses/transfertrainer' => 'horses#trainerTransfer'

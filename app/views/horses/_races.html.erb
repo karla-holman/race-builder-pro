@@ -28,7 +28,6 @@
 			<% end %>
 			</td>
 		<% end %>
-		<td style="display: none;"><%=race.race_datetime.strftime('%I:%M %P, %b %d, %Y')%></td>
 		<td style="display: none;">
 	    <% if race.conditions.any? %>
 	    	<% race.conditions.each do |condition| %>
@@ -47,12 +46,5 @@
 	    <% else %>
 	      <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
 	    <% end %>
-		<td style="display: none">
-        <% if race.claiming_purse? %>
-        	<%= number_to_currency(race.claiming_purse, precision: 2) %>
-        <% else %>
-            <%= number_to_currency(0, precision: 2) %>
-        <% end %>
-        </td>
 	</tr>
 <% end %>

@@ -13,12 +13,9 @@
             <table class="detailTable table table-condensed table-hover">
               <thead>
                 <tr>
-                  <th>Number</th>
                   <th>Name</th> 
-                  <th>Purse</th>
                   <th style="display: none;">Conditions</th>
                   <th style="display: none;">Description</th>
-                  <th style="display: none;">Claiming Level</th>
                   <th>Status</th>
                   <th colspan="1"></th>
                 </tr>
@@ -26,15 +23,7 @@
               <tbody>
                 <% @races.each do |race| %>
                   <tr>
-                    <td><%= race.race_number %></td>
                     <td><%= race.name %></td>
-                    <td>
-                      <% if race.claiming_purse? %>
-                        <%= number_to_currency(race.claiming_purse, precision: 2) %>
-                      <% else %>
-                        <%= number_to_currency(0, precision: 2) %>
-                      <% end %>
-                    </td>
                     <td style="display: none;">
                     <% conditions = race.conditions %>
                     <% if conditions.any? %>
@@ -46,13 +35,6 @@
                     <% end %>
                     </td>
                     <td style="display: none;"><%= race.description %></td>
-                    <td style="display: none;">
-                      <% if race.claiming_level? %>
-                        <%= number_to_currency(race.claiming_level, precision: 2) %>
-                      <% else %>
-                        <%= number_to_currency(0, precision: 2) %>
-                      <% end %>
-                    </td>
                     <td>
                       <% if race.status == "Draft"%>
                         <%= link_to 'Published', {:controller => "races", :action => "update_status", :status => "Published", :id => race.id }, :class => 'btn btn-success btn-mini' %>
@@ -81,9 +63,8 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
-    sOut += '<tr><td>Description:</td><td>'+aData[5]+'</td></tr>';
-    sOut += '<tr><td>Claiming Level: </td><td>'+aData[6]+'</td></tr>';
+    sOut += '<tr><td>Conditions: </td><td>'+aData[2]+'</td></tr>';
+    sOut += '<tr><td>Description:</td><td>'+aData[3]+'</td></tr>';
     sOut += '</table>';
      
     return sOut;

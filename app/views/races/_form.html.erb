@@ -18,34 +18,24 @@
         <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
       </div>
       <div class="form-group">
-        <%= f.label :race_number %>
-        <%= f.text_field :race_number, :autofocus => true, class: 'form-control'%>
-      </div>
-      <div class="form-group">
         <%= f.label :description %>
         <%= f.text_field :description, :autofocus => true, class: 'form-control'%>
       </div>
-      <div id="datetimepicker" class="form-group date">
-        <%= f.label 'Date' %>
-        <span class="add-on">
-          <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-        </span>
-        <%= f.text_field :race_datetime, :autofocus => true, class: 'form-control' %>
-      </div>
       <div class="form-group">
-        <%= f.label :claiming_purse %>
-        <%= f.text_field :claiming_purse, :autofocus => true, class: 'form-control' %>
-      </div>
-      <div class="form-group">
-        <%= f.label :claiming_level %>
-        <%= f.text_field :claiming_level, :autofocus => true, class: 'form-control' %>
-      </div>
-      <div class="form-group">
-        <%= f.label "Race Type" %>
-        <%= f.select :race_type, options_for_select(["Protocol", "Stakes", "Alternate"]) %>
-      </div>
-      <div class="form-group">
+        <%= f.label :status %>
         <%= f.select :status, options_for_select(["Draft", "Published"]) %>
+      </div>
+      <div class="form-group">
+        <%= f.label :cateogry %>
+        <%= f.select :category, options_for_select(["Protocol", "Stakes", "Alternate"]) %>
+      </div>
+      <div class="form-group">
+        <%= f.label :distance_type %>
+        <%= f.select :distance_type, options_for_select(["Furlongs", "Miles"]) %>
+      </div>
+      <div class="form-group">
+        <%= f.label :distance %>
+        <%= f.text_field :distance, :autofocus => true, class: 'form-control'%>
       </div>
       <div class="form-group">
         <%= f.submit :class => 'btn btn-success btn-sm'%>

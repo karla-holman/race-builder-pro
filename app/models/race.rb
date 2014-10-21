@@ -9,7 +9,7 @@ class Race < ActiveRecord::Base
 	has_many :race_conditions
 	has_many :conditions, :through => :race_conditions
 
-	belongs_to :tel
+	belongs_to :day
 
 	def self.search(query)
   		where("lower(name) like ?", "%#{query}%".downcase)

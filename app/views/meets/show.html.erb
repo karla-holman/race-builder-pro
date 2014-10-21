@@ -21,7 +21,8 @@
               	<thead>
 					<tr>
 						<th>Week Number</th>
-						<th>Weekend Of</th>
+						<th>Week Start</th>
+						<th>Week End</th>
 						<th colspan="1"></th>
 					</tr>
 				</thead>
@@ -29,7 +30,8 @@
 					<% @tels.each do |tel| %>
 		        	<tr>
 		        	<td><%= tel.week_number %></td>
-		          	<td><%= tel.weekend_start.strftime('%b %d, %Y') %></td>
+		          	<td><%= tel.start_date.strftime('%b %d, %Y') %></td>
+		          	<td><%= tel.end_date.strftime('%b %d, %Y') %></td>
 		          	<td>
 		          	<%= link_to 'Show', tel, :class => 'btn btn-primary btn-xs' %>
 		            	<%= link_to 'Edit', edit_tel_path(tel), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>

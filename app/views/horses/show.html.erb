@@ -18,14 +18,14 @@
         		<div class="center">
 	        		<h2><%= @horse.name %> (<%= @horse.POB %>)</h2>
 	        		<h4>Age: <% def age(dob)
-	                        now = Time.now.utc.to_date
-	                        now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-	                      end %>
-	                      <%= age(@horse.DOB.to_date) %>
-	            </h4>
+	                  now = Time.now.utc.to_date
+	                  now.year - dob
+	                	end %>
+	                	<%= age(@horse.birth_year) %>
+	            	</h4>
 	            <h4><%= @horse.week_running %> Week Running</h4>
 							<h4><%= @startsLeft %> Starts Left</h4>
-							<h4>(Starts: <%= @horse.starts %> Firsts: <%= @horse.firsts %>)</h4>
+							<h4>(Starts: <%= @horse.starts %> Wins: <%= @horse.wins %>)</h4>
 						</div>
 						<table id="racestatus-table" class="table table-condensed table-hover">
 							<thead>
@@ -34,10 +34,8 @@
 									<th>Race Description</th>
 									<th>Total #</th>
 									<th>I/C</th>
-									<th style="display: none;">Date</th>
 									<th style="display: none;">Conditions</th>
 									<th style="display: none;">Distance</th>
-									<th style="display: none">Claiming Level</th>
 								</tr>
 							</thead>
 							<tbody id="race-list">
@@ -66,10 +64,8 @@
 	{
 		var aData = oTable.fnGetData( nTr );
 		var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-		sOut += '<tr><td>Date: </td><td>'+aData[5]+'</td></tr>';
 		sOut += '<tr><td>Conditions: </td><td>'+aData[6]+'</td></tr>';
 		sOut += '<tr><td>Distance:</td><td>'+aData[7]+'</td></tr>';
-		sOut += '<tr><td>Claiming Level: </td><td>'+aData[8]+'</td></tr>';
 		sOut += '</table>';
 	 
 		return sOut;

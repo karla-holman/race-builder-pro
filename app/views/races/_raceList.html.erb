@@ -53,20 +53,6 @@
         <% end %>
       </div>
       <div class="col-xs-2">
-        <% if @lower_claiming %>
-        Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels, @lower_claiming), :prompt => 'None' %>
-        <% else %>
-        Lower Claiming Level <%= select_tag "Lower Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
-        <% end %>
-      </div>
-      <div class="col-xs-2">
-        <% if @upper_claiming %>
-        Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels, @upper_claiming), :prompt => 'None' %>
-        <% else %>
-        Upper Claiming Level <%= select_tag "Upper Claiming Level", options_for_select(@claiming_levels), :prompt => 'None'  %>
-        <% end %>
-      </div>
-      <div class="col-xs-2">
         <% if @distance %>
         Distances <%= select_tag "Distances", options_for_select(['Short', 'Long'], @distance), :prompt => 'All' %>
         <% else %>
@@ -86,10 +72,8 @@
                   <th>Name</th>
                   <th># Interested</th>
                   <th>Distance</th>
-                  <th>Purse</th>
                   <th style="display: none;">Conditions</th>
                   <th style="display: none;">Description</th>
-                  <th style="display: none;">Claiming Level</th>
                   <th>I/C</th>
                 </tr>
               </thead>
@@ -109,13 +93,6 @@
                   <% else %>
                   <td><%= race.distance %> <%= race.distance_type %></td>
                   <% end %>
-                  <td>
-                    <% if race.claiming_purse? %>
-                    <%= number_to_currency(race.claiming_purse, precision: 2) %>
-                    <% else %>
-                    <%= number_to_currency(0, precision: 2) %>
-                    <% end %>
-                  </td>
                   <td style="display: none;">
                       <% conditions = race.conditions %>
                       <% if conditions.any? %>
@@ -127,13 +104,6 @@
                       <% end %>
                       </td>
                   <td style="display: none;"><%= race.description %></td>
-                  <td style="display: none;">
-                    <% if race.claiming_level? %>
-                      <%= number_to_currency(race.claiming_level, precision: 2) %>
-                    <% else %>
-                      <%= number_to_currency(0, precision: 2) %>
-                    <% end %>
-                  </td>
                   <% if @horserace.status == "Confirmed" %>
                   <td>
                     Confirmed: 
@@ -141,8 +111,6 @@
                     <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
                     <% end %>
                   </td>
-                  <% elsif Date.today() >= race.close_date %>
-                  <td>Closed</td>
                   <% elsif @confirmed%>
                   <td ><%= form_for(@horserace) do |f| %>
                     <%= check_box("horserace", "status", {}, "Interested", "") %> /

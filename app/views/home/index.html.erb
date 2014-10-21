@@ -1,143 +1,95 @@
-	<h1>
-		<% if !current_user.nil? %>
-		<%= current_user.name %>, 
-		<% end %> 
-		Welcome to Race Builder Pro
-	</h1>
-	<h5>Version: 2.0</h5>
-	<% if !current_user.admin? %>
-	<div class="row">
-		<h4>Current Stable:</h4>
-		<% @horses.each do |horse| %>
-		<a href="<%= horse_path(horse) %>">
-			<div class="col-xs-3 userbox well">
-				<h4><%= horse.name %></h4>
-				<ul class="condition-list no-indent">
-					<li>Conditions:
-						<% if horse.conditions.any? %>
-						<ul class="condition-list no-indent">
-							<% horse.conditions.each do |condition| %>
-							<%= condition.name %>
-							<% end %>
-						</ul>
-						<% else %>
-						None
-						<% end %> 
-					</li>
-					<li>Races:
-						<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
-						<% if racestatuses.any? %>
-						<ul class="condition-list no-indent">
-							<% racestatuses.each do |racestatus| %>
-							<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
-							<% end %>
-						</ul>
-						<% else %>
-						None
-						<% end %> 
-					</li>
-				</ul>
-			</div>
-		</a>
-		<% end %>
-	</div>
+<h1>
+	<% if !current_user.nil? %>
+	<%= current_user.name %>, 
+	<% end %> 
+	Welcome to Race Builder Pro
+</h1>
+<h5>Version: 2.0</h5>
+<% if !current_user.admin? %>
+<div class="row">
+	<h4>Current Stable:</h4>
+	<% @horses.each do |horse| %>
+	<a href="<%= horse_path(horse) %>">
+		<div class="col-xs-3 userbox well">
+			<h4><%= horse.name %></h4>
+			<ul class="condition-list no-indent">
+				<li>Conditions:
+					<% if horse.conditions.any? %>
+					<ul class="condition-list no-indent">
+						<% horse.conditions.each do |condition| %>
+						<%= condition.name %>
+						<% end %>
+					</ul>
+					<% else %>
+					None
+					<% end %> 
+				</li>
+				<li>Races:
+					<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
+					<% if racestatuses.any? %>
+					<ul class="condition-list no-indent">
+						<% racestatuses.each do |racestatus| %>
+						<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
+						<% end %>
+					</ul>
+					<% else %>
+					None
+					<% end %> 
+				</li>
+			</ul>
+		</div>
+	</a>
 	<% end %>
-	<div class="row">
-		<div class="col-xs-12">
-			<h3>Upcoming Races: </h3>
-			<div class="panel-group" id="accordion" data-toggle="collapse">
-				<% @next_races.order("race_datetime ASC").each do |race| %>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#<%=race.id%>">
-								<%= race.name %> - <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %>
-							</a>
-						</h4>
-					</div>
-					<div id="<%=race.id%>" class="panel-collapse collapse">
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-xs-12 col-md-6">
-									<h4>Conditions</h4>
-									<% if race.conditions.any? %>
-										<ul class="condition-list no-indent">
-											<% race.conditions.each do |condition| %>
-											<%= condition.name %>
-											<% end %>
-										</ul>
-									<% else %>
-										None
-									<% end %> 
-								</div>
-								<div class="col-xs-12 col-md-6">
-									<h4>Horses</h4>
-									<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
-									<% if horsestatuses.any? %>
-										<ul class="condition-list no-indent">
-											<% horsestatuses.each do |horsestatus| %>
-											<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
-											<% end %>
-										</ul>
-									<% else %>
-										None
-									<% end %>
-								</div>
+</div>
+<% end %>
+<div class="row">
+	<div class="col-xs-12">
+		<h3>TEL Database: </h3>
+		<div class="panel-group" id="accordion" data-toggle="collapse">
+			<% @races.each do |race| %>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#<%=race.id%>">
+							<%= race.name %>
+						</a>
+					</h4>
+				</div>
+				<div id="<%=race.id%>" class="panel-collapse collapse">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-xs-12 col-md-6">
+								<h4>Conditions</h4>
+								<% if race.conditions.any? %>
+									<ul class="condition-list no-indent">
+										<% race.conditions.each do |condition| %>
+										<%= condition.name %>
+										<% end %>
+									</ul>
+								<% else %>
+									None
+								<% end %> 
+							</div>
+							<div class="col-xs-12 col-md-6">
+								<h4>Horses</h4>
+								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
+								<% if horsestatuses.any? %>
+									<ul class="condition-list no-indent">
+										<% horsestatuses.each do |horsestatus| %>
+										<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
+										<% end %>
+									</ul>
+								<% else %>
+									None
+								<% end %>
 							</div>
 						</div>
 					</div>
 				</div>
-				<%end%>
 			</div>
-		</div>
-
-		<div class="col-xs-12">
-			<h3>Last Weeks' Races: </h3>
-			<div class="panel-group" id="accordion" data-toggle="collapse">
-				<% @previous_races.order("race_datetime ASC").each do |race| %>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#<%=race.id%>">
-								<%= race.name %> - <%= race.race_datetime.strftime('%b %d, %Y at %l:%M %P') %>
-							</a>
-						</h4>
-					</div>
-					<div id="<%=race.id%>" class="panel-collapse collapse">
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-xs-12 col-md-6">
-									<h4>Conditions</h4>
-									<% if race.conditions.any? %>
-										<ul class="condition-list no-indent">
-											<% race.conditions.each do |condition| %>
-											<%= condition.name %>
-											<% end %>
-										</ul>
-									<% else %>
-										None
-									<% end %> 
-								</div>
-								<div class="col-xs-12 col-md-6">
-									<h4>Horses</h4>
-									<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
-									<% if horsestatuses.any? %>
-										<ul class="condition-list no-indent">
-											<% horsestatuses.each do |horsestatus| %>
-											<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
-											<% end %>
-										</ul>
-									<% else %>
-										None
-									<% end %>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<%end%>
-			</div>
+			<%end%>
 		</div>
 	</div>
+</div>
 
 
