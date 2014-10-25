@@ -4,13 +4,10 @@
     <table class="detailTable table table-condensed table-hover">
       <thead>
         <tr>
-          <th>Date</th>
           <th>Name</th>
           <th>Type</th>
           <th style="display: none;">Conditions</th>
           <th style="display: none;">Distance</th>
-          <th style="display: none;">Claiming Level</th>
-          <th>Noms Close</th> 
           <th colspan="1"></th>
         </tr>
       </thead>
@@ -18,9 +15,8 @@
       <tbody>
         <% @races.each do |race| %>
           <tr class="top">
-            <td><%= race.race_datetime.strftime('%b %d, %Y') %></td>
             <td><%= race.name %></td>
-            <td><%= race.race_type %>
+            <td><%= race.category %>
             <td style="display: none;">
             <% conditions = race.conditions %>
             <% if conditions.any? %>
@@ -40,27 +36,15 @@
             <% else %>
               <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
             <% end %>
-            <td style="display: none">
-            <% if race.claiming_purse? %>
-              <%= number_to_currency(race.claiming_purse, precision: 2) %>
-            <% else %>
-                <%= number_to_currency(0, precision: 2) %>
-            <% end %>
-            </td>
-            <td><%= race.close_date.strftime('%b %d, %Y') %></td>
-            <td>
-              <% if @today > race.close_date %>
-                CLOSED
-              <% else %>
-                  <% @horse_list = Array.new()
-                    @horses.each do |horse|
-                      if Notification.where(:action => "Nominate", :recv_id => horse.id, :send_id => race.id).empty? && Horserace.where(:race_id => race.id, :horse_id => horse.id).empty?
-                        @horse_list.push(horse)
-                      end
-                    end %>
-                  <%= collection_select(:schedule, :horse_id, @horse_list,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
-                <% end %>
-            </td>        
+          <td>                  
+          <% @horse_list = Array.new()
+            @horses.each do |horse|
+                    if Notification.where(:action => "Nominate", :recv_id => horse.id, :send_id => race.id).empty? && Horserace.where(:race_id => race.id, :horse_id => horse.id).empty?
+                      @horse_list.push(horse)
+                    end
+                  end %>
+                <%= collection_select(:schedule, :horse_id, @horse_list,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
+          </td>        
           </tr>
         <% end %>
       </tbody>
@@ -73,9 +57,8 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[5]+'</td></tr>';
-    sOut += '<tr><td>Claiming Level: </td><td>'+aData[6]+'</td></tr>';
+    sOut += '<tr><td>Conditions: </td><td>'+aData[3]+'</td></tr>';
+    sOut += '<tr><td>Distance:</td><td>'+aData[4]+'</td></tr>';
     sOut += '</table>';
      
     return sOut;

@@ -10,27 +10,27 @@ class ApplicationController < ActionController::Base
 
   def age(dob)
     now = Time.now.utc.to_date
-    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+    return now.year - dob
   end
 
   def filter_range(condition, value)
     if condition.lowerbound.nil?
       if value > condition.upperbound
-        return "no"
+        return false
       else
-        return "yes"
+        return true
       end
     elsif condition.upperbound.nil?
       if value < condition.lowerbound
-        return "no"
+        return false
       else
-        return "yes"
+        return true
       end
     else
       if condition.upperbound < value || value < condition.lowerbound
-        return "no"
+        return false
       else
-        return "yes"
+        return true
       end
     end
   end

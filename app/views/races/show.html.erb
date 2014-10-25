@@ -32,7 +32,7 @@
 					          <th>Gender</th>
 					          <th>Age</th>
 					          <th>Starts</th>
-					          <th>Firsts</th>
+					          <th>Wins</th>
 					          <th>Race Status</th>
 					          <th>Prev Claiming Level</th>
 					          <th style="display:none;">Owner</th>
@@ -50,16 +50,20 @@
 						            <td><%= horse.gender %></td>
 						            <td>
 						             <% def age(dob)
-						                now = Time.now.utc.to_date
-						                now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-						              end %>
-						              <%= age(horse.DOB.to_date) %>
+					                  now = Time.now.utc.to_date
+					                  now.year - dob
+					                end %>
+					                <%= age(horse.birth_year) %>
 						            </td>
 						            <td><%= horse.starts %></td>
-						            <td><%= horse.firsts %></td>
+						            <td><%= horse.wins %></td>
 						            <td>
 						            	<% if horserace.any? %>
-						            		<%= horserace[0].status %>
+						            		<% if horserace[0].status != '' %>
+						            			<%= horserace[0].status %>
+						            		<% else %>
+						            			<%= racegroup[0] %>
+						            		<% end %>
 						            	<% else %>
 						            		<%= racegroup[0] %>
 						            	<% end %>
