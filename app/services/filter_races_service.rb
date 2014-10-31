@@ -103,6 +103,24 @@ class FilterRacesService
     end
     return filtered_races
   end
+
+  def currentEligibleRaces()
+    races = Race.where(:status => 'Published').to_a
+
+    tel = Tel.where(:published => true).order('start_date DESC').first
+    
+    if !tel || tel.end_date <= Date.today || !tel.closed 
+      return races
+    end
+
+    tel.days.each do |day|
+      day.races.each do |race|
+        races.delete(race)
+      end
+    end
+
+    return races
+  end
   
   def age(dob)
     now = Time.now.utc.to_date

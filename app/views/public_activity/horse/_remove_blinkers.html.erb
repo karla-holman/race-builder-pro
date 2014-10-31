@@ -1,2 +1,6 @@
-requested to Remove Blinkers for <%= Horse.find(activity.trackable.id).name %> 
-on <%= activity.created_at.strftime('%b %d, %Y at %l:%M %P') %>
+Requested to remove blinkers for horse
+<% if activity.trackable %>
+  <%= link_to activity.trackable.name, activity.trackable %>
+<% else %>
+  which has since been removed 
+<% end %>

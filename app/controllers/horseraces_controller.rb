@@ -44,6 +44,8 @@ class HorseracesController < ApplicationController
   # PATCH/PUT /horseraces/1
   # PATCH/PUT /horseraces/1.json
   def update
+    @horse = Horse.find(@horserace.horse_id)
+    @race = Race.find(@horserace.race_id)
     respond_to do |format|
       if @horserace.update(horserace_params)
         if (@horserace.status.empty?)
@@ -51,7 +53,7 @@ class HorseracesController < ApplicationController
         else
           status = @horserace.status
         end
-        @horserace.create_activity :update, parameters: {status: status}, owner: current_user
+        @horse.create_activity :raceStatus, parameters: {status: status, race_id: @race.id}, owner: current_user
         format.html { redirect_to horseraces_url, notice: 'Horserace was successfully updated.' }
         format.json { render action: 'index', status: :ok, location: @horseraces }
       else

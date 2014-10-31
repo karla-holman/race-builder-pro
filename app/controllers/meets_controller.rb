@@ -1,5 +1,5 @@
 class MeetsController < ApplicationController
-  before_action :set_meet, only: [:show, :edit, :update, :destroy]
+  before_action :set_meet, only: [:show, :edit, :update, :destroy, :deactivate_horses]
 
   # GET /meets
   # GET /meets.json
@@ -59,6 +59,20 @@ class MeetsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to meets_url, notice: 'Meet was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def deactivate_horses
+    @inactive = Status.find_by_name('Inactive')
+
+    Horse.all.each do |horse|
+        @horseStatus = HorseStatus.where(:horse => horse).first
+        @horseStatus.status = @inactive
+        @horseStatus.save
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
     end
   end
 

@@ -1,5 +1,5 @@
 class RacesController < ApplicationController
-  before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish]
+  before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish, :duplicate_race]
 
   # GET /races
   # GET /races.json
@@ -231,12 +231,21 @@ class RacesController < ApplicationController
     end
   end
 
+  def duplicate_race
+    new_race = @race.dup
+    new_race.save
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+    end
+  end
+
   # DELETE /races/1
   # DELETE /races/1.json
   def destroy
+    @hrace.create_activity :destroy, parameters: {name: @race.name}, owner: current_user
     @race.destroy
     respond_to do |format|
-      @race.create_activity :destroy, owner: current_user
       format.html { redirect_to races_url }
       format.json { head :no_content }
     end

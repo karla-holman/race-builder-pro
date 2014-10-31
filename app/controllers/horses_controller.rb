@@ -4,9 +4,7 @@ class HorsesController < ApplicationController
   # GET /horses
   # GET /horses.json
   def index
-    if params[:search]
-      @horses = Horse.search(params[:search]).order("name ASC")   
-    elsif current_user.admin?
+    if current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
       @horses = Horse.where(:trainer_id => current_user.id)
@@ -181,9 +179,9 @@ class HorsesController < ApplicationController
   # DELETE /horses/1
   # DELETE /horses/1.json
   def destroy
+    @horse.create_activity :destroy, parameters: {name: @horse.name}, owner: current_user
     @horse.destroy
     respond_to do |format|
-      @horse.create_activity :destroy, owner: current_user
       format.html { redirect_to horses_url }
       format.json { head :no_content }
     end

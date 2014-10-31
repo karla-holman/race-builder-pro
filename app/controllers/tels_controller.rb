@@ -1,5 +1,5 @@
 class TelsController < ApplicationController
-  before_action :set_tel, only: [:show, :edit, :update, :destroy]
+  before_action :set_tel, only: [:show, :edit, :update, :destroy, :reset_races]
 
   # GET /tels
   # GET /tels.json
@@ -22,6 +22,7 @@ class TelsController < ApplicationController
 
   # GET /tels/1/edit
   def edit
+    @meet = Meet.find(tel_params[:meet_id])
   end
 
   # POST /tels
@@ -51,6 +52,18 @@ class TelsController < ApplicationController
     end
   end
 
+  def reset_races
+    @tel.days.each do |day|
+      day.races.each do |race|
+        race.horseraces.delete_all
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+    end
+  end
+
   # DELETE /tels/1
   # DELETE /tels/1.json
   def destroy
@@ -69,6 +82,6 @@ class TelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tel_params
-      params.require(:tel).permit(:tel_id, :meet_id, :start_date)
+      params.require(:tel).permit(:tel_id, :meet_id, :start_date, :end_date, :published, :closed)
     end
 end

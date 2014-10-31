@@ -5,6 +5,29 @@
 	Welcome to Race Builder Pro
 </h1>
 <h5>Version: 2.0</h5>
+<% if @publishedTel %>
+		<h4>Published Tel</h4>
+		<table class="table table-condensed table-hover generic-table">
+      <thead>
+        <tr>
+          <td>type</td>
+			    <td>name</td>
+			    <td>confirmed</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @publishedTel.days.each do |day| %>
+        	<% day.races.each do |race| %>
+	          <tr>
+	            <td><%= race.type %></td>
+				    	<td><%= race.name %></td>
+				    	<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+	          </tr>
+	        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+	<% end %>
 <% if !current_user.admin? %>
 <div class="row">
 	<h4>Current Stable:</h4>

@@ -10,6 +10,7 @@
 	<h4>End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></h4>
 	<% if current_user.admin? %>
 		<%= link_to 'New Tel', new_tel_path({tel: {:meet_id=> @meet.id}}), :class => 'btn btn-primary btn-xs' %>
+		<%= link_to 'Deactivate Horses', '/meets/'+@meet.id.to_s+'/deactivate_horses', :class => 'btn btn-danger btn-xs' %>
 	<% end %>
   </div>
   <div class="col-xs-12">
@@ -34,7 +35,7 @@
 		          	<td><%= tel.end_date.strftime('%b %d, %Y') %></td>
 		          	<td>
 		          	<%= link_to 'Show', tel, :class => 'btn btn-primary btn-xs' %>
-		            	<%= link_to 'Edit', edit_tel_path(tel), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+		            	<%= link_to 'Edit', edit_tel_path({tel: {:meet_id=> @meet.id}}), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
 		            	<%= link_to 'Destroy', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %></td>
 		        	</tr>
 	        		<% end %>

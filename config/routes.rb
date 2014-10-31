@@ -21,6 +21,11 @@ RailsDevisePundit::Application.routes.draw do
   get 'races/stakes' => 'races#stakes'
   post 'races/add_winner' => 'races#add_winner'
   post 'races/scratch_horse' => 'races#scratch_horse'
+  post 'races/:id/duplicate' => 'races#duplicate_race'
+
+  post 'tels/:id/reset_races' => 'tels#reset_races'
+
+  get 'meets/:id/deactivate_horses' => 'meets#deactivate_horses'
 
   get 'users/new' => 'users#new'
   post 'users/createuser' => 'users#create'

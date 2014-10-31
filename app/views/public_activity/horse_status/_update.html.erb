@@ -1,6 +1,19 @@
-updated <%= Horse.find(activity.trackable.horse_id).name %>'s status to
+<% @horse = Horse.find(activity.trackable.horse_id) %>
+<% @status = Status.find(activity.trackable.status_id) %>
+
+Updated horse
 <% if activity.trackable %>
-  <%= link_to Status.find(activity.trackable.status_id).name, activity.trackable %> on <%= activity.created_at.strftime('%b %d, %Y at %l:%M %P') %>
+	<% if @horse %>
+		<%= link_to @horse.name, @horse %>'s
+	<% else %>
+		which has been removed
+	<% end %>
+	status to
+	<% if @status %>
+		<%= link_to @status.name, @status %>
+	<% else %>
+		a status which has been removed
+	<% end %>
 <% else %>
-  which has since been removed 
+  status which has since been removed 
 <% end %>

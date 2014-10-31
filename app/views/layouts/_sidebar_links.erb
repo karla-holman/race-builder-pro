@@ -41,7 +41,7 @@
     <p class="menu-title">Admin <span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
     <ul>
       <li class="">
-        <% @tel = Tel.where("start_date >= ?", DateTime.now.yesterday.yesterday.beginning_of_day).order("start_date ASC").first %>
+        <% @tel = Tel.where("end_date >= ?", DateTime.now.beginning_of_day).order("start_date DESC").first %>
         <% if @tel %>
           <%= link_to @tel do %>
             <i class="fa fa-flag-checkered"></i><span class="title">TEL</span> 
