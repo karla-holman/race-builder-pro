@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  @notifications = Notification.order('created_at DESC').all
+
   def age(dob)
     now = Time.now.utc.to_date
     return now.year - dob

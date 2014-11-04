@@ -53,10 +53,10 @@
               <td style="display:none;">
               <% if horse.conditions.any? %>
                 <% horse.conditions.each do |condition| %>
-                  | <%= condition.name %> |
+                  <%= condition.name %>&nbsp;
                 <% end %>
               <% else %>
-                | None |
+                None
               <% end %>
               </td>
               <td>

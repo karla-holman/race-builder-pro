@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
-    <h2>RBP Statuses</h2>
-    <%= link_to 'New Status', new_status_path, :class => 'btn btn-primary btn-small' %>
+    <h2>Equipment & Medication</h2>
+    <%= link_to 'New', new_equipment_path, :class => 'btn btn-primary btn-small' %>
   </div>
   <div class="col-xs-12">
     <div class="grid simple">
@@ -12,16 +12,18 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Action</th>
+                  <th>Required</th>
+                  <th colspan="1"></th>
                 </tr>
               </thead>
               <tbody>
-                <% @statuses.each do |status| %>
+                <% @equipment.each do |equipment| %>
                   <tr>
-                    <td><%= status.name %></td>
+                    <td><%= equipment.name %></td>
+                    <td><%= equipment.required %></td>
                     <td>
-                      <%= link_to 'Edit', edit_status_path(status), :class => 'btn btn-warning btn-mini' %>
-                      <%= link_to 'Destroy', status, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
+                      <%= link_to 'Edit', edit_equipment_path(equipment), :class => 'btn btn-warning btn-mini' %>
+                      <%= link_to 'Destroy', equipment, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
                     </td>
                   </tr>
                 <% end %>

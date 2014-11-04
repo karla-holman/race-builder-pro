@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141030021906) do
+ActiveRecord::Schema.define(version: 20141022013858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,12 +50,11 @@ ActiveRecord::Schema.define(version: 20141030021906) do
     t.string   "value"
   end
 
-  create_table "days", force: true do |t|
-    t.date     "date"
-    t.integer  "field_size"
+  create_table "equipment", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "tel_id"
+    t.string   "name"
+    t.boolean  "required"
   end
 
   create_table "horse_conditions", force: true do |t|
@@ -94,9 +93,10 @@ ActiveRecord::Schema.define(version: 20141030021906) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "gender"
+    t.date     "DOB"
     t.string   "birth_place"
     t.integer  "starts"
-    t.integer  "wins"
+    t.integer  "firsts"
     t.integer  "owner_id"
     t.integer  "trainer_id"
     t.string   "POB"
@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(version: 20141030021906) do
     t.decimal  "last_claiming_level"
     t.string   "URL"
     t.integer  "week_running"
-    t.integer  "birth_year"
   end
 
   add_index "horses", ["name"], name: "index_horses_on_name", unique: true, using: :btree
@@ -152,13 +151,17 @@ ActiveRecord::Schema.define(version: 20141030021906) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "race_number"
     t.string   "description"
+    t.datetime "race_datetime"
+    t.decimal  "claiming_purse"
+    t.decimal  "claiming_level"
     t.string   "status"
-    t.string   "type"
+    t.string   "race_type"
     t.decimal  "distance"
     t.string   "distance_type"
-    t.integer  "day_id"
-    t.string   "category"
+    t.datetime "close_date"
+    t.integer  "tel_id"
   end
 
   create_table "statuses", force: true do |t|
@@ -170,12 +173,9 @@ ActiveRecord::Schema.define(version: 20141030021906) do
   create_table "tels", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "weekend_start"
     t.integer  "meet_id"
     t.integer  "week_number"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.boolean  "published",   default: false
-    t.boolean  "closed",      default: false
   end
 
   create_table "users", force: true do |t|

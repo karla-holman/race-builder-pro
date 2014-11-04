@@ -1,5 +1,5 @@
 RailsDevisePundit::Application.routes.draw do
-  resources :days
+  resources :equipment
 
   resources :horse_meets
 
@@ -7,8 +7,11 @@ RailsDevisePundit::Application.routes.draw do
 
   resources :notifications
 
-  post 'days/add_race' => 'days#add_race'
-  post 'days/remove_race' => 'days#remove_race'
+  get 'tels/:id/friday' => 'tels#friday'
+  get 'tels/:id/saturday' => 'tels#saturday'
+  get 'tels/:id/sunday' => 'tels#sunday'
+  post 'tels/add_race' => 'tels#add_race'
+  post 'tels/remove_race' => 'tels#remove_race'
   
   post 'horses/transferowner' => 'horses#ownerTransfer'
   post 'horses/transfertrainer' => 'horses#trainerTransfer'
@@ -21,11 +24,6 @@ RailsDevisePundit::Application.routes.draw do
   get 'races/stakes' => 'races#stakes'
   post 'races/add_winner' => 'races#add_winner'
   post 'races/scratch_horse' => 'races#scratch_horse'
-  post 'races/:id/duplicate' => 'races#duplicate_race'
-
-  post 'tels/:id/reset_races' => 'tels#reset_races'
-
-  get 'meets/:id/deactivate_horses' => 'meets#deactivate_horses'
 
   get 'users/new' => 'users#new'
   post 'users/createuser' => 'users#create'

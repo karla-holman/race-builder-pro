@@ -6,28 +6,28 @@
 </h1>
 <h5>Version: 2.0</h5>
 <% if @publishedTel %>
-		<h4>Published Tel</h4>
-		<table class="table table-condensed table-hover generic-table">
-      <thead>
-        <tr>
-          <td>type</td>
-			    <td>name</td>
-			    <td>confirmed</td>
-        </tr>
-      </thead>
-      <tbody>
-        <% @publishedTel.days.each do |day| %>
-        	<% day.races.each do |race| %>
-	          <tr>
-	            <td><%= race.type %></td>
-				    	<td><%= race.name %></td>
-				    	<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
-	          </tr>
-	        <% end %>
+	<h4>Published Tel</h4>
+	<table class="table table-condensed table-hover generic-table">
+  <thead>
+    <tr>
+      <td>type</td>
+		    <td>name</td>
+		    <td>confirmed</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @publishedTel.days.each do |day| %>
+    	<% day.races.each do |race| %>
+          <tr>
+            <td><%= race.type %></td>
+			    	<td><%= race.name %></td>
+			    	<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+          </tr>
         <% end %>
-      </tbody>
-    </table>
-	<% end %>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
 <% if !current_user.admin? %>
 <div class="row">
 	<h4>Current Stable:</h4>
@@ -67,52 +67,81 @@
 <% end %>
 <div class="row">
 	<div class="col-xs-12">
-		<h3>TEL Database: </h3>
-		<div class="panel-group" id="accordion" data-toggle="collapse">
-			<% @races.each do |race| %>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#<%=race.id%>">
-							<%= race.name %>
-						</a>
-					</h4>
-				</div>
-				<div id="<%=race.id%>" class="panel-collapse collapse">
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-xs-12 col-md-6">
-								<h4>Conditions</h4>
-								<% if race.conditions.any? %>
-									<ul class="condition-list no-indent">
-										<% race.conditions.each do |condition| %>
-										<%= condition.name %>
-										<% end %>
-									</ul>
-								<% else %>
-									None
-								<% end %> 
-							</div>
-							<div class="col-xs-12 col-md-6">
-								<h4>Horses</h4>
-								<% horsestatuses = race.horseraces.where("status = ? OR status = ? AND race_id = ?", "Interested", "Confirmed", race.id) %>
-								<% if horsestatuses.any? %>
-									<ul class="condition-list no-indent">
-										<% horsestatuses.each do |horsestatus| %>
-										<li><%= Horse.find(horsestatus.horse_id).name %> - <%= horsestatus.status %></li>
-										<% end %>
-									</ul>
-								<% else %>
-									None
-								<% end %>
-							</div>
-						</div>
-					</div>
+		<h3>Races</h3>
+		<div class="grid simple">
+	  		<div class="grid-body no-border">
+	    		<div class="row">
+	      			<div class="col-xs-12">
+	        			<table id="dashboard-admin-table" class="committed-sort table table-condensed table-hover">
+				          <thead>
+				            <tr>
+				              <th>Name</th>
+				              <th>Interested</th>
+				              <th>Confirmed</th>
+				              <th style="display:none;">Race Description</th>
+				              <th style="display:none;">Race Conditions</th>
+				              <th style="display:none;">Interested</th>
+				              <th style="display:none;">Committed</th>
+				            </tr>
+				          </thead>
+				          <tbody>
+				            <% @races.each do |race| %>
+					            <tr>
+				              		<td>
+				              			<%= race.name %>
+				              		</td>
+				              		<td>
+				              			<span class="badge badge-danger">
+				              				<%= race.horseraces.where(:status => "Interested").count %>
+				              			</span>
+				              		</td>
+					              	<td>
+					              		<span class="badge badge-success">
+					              			<%= race.horseraces.where(:status => "Confirmed").count %>
+					              		</span>
+					              	</td>
+					              	<td style="display:none;">
+				              			<%= race.description %>
+			              			</td>
+				              		<td style="display:none;">
+				              			<% race.conditions.each do |condition| %>
+				              				<%= condition.name %>&nbsp;
+			              				<% end %>
+			              			</td>
+					              	<td style="display:none;">
+						              	<% race.horseraces.where(:status => "Interested").each do |interested| %> 
+						              		<%= interested.name %>&nbsp;
+					              		<% end %>
+				              		</td>
+					              	<td style="display:none;">
+					              		<% race.horseraces.where(:status => "Confirmed").each do |confirmed| %>
+					              			<%= confirmed.name %>&nbsp;
+					              		<% end %>
+					              	</td>
+					            </tr>
+				            <% end %>  
+				          </tbody>
+	    				</table>
+	  				</div>
 				</div>
 			</div>
 			<%end%>
 		</div>
 	</div>
 </div>
-
+<script>
+  /* Formating function for row details */
+  function fnFormatDetails ( oTable, nTr )
+  {
+    var aData = oTable.fnGetData( nTr );
+    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
+    sOut += '<tr><td>Description:</td><td>'+aData[4]+'</td></tr>';
+    sOut += '<tr><td>Race Conditions:</td><td>'+aData[5]+'</td></tr>';
+    sOut += '<tr><td>Interested:</td><td>'+aData[6]+'</td></tr>';
+    sOut += '<tr><td>Confirmed:</td><td>'+aData[7]+'</td></tr>';
+    sOut += '</table>';
+     
+    return sOut;
+  }
+</script>
 

@@ -4,24 +4,24 @@
 	<li><%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish' %></li>
 </ul>
 <div class="row">
-  <div class="col-md-12">
-    <div class="grid simple">
-      <div class="grid-body no-border">
-        <div class="row">
-        	<div class="col-md-3">
-        		<h3>Conditions:</h3>
-        		<div id="conditionPartial">
+	<div class="col-md-12">
+		<div class="grid simple">
+			<div class="grid-body no-border">
+				<div class="row">
+					<div class="col-md-3">
+						<h3>Conditions:</h3>
+						<div id="conditionPartial">
 							<%= render 'condition' %>
 						</div>
-        	</div>
-        	<div class="col-md-9">
-        		<div class="center">
-        			<h1><%= @race.name %></h1>
+					</div>
+					<div class="col-md-9">
+						<div class="center">
+							<h1><%= @race.name %></h1>
 							<% if @race.status == "Draft"%>
-			          <%= link_to 'Publish Race', {:controller => "races", :action => "update_status", :status => "Published", :id => @race.id }, :class => 'btn btn-info btn-s' %>
-			        <% else %>
-			          <%= link_to 'Change to Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => @race.id }, :class => 'btn btn-warning btn-s' %>
-			        <% end %>
+								<%= link_to 'Publish Race', {:controller => "races", :action => "update_status", :status => "Published", :id => @race.id }, :class => 'btn btn-success btn-s' %>
+							<% else %>
+								<%= link_to 'Change to Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => @race.id }, :class => 'btn btn-warning btn-s' %>
+							<% end %>
 						</div>
 						<% @race_groups.each do |racegroup| %>
 							<h4><%= racegroup[0] %></h4>
@@ -104,26 +104,26 @@
 						          </tr>
 						        <% end %>
 						      </tbody>
-								<% end %>
+							<% end %>
 							</table>
 						<% end %>
 					</div>
-	      </div>
-      </div>
-    </div>
-  </div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
-	  /* Formating function for row details */
-  function fnFormatDetails ( oTable, nTr )
-  {
-    var aData = oTable.fnGetData( nTr );
-    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Horse Conditions:</td><td>'+aData[10]+'</td></tr>';
-    sOut += '<tr><td>Trainer:</td><td>'+aData[9]+'</td></tr>';
-    sOut += '<tr><td>Owner:</td><td>'+aData[8]+'</td></tr>';
-    sOut += '</table>';
-     
-    return sOut;
-  }
+/* Formating function for row details */
+function fnFormatDetails ( oTable, nTr )
+{
+var aData = oTable.fnGetData( nTr );
+var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
+sOut += '<tr><td>Horse Conditions:</td><td>'+aData[10]+'</td></tr>';
+sOut += '<tr><td>Trainer:</td><td>'+aData[9]+'</td></tr>';
+sOut += '<tr><td>Owner:</td><td>'+aData[8]+'</td></tr>';
+sOut += '</table>';
+
+return sOut;
+}
 </script>

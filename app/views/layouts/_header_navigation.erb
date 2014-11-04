@@ -26,30 +26,41 @@
         <div class="pull-right">
           <div class="chat-toggler"> <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notifications">
             <div class="user-details">
-              <div class="username"> <span class="badge badge-important">2</span> <%= current_user.name %></div>
+              <div class="username">
+                <% if @notifications %>
+                  <span class="badge badge-important">
+                    <%= @notifications.length %>
+                  </span>
+                <% end %> 
+                <%= current_user.name %>
+                </div>
             </div>
             <div class="iconset top-down-arrow"></div>
           </a>
           <div id="notification-list" style="display:none">
             <div style="width:300px">
-              <div class="notification-messages info">
-                <div class="user-profile"> <img src="/assets/img/profiles/d.jpg"  alt="" data-src="/assets/img/profiles/d.jpg" data-src-retina="/assets/img/profiles/d2x.jpg" width="35" height="35"> </div>
-                <div class="message-wrapper">
-                  <div class="heading"> Equipment Request </div>
-                  <div class="description"> Request for Blinders</div>
-                  <div class="date pull-left"> A min ago </div>
-                </div>
-                <div class="clearfix"></div>
-              </div>
-              <div class="notification-messages success">
-                <div class="user-profile"> <img src="/assets/img/profiles/h.jpg"  alt="" data-src="/assets/img/profiles/h.jpg" data-src-retina="/assets/img/profiles/h2x.jpg" width="35" height="35"> </div>
-                <div class="message-wrapper">
-                  <div class="heading"> You have got 150 messages </div>
-                  <div class="description"> 150 newly unread messages in your inbox </div>
-                  <div class="date pull-left"> An hour ago </div>
-                </div>
-                <div class="clearfix"></div>
-              </div>
+              <% if @notifications %>
+                <% @notifications.each do |notification| %>
+                  <div class="notification-messages info">
+                    <div class="user-profile"> <img src="/assets/img/profiles/d.jpg"  alt="" data-src="/assets/img/profiles/d.jpg" data-src-retina="/assets/img/profiles/d2x.jpg" width="35" height="35"> </div>
+                    <div class="message-wrapper">
+                      <div class="heading">
+                        <% if notification.action == 'Suggest' %>
+                          <%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
+                        <% elsif notification.action == 'Nominate' %>
+                          <%= Horse.find(notification.recv_id).name %> nominated for <%= Race.find(notification.send_id).name %>
+                        <% else %>
+                          <%= Horse.find(notification.send_id).name %> <%= notification.action %> <%= Condition.find(notification.recv_id).name %>
+                        <% end %>
+                      </div>
+                      <div class="date pull-left"><%= notification.created_at %></div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                <% end %>
+              <% else %>
+                <p>No Notifications </p>
+              <% end %>
             </div>
           </div>
           <div class="profile-pic"> <img src="/assets/img/profiles/avatar_small.jpg"  alt="" data-src="/assets/img/profiles/avatar_small.jpg" data-src-retina="assets/img/profiles/avatar_small2x.jpg" width="35" height="35" /> </div>
@@ -67,7 +78,7 @@
             <%if current_user.admin? %>
               <li class="divider"></li>
               <li><%= link_to 'Manage Users', users_path %></li>
-              <li><%= link_to 'Public Activity', activities_path %></li>
+              <li><%= link_to 'Activity Log', activities_path %></li>
             <% end %>
             <li class="divider"></li>
             <li>

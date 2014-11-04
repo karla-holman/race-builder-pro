@@ -28,7 +28,7 @@
                     <% conditions = race.conditions %>
                     <% if conditions.any? %>
                         <% conditions.each do |condition| %>
-                            | <%= condition.name %> |
+                            <%= condition.name %>&nbsp;
                         <% end %>
                     <% else %>
                       None
@@ -37,9 +37,9 @@
                     <td style="display: none;"><%= race.description %></td>
                     <td>
                       <% if race.status == "Draft"%>
-                        <%= link_to 'Published', {:controller => "races", :action => "update_status", :status => "Published", :id => race.id }, :class => 'btn btn-success btn-mini' %>
+                        <%= link_to 'Draft', {:controller => "races", :action => "update_status", :status => "Published", :id => race.id }, :class => 'btn btn-warning btn-mini' %>
                       <% else %>
-                        <%= link_to 'Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => race.id }, :class => 'btn btn-danger btn-mini' %>
+                        <%= link_to 'Published', {:controller => "races", :action => "update_status", :status => "Draft", :id => race.id }, :class => 'btn btn-success btn-mini' %>
                       <% end %>
                     </td>
                     <td>
