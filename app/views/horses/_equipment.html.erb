@@ -1,0 +1,13 @@
+<%= form_for(@horse)  do |f| %>
+<ul class="equipment-list">
+  <% @equipment_medication.each do |equipment| %>
+    <%= hidden_field_tag 'horse[equipment_ids][]', nil %>
+    <% if Notification.where(:send_id => @horse.id, :recv_id => equipment.id, :action => "Add").any? || Notification.where(:send_id => @horse.id, :recv_id => equipment.id, :action => "Remove").any?%>
+      <li><%= equipment.name %> Pending Approval</li>
+    <% else %>
+      <li><%= check_box_tag "horse[equipment_ids][]", equipment.id, @horse.equipment.include?(equipment) %> <%= equipment.name %> </li>
+    <% end %>
+    </li>
+  <% end %>
+</ul>
+<% end %>

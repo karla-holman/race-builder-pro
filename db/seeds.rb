@@ -14,9 +14,11 @@ puts 'CREATED TRAINER: ' << trainer.email
 puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
-categories = Hash['Medication'=>['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off'] , 'Equipment'=>['Blinkers On'], 
-			'Other Equipment'=>['Cheek Piece', 'Cornell Collar', 'Front Wraps', 'Nasal Strip'], 'Age'=>['3+', '3YO', '2YO'], 
-			'Wins'=> ['Maiden', 'NW2'], 'Gender' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['WA'], 'Hasn\'t Won Since' => ['2012']] 
+categories = Hash['Age'=>['3+', '3YO', '2YO'], 
+			'Wins'=> ['Maiden', 'NW2'], 'Gender' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['WA'], 'Hasn\'t Won Since' => ['2012']]
+
+equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'Blinkers On', 'Cheek Piece',
+						'Cornell Collar', 'Front Wraps', 'Nasal Strip']
 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
@@ -84,6 +86,18 @@ statuses.each do |status|
 	end
 end
 
+equipment_medication.each do |equip|
+	new_equip = Equipment.find_or_create_by!(name: equip)
+	if equip == 'Blinkers On'
+		new_equip.required = true
+	else
+		new_equip.required = false
+	end
+	if new_equip.save
+		puts 'CREATED EQUIPMENT/STATUS: ' << new_equip.name
+	end
+end
+
 races.each do |race|
 	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], distance_type: race[4], distance: race[5])
 	if new_race.save
@@ -94,14 +108,11 @@ end
 horses.each do |horse|
 	owner = User.find_by_email(horse[6])
 	trainer = User.find_by_email(horse[7])
+	status = Status.find_by_name('Race Ready')
 	new_horse = Horse.find_or_create_by!(name: horse[0], POB: horse[1], gender: horse[2], birth_year: horse[3], starts: horse[4], 
-										wins: horse[5], owner_id: owner.id, trainer_id: trainer.id, week_running: horse[8])
-	horse_status = HorseStatus.new(:horse_id => new_horse.id, :status_id => 2)
+										wins: horse[5], owner_id: owner.id, trainer_id: trainer.id, week_running: horse[8], status_id: status.id)
 	if new_horse.save
 		puts 'CREATED HORSE: ' << new_horse.name
-	end
-	if horse_status.save
-		puts 'CREATED HORSE STATUS: '<< Status.find(horse_status.status_id).name
 	end
 end
 

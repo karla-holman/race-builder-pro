@@ -66,9 +66,8 @@ class MeetsController < ApplicationController
     @inactive = Status.find_by_name('Inactive')
 
     Horse.all.each do |horse|
-        @horseStatus = HorseStatus.where(:horse => horse).first
-        @horseStatus.status = @inactive
-        @horseStatus.save
+        horse.status = @inactive
+        horse.save
     end
 
     respond_to do |format|

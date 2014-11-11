@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :horse_equipments
+
   resources :days
 
   resources :equipment
@@ -39,10 +41,6 @@ RailsDevisePundit::Application.routes.draw do
   resources :tels
 
   resources :race_conditions
-
-  resources :horse_conditions
-
-  resources :horse_statuses
 
   resources :statuses
 

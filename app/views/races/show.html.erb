@@ -37,7 +37,6 @@
 					          <th>Prev Claiming Level</th>
 					          <th style="display:none;">Owner</th>
 			              <th style="display:none;">Trainer</th>
-			              <th style="display:none;">Conditions</th>
 			              <th colspan="1"></th>
 									</tr>
 								</thead>
@@ -77,15 +76,6 @@
 				              	</td>
 				              	<td style="display:none;"><%= horse.owner.name %></td>
 					              <td style="display:none;"><%= horse.trainer.name %></td>
-					              <td style="display:none;">
-					              <% if horse.conditions.any? %>
-					                <% horse.conditions.each do |condition| %>
-					                  | <%= condition.name %> |
-					                <% end %>
-					              <% else %>
-					                | None |
-					              <% end %>
-					              </td>
 					              <td>
 				              	<% if racegroup[0] == "Eligible" %>
 					              	<% if Notification.where(:send_id => @race.id, :recv_id => horse.id, :action => "Suggest").any? %>
@@ -119,7 +109,6 @@ function fnFormatDetails ( oTable, nTr )
 {
 var aData = oTable.fnGetData( nTr );
 var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-sOut += '<tr><td>Horse Conditions:</td><td>'+aData[10]+'</td></tr>';
 sOut += '<tr><td>Trainer:</td><td>'+aData[9]+'</td></tr>';
 sOut += '<tr><td>Owner:</td><td>'+aData[8]+'</td></tr>';
 sOut += '</table>';

@@ -22,7 +22,7 @@
               <th>Status</th>
               <th style="display:none;">Owner</th>
               <th style="display:none;">Trainer</th>
-              <th style="display:none;">Conditions</th>
+              <th style="display:none;">Equipment/Medication</th>
               <th colspan="1"></th>
             </tr>
           </thead>
@@ -47,13 +47,13 @@
                   <%= number_to_currency(0, precision: 2) %>
                 <% end %>
               </td>
-              <td><span class="label"><%= Status.find(HorseStatus.find(horse.id).status_id).name %></span></td>
+              <td><span class="label"><%= horse.status.name %></span></td>
               <td style="display:none;"><%= horse.owner.name %></td>
               <td style="display:none;"><%= horse.trainer.name %></td>
               <td style="display:none;">
-              <% if horse.conditions.any? %>
-                <% horse.conditions.each do |condition| %>
-                  <%= condition.name %>&nbsp;
+              <% if horse.equipment.any? %>
+                <% horse.equipment.each do |equipment| %>
+                  <%= equipment.name %>&nbsp;
                 <% end %>
               <% else %>
                 None

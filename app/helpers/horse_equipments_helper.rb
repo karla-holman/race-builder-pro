@@ -1,0 +1,2 @@
+module HorseEquipmentsHelper
+end

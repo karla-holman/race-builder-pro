@@ -25,7 +25,7 @@ class NotificationsController < ApplicationController
 
   def approve
     if @notification.action == "Add"
-      HorseCondition.find_or_create_by!(:horse_id => @notification.send_id, :condition_id => @notification.recv_id)
+      HorseEquipment.find_or_create_by!(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id)
     elsif @notification.action == "Nominate"
       horserace = Horserace.new
       horserace.horse_id = @notification.recv_id
@@ -33,7 +33,7 @@ class NotificationsController < ApplicationController
       horserace.status = 'Confirmed'
       horserace.save
     else
-      HorseCondition.where(:horse_id => @notification.send_id, :condition_id => @notification.recv_id).delete_all
+      HorseEquipment.where(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id).delete_all
     end
 
     @notification.destroy
@@ -76,9 +76,9 @@ class NotificationsController < ApplicationController
   # DELETE /notifications/1.json
   def destroy
     if @notification.action == "Add"
-      HorseCondition.where(:horse_id => @notification.send_id, :condition_id => @notification.recv_id).delete_all
+      HorseEquipment.where(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id).delete_all
     elsif @notification.action == "Remove"
-      HorseCondition.find_or_create_by!(:horse_id => @notification.send_id, :condition_id => @notification.recv_id)
+      HorseEquipment.find_or_create_by!(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id)
     elsif @notification.action == "Nominate"
       horserace = Horserace.new
       horserace.horse_id = @notification.recv_id

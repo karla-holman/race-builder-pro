@@ -7,7 +7,7 @@ $(document).ready(function() {
 	});
 
 	//When a condition is checked, submit the form
-	$(".condition-list").change(function(){
+	$(".equipment-list").change(function(){
 		form = $(this).closest("form");
 		attemptUpdate(form);
 		return false

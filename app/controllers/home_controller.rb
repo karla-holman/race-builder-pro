@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def index
     @users = User.all
+    @inactive = Status.find_by_name('Inactive')
     all_suggestions = Notification.where(:action => "Suggest")
     @nominations = Notification.where(:action => "Nominate")
     @condition_requests = Notification.all - all_suggestions - @nominations
@@ -15,11 +16,11 @@ class HomeController < ApplicationController
 
 
     if current_user.trainer?
-    	@horses = Horse.where(:trainer_id => current_user.id)
+    	@horses = Horse.where(:trainer_id => current_user.id).where.not(:status => @inactive)
         horse_ids = @horses.pluck(:id)
         @suggestions = all_suggestions.where("recv_id IN (?)", horse_ids)
     elsif current_user.user?
-    	@horses = Horse.where(:owner_id => current_user.id)
+    	@horses = Horse.where(:owner_id => current_user.id).where.not(:status => @inactive)
         horse_ids = @horses.pluck(:id)
         @suggestions = all_suggestions.where("recv_id IN (?)", horse_ids)
     end

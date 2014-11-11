@@ -2,6 +2,12 @@
 	width: auto;
 }
 
+.equipment-list {
+	list-style: none;
+	margin-bottom: 10px;
+	padding-left: 10px;
+}
+
 .condition-list {
 	list-style: none;
 	margin-bottom: 10px;

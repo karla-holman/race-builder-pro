@@ -29,7 +29,7 @@ class RacesController < ApplicationController
     @interested = Horse.where("id IN (?)", interested_ids)
     @denied = Horse.where("id IN (?)", denied_ids)
     @pending = Horse.where("id IN (?)", pending_ids)
-    @categories = Category.all - Category.where(:datatype => "Bool")
+    @categories = Category.all
     
     if @race.type == 'Stakes'
       possible_horses = Horse.all
@@ -53,11 +53,11 @@ class RacesController < ApplicationController
         possible_horses = Horse.where("id not IN (?) and id not IN (?)", confirmed_ids, interested_ids)
       end
     end
-
+    @inactive = Status.find_by_name('Inactive')
     @eligible = Array.new()
     possible_horses.each do |horse|
       @races = FilterRacesService.new.horseFilter(horse) 
-      if @races.include?(@race)
+      if @races.include?(@race) && horse.status != @inactive
         @eligible.push(horse)
       end
     end
@@ -75,12 +75,13 @@ class RacesController < ApplicationController
   end
 
   def menu
+    @inactive = Status.find_by_name('Inactive')
     if current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
-      @horses = Horse.where(:trainer_id => current_user.id)
+      @horses = Horse.where(:trainer_id => current_user.id).where.not(:status => @inactive)
     else
-      @horses = Horse.where(:owner_id => current_user.id)
+      @horses = Horse.where(:owner_id => current_user.id).where.not(:status => @inactive)
     end
     if params[:horse_id]
       @horse = Horse.find(params[:horse_id])
@@ -88,26 +89,28 @@ class RacesController < ApplicationController
   end
 
   def schedule
+    @inactive = Status.find_by_name('Inactive')
     @races = Race.where("category = (?) OR category = (?)", "Protocol", "Stakes")
     @today = Date.today
     if current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
-      @horses = Horse.where(:trainer_id => current_user.id)
+      @horses = Horse.where(:trainer_id => current_user.id).where.not(:status => @inactive)
     else
-      @horses = Horse.where(:owner_id => current_user.id)
+      @horses = Horse.where(:owner_id => current_user.id).where.not(:status => @inactive)
     end 
   end
 
   def stakes
+    @inactive = Status.find_by_name('Inactive')
     @races = Race.where(:category => "Stakes")
     @today = Date.today
     if current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
-      @horses = Horse.where(:trainer_id => current_user.id)
+      @horses = Horse.where(:trainer_id => current_user.id).where.not(:status => @inactive)
     else
-      @horses = Horse.where(:owner_id => current_user.id)
+      @horses = Horse.where(:owner_id => current_user.id).where.not(:status => @inactive)
     end
   end
 
