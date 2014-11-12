@@ -30,8 +30,10 @@
             <% if race.distance <= 1 %>
               <% if race.distance_type == 'Furlongs' %>
                 <td style="display: none;"><%= race.distance %> Furlong</td>
-              <% else %>
+              <% elsif race.distance_type == 'Miles' %>
                 <td style="display: none;"><%= race.distance %> Mile</td>
+              <% elsif race.distance_type == 'Yards' %>
+                <td style="display: none;"><%= race.distance %> Yard</td>
               <% end %>
             <% else %>
               <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>

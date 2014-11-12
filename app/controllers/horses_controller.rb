@@ -117,8 +117,10 @@ class HorsesController < ApplicationController
         if HorseEquipment.where(equipment_id: equipment, horse_id: @horse.id).empty? && !equipment.empty?
           if Equipment.find(equipment).required
             notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Add")
+            @horse.create_activity :add_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
           else
             HorseEquipment.find_or_create_by!(:horse_id => @horse.id, :equipment_id => equipment)
+            @horse.create_activity :add_equipment, parameters: {name: Equipment.find(equipment).name}, owner: current_user
           end
         end
       end
@@ -128,8 +130,10 @@ class HorsesController < ApplicationController
       current_equipment.each do |equipment|
         if Equipment.find(equipment).required
           notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Remove")
+          @horse.create_activity :remove_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
         else
           HorseEquipment.where(:horse_id => @horse.id, :equipment_id => equipment).first.destroy
+          @horse.create_activity :remove_equipment, parameters: {name: Equipment.find(equipment).name}, owner: current_user
         end
       end
     end

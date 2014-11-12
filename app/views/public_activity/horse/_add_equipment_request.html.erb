@@ -1,6 +1,7 @@
-Requested to remove blinkers for horse
+Horse
 <% if activity.trackable %>
   <%= link_to activity.trackable.name, activity.trackable %>
 <% else %>
   which has since been removed 
 <% end %>
+has requested to add equipment/medication <%= activity.parameters[:name]%>

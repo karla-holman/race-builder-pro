@@ -2,7 +2,15 @@
 	<tr >
 		<% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
 		<td><%= race.name %></td>
-		<td><%= race.description %></td>
+		<% if race.distance <= 1 %>
+	      <% if race.distance_type == 'Furlongs' %>
+	        <td><%= race.distance %> Furlong</td>
+	      <% else %>
+	        <td><%= race.distance %> Mile</td>
+	      <% end %>
+	    <% else %>
+	      <td><%= race.distance %> <%= race.distance_type %></td>
+	    <% end %>
 		<td><%= race.horseraces.where(:status => "Interested").count %></td>
 		<% if @horserace.status == "Confirmed" %>
 			<td>
@@ -35,14 +43,6 @@
 	    	| None |
 	    <% end %>
 	    </td>
-		<% if race.distance <= 1 %>
-	      <% if race.distance_type == 'Furlongs' %>
-	        <td style="display: none;"><%= race.distance %> Furlong</td>
-	      <% else %>
-	        <td style="display: none;"><%= race.distance %> Mile</td>
-	      <% end %>
-	    <% else %>
-	      <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
-	    <% end %>
+	    <td style="display: none;"><%= race.description %></td>
 	</tr>
 <% end %>

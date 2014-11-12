@@ -20,8 +20,9 @@
     <%end%>
     <% if @distance %>
     distance="<%= @distance %>" 
-    <%end%>>
+    <%end%>
   </div>
+  <%= link_to 'View Horse', @horse, :class => 'btn btn-success btn-mini' %>
   <div class="col-xs-12 well">
     <div class="row race-menu-selectors">
       <div class="col-xs-1">

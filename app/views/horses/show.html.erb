@@ -17,6 +17,7 @@
         	<div class="col-md-6">
         		<div class="center">
 	        		<h2><%= @horse.name %> (<%= @horse.POB %>)</h2>
+	        		<h4><%= @horse.breed %></h4>
 	        		<h4>Age: <% def age(dob)
 	                  now = Time.now.utc.to_date
 	                  now.year - dob
@@ -31,11 +32,11 @@
 							<thead>
 								<tr>
 									<th>Name</th>
-									<th>Race Description</th>
+									<th>Distance</th>
 									<th>Total #</th>
 									<th>I/C</th>
 									<th style="display: none;">Conditions</th>
-									<th style="display: none;">Distance</th>
+									<th style="display: none;">Race Description</th>
 								</tr>
 							</thead>
 							<tbody id="race-list">
@@ -51,7 +52,7 @@
 						<h4>Last Win: </h4>
 						<%= render 'last_win' %>
 						<h4>Last Claiming Level: </h4>
-						<%= render 'last_claiminglevel' %>
+						<%= render 'last_claimingprice' %>
 	        </div>
 	      </div>
       </div>
@@ -65,7 +66,7 @@
 		var aData = oTable.fnGetData( nTr );
 		var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
 		sOut += '<tr><td>Conditions: </td><td>'+aData[5]+'</td></tr>';
-		sOut += '<tr><td>Distance:</td><td>'+aData[6]+'</td></tr>';
+		sOut += '<tr><td>Race Description:</td><td>'+aData[6]+'</td></tr>';
 		sOut += '</table>';
 	 
 		return sOut;

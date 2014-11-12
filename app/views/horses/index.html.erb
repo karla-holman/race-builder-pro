@@ -18,7 +18,7 @@
               <th>Gender</th>
               <th>Age</th>
               <th>Wins</th>
-              <th>Last Claiming Level</th>
+              <th>Last Claiming Price</th>
               <th>Status</th>
               <th style="display:none;">Owner</th>
               <th style="display:none;">Trainer</th>
@@ -41,8 +41,8 @@
               </td>
               <td><%= horse.wins %></td>
               <td>
-                <% if horse.last_claiming_level? %>
-                  <%= number_to_currency(horse.last_claiming_level, precision: 2) %>
+                <% if horse.last_claiming_price? %>
+                  <%= number_to_currency(horse.last_claiming_price, precision: 2) %>
                 <% else %>
                   <%= number_to_currency(0, precision: 2) %>
                 <% end %>
