@@ -6,29 +6,29 @@
 <div class="row">
   <div class="col-xs-12">
     <h2>Race Database For The Week Of <%= @tel.start_date.strftime('%b %d, %Y') %></h2>
-    <%= link_to 'New Day', new_day_path({day: {:tel_id=> @tel.id}}), :class => 'btn btn-primary btn-xs' %>
+    <%= link_to 'New Day', new_day_path({day: {:tel_id=> @tel.id}}), :class => 'btn btn-primary btn-mini' %>
     <% if !@tel.published %>
-      <%= form_for(@tel) do |f| %>
+      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
         <%= f.hidden_field :published, :value => true %>
-        <%= f.submit "Publish Tel", :class => 'btn btn-success btn-sm'%>
+        <%= f.submit "Publish Tel", :class => 'btn btn-success btn-mini'%>
       <% end %>
     <% end %>
     <% if @tel.published %>
-      <%= form_for(@tel) do |f| %>
+      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
         <%= f.hidden_field :published, :value => false %>
-        <%= f.submit "Un-Publish Tel", :class => 'btn btn-success btn-sm'%>
+        <%= f.submit "Un-Publish Tel", :class => 'btn btn-success btn-mini'%>
       <% end %>
     <% end %>
     <% if !@tel.closed %>
-      <%= form_for(@tel) do |f| %>
+      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
         <%= f.hidden_field :closed, :value => true %>
-        <%= f.submit "Close Tel", :class => 'btn btn-success btn-sm'%>
+        <%= f.submit "Close Tel", :class => 'btn btn-success btn-mini'%>
       <% end %>
     <% end %>
     <% if @tel.closed %>
-      <%= form_for(@tel) do |f| %>
+      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
         <%= f.hidden_field :closed, :value => false %>
-        <%= f.submit "Open Tel", :class => 'btn btn-success btn-sm'%>
+        <%= f.submit "Open Tel", :class => 'btn btn-success btn-mini'%>
       <% end %>
     <% end %>
     <% @tel.days.each do |day| %>

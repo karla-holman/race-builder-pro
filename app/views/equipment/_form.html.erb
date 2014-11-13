@@ -18,10 +18,11 @@
         <%= f.label :name %>
         <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
       </div>
+      <div class="checkbox">
+          <%= f.check_box :required, :autofocus => true, class: 'form-control'%> <%= f.label :required %>
+      </div>
       <div class="form-group">
-        <%= f.label :required %>
-        <%= f.check_box :required, :autofocus => true, class: 'form-control'%>
-
+        
       </div>
       <div class="form-group">
         <%= f.submit "Save Equipment / Medication", :class => 'btn btn-success btn-sm'%>

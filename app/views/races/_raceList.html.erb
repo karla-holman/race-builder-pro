@@ -1,154 +1,159 @@
 <div class="row">
-  <div class="page-info" horse="<%=@horse.id%>" 
-    <% if @age %>
-    age="<%= @age.id %>" 
-    <%end%>
-    <% if @wins %>
-    win="<%= @wins.id %>" 
-    <%end%>
-    <% if @gender %>
-    gender="<%= @gender.id %>" 
-    <%end%>
-    <% if @lower_claiming %>
-    lower-claiming="<%=@lower_claiming%>" 
-    <%end%>
-    <% if @upper_claiming %>
-    upper-claiming="<%=@upper_claiming%>" 
-    <%end%>
-    <% if @noWinsSince %>
-    noWinsSince="<%= @noWinsSince.id %>" 
-    <%end%>
-    <% if @distance %>
-    distance="<%= @distance %>" 
-    <%end%>
-  </div>
-  <%= link_to 'View Horse', @horse, :class => 'btn btn-success btn-mini' %>
-  <div class="col-xs-12 well">
-    <div class="row race-menu-selectors">
-      <div class="col-xs-1">
-          <% if @age %>
-          Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'All'}) %>
-          <% else %>
-          Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'All'}) %>
-          <% end %>
-      </div>
-      <div class="col-xs-1">
-        <% if @gender %>
-        Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:selected => @gender.id, :include_blank => 'All'}) %>
-        <% else %>
-        Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:prompt => 'All'}) %>
-        <% end %>
-      </div>
-      <div class="col-xs-2">
+    <div class="page-info" horse="<%=@horse.id%>" 
+        <% if @age %>
+        age="<%= @age.id %>" 
+        <%end%>
         <% if @wins %>
-        Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
-        <% else %>
-        Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
-        <% end %>
-      </div>
-      <div class="col-xs-2">
+        win="<%= @wins.id %>" 
+        <%end%>
+        <% if @gender %>
+        gender="<%= @gender.id %>" 
+        <%end%>
+        <% if @lower_claiming %>
+        lower-claiming="<%=@lower_claiming%>" 
+        <%end%>
+        <% if @upper_claiming %>
+        upper-claiming="<%=@upper_claiming%>" 
+        <%end%>
         <% if @noWinsSince %>
-        No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
-        <% else %>
-        No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
-        <% end %>
-      </div>
-      <div class="col-xs-2">
+        noWinsSince="<%= @noWinsSince.id %>" 
+        <%end%>
         <% if @distance %>
-        Distances <%= select_tag "Distances", options_for_select(['Short', 'Long'], @distance), :prompt => 'All' %>
-        <% else %>
-        Distances <%= select_tag "Distances", options_for_select(['Short', 'Long']), :prompt => 'All'  %>
-        <% end %>
-      </div>
+        distance="<%= @distance %>" 
+        <%end%>
+    </div>  
+    <div class="col-xs-12 well">
+        <h4>Showing Races for <%= @horse.name %></h4>
+        <p>Use the dropdowns to filter down races and find your desired race!</p>
+        <%= link_to 'View Horse', @horse, :class => 'btn btn-success btn-mini' %>
     </div>
-  </div>
-  <div class="col-xs-12">
-    <div class="grid simple">
-      <div class="grid-body no-border">
-        <div class="row">
-          <div class="col-xs-12">
-            <table id="racelist-table" class="genericTable table table-condensed table-hover">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th># Interested</th>
-                  <th>Distance</th>
-                  <th style="display: none;">Conditions</th>
-                  <th style="display: none;">Description</th>
-                  <th>I/C</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% if @races %>
-                <% @races.each do |race| %>
-                <tr class="top">
-                  <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
-                  <td><%= race.name %></td>
-                  <td><span class="badge badge-inverse"><%= race.horseraces.where(:status => "Interested").count %></span></td>
-                  <% if race.distance <= 1 %>
-                  <% if race.distance_type == 'Furlongs' %>
-                  <td><%= race.distance %> Furlong</td>
-                  <% else %>
-                  <td><%= race.distance %> Mile</td>
-                  <% end %>
-                  <% else %>
-                  <td><%= race.distance %> <%= race.distance_type %></td>
-                  <% end %>
-                  <td style="display: none;">
-                      <% conditions = race.conditions %>
-                      <% if conditions.any? %>
-                          <% conditions.each do |condition| %>
-                              | <%= condition.name %> |
-                          <% end %>
-                      <% else %>
-                        None
-                      <% end %>
-                      </td>
-                  <td style="display: none;"><%= race.description %></td>
-                  <% if @horserace.status == "Confirmed" %>
-                  <td>
-                    Confirmed: 
-                    <%= form_for(@horserace) do |f| %>
-                    <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-                    <% end %>
-                  </td>
-                  <% elsif @confirmed%>
-                  <td ><%= form_for(@horserace) do |f| %>
-                    <%= check_box("horserace", "status", {}, "Interested", "") %> /
-                    <% end %>
-                    A
-                  </td>
-                  <% else %>
-                  <td ><%= form_for(@horserace) do |f| %>
-                    <%= check_box("horserace", "status", {}, "Interested", "") %> /
-                    <% end %>
-                    <%= form_for(@horserace) do |f| %>
-                    <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-                    <% end %>
-                  </td>
-                  <% end %>
-                </tr>
+    <div class="col-xs-12 well">
+        <div class="row race-menu-selectors">
+            <div class="col-xs-1">
+                <% if @age %>
+                Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'All'}) %>
+                <% else %>
+                Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'All'}) %>
                 <% end %>
+            </div>
+            <div class="col-xs-1">
+                <% if @gender %>
+                Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:selected => @gender.id, :include_blank => 'All'}) %>
+                <% else %>
+                Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:prompt => 'All'}) %>
                 <% end %>
-              </tbody>
-            </table>
-          </div>
+            </div>
+            <div class="col-xs-1">
+                <% if @wins %>
+                Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
+                <% else %>
+                Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
+                <% end %>
+            </div>
+            <div class="col-xs-2">
+                <% if @noWinsSince %>
+                No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
+                <% else %>
+                No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
+                <% end %>
+            </div>
+            <div class="col-xs-2">
+                <% if @distance %>
+                Distances <%= select_tag "Distances", options_for_select(['Short', 'Long'], @distance), :prompt => 'All' %>
+                <% else %>
+                Distances <%= select_tag "Distances", options_for_select(['Short', 'Long']), :prompt => 'All'  %>
+                <% end %>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="col-xs-12">
+        <div class="grid simple">
+            <div class="grid-body no-border">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="racelist-table" class="genericTable table table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th># Interested</th>
+                                    <th>Distance</th>
+                                    <th style="display: none;">Conditions</th>
+                                    <th style="display: none;">Description</th>
+                                    <th>Interested / Confirmed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if @races %>
+                                    <% @races.each do |race| %>
+                                        <tr class="top">
+                                            <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
+                                            <td><%= race.name %></td>
+                                            <td><span class="badge badge-inverse"><%= race.horseraces.where(:status => "Interested").count %></span></td>
+                                            <% if race.distance <= 1 %>
+                                                <% if race.distance_type == 'Furlongs' %>
+                                                    <td><%= race.distance %> Furlong</td>
+                                                <% else %>
+                                                    <td><%= race.distance %> Mile</td>
+                                                <% end %>
+                                            <% else %>
+                                                <td><%= race.distance %> <%= race.distance_type %></td>
+                                            <% end %>
+                                            <td style="display: none;">
+                                                <% conditions = race.conditions %>
+                                                <% if conditions.any? %>
+                                                    <% conditions.each do |condition| %>
+                                                        | <%= condition.name %> |
+                                                    <% end %>
+                                                <% else %>
+                                                    None
+                                                <% end %>
+                                            </td>
+                                            <td style="display: none;"><%= race.description %></td>
+                                            <% if @horserace.status == "Confirmed" %>
+                                                <td>
+                                                    Confirmed: 
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                        <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+                                                    <% end %>
+                                                </td>
+                                            <% elsif @confirmed%>
+                                                <td>
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                        <%= check_box("horserace", "status", {}, "Interested", "") %> /
+                                                    <% end %>
+                                                    A
+                                                </td>
+                                                <td >
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                        <%= check_box("horserace", "status", {}, "Interested", "") %> /
+                                                    <% end %>
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                        <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+                                                    <% end %>
+                                                </td>
+                                            <% end %>
+                                        </tr>
+                                    <% end %>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
-  /* Formating function for row details */
-  function fnFormatDetails ( oTable, nTr )
-  {
-    var aData = oTable.fnGetData( nTr );
-    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
-    sOut += '<tr><td>Description:</td><td>'+aData[5]+'</td></tr>';
-    sOut += '<tr><td>Claiming Level: </td><td>'+aData[6]+'</td></tr>';
-    sOut += '</table>';
-     
-    return sOut;
-  }
+/* Formating function for row details */
+function fnFormatDetails ( oTable, nTr )
+{
+  var aData = oTable.fnGetData( nTr );
+  var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
+  sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
+  sOut += '<tr><td>Description:</td><td>'+aData[5]+'</td></tr>';
+  sOut += '<tr><td>Claiming Level: </td><td>'+aData[6]+'</td></tr>';
+  sOut += '</table>';
+
+  return sOut;
+}
 </script>

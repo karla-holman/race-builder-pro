@@ -25,3 +25,11 @@
 .grid.simple .grid-body.no-border {
 	padding: 25px;
 }
+
+.inline-hidden-form {
+	display: inline-block;
+}
+
+.inline-checkbox {
+	display: inline-block;
+}
