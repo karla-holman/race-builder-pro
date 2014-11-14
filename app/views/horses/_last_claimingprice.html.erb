@@ -12,4 +12,5 @@
   <div class="form-group attribute">
     <%= f.text_field :last_claiming_price, :value => number_to_currency(f.object.last_claiming_price, :precision => 2), :autofocus => true, class: 'form-control' %>
   </div>
+  <%= f.submit :class => 'btn btn-success btn-sm'%>
 <% end %>

@@ -9,11 +9,11 @@
         <% if @gender %>
         gender="<%= @gender.id %>" 
         <%end%>
-        <% if @lower_claiming %>
-        lower-claiming="<%=@lower_claiming%>" 
+        <% if @lower_purse %>
+        lower-purse="<%=@lower_purse%>" 
         <%end%>
-        <% if @upper_claiming %>
-        upper-claiming="<%=@upper_claiming%>" 
+        <% if @upper_purse %>
+        upper-purse="<%=@upper_purse%>" 
         <%end%>
         <% if @noWinsSince %>
         noWinsSince="<%= @noWinsSince.id %>" 
@@ -64,7 +64,21 @@
                 Distances <%= select_tag "Distances", options_for_select(['Short', 'Long']), :prompt => 'All'  %>
                 <% end %>
             </div>
-        </div>
+            <div class="col-xs-2">
+                <% if @lower_purse %>
+                Lower Purse <%= select_tag "Lower Purse", options_for_select(@purses, @lower_purse), :prompt => 'None' %>
+                <% else %>
+                Lower Purse <%= select_tag "Lower Purse", options_for_select(@purses), :prompt => 'None'  %>
+                <% end %>
+              </div>
+              <div class="col-xs-2">
+                <% if @upper_purse %>
+                Upper Purse <%= select_tag "Upper Purse", options_for_select(@purses, @upper_purse), :prompt => 'None' %>
+                <% else %>
+                Upper Purse <%= select_tag "Upper Purse", options_for_select(@purses), :prompt => 'None'  %>
+                <% end %>
+              </div>
+            </div>
     </div>
     <div class="col-xs-12">
         <div class="grid simple">
@@ -77,6 +91,7 @@
                                     <th>Name</th>
                                     <th># Interested</th>
                                     <th>Distance</th>
+                                    <th>Purse</th>
                                     <th style="display: none;">Conditions</th>
                                     <th style="display: none;">Description</th>
                                     <th>Interested / Confirmed</th>
@@ -92,12 +107,15 @@
                                             <% if race.distance <= 1 %>
                                                 <% if race.distance_type == 'Furlongs' %>
                                                     <td><%= race.distance %> Furlong</td>
+                                                <% elsif race.distance_type == 'Yards'%>
+                                                    <td><%= race.distance %> Yard</td>
                                                 <% else %>
                                                     <td><%= race.distance %> Mile</td>
                                                 <% end %>
                                             <% else %>
                                                 <td><%= race.distance %> <%= race.distance_type %></td>
                                             <% end %>
+                                            <td><%= race.purse %></td>
                                             <td style="display: none;">
                                                 <% conditions = race.conditions %>
                                                 <% if conditions.any? %>
@@ -112,22 +130,23 @@
                                             <% if @horserace.status == "Confirmed" %>
                                                 <td>
                                                     Confirmed: 
-                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
                                                         <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
                                                     <% end %>
                                                 </td>
                                             <% elsif @confirmed%>
                                                 <td>
-                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
                                                         <%= check_box("horserace", "status", {}, "Interested", "") %> /
                                                     <% end %>
                                                     A
                                                 </td>
+                                            <% else %>
                                                 <td >
-                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
                                                         <%= check_box("horserace", "status", {}, "Interested", "") %> /
                                                     <% end %>
-                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
+                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
                                                         <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
                                                     <% end %>
                                                 </td>
@@ -151,7 +170,6 @@ function fnFormatDetails ( oTable, nTr )
   var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
   sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
   sOut += '<tr><td>Description:</td><td>'+aData[5]+'</td></tr>';
-  sOut += '<tr><td>Claiming Level: </td><td>'+aData[6]+'</td></tr>';
   sOut += '</table>';
 
   return sOut;

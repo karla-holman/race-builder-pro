@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :last_wins
+
   resources :horse_equipments
 
   resources :days

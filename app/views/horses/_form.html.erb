@@ -18,8 +18,20 @@
       <%= f.text_field :name, :autofocus => true, class: 'form-control' %>
     </div>
     <div class="form-group">
+      <%= f.label 'URL' %>
+      <%= f.text_field :URL, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="form-group">
       <%= f.label 'Place of Birth' %>
+      <%= f.text_field :birth_place, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label 'POB' %>
       <%= f.text_field :POB, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label 'Breed' %>
+      <%= f.text_field :breed, :autofocus => true, class: 'form-control' %>
     </div>
     <div class="form-group">
       <%= f.label :gender %><br/>
@@ -45,19 +57,23 @@
   <div class="col-xs-12 col-md-6">
     <div class="form-group">
       <%= f.label :starts %>
-      <%= f.text_field :starts, :autofocus => true, class: 'form-control' %>
+      <%= f.select :starts, options_for_select(0..200) %>
     </div>
     <div class="form-group">
       <%= f.label :wins %>
-      <%= f.text_field :wins, :autofocus => true, class: 'form-control' %>
+      <%= f.select :wins, options_for_select(0..200) %>
     </div>
     <div class="form-group">
       <%= f.label 'Last Win' %>
-      <%= f.text_field :last_win, :autofocus => true, class: 'datepicker form-control' %>
+      <%= date_field("horse", "last_win") %>
     </div>
     <div class="form-group">
-      <%= f.label :last_claiming_level %>
-      <%= f.text_field :last_claiming_level, :autofocus => true, class: 'form-control' %>
+      <%= f.label 'Last Claiming Price' %>
+      <%= date_field("horse", "last_claiming_price") %>
+    </div>
+    <div class="form-group">
+      <%= f.label :week_running %>
+      <%= f.select :week_running, options_for_select(0..7) %>
     </div>
   </div>
 </div>

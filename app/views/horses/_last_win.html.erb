@@ -1,15 +1,20 @@
-<%= form_for(@horse, remote: true) do |f| %>
-  <% if @horse.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@horse.count, "error") %> prohibited this horse status from being saved:</h2>
-    <ul>
-    <% @horse.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
+<%= form_for(@last_win) do |f| %>
+  <div class="form-group">
+    <%= f.label 'Date' %>
+    <%= date_field("last_win", "date") %>
+    <div class="form-group">
+      <%= f.label :distance_type %>
+      <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
+    </div>
+    <div class="form-group">
+      <%= f.label :distance %>
+      <%= f.select :distance, options_for_select(0..30, @last_win.distance) %>
+    </div>
+    <div class="form-group">
+      <%= f.label :money_earned %>
+       <%= f.text_field :money_earned, :autofocus => true, class: 'form-control' %>
+    </div>
+    <%= f.submit :class => 'btn btn-success btn-sm'%>
   </div>
-  <% end %>
-  <div class="form-group attribute">
-    <%= f.text_field :last_win, :autofocus => true, class: 'datepicker form-control' %>
-  </div>
+</div>
 <% end %>

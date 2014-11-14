@@ -2,6 +2,7 @@ class Horse < ActiveRecord::Base
 	include PublicActivity::Common
 
 	belongs_to :status
+	belongs_to :last_win
 
 	has_many :horseraces
 	has_many :races, :through => :horseraces

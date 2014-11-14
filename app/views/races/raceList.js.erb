@@ -7,6 +7,8 @@ $("#menu_age_id").change(function(){
        data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        wins_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"),  
        noWinsSince_id: $(".page-info").attr("noWinsSince"),
+       lower_purse: $(".page-info").attr("lower-purse"), 
+       upper_purse: $(".page-info").attr("upper-purse"), 
        distance: $(".page-info").attr("distance")},
        success: function(response) {
        }
@@ -19,6 +21,8 @@ $("#Distances").change(function(){
        method: "GET",
        data: {distance: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        wins_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"), age_id: $(".page-info").attr("age"),  
+       lower_purse: $(".page-info").attr("lower-purse"), 
+       upper_purse: $(".page-info").attr("upper-purse"),
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
        }
@@ -32,6 +36,8 @@ $("#menu_noWinsSince_id").change(function(){
        data: {noWinsSince_id: $(this).val(), age_id: $(".page-info").attr("age"), 
        horse_id: $(".page-info").attr("horse"), wins_id: $(".page-info").attr("win"), 
        gender_id: $(".page-info").attr("gender"),  
+       lower_purse: $(".page-info").attr("lower-purse"), 
+       upper_purse: $(".page-info").attr("upper-purse"),
        distance: $(".page-info").attr("distance")},
        success: function(response) {
        }
@@ -44,6 +50,8 @@ $("#menu_wins_id").change(function(){
        method: "GET",
        data: {wins_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), gender_id: $(".page-info").attr("gender"), 
+       lower_purse: $(".page-info").attr("lower-purse"), 
+       upper_purse: $(".page-info").attr("upper-purse"),
        distance: $(".page-info").attr("distance"),
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
@@ -57,6 +65,8 @@ $("#menu_gender_id").change(function(){
        method: "GET",
        data: {gender_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+       lower_purse: $(".page-info").attr("lower-purse"), 
+       upper_purse: $(".page-info").attr("upper-purse"),
        distance: $(".page-info").attr("distance"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
@@ -64,28 +74,40 @@ $("#menu_gender_id").change(function(){
     })
   });
 
+$("#Lower_Purse").change(function(){
+   $.ajax({
+      url : 'menu/raceList',
+      method: "GET",
+      data: {lower_purse: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+      age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+      gender_id: $(".page-info").attr("gender"), distance: $(".page-info").attr("distance"),
+      upper_claiming: $(".page-info").attr("upper-claiming"), 
+      noWinsSince_id: $(".page-info").attr("noWinsSince")},
+       success: function(response) {
+       }
+    })
+});
+
+$("#Upper_Purse").change(function(){
+    $.ajax({
+      url : 'menu/raceList',
+       method: "GET",
+       data: {upper_purse: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+       gender_id: $(".page-info").attr("gender"), distance: $(".page-info").attr("distance"),
+       lower_purse: $(".page-info").attr("lower-purse"), 
+       distance: $(".page-info").attr("distance"), 
+       noWinsSince_id: $(".page-info").attr("noWinsSince")},
+        success: function(response) {
+        }
+    })
+});
+
+
 $('#racelist-table').dataTable({
     sPaginationType: "full_numbers",
     "fnDrawCallback": function( oSettings ) {
       $(".edit_horserace").change(function(){
-        if($('.confirm_racestatus').is(":checked")) {
-          message = confirm("Once you confirm for a race there is no unconfirm, do you still want to confirm for this race?");
-          if(!message) {
-          	  $.ajax({
-						     url : 'menu/raceList',
-						     method: "GET",
-						     data: "horse_id=" + $(".page-info").attr("horse"),
-						     success: function(response) {
-						     }
-							})
-            return false;
-          }
-          else{
-            form = $(this).closest("form");
-            attemptUpdate(form);
-            return false;
-          } 
-        }
         form = $(this).closest("form");
         attemptUpdate(form);
         return false;

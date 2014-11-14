@@ -138,11 +138,20 @@ class RacesController < ApplicationController
       @distance = params[:distance]
       @races = FilterRacesService.new.distanceFilter(@races, @distance)
     end
+    if !params[:lower_purse].blank?
+      @lower_purse = params[:lower_purse]
+      @races = FilterRacesService.new.lowerPurseFilter(@races, @lower_purse)
+    end
+    if !params[:upper_purse].blank?
+      @upper_purse =  params[:upper_purse]
+      @races = FilterRacesService.new.upperPurseFilter(@races, @upper_purse)
+    end
 
      @ageList = Condition.where(:category_id => Category.find_by_name("Age"))
      @genderList = Condition.where(:category_id => Category.find_by_name("Gender"))
      @winList = Condition.where(:category_id => Category.find_by_name("Wins"))
      @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
+     @purses = Race.all.pluck(:purse).uniq.sort
 
      confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
 

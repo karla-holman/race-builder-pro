@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141112052611) do
+ActiveRecord::Schema.define(version: 20141114050305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,16 +107,26 @@ ActiveRecord::Schema.define(version: 20141112052611) do
     t.integer  "owner_id"
     t.integer  "trainer_id"
     t.string   "POB"
-    t.date     "last_win"
     t.decimal  "last_claiming_price"
     t.string   "URL"
     t.integer  "week_running"
     t.integer  "birth_year"
     t.integer  "status_id"
     t.string   "breed"
+    t.integer  "last_win_id"
   end
 
   add_index "horses", ["name"], name: "index_horses_on_name", unique: true, using: :btree
+
+  create_table "last_wins", force: true do |t|
+    t.datetime "date"
+    t.string   "distance_type"
+    t.integer  "distance"
+    t.decimal  "money_earned"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "horse_id"
+  end
 
   create_table "meets", force: true do |t|
     t.string   "name"

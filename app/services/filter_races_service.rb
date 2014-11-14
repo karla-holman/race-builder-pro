@@ -104,6 +104,28 @@ class FilterRacesService
     return filtered_races
   end
 
+  def lowerPurseFilter(races, purse)
+    filtered_races = []
+
+    races.each do |race|
+      if race.purse >= purse.to_i
+        filtered_races.push(race)
+      end
+    end
+    return filtered_races
+  end
+
+  def upperPurseFilter(races, purse)
+    filtered_races = []
+
+    races.each do |race|
+      if race.purse <= purse.to_i
+        filtered_races.push(race)
+      end
+    end
+    return filtered_races
+  end
+
   def currentEligibleRaces()
     races = Race.where(:status => 'Published').to_a
 

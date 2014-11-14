@@ -152,12 +152,12 @@
 									</td>
 									<td style="display:none;">
 										<% race.horseraces.where(:status => "Interested").each do |interested| %> 
-										<%= interested.name %>&nbsp;
+										<%= Horse.find(interested.horse_id).name %>&nbsp;
 										<% end %>
 									</td>
 									<td style="display:none;">
 										<% race.horseraces.where(:status => "Confirmed").each do |confirmed| %>
-										<%= confirmed.name %>&nbsp;
+										<%= Horse.find(confirmed.horse_id).name %>&nbsp;
 										<% end %>
 									</td>
 								</tr>

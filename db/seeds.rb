@@ -200,8 +200,13 @@ horses.each do |horse|
 		horse[7] = nil
 	end
 
+	last_win = LastWin.new
+	last_win.date = horse[7]
+	last_win.save
+
 	new_horse = Horse.find_or_create_by!(name: horse[0], breed: horse[1], POB: horse[2], gender: horse[3], birth_year: horse[4], starts: horse[5], 
-										wins: horse[6], last_win: horse[7], owner_id: owner.id, trainer_id: trainer.id, week_running: horse[10], status_id: status.id)
+										wins: horse[6], owner_id: owner.id, trainer_id: trainer.id, week_running: horse[10], status_id: status.id)
+	new_horse.last_win = last_win
 	if new_horse.save
 		puts 'CREATED HORSE: ' << new_horse.name
 	end
