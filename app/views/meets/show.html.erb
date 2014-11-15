@@ -11,6 +11,7 @@
 	<% if current_user.admin? %>
 		<%= link_to 'New Tel', new_tel_path({tel: {:meet_id=> @meet.id}}), :class => 'btn btn-primary btn-mini' %>
 		<%= link_to 'Deactivate Horses', '/meets/'+@meet.id.to_s+'/deactivate_horses', :class => 'btn btn-danger btn-mini' %>
+		<%= link_to 'Reset Races', '/meets/'+@meet.id.to_s+'/reset_races', :class => 'btn btn-info btn-mini' %>
 	<% end %>
   </div>
   <div class="col-xs-12">

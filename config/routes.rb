@@ -32,6 +32,7 @@ RailsDevisePundit::Application.routes.draw do
   post 'tels/:id/reset_races' => 'tels#reset_races'
 
   get 'meets/:id/deactivate_horses' => 'meets#deactivate_horses'
+  get 'meets/:id/reset_races' => 'meets#reset_races'
 
   get 'users/new' => 'users#new'
   post 'users/createuser' => 'users#create'
