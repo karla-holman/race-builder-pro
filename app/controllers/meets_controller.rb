@@ -93,6 +93,6 @@ class MeetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def meet_params
-      params[:meet].permit(:name, :start_date, :end_date)
+      params[:meet].permit(:name, :start_date, :end_date, :race_days)
     end
 end

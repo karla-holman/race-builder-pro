@@ -79,11 +79,11 @@
 				<div class="col-xs-3 userbox well">
 					<h4><%= horse.name %></h4>
 					<ul class="condition-list no-indent">
-						<li>Conditions:
-							<% if horse.conditions.any? %>
+						<li>Equipment/Medication:
+							<% if horse.equipment.any? %>
 							<ul class="condition-list no-indent">
-								<% horse.conditions.each do |condition| %>
-								<%= condition.name %>
+								<% horse.equipment.each do |equipment| %>
+								<%= equipment.name %>
 								<% end %>
 							</ul>
 							<% else %>
@@ -95,7 +95,7 @@
 							<% if racestatuses.any? %>
 							<ul class="condition-list no-indent">
 								<% racestatuses.each do |racestatus| %>
-								<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
+									<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
 								<% end %>
 							</ul>
 							<% else %>

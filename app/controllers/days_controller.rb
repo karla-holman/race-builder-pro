@@ -9,7 +9,18 @@ class DaysController < ApplicationController
   def show
     @meet = @day.tel.meet
     @tel = @day.tel
-    @alternates = Race.all
+    @race_ids = []
+    @tel.days.each do |day|
+      day.races.each do |race|
+        @race_ids.push(race.id)
+      end 
+    end
+
+    if @race_ids.any?
+      @alternates = Race.where('id not in (?)', @race_ids)
+    else
+      @alternates = Race.all
+    end
   end
 
   def new

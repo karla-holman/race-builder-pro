@@ -82,6 +82,6 @@ class TelsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tel_params
-      params.require(:tel).permit(:tel_id, :meet_id, :start_date, :end_date, :published, :closed)
+      params.require(:tel).permit(:tel_id, :meet_id, :start_date, :end_date, :published, :closed, :week_number)
     end
 end

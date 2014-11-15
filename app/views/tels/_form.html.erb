@@ -15,12 +15,16 @@
     <div class="col-xs-12 col-md-6">  
       <div class="form-group">
         <%= f.label 'Start Date' %>
-        <%= f.text_field :start_date, class: 'date-picker form-control' %>
+        <%= date_field("tel", "start_date") %>
         <%= f.hidden_field :meet_id, :value => @meet.id %>
       </div>
       <div class="form-group">
         <%= f.label 'End Date' %>
-        <%= f.text_field :end_date, class: 'date-picker form-control' %>
+        <%= date_field("tel", "end_date") %>
+      </div>
+      <div class="form-group">
+        <%= f.label :week_number %>
+        <%= f.select :week_number, options_for_select(0..100) %>
       </div>
       <div class="form-group">
         <%= f.submit :class => 'btn btn-success btn-sm'%>
