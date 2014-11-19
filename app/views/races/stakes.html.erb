@@ -1,56 +1,66 @@
 <div class="row">
   <div class="col-xs-12">
     <h1>Stakes Schedule</h1>
-    <table class="detailTable table table-condensed table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th style="display: none;">Conditions</th>
-          <th style="display: none;">Distance</th>
-          <th colspan="1"></th>
-        </tr>
-      </thead>
+    <div class="col-xs-12">
+      <div class="grid simple">
+        <div class="grid-body no-border">
+          <div class="row">
+            <div class="col-xs-12">
+              <table class="detailTable table table-condensed table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th style="display: none;">Conditions</th>
+                    <th style="display: none;">Distance</th>
+                    <th colspan="1"></th>
+                  </tr>
+                </thead>
 
-      <tbody>
-        <% @races.each do |race| %>
-          <tr class="top">
-            <td><%= race.name %></td>
-            <td><%= race.category %>
-            <td style="display: none;">
-            <% conditions = race.conditions %>
-            <% if conditions.any? %>
-                <% conditions.each do |condition| %>
-                    <%= condition.name %>
-                <% end %>
-            <% else %>
-              None
-            <% end %>
-            </td>
-            <% if race.distance <= 1 %>
-              <% if race.distance_type == 'Furlongs' %>
-                <td style="display: none;"><%= race.distance %> Furlong</td>
-              <% elsif race.distance_type == 'Miles' %>
-                <td style="display: none;"><%= race.distance %> Mile</td>
-              <% elsif race.distance_type == 'Yards' %>
-                <td style="display: none;"><%= race.distance %> Yard</td>
-              <% end %>
-            <% else %>
-              <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
-            <% end %>
-          <td>                  
-          <% @horse_list = Array.new()
-            @horses.each do |horse|
-                    if Notification.where(:action => "Nominate", :recv_id => horse.id, :send_id => race.id).empty? && Horserace.where(:race_id => race.id, :horse_id => horse.id).empty?
-                      @horse_list.push(horse)
-                    end
-                  end %>
-                <%= collection_select(:schedule, :horse_id, @horse_list,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
-          </td>        
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+                <tbody>
+                  <% @races.each do |race| %>
+                    <tr class="top">
+                      <td><%= race.name %></td>
+                      <td><%= race.category %>
+                      <td style="display: none;">
+                      <% conditions = race.conditions %>
+                      <% if conditions.any? %>
+                          <% conditions.each do |condition| %>
+                              <%= condition.name %>
+                          <% end %>
+                      <% else %>
+                        None
+                      <% end %>
+                      </td>
+                      <% if race.distance <= 1 %>
+                        <% if race.distance_type == 'Furlongs' %>
+                          <td style="display: none;"><%= race.distance %> Furlong</td>
+                        <% elsif race.distance_type == 'Miles' %>
+                          <td style="display: none;"><%= race.distance %> Mile</td>
+                        <% elsif race.distance_type == 'Yards' %>
+                          <td style="display: none;"><%= race.distance %> Yard</td>
+                        <% end %>
+                      <% else %>
+                        <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
+                      <% end %>
+                    <td>                  
+                    <% @horse_list = Array.new()
+                      @horses.each do |horse|
+                              if Notification.where(:action => "Nominate", :recv_id => horse.id, :send_id => race.id).empty? && Horserace.where(:race_id => race.id, :horse_id => horse.id).empty?
+                                @horse_list.push(horse)
+                              end
+                            end %>
+                          <%= collection_select(:schedule, :horse_id, @horse_list,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
+                    </td>        
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <script>

@@ -22,15 +22,15 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Description</th>
+                  <th># Interested</th>
                   <th># Commited</th>
                 </tr>
               </thead>
               <tbody>
                 <% @alternates.each do |race| %>
                   <tr class="top">
-                    <td><div class="invisible"><%= race.id %></div><%= race.name %></td>
-                    <td><%= race.description %></td>
+                    <td><div class="invisible" style="display:none"><%= race.id %></div><%= race.name %></td>
+                    <td><%= race.horseraces.where(:status => "Interested").count %></td>
                     <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
                   </tr>
                 <% end %>
@@ -44,6 +44,7 @@
                 <tr>
                   <th>Type</th>
                   <th>Name</th>
+                  <th># Interested</th>
                   <th># Commited</th>
                   <th colspan="1"></th>
                 </tr>

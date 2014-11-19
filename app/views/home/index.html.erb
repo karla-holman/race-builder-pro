@@ -37,8 +37,8 @@
 			<ul class="condition-list no-indent">
 				<% @condition_requests.each do |notification| %>
 				<li><%= Horse.find(notification.send_id).name %> <%= notification.action %> <%= Condition.find(notification.recv_id).name %>
-					<%= link_to 'Approve', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
-					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
+					<%= link_to 'Approve', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
+					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
 				</li>
 				<% end %>
 			</ul>
@@ -49,8 +49,8 @@
 				<% @nominations.each do |notification| %>
 				<% @race = Race.find(notification.send_id) %>
 				<li>Nominate <%= Horse.find(notification.recv_id).name %> For <%= @race.name %>
-					<%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-xs' %>
-					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs' %>
+					<%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
+					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
 					<%= link_to 'View Race', @race, :class => 'btn btn-info btn-xs' %>
 				</li>
 				<% end %>
@@ -58,54 +58,68 @@
 		</div>
 
 	<% else %>
-
-		<div class="col-xs-3">
-			<h3>Race Suggestions</h3>
-			<ul class="condition-list no-indent">
-				<% @suggestions.each do |notification| %>
-				<li><%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
-					<%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary btn-xs' %>
-					<%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger btn-xs' %>
-				</li>
-				<% end %>
-			</ul>
-		</div>
+		<% if @suggestions.any? %>
+			<div class="col-xs-3">
+				<h3>Race Suggestions</h3>
+				<ul class="condition-list no-indent">
+					<% @suggestions.each do |notification| %>
+					<li><%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
+						<%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary btn-mini' %>
+						<%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger btn-mini' %>
+					</li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
 	<% end %>
 
 	<% if !current_user.admin? %>
-		<h4>Current Stable:</h4>
-		<% @horses.each do |horse| %>
-			<a href="<%= horse_path(horse) %>">
-				<div class="col-xs-3 userbox well">
-					<h4><%= horse.name %></h4>
-					<ul class="condition-list no-indent">
-						<li>Equipment/Medication:
-							<% if horse.equipment.any? %>
-							<ul class="condition-list no-indent">
-								<% horse.equipment.each do |equipment| %>
-								<%= equipment.name %>
-								<% end %>
-							</ul>
-							<% else %>
-							None
-							<% end %> 
-						</li>
-						<li>Races:
-							<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
-							<% if racestatuses.any? %>
-							<ul class="condition-list no-indent">
-								<% racestatuses.each do |racestatus| %>
-									<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
-								<% end %>
-							</ul>
-							<% else %>
-							None
-							<% end %> 
-						</li>
-					</ul>
+		<h3>Current Stable:</h3>
+		<div class="grid simple">
+			<div class="grid-body no-border">
+				<div class="row">
+					<div class="col-xs-12">
+						<table id="dashboard-trainer-table" class="home-stable-sort table table-condensed table-hover">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th style="display:none;">Equipment / Medication</th>
+									<th style="display:none;">Races</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% @horses.each do |horse| %>
+								<tr>
+									<td>
+										<%= horse.name %>
+									</td>
+									<td style="display:none;">
+										<% if horse.equipment.any? %>
+											<% horse.equipment.each do |equipment| %>
+												<%= equipment.name %>&nbsp;
+											<% end %>
+										<% end %>
+									</td>
+									<td style="display:none;">
+										<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
+										<% if racestatuses.any? %>
+											<ul class="condition-list no-indent">
+												<% racestatuses.each do |racestatus| %>
+													<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
+												<% end %>
+											</ul>
+										<% else %>
+											None
+										<% end %> 
+									</td>
+								</tr>
+								<% end %>  
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</a>
-		<% end %>
+			</div>
+		</div>
 	<% end %>
 	
 	<div class="col-xs-12">
@@ -184,5 +198,18 @@ function fnFormatDetails ( oTable, nTr )
 
 	return sOut;
 }
+
+function fnFormatDetails ( sTable, nTr )
+{
+	var aData = sTable.fnGetData( nTr );
+	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
+	sOut += '<tr><td>Equipment / Medication:</td><td>'+aData[1]+'</td></tr>';
+	sOut += '<tr><td>Races:</td><td>'+aData[2]+'</td></tr>';
+	sOut += '</table>';
+
+	return sOut;
+}
+
+
 </script>
 

@@ -14,7 +14,7 @@ $(document).ready(function() {
   });
 
   //Handling what happens when row is dropped in the next table
-  $("#day-table tr").droppable({
+  $("#day-table").droppable({
     drop: function(event, ui) {
     	//getting the ID of the race, should be the first number
       var race_id = $(ui.draggable).text().match(/\d+/);
