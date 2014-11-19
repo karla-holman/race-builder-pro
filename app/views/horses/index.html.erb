@@ -14,7 +14,7 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>POB</th>
+              <th>Country</th>
               <th>Gender</th>
               <th>Age</th>
               <th>Wins</th>
@@ -30,7 +30,7 @@
             <% @horses.each do |horse| %>
             <tr>
               <td><%= horse.name %></td>
-              <td><%= horse.POB %></td>
+              <td><%= horse.country_code %></td>
               <td><%= horse.gender %></td>
               <td>
                <% def age(dob)

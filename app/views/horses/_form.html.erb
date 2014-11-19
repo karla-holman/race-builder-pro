@@ -21,13 +21,13 @@
       <%= f.label 'URL' %>
       <%= f.text_field :URL, :autofocus => true, class: 'form-control' %>
     </div>
-    <div class="form-group">
-      <%= f.label 'Place of Birth' %>
-      <%= f.text_field :birth_place, :autofocus => true, class: 'form-control' %>
+    <div class="field">
+      <%= f.label :country_code %><br />
+      <%= f.country_select :country_code, {priority: %w(US CA), prompt: 'Please select a country'}  %>
     </div>
-    <div class="form-group">
-      <%= f.label 'POB' %>
-      <%= f.text_field :POB, :autofocus => true, class: 'form-control' %>
+    <div class="field">
+      <%= f.label :subregion_code %><br />
+      <%= render partial: 'subregion_select', locals: {parent_region: f.object.country_code} %>
     </div>
     <div class="form-group">
       <%= f.label 'Breed' %>
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
       <%= f.label 'Birth Year' %>
-      <%= f.text_field :birth_year, :autofocus => true %>
+      <%= f.select :birth_year, options_for_select(1970..2014) %>
     </div>
      <div class="form-group">
       <%= f.label 'Owner' %>

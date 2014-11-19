@@ -41,6 +41,8 @@ RailsDevisePundit::Application.routes.draw do
 
   get 'activities/index'
 
+  get '/horses/subregion_options' => 'horses#subregion_options'
+
   resources :tels
 
   resources :race_conditions

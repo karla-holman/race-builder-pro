@@ -18,7 +18,7 @@
         	</div>
         	<div class="col-md-6">
         		<div class="center">
-	        		<h2><%= @horse.name %> (<%= @horse.POB %>)</h2>
+	        		<h2><%= @horse.name %> (<%= Carmen::Country.coded(@horse.country_code).subregions.coded(@horse.subregion_code).name %>, <%= Carmen::Country.coded(@horse.country_code).name %>)</h2>
 	        		<h4><%= @horse.breed %></h4>
 	        		<h4>Age: <% def age(dob)
 	                  now = Time.now.utc.to_date
@@ -26,7 +26,6 @@
 	                	end %>
 	                	<%= age(@horse.birth_year) %>
 	            	</h4>
-							<h4><%= @startsLeft %> Starts Left</h4>
 							<h4>(Starts: <%= @horse.starts %> Wins: <%= @horse.wins %>)</h4>
 						</div>
 						<table id="racestatus-table" class="table table-condensed table-hover">

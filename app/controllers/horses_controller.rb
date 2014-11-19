@@ -189,6 +189,10 @@ class HorsesController < ApplicationController
     end
   end
 
+  def subregion_options
+    render partial: 'subregion_select'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_horse
@@ -197,6 +201,6 @@ class HorsesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def horse_params
-      params.require(:horse).permit(:name, :POB, :gender, :birth_year, :starts, :wins, :seconds, :owner_id, :horse_id, :status_id, :last_win, :last_claiming_price, :trainer_id, :equipment_ids => [])
+      params.require(:horse).permit(:name, :breed, :URL, :country_code, :subregion_code, :gender, :birth_year, :starts, :wins, :seconds, :owner_id, :horse_id, :status_id, :last_win, :last_claiming_price, :trainer_id, :equipment_ids => [])
     end
 end
