@@ -29,7 +29,7 @@
 							<thead>
 								<tr>
 									<th>Name</th>
-									<th>Gender</th>
+									<th>Sex</th>
 									<th>Age</th>
 									<th>Starts</th>
 									<th>Wins</th>
@@ -46,7 +46,7 @@
 								<tr >
 									<% horserace = Horserace.where(:race_id => @race.id, :horse_id => horse.id) %>
 									<td><%= horse.name %></td>
-									<td><%= horse.gender %></td>
+									<td><%= horse.sex %></td>
 									<td>
 										<% def age(dob)
 										now = Time.now.utc.to_date

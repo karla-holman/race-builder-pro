@@ -15,7 +15,7 @@ puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
 categories = Hash['Age'=>['3+', '3YO', '2YO'], 
-			'Wins'=> ['Maiden', 'NW2', 'NW3'], 'Gender' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['Washington', 'Arizona', 'Virginia', 'California', 'Arizona', 'Oregon', 'Ontario-C', 'Kentucky', 'Florida', 'Idaho'], 'Hasn\'t Won Since' => ['2012']]
+			'Wins'=> ['Maiden', 'NW2', 'NW3'], 'Sex' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['Washington', 'Arizona', 'Virginia', 'California', 'Arizona', 'Oregon', 'Ontario-C', 'Kentucky', 'Florida', 'Idaho'], 'Hasn\'t Won Since' => ['2012']]
 
 equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'Blinkers On', 'Cheek Piece',
 						'Cornell Collar', 'Front Wraps', 'Nasal Strip']
@@ -40,7 +40,7 @@ races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,4
 			changed with the consent of the Washington Thoroughbred Breeders and Owners Association. See condition book
 			for a breakdown of The Northwest Race Series. STALLION NOMINATIONS CLOSED. Supplementary
 			nomination may be made at entry time at a cost of $2,500 (Stallion must be eligible)',
-			'Published', "Stakes",'Furlongs', 6, 50000],
+			'Published', "Priority",'Furlongs', 6, 50000],
 		['GottstnFut65k', 'THE GOTTSTEIN FUTURITY. Purse $65,000 (includes $12,500 Other Sources) For
 			Two-year-olds (Foals Of 2012). $500 to enter, $500 additional to start. 5% of NWRS gross monies shall be paid to
 			the eligible nominators of the top 5 finishers. 5% of NWRS gross monies shall be paid to the eligible nominators of
@@ -51,11 +51,11 @@ races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,4
 			Thoroughbred Breeders and Owners Association. See condition book for a breakdown ofThe Northwest Race
 			Series. Limited to 12 starters. NOMINATIONS CLOSED. Supplementary nominations may be made at time of
 			entry at a cost of $7,500.',
-			'Published', "Stakes",'Miles', 1.0625, 65000],
-		['f OC 50k/C', 'fillies and mares, 3 year olds and upwards, $30,000 once since april 12, 2014 Or which have never won three races or claiming price $50,000, non-winners of a race since June 15 allowed 3lbs, purse $21,000, claiming price $50,000', 'Published', "Protocol",'Furlongs', 6.5, 21000],
-		['Md 5000', 'maidens, 3 year olds and upwards, purse $5,500, claiming price $5,000', 'Published', "Protocol",'Furlongs', 6.5, 5500]]
+			'Published', "Priority",'Miles', 1.0625, 65000],
+		['f OC 50k/C', 'fillies and mares, 3 year olds and upwards, $30,000 once since april 12, 2014 Or which have never won three races or claiming price $50,000, non-winners of a race since June 15 allowed 3lbs, purse $21,000, claiming price $50,000', 'Published', "Priority",'Furlongs', 6.5, 21000],
+		['Md 5000', 'maidens, 3 year olds and upwards, purse $5,500, claiming price $5,000', 'Published', "Priority",'Furlongs', 6.5, 5500]]
 
-#Horses: [Name, Breed, Country, Region, Gender, Birth Year, Starts, Wins, Last Win, Owner Email, Trainer Email, Week Running]
+#Horses: [Name, Breed, Country, Region, Sex, Birth Year, Starts, Wins, Last Win, Owner Email, Trainer Email, Week Running]
 horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 12, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['BH Country Chrome', 'Quarter Horse', 'US', 'WA', 'C', 2011, 10, 5, '2014-6-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Eyes Movin', 'Quarter Horse', 'US', 'WA', 'G', 2007, 16, 12, '2014-7-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
@@ -73,7 +73,7 @@ horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 1
 		['Game Kick', 'Thoroughbred', 'US', 'AZ', 'F', 2011, 5, 2, '2014-9-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Moony Moony', 'Thoroughbred', 'US', 'WA', 'C', 2011, 9, 2, '2014-8-10', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Ringo\'s Gold', 'Thoroughbred', 'US', 'WA', 'G', 2007, 10, 2, '2012-5-4', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Sabe', 'Thoroughbred', 'US', 'Florida', 'G', 2009, 7, 2, '2012-4-15', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Sabe', 'Thoroughbred', 'US', 'FL', 'G', 2009, 7, 2, '2012-4-15', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Wheels of Fire', 'Thoroughbred', 'US', 'CA', 'G', 2008, 12, 10, '2014-8-29', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Sax', 'Thoroughbred', 'US', 'CA', 'G', 2006, 18, 14, '2014-8-31', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Shoer Hugh', 'Thoroughbred', 'US', 'CA', 'R', 2010, 8, 4, '2014-9-12', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
@@ -82,7 +82,7 @@ horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 1
 		['Skip My Turn', 'Thoroughbred', 'US', 'WA', 'G', 2011, 5, 2, '2014-8-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Cheese', 'Thoroughbred', 'US', 'WA', 'F', 2010, 3, 1, '2013-5-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Bluegrass Fox Trot', 'Thoroughbred', 'US', 'KY', 'G', 2011, 2, 2, '2014-8-15', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Ionize', 'Thoroughbred', 'US', 'Oregon', 'C', 2010, 2, 1, '2014-8-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+		['Ionize', 'Thoroughbred', 'US', 'OR', 'C', 2010, 2, 1, '2014-8-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Regazze Cat', 'Thoroughbred', 'US', 'WA', 'G', 2011, 3, 2, '2014-9-14', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['No Claim Will Do', 'Thoroughbred', 'US', 'KY', 'G', 2011, 4, 2, '2014-8-30', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Cinnamon Mocha', 'Thoroughbred', 'US', 'KY', 'F', 2010, 2, 2, '2014-3-4', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
@@ -137,15 +137,15 @@ horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 1
 new_meet = Meet.find_or_create_by!(name: 'Summer 2014', start_date: '2014-04-01 00:00:00', end_date: '2014-10-30 12:00:00', race_days: 60)
 new_meet.save
 meet = Meet.find_by_name('Summer 2014')
-new_tel = Tel.find_or_create_by!(start_date: '2014-10-10', end_date: '2014-10-13', meet_id: meet.id, week_number: 1)
-new_tel.save
+new_week = Week.find_or_create_by!(start_date: '2014-10-10', end_date: '2014-10-13', meet_id: meet.id, week_number: 1)
+new_week.save
 
 categories.each do |category, conditions|
 	new_category = Category.find_or_create_by!(name: category)
 	case new_category.name
 	when 'Age', 'Wins'
 		new_category.datatype = 'Range'
-	when 'Gender', 'Bred', 'Hasn\'t Won Since'
+	when 'Sex', 'Bred', 'Hasn\'t Won Since'
 		new_category.datatype = 'Value'
 	else
 		new_category.datatype = 'Bool'
@@ -156,7 +156,7 @@ categories.each do |category, conditions|
 	end
 	conditions.each do |condition|
 		new_condition = Condition.find_or_create_by!(name: condition, category_id: new_category.id)
-		if new_category.name == "Gender" || new_category.name == "Bred" || new_category.name == "Hasn\'t Won Since"
+		if new_category.name == "Sex" || new_category.name == "Bred" || new_category.name == "Hasn\'t Won Since"
 			new_condition.value = condition
 		end
 		if new_condition.save
@@ -203,7 +203,7 @@ horses.each do |horse|
 	last_win = LastWin.new
 	last_win.date = horse[8]
 	last_win.save
-	new_horse = Horse.find_or_create_by!(name: horse[0], breed: horse[1], country_code: horse[2], subregion_code: horse[3], gender: horse[4], birth_year: horse[5], starts: horse[6], 
+	new_horse = Horse.find_or_create_by!(name: horse[0], breed: horse[1], country_code: horse[2], subregion_code: horse[3], sex: horse[4], birth_year: horse[5], starts: horse[6], 
 										wins: horse[7], owner_id: owner.id, trainer_id: trainer.id, status_id: status.id)
 	new_horse.last_win = last_win
 	if new_horse.save

@@ -9,7 +9,7 @@
 	<p>Start Date: <%= @meet.start_date.strftime('%b %d, %Y') %></p>
 	<p>End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></p>
 	<% if current_user.admin? %>
-		<%= link_to 'New Tel', new_tel_path({tel: {:meet_id=> @meet.id}}), :class => 'btn btn-primary btn-mini' %>
+		<%= link_to 'New Week', new_week_path({week: {:meet_id=> @meet.id}}), :class => 'btn btn-primary btn-mini' %>
 		<%= link_to 'Deactivate Horses', '/meets/'+@meet.id.to_s+'/deactivate_horses', :class => 'btn btn-danger btn-mini' %>
 		<%= link_to 'Reset Races', '/meets/'+@meet.id.to_s+'/reset_races', :class => 'btn btn-info btn-mini' %>
 	<% end %>
@@ -29,15 +29,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% @tels.each do |tel| %>
+					<% @weeks.each do |week| %>
 		        	<tr>
-		        	<td><%= tel.week_number %></td>
-		          	<td><%= tel.start_date.strftime('%b %d, %Y') %></td>
-		          	<td><%= tel.end_date.strftime('%b %d, %Y') %></td>
+		        	<td><%= week.week_number %></td>
+		          	<td><%= week.start_date.strftime('%b %d, %Y') %></td>
+		          	<td><%= week.end_date.strftime('%b %d, %Y') %></td>
 		          	<td>
-		          	<%= link_to 'Show', tel, :class => 'btn btn-primary btn-mini' %>
-		            	<%= link_to 'Edit', edit_tel_path({tel: {:meet_id=> @meet.id}}), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
-		            	<%= link_to 'Destroy', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %></td>
+		          	<%= link_to 'Show', week, :class => 'btn btn-primary btn-mini' %>
+		            	<%= link_to 'Edit', edit_week_path({week: {:meet_id=> @meet.id}}), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
+		            	<%= link_to 'Delete', week, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %></td>
 		        	</tr>
 	        		<% end %>
 		    	</tbody>

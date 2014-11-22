@@ -6,8 +6,8 @@
         <% if @wins %>
         win="<%= @wins.id %>" 
         <%end%>
-        <% if @gender %>
-        gender="<%= @gender.id %>" 
+        <% if @sex %>
+        sex="<%= @sex.id %>" 
         <%end%>
         <% if @lower_purse %>
         lower-purse="<%=@lower_purse%>" 
@@ -37,10 +37,10 @@
                 <% end %>
             </div>
             <div class="col-xs-1">
-                <% if @gender %>
-                Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:selected => @gender.id, :include_blank => 'All'}) %>
+                <% if @sex %>
+                Sex <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:selected => @sex.id, :include_blank => 'All'}) %>
                 <% else %>
-                Gender <%= collection_select(:menu, :gender_id, @genderList, :id, :name, {:prompt => 'All'}) %>
+                Sex <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:prompt => 'All'}) %>
                 <% end %>
             </div>
             <div class="col-xs-1">
@@ -133,13 +133,6 @@
                                                     <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
                                                         <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
                                                     <% end %>
-                                                </td>
-                                            <% elsif @confirmed%>
-                                                <td>
-                                                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
-                                                        <%= check_box("horserace", "status", {}, "Interested", "") %> /
-                                                    <% end %>
-                                                    A
                                                 </td>
                                             <% else %>
                                                 <td >

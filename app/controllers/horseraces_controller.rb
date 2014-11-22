@@ -30,6 +30,13 @@ class HorseracesController < ApplicationController
   def create
     @horserace = Horserace.new(horserace_params)
 
+    if horserace_params[:status] == 'Confirmed'
+      @horse.horseraces.where(:status => 'Confirmed').each do |horserace|
+        horserace.status = 'Interested'
+        horserace.save
+      end
+    end
+    
     respond_to do |format|
       if @horserace.save
         format.html { redirect_to horseraces_url, notice: 'Horserace was successfully created.' }
@@ -46,6 +53,14 @@ class HorseracesController < ApplicationController
   def update
     @horse = Horse.find(@horserace.horse_id)
     @race = Race.find(@horserace.race_id)
+
+    if horserace_params[:status] == 'Confirmed'
+      @horse.horseraces.where(:status => 'Confirmed').each do |horserace|
+        horserace.status = 'Interested'
+        horserace.save
+      end
+    end
+
     respond_to do |format|
       if @horserace.update(horserace_params)
         if (@horserace.status.empty?)

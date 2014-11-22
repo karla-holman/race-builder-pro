@@ -10,7 +10,7 @@ class MeetsController < ApplicationController
   # GET /meets/1
   # GET /meets/1.json
   def show
-    @tels = @meet.tels
+    @weeks = @meet.weeks
   end
 
   # GET /meets/new

@@ -45,7 +45,7 @@
                     <td>
                       <%= link_to 'Show', race, :class => 'btn btn-success btn-mini' %>
                       <%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
-                      <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %>
+                      <%= link_to 'Delete', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %>
                       <%= link_to 'Duplicate', '/races/'+race.id.to_s+'/duplicate', :method=> :post, :class => 'btn btn-primary btn-mini' %>
                     </td>
                   </tr>

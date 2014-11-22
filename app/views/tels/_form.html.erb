@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-xs-12">
       <div id="error_explanation">
-        <h2><%= pluralize(@tel.errors.count, "error") %> prohibited this tel from being saved:</h2>
+        <h2><%= pluralize(@tel.errors.count, "error") %> prohibited this day from being saved:</h2>
         <ul>
         <% @tel.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
@@ -14,21 +14,17 @@
     </div>
     <div class="col-xs-12 col-md-6">  
       <div class="form-group">
-        <%= f.label 'Start Date' %>
-        <%= date_field("tel", "start_date") %>
-        <%= f.hidden_field :meet_id, :value => @meet.id %>
+        <%= f.label 'Date' %>
+        <%= date_field("tel", "date") %>
+        <%= f.hidden_field :week_id, :value => @week.id %>
       </div>
       <div class="form-group">
-        <%= f.label 'End Date' %>
-        <%= date_field("tel", "end_date") %>
-      </div>
-      <div class="form-group">
-        <%= f.label :week_number %>
-        <%= f.select :week_number, options_for_select(0..100) %>
+        <%= f.label 'Number of Races' %>
+        <%= f.select :num_races, options_for_select(0..20) %>
       </div>
       <div class="form-group">
         <%= f.submit :class => 'btn btn-success btn-sm'%>
-        <%= link_to 'Back', @meet, :class => 'btn btn-danger btn-sm' %>
+        <%= link_to 'Back', @week, :class => 'btn btn-danger btn-sm' %>
       </div>
     </div>
   </div>

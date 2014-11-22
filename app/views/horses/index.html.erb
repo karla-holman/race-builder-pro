@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
-    <h2><%= current_user.name %>'s Stable</h2>
+    <h2><%= current_user.name %>'s <% if current_user.admin? %>Inventory<% else %>Stable <% end %></h2>
     <% if current_user.admin? %>
       <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-primary btn-small' %>
     <% end %>
@@ -14,8 +14,8 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Country</th>
-              <th>Gender</th>
+              <th>POB</th>
+              <th>Sex</th>
               <th>Age</th>
               <th>Wins</th>
               <th>Last Claiming Price</th>
@@ -30,8 +30,8 @@
             <% @horses.each do |horse| %>
             <tr>
               <td><%= horse.name %></td>
-              <td><%= horse.country_code %></td>
-              <td><%= horse.gender %></td>
+              <td><%= horse.country_code %>/<%=horse.subregion_code%></td>
+              <td><%= horse.sex %></td>
               <td>
                <% def age(dob)
                   now = Time.now.utc.to_date
@@ -63,7 +63,7 @@
                 <%= link_to 'Show', horse, :class => 'btn btn-success btn-mini'%>
                 <% if current_user.admin? %>
                   <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
-                  <%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
+                  <%= link_to 'Delete', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
                 <% end %>
               </td>
             </tr>

@@ -19,12 +19,6 @@
                 <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
               <% end %>
             </td>
-		<% elsif @confirmed%>
-			<td ><%= form_for(@horserace) do |f| %>
-				<%= check_box("horserace", "status", {}, "Interested", "") %> /
-			<% end %>
-			A
-			</td>
 		<% else %>
 			<td ><%= form_for(@horserace) do |f| %>
 				<%= check_box("horserace", "status", {}, "Interested", "") %> /

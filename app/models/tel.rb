@@ -1,4 +1,4 @@
 class Tel < ActiveRecord::Base
-	has_many :days
-	belongs_to :meet
+	has_many :races
+	belongs_to :week
 end

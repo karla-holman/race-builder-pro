@@ -23,7 +23,7 @@
                     <td><%= equipment.required %></td>
                     <td>
                       <%= link_to 'Edit', edit_equipment_path(equipment), :class => 'btn btn-warning btn-mini' %>
-                      <%= link_to 'Destroy', equipment, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
+                      <%= link_to 'Delete', equipment, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
                     </td>
                   </tr>
                 <% end %>

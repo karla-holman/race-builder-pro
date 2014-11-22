@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>Weeks</h1>
+    <% if current_user.admin? %>
+      <%= link_to 'New Week', new_week_path, :class => 'btn btn-primary btn-xs' %>
+    <% end %>
+    <table class="table table-condensed table-hover generic-table">
+      <thead>
+        <tr>
+          <th>Week Start Date</th>
+          <th>Week End Date</th>
+          <th colspan="1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tels.each do |tel| %>
+          <tr>
+            <td><%= week.start_date.strftime('%b %d, %Y') %></td>
+            <td><%= week.end_date.strftime('%b %d, %Y') %></td>
+            <td>
+              <%= link_to 'Show', week, :class => 'btn btn-primary btn-xs' %>
+              <%= link_to 'Edit', edit_week_path(week), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
+              <%= link_to 'Delete', week, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

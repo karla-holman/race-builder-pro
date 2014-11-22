@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119041238) do
+ActiveRecord::Schema.define(version: 20141122220212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,26 +50,11 @@ ActiveRecord::Schema.define(version: 20141119041238) do
     t.string   "value"
   end
 
-  create_table "days", force: true do |t|
-    t.date     "date"
-    t.integer  "field_size"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "tel_id"
-  end
-
   create_table "equipment", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
     t.boolean  "required"
-  end
-
-  create_table "horse_conditions", force: true do |t|
-    t.integer  "horse_id"
-    t.integer  "condition_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "horse_equipments", force: true do |t|
@@ -100,7 +85,7 @@ ActiveRecord::Schema.define(version: 20141119041238) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "gender"
+    t.string   "sex"
     t.integer  "starts"
     t.integer  "wins"
     t.integer  "owner_id"
@@ -175,7 +160,7 @@ ActiveRecord::Schema.define(version: 20141119041238) do
     t.string   "type"
     t.decimal  "distance"
     t.string   "distance_type"
-    t.integer  "day_id"
+    t.integer  "tel_id"
     t.string   "category"
     t.decimal  "purse"
   end
@@ -187,14 +172,13 @@ ActiveRecord::Schema.define(version: 20141119041238) do
   end
 
   create_table "tels", force: true do |t|
+    t.date     "date"
+    t.integer  "num_races"
+    t.integer  "week_id"
+    t.boolean  "published",  default: false
+    t.boolean  "close",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "meet_id"
-    t.integer  "week_number"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.boolean  "published",   default: false
-    t.boolean  "closed",      default: false
   end
 
   create_table "users", force: true do |t|
@@ -217,5 +201,14 @@ ActiveRecord::Schema.define(version: 20141119041238) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "weeks", force: true do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "week_number"
+    t.integer  "meet_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

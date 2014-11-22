@@ -1,84 +1,58 @@
-<ol class="breadcrumb">
-  <li><%= link_to 'Meet List', meets_path %></li>
-  <li><%= link_to @meet.name, @meet %></li>
-  <li class="active">Week Of <%= @tel.start_date.strftime('%b %d, %Y') %></li>
-</ol>
 <div class="row">
-  <div class="col-xs-12">
-    <h2>Race Database For The Week Of <%= @tel.start_date.strftime('%b %d, %Y') %></h2>
-    <%= link_to 'New Day', new_day_path({day: {:tel_id=> @tel.id}}), :class => 'btn btn-primary btn-mini' %>
-    <% if !@tel.published %>
-      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-        <%= f.hidden_field :published, :value => true %>
-        <%= f.submit "Publish Tel", :class => 'btn btn-success btn-mini'%>
-      <% end %>
-    <% end %>
-    <% if @tel.published %>
-      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-        <%= f.hidden_field :published, :value => false %>
-        <%= f.submit "Un-Publish Tel", :class => 'btn btn-success btn-mini'%>
-      <% end %>
-    <% end %>
-    <% if !@tel.closed %>
-      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-        <%= f.hidden_field :closed, :value => true %>
-        <%= f.submit "Close Tel", :class => 'btn btn-success btn-mini'%>
-      <% end %>
-    <% end %>
-    <% if @tel.closed %>
-      <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-        <%= f.hidden_field :closed, :value => false %>
-        <%= f.submit "Open Tel", :class => 'btn btn-success btn-mini'%>
-      <% end %>
-    <% end %>
-    <% @tel.days.each do |day| %>
-      <div class="col-xs-3 well userbox">
-        <%= link_to day.date.strftime('%A'), day %>
-      </div>
-    <% end %>
-    <%= link_to 'Reset Races', '/tels/'+@tel.id.to_s+'/reset_races', :method=> :post, :class => 'btn btn-primary btn-mini' %>
-  </div>
+  <ol class="breadcrumb">
+    <li><%= link_to 'Meet List', meets_path %></li>
+    <li><%= link_to @meet.name, @meet %></li>
+    <li><%= link_to 'Week Of ' + @week.start_date.strftime('%b %d, %Y'), @week %></li>
+    <li class="active"><%= @tel.date.strftime('%A') %></li>
+  </ol>
   <div class="col-xs-12">
     <div class="grid simple">
       <div class="grid-body no-border">
         <div class="row">
-          <div class="col-xs-12">
-            <table class="detailTable table table-condensed table-hover">
+          <div class="col-xs-6">  	
+            <h2><%= @tel.date.strftime('%A') %>'s' Races</h2>
+            <%= link_to 'Edit', edit_tel_path(@tel) %>
+            <div id="tel-id" data-tel="<%= @tel.id %>"></div>
+            <div id="dialog-confirm" title="Add Race to TEL?"></div>
+            <%if current_user.admin? %>
+              <table id="drag-table" class="table table-condensed table-hover">
+            <% else %>
+              <table class="table table-condensed table-hover genericTable">
+            <% end %>
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Description</th>
-                  <th>Commited</th>
-                  <th style="display: none;">Conditions</th>
-                  <th style="display: none;">Distance</th>
+                  <th># Interested</th>
+                  <th># Commited</th>
                 </tr>
               </thead>
               <tbody>
-                <% @races.each do |race| %>
-                  <tr >
-                    <td><%= race.name %></td>
-                    <td><%= race.description %></td>
+                <% @alternates.each do |race| %>
+                  <tr class="top">
+                    <td><div class="invisible" style="display:none"><%= race.id %></div><%= race.name %></td>
+                    <td><%= race.horseraces.where(:status => "Interested").count %></td>
                     <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
-                    <td style="display: none;">
-                      <% if race.conditions.any? %>
-                        <% race.conditions.each do |condition| %>
-                            | <%= condition.name %> |
-                        <% end %>
-                      <% else %>
-                        | None |
-                      <% end %>
-                      </td>
-                      <% if race.distance <= 1 %>
-                        <% if race.distance_type == 'Furlongs' %>
-                          <td style="display: none;"><%= race.distance %> Furlong</td>
-                        <% else %>
-                          <td style="display: none;"><%= race.distance %> Mile</td>
-                        <% end %>
-                      <% else %>
-                        <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
-                      <% end %>
                   </tr>
                 <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-xs-6">
+            <h2>Races to Run</h2>
+            <table id="tel-table" class="table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th># Interested</th>
+                  <th># Commited</th>
+                  <th colspan="1"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <div id="race-partial">
+                  <%= render 'races'%>
+                </div>
               </tbody>
             </table>
           </div>
@@ -87,16 +61,3 @@
     </div>
   </div>
 </div>
-<script>
-  /* Formating function for row details */
-  function fnFormatDetails ( oTable, nTr )
-  {
-    var aData = oTable.fnGetData( nTr );
-    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[5]+'</td></tr>';
-    sOut += '</table>';
-   
-    return sOut;
-  }
-</script>

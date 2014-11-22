@@ -5,7 +5,7 @@ $("#menu_age_id").change(function(){
        url : 'menu/raceList',
        method: "GET",
        data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
-       wins_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"),  
+       wins_id: $(".page-info").attr("win"), sex_id: $(".page-info").attr("sex"),  
        noWinsSince_id: $(".page-info").attr("noWinsSince"),
        lower_purse: $(".page-info").attr("lower-purse"), 
        upper_purse: $(".page-info").attr("upper-purse"), 
@@ -20,7 +20,7 @@ $("#Distances").change(function(){
        url : 'menu/raceList',
        method: "GET",
        data: {distance: $(this).val(), horse_id: $(".page-info").attr("horse"), 
-       wins_id: $(".page-info").attr("win"), gender_id: $(".page-info").attr("gender"), age_id: $(".page-info").attr("age"),  
+       wins_id: $(".page-info").attr("win"), sex_id: $(".page-info").attr("sex"), age_id: $(".page-info").attr("age"),  
        lower_purse: $(".page-info").attr("lower-purse"), 
        upper_purse: $(".page-info").attr("upper-purse"),
        noWinsSince_id: $(".page-info").attr("noWinsSince")},
@@ -35,7 +35,7 @@ $("#menu_noWinsSince_id").change(function(){
        method: "GET",
        data: {noWinsSince_id: $(this).val(), age_id: $(".page-info").attr("age"), 
        horse_id: $(".page-info").attr("horse"), wins_id: $(".page-info").attr("win"), 
-       gender_id: $(".page-info").attr("gender"),  
+       sex_id: $(".page-info").attr("sex"),  
        lower_purse: $(".page-info").attr("lower-purse"), 
        upper_purse: $(".page-info").attr("upper-purse"),
        distance: $(".page-info").attr("distance")},
@@ -49,7 +49,7 @@ $("#menu_wins_id").change(function(){
        url : 'menu/raceList',
        method: "GET",
        data: {wins_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
-       age_id: $(".page-info").attr("age"), gender_id: $(".page-info").attr("gender"), 
+       age_id: $(".page-info").attr("age"), sex_id: $(".page-info").attr("sex"), 
        lower_purse: $(".page-info").attr("lower-purse"), 
        upper_purse: $(".page-info").attr("upper-purse"),
        distance: $(".page-info").attr("distance"),
@@ -59,11 +59,11 @@ $("#menu_wins_id").change(function(){
     })
   });
 
-$("#menu_gender_id").change(function(){
+$("#menu_sex_id").change(function(){
     $.ajax({
        url : 'menu/raceList',
        method: "GET",
-       data: {gender_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       data: {sex_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
        lower_purse: $(".page-info").attr("lower-purse"), 
        upper_purse: $(".page-info").attr("upper-purse"),
@@ -80,7 +80,7 @@ $("#Lower_Purse").change(function(){
       method: "GET",
       data: {lower_purse: $(this).val(), horse_id: $(".page-info").attr("horse"), 
       age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
-      gender_id: $(".page-info").attr("gender"), distance: $(".page-info").attr("distance"),
+      sex_id: $(".page-info").attr("sex"), distance: $(".page-info").attr("distance"),
       upper_claiming: $(".page-info").attr("upper-claiming"), 
       noWinsSince_id: $(".page-info").attr("noWinsSince")},
        success: function(response) {
@@ -94,7 +94,7 @@ $("#Upper_Purse").change(function(){
        method: "GET",
        data: {upper_purse: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
-       gender_id: $(".page-info").attr("gender"), distance: $(".page-info").attr("distance"),
+       sex_id: $(".page-info").attr("sex"), distance: $(".page-info").attr("distance"),
        lower_purse: $(".page-info").attr("lower-purse"), 
        distance: $(".page-info").attr("distance"), 
        noWinsSince_id: $(".page-info").attr("noWinsSince")},

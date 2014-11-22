@@ -1,16 +1,16 @@
 class FilterRacesService
 	def horseFilter(horse)
 		filtered_races = []
-		@gender_category = Category.find_by_name("Gender")
+		@sex_category = Category.find_by_name("Sex")
 		@bred_category = Category.find_by_name("Bred")
 
 		Race.where(:status => "Published").each do |race|
 			@remove = false
-			@gender = true
+			@sex = true
 			@bred = true
 
-			if race.conditions.where(:category_id => @gender_category.id).any?
-				@gender = false
+			if race.conditions.where(:category_id => @sex_category.id).any?
+				@sex = false
 			elsif race.conditions.where(:category_id => @bred_category.id).any?
 				@bred = false
 			end
@@ -26,9 +26,9 @@ class FilterRacesService
           if !filter_range(condition, horse.wins)
           	@remove = true
           end
-        when 'Gender'
-          if horse.gender == condition.value
-          	@gender = true
+        when 'Sex'
+          if horse.sex == condition.value
+          	@sex = true
           end
         when 'Bred'
           if condition.value == horse.POB
@@ -43,7 +43,7 @@ class FilterRacesService
         	next
         end
       end
-      if !@remove && @gender && @bred
+      if !@remove && @sex && @bred
       	filtered_races.push(race)
       end
 		end
@@ -71,9 +71,9 @@ class FilterRacesService
   	return filtered_races
   end
 
-  def genderFilter(races, condition)
+  def sexFilter(races, condition)
     filtered_races = []
-    category = Category.find_by_name("Gender")
+    category = Category.find_by_name("Sex")
 
     races.each do |race|
       conditions = race.conditions.where(:category_id => category.id)
@@ -82,8 +82,8 @@ class FilterRacesService
         next
       end
 
-      conditions.each do |genderCondition|
-        if genderCondition == condition
+      conditions.each do |sexCondition|
+        if sexCondition == condition
           filtered_races.push(race)
         end
       end
@@ -129,17 +129,17 @@ class FilterRacesService
   def currentEligibleRaces()
     races = Race.where(:status => 'Published').to_a
 
-    tel = Tel.where(:published => true).order('start_date DESC').first
+    # week = Week.where(:published => true).order('start_date DESC').first
     
-    if !tel || tel.end_date <= Date.today || !tel.closed 
-      return races
-    end
+    # if !week || week.end_date <= Date.today || !week.closed 
+    #   return races
+    # end
 
-    tel.days.each do |day|
-      day.races.each do |race|
-        races.delete(race)
-      end
-    end
+    # week.tels.each do |tel|
+    #   tel.races.each do |race|
+    #     races.delete(race)
+    #   end
+    # end
 
     return races
   end

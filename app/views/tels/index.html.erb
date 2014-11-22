@@ -1,28 +1,23 @@
-<div class="row">
-  <div class="col-xs-12">
-    <h1>Tels</h1>
-    <% if current_user.admin? %>
-      <%= link_to 'New Tel', new_tel_path, :class => 'btn btn-primary btn-xs' %>
+<h1>Listing tels</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tels.each do |tel| %>
+      <tr>
+        <td><%= link_to 'Show', tel %></td>
+        <td><%= link_to 'Edit', edit_tel_path(tel) %></td>
+        <td><%= link_to 'Destroy', tel, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
     <% end %>
-    <table class="table table-condensed table-hover generic-table">
-      <thead>
-        <tr>
-          <th>Week Start Date</th>
-          <th colspan="1"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @tels.each do |tel| %>
-          <tr>
-            <td><%= tel.start_date.strftime('%b %d, %Y') %></td>
-            <td>
-              <%= link_to 'Show', tel, :class => 'btn btn-primary btn-xs' %>
-              <%= link_to 'Edit', edit_tel_path(tel), :class => 'btn btn-warning btn-xs', 'data-no-turbolink' => true %>
-              <%= link_to 'Destroy', tel, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-xs' %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tel', new_tel_path %>

@@ -90,7 +90,7 @@ class RacesController < ApplicationController
 
   def schedule
     @inactive = Status.find_by_name('Inactive')
-    @races = Race.where("category = (?) OR category = (?)", "Protocol", "Stakes")
+    @races = Race.where("category = (?) OR category = (?)", "Priority", "Stakes")
     @today = Date.today
     if current_user.admin?
       @horses = Horse.all
@@ -126,9 +126,9 @@ class RacesController < ApplicationController
       @wins = Condition.find(params[:wins_id])
       @races = FilterRacesService.new.conditionFilter(@races, @wins)
     end
-    if !params[:gender_id].blank?
-      @gender = Condition.find(params[:gender_id])
-      @races = FilterRacesService.new.genderFilter(@races, @gender)
+    if !params[:sex_id].blank?
+      @sex = Condition.find(params[:sex_id])
+      @races = FilterRacesService.new.sexFilter(@races, @sex)
     end
     if !params[:noWinsSince_id].blank?
       @noWinsSince = Condition.find(params[:noWinsSince_id])
@@ -148,7 +148,7 @@ class RacesController < ApplicationController
     end
 
      @ageList = Condition.where(:category_id => Category.find_by_name("Age"))
-     @genderList = Condition.where(:category_id => Category.find_by_name("Gender"))
+     @sexList = Condition.where(:category_id => Category.find_by_name("Sex"))
      @winList = Condition.where(:category_id => Category.find_by_name("Wins"))
      @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
      @purses = Race.all.pluck(:purse).uniq.sort

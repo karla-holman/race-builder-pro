@@ -8,11 +8,11 @@ class HomeController < ApplicationController
 
     @races = FilterRacesService.new.currentEligibleRaces()
     
-    tel = Tel.where(:published => true).order('start_date DESC').first
+    # tel = Tel.where(:published => true).order('start_date DESC').first
 
-    if tel && tel.end_date >= Date.today
-        @publishedTel = tel
-    end
+    # if tel && tel.end_date >= Date.today
+    #     @publishedTel = tel
+    # end
 
 
     if current_user.trainer?

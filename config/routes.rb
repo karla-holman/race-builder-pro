@@ -1,9 +1,11 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :tels
+
+  resources :weeks
+
   resources :last_wins
 
   resources :horse_equipments
-
-  resources :days
 
   resources :equipment
 
@@ -13,8 +15,8 @@ RailsDevisePundit::Application.routes.draw do
 
   resources :notifications
 
-  post 'days/add_race' => 'days#add_race'
-  post 'days/remove_race' => 'days#remove_race'
+  post 'tels/add_race' => 'tels#add_race'
+  post 'tels/remove_race' => 'tels#remove_race'
   
   post 'horses/transferowner' => 'horses#ownerTransfer'
   post 'horses/transfertrainer' => 'horses#trainerTransfer'
@@ -29,7 +31,7 @@ RailsDevisePundit::Application.routes.draw do
   post 'races/scratch_horse' => 'races#scratch_horse'
   post 'races/:id/duplicate' => 'races#duplicate_race'
 
-  post 'tels/:id/reset_races' => 'tels#reset_races'
+  post 'weeks/:id/reset_races' => 'weeks#reset_races'
 
   get 'meets/:id/deactivate_horses' => 'meets#deactivate_horses'
   get 'meets/:id/reset_races' => 'meets#reset_races'
@@ -42,8 +44,6 @@ RailsDevisePundit::Application.routes.draw do
   get 'activities/index'
 
   get '/horses/subregion_options' => 'horses#subregion_options'
-
-  resources :tels
 
   resources :race_conditions
 

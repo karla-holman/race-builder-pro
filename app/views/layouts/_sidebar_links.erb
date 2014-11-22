@@ -17,12 +17,17 @@
   <ul>
     <li class="">
       <%= link_to root_path do %>
-        <i class="fa fa-dashboard"></i><span class="title">Dashboard</span> 
+        <i class="fa fa-dashboard"></i><span class="title">Homepage</span> 
       <% end %>
     </li>
     <li class="">
       <%= link_to horses_path do %>
-        <i class="fa fa-home"></i><span class="title">Stable</span> 
+        <i class="fa fa-home"></i>
+        <%if current_user.admin? %>
+          <span class="title">Inventory</span>
+        <% else %>
+          <span class="title">Stable</span> 
+        <% end %>
       <% end %>
     </li>
     <li class="">
@@ -32,7 +37,7 @@
     </li>
     <li class=""> <a href="javascript:;"> <i class="fa fa-calendar-o"></i><span class="title">Schedule</span> <span class="arrow "></span></a>
       <ul class="sub-menu">
-        <li><%= link_to 'Protocol + Stakes', races_schedule_path %></li>
+        <li><%= link_to 'Priority + Stakes', races_schedule_path %></li>
         <li><%= link_to 'Stakes', races_stakes_path %></li>
       </ul>
     </li>
@@ -40,14 +45,6 @@
   <%if current_user.admin? %>
     <p class="menu-title">Admin <span class="pull-right"><a href="javascript:;"><i class="fa fa-refresh"></i></a></span></p>
     <ul>
-      <li class="">
-        <% @tel = Tel.where("end_date >= ?", DateTime.now.beginning_of_day).order("start_date DESC").first %>
-        <% if @tel %>
-          <%= link_to @tel do %>
-            <i class="fa fa-flag-checkered"></i><span class="title">TEL</span> 
-          <% end %>
-        <% end %>
-      </li>
       <li class="">
         <li class=""> <a href="javascript:;"> <i class="fa fa-calendar-o"></i><span class="title">Meets</span> <span class="arrow "></span></a>
       <ul class="sub-menu">
@@ -66,8 +63,8 @@
       <ul class="sub-menu">
         <li><%= link_to 'Race Conditions', conditions_path %></li>
         <li><%= link_to 'Condition Categories', categories_path %></li>
-        <li><%= link_to 'Equipement & Medication', equipment_index_path %></li>
-        <li><%= link_to 'Horse Statuses', statuses_path %></li>
+        <li><%= link_to 'Equipment & Medication', equipment_index_path %></li>
+        <li><%= link_to 'Horse Status', statuses_path %></li>
       </ul>
     </li>
     </ul>

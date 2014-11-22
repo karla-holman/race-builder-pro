@@ -20,7 +20,7 @@
                   <% @races.each do |race| %>
                     <tr class="top">
                       <td><%= race.name %></td>
-                      <td><%if race.category == 'Protocol' %><span class="label label-success"><%= race.category %></span><%else%><span class="label label-inverse"><%= race.category %><%end%>
+                      <td><%if race.category == 'Priority' %><span class="label label-success"><%= race.category %></span><%else%><span class="label label-inverse"><%= race.category %><%end%>
                       </td>
                       <td style="display: none;">
                       <% conditions = race.conditions %>

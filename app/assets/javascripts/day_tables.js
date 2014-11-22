@@ -8,10 +8,7 @@
        "aaSorting": [[ 0, "desc" ], [ 3, "desc" ]],
         fnRowCallback  : function (nRow, aData) {
             switch(aData[0]){
-            case 'Stakes':
-              $('tr', nRow).eq(0).addClass("label-success")
-              break;
-            case 'Protocol':
+            case 'Priority':
                $('tr', nRow).eq(0).addClass("label-success")
               break;
             case 'Alternate':
