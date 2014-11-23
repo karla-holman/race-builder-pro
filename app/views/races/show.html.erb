@@ -9,14 +9,19 @@
 			<div class="grid-body no-border">
 				<div class="row">
 					<div class="col-md-3">
-						<h3>Conditions:</h3>
-						<div id="conditionPartial">
-							<%= render 'condition' %>
-						</div>
+						<% if @race.conditions.any? %>
+							<h3>Conditions:</h3>
+							<div id="conditionPartial">
+								<%= render 'condition' %>
+							</div>
+						<% end %>
 					</div>
 					<div class="col-md-9">
 						<div class="center">
 							<h1><%= @race.name %></h1>
+							<% if @race.category == 'Priority' && @race.race_date %>
+								<h2><%= @race.race_date.date.strftime('%b %d, %Y') %></h2>
+							<% end %>
 							<% if @race.status == "Draft"%>
 							<%= link_to 'Publish Race', {:controller => "races", :action => "update_status", :status => "Published", :id => @race.id }, :class => 'btn btn-success btn-s' %>
 							<% else %>

@@ -15,9 +15,9 @@ puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
 categories = Hash['Age'=>['3+', '3YO', '2YO'], 
-			'Wins'=> ['Maiden', 'NW2', 'NW3'], 'Sex' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['Washington', 'Arizona', 'Virginia', 'California', 'Arizona', 'Oregon', 'Ontario-C', 'Kentucky', 'Florida', 'Idaho'], 'Hasn\'t Won Since' => ['2012']]
+			'Wins'=> ['Maiden', 'NW2', 'NW3'], 'Sex' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Hasn\'t Won Since' => ['2012']]
 
-equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'Blinkers On', 'Cheek Piece',
+equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'Blinkers', 'Cheek Piece',
 						'Cornell Collar', 'Front Wraps', 'Nasal Strip']
 
 statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List', 'Inactive']
@@ -174,7 +174,7 @@ end
 
 equipment_medication.each do |equip|
 	new_equip = Equipment.find_or_create_by!(name: equip)
-	if equip == 'Blinkers On'
+	if equip == 'Blinkers'
 		new_equip.required = true
 	else
 		new_equip.required = false
@@ -210,6 +210,15 @@ horses.each do |horse|
 		puts 'CREATED HORSE: ' << new_horse.name
 	end
 end
+
+
+
+race = Race.find_by_name('r CahillRoad50k')
+race.stakes = true
+race.save
+race = Race.find_by_name('GottstnFut65k')
+race.stakes = true
+race.save
 
 threeplus = Condition.find_by_name('3+')
 threeplus.lowerbound = 3

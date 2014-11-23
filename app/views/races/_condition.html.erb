@@ -1,28 +1,17 @@
-<%= form_for(@race)  do |f| %>
-  <% if @race.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@horse.errors.count, "error") %> prohibited this horse status from being saved:</h2>
-    <ul>
-    <% @race.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
+<div class="form-group">
+  <div class="form-group">
+    <ul class="condition-list no-indent">
+      <% @categories.each do |category| %>
+        <li><%= category.name %>
+          <ul class="condition-list">
+          <% category.conditions.each do |condition| %>
+            <% if @race.conditions.include?(condition) %>
+              <%= condition.name %>
+            <% end %>     
+          <% end %>
+          </ul>
+        </li>
+      <% end %>
     </ul>
   </div>
-  <% end %>
-  <div class="form-group">
-    <div class="form-group">
-      <ul class="condition-list no-indent">
-        <% @categories.each do |category| %>
-          <li><%= category.name %>
-            <ul class="condition-list">
-            <% category.conditions.each do |condition| %>
-              <%= hidden_field_tag 'race[condition_ids][]', nil %>
-              <li><%= check_box_tag "race[condition_ids][]", condition.id, @race.conditions.include?(condition) %> <%= condition.name %> </li>
-            <% end %>
-            </ul>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
+</div>

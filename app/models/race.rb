@@ -11,6 +11,8 @@ class Race < ActiveRecord::Base
 
 	belongs_to :tel
 
+	has_one :race_date
+
 	def self.search(query)
   		where("lower(name) like ?", "%#{query}%".downcase)
 	end

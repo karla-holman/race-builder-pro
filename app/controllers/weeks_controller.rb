@@ -6,7 +6,7 @@ class WeeksController < ApplicationController
   end
 
   def show
-    @races = Race.all
+    @races = FilterRacesService.new.currentEligibleRaces()
     @meet = Meet.find(@week.meet_id)
   end
 

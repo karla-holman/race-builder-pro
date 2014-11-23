@@ -69,11 +69,14 @@ $(document).ready(function() {
 		});
 	});
 
-	//When a condition is checked, submit the form
-	$(".condition-list").change(function(){
-		form = $(this).closest("form");
-		attemptUpdate(form);
-		return false
+	$("#race_category").change(function(){
+		var option = $(this).val();
+		if (option == 'Alternate'){
+			$(".priority_option").hide();
+		}
+		else{
+			$(".priority_option").show();
+		}
 	});
 
 	function attemptUpdate(f){

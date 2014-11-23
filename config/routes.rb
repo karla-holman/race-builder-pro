@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :race_dates
+
   resources :tels
 
   resources :weeks

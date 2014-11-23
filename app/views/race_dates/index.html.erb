@@ -1,0 +1,23 @@
+<h1>Listing race_dates</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @race_dates.each do |race_date| %>
+      <tr>
+        <td><%= link_to 'Show', race_date %></td>
+        <td><%= link_to 'Edit', edit_race_date_path(race_date) %></td>
+        <td><%= link_to 'Destroy', race_date, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Race date', new_race_date_path %>

@@ -4,15 +4,15 @@ class FilterRacesService
 		@sex_category = Category.find_by_name("Sex")
 		@bred_category = Category.find_by_name("Bred")
 
-		Race.where(:status => "Published").each do |race|
+		FilterRacesService.new.currentEligibleRaces().each do |race|
 			@remove = false
 			@sex = true
-			@bred = true
+			# @bred = true
 
 			if race.conditions.where(:category_id => @sex_category.id).any?
 				@sex = false
-			elsif race.conditions.where(:category_id => @bred_category.id).any?
-				@bred = false
+			# elsif race.conditions.where(:category_id => @bred_category.id).any?
+			# 	@bred = false
 			end
 
 			race.conditions.each do |condition|
@@ -31,9 +31,9 @@ class FilterRacesService
           	@sex = true
           end
         when 'Bred'
-          if condition.value == horse.POB
-            @bred = true
-          end 
+          # if condition.value == horse.POB
+          #   @bred = true
+          # end 
         when 'Hasn\'t Won Since'
           if condition.value.to_i > @horse.last_win.year
             @remove = true
@@ -43,7 +43,7 @@ class FilterRacesService
         	next
         end
       end
-      if !@remove && @sex && @bred
+      if !@remove && @sex
       	filtered_races.push(race)
       end
 		end

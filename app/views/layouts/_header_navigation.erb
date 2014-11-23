@@ -27,6 +27,22 @@
           <div class="chat-toggler"> <a href="#" class="dropdown-toggle" id="my-task-list" data-placement="bottom"  data-content='' data-toggle="dropdown" data-original-title="Notifications">
             <div class="user-details">
               <div class="username">
+                <% if current_user.admin?
+                  @notifications = Notification.all - Notification.where(:action => "Suggest")
+                  else
+                    all_suggestions = Notification.where(:action => "Suggest")
+                    inactive = Status.find_by_name('Inactive')
+                    if current_user.trainer?
+                      horses = Horse.where(:trainer_id => current_user.id).where.not(:status => inactive)
+                      horse_ids = horses.pluck(:id)
+                      @notifications = all_suggestions.where("recv_id IN (?)", horse_ids)
+                    elsif current_user.user?
+                      horses = Horse.where(:owner_id => current_user.id).where.not(:status => inactive)
+                      horse_ids = horses.pluck(:id)
+                      @notifications = all_suggestions.where("recv_id IN (?)", horse_ids)
+                    end
+                  end
+                %>
                 <% if @notifications %>
                   <span class="badge badge-important">
                     <%= @notifications.length %>
@@ -38,25 +54,60 @@
             <div class="iconset top-down-arrow"></div>
           </a>
           <div id="notification-list" style="display:none">
-            <div style="width:300px">
+            <div style="width:500px">
               <% if @notifications %>
                 <% @notifications.each do |notification| %>
                   <div class="notification-messages info">
                     <div class="user-profile"> <img src="/assets/img/profiles/d.jpg"  alt="" data-src="/assets/img/profiles/d.jpg" data-src-retina="/assets/img/profiles/d2x.jpg" width="35" height="35"> </div>
-                    <div class="message-wrapper">
-                      <div class="heading">
-                        <% if notification.action == 'Suggest' %>
-                          <%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
-                        <% elsif notification.action == 'Nominate' %>
-                          <%= Horse.find(notification.recv_id).name %> nominated for <%= Race.find(notification.send_id).name %>
-                        <% else %>
-                          <%= Horse.find(notification.send_id).name %> <%= notification.action %> <%= Condition.find(notification.recv_id).name %>
-                        <% end %>
+                    <% if notification.action == 'Suggest' %>
+                      <div class="message-wrapper row">
+                        <div class="col-xs-7">
+                          <div class="heading">
+                              <%= Horse.find(notification.recv_id).name %>
+                          </div>
+                          <div class="description pull-left"> Suggested to enter <%= Race.find(notification.send_id).name %></div>
+                          <div class="date pull-left"><%= notification.created_at.strftime('%b %d, %Y') %></div>
+                        </div>
+                        <div class="col-xs-5">
+                          <%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary btn-mini' %>
+                          <%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger btn-mini' %>
+                        </div>
                       </div>
-                      <div class="date pull-left"><%= notification.created_at %></div>
+                      <div class="clearfix"></div>
                     </div>
-                    <div class="clearfix"></div>
-                  </div>
+                    <% elsif notification.action == 'Nominate' %>%>
+                      <div class="message-wrapper row">
+                        <div class="col-xs-7">
+                          <div class="heading">
+                              <%= Horse.find(notification.recv_id).name %>
+                          </div>
+                          <div class="description pull-left"> Nominated for <%= Race.find(notification.send_id).name %></div>
+                          <div class="date pull-left"><%= notification.created_at.strftime('%b %d, %Y') %></div>
+                        </div>
+                        <div class="col-xs-5">
+                          <%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
+                          <%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                    <% else %>
+                      <div class="message-wrapper row">
+                        <div class="col-xs-7">
+                          <div class="heading">
+                              <%= Horse.find(notification.send_id).name %>
+                          </div>
+                          <div class="description pull-left">Requested to <%= notification.action %> <%= Equipment.find(notification.recv_id).name %></div>
+                          <div class="date pull-left"><%= notification.created_at.strftime('%b %d, %Y') %></div>
+                        </div>
+                        <div class="col-xs-5">
+                          <%= link_to 'Approve', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
+                          <%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                    <% end %>
                 <% end %>
               <% else %>
                 <p>No Notifications </p>

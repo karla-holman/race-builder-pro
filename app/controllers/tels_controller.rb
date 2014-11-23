@@ -32,8 +32,9 @@ class TelsController < ApplicationController
       @average_field_size = @average_field_size/num_races
     end
 
+    eligible_races = FilterRacesService.new.currentEligibleRaces()
     if @race_ids.any?
-      @alternates = Race.where('id not in (?)', @race_ids)
+      @alternates = Race.where('id not in (?)', @race_ids) & eligible_races
     else
       @alternates = Race.all
     end

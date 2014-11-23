@@ -29,7 +29,11 @@ class RacesController < ApplicationController
     @interested = Horse.where("id IN (?)", interested_ids)
     @denied = Horse.where("id IN (?)", denied_ids)
     @pending = Horse.where("id IN (?)", pending_ids)
-    @categories = Category.all
+    @categories = []
+    @race.conditions.each do |condition|
+      @categories.push(Category.find(condition.category_id))
+    end
+    @categories.uniq
     
     if @race.type == 'Stakes'
       possible_horses = Horse.all
@@ -90,7 +94,8 @@ class RacesController < ApplicationController
 
   def schedule
     @inactive = Status.find_by_name('Inactive')
-    @races = Race.where("category = (?) OR category = (?)", "Priority", "Stakes")
+    eligible_races = FilterRacesService.new.currentEligibleRaces()
+    @races = Race.where(:category => 'Priority') & eligible_races
     @today = Date.today
     if current_user.admin?
       @horses = Horse.all
@@ -103,7 +108,9 @@ class RacesController < ApplicationController
 
   def stakes
     @inactive = Status.find_by_name('Inactive')
-    @races = Race.where(:category => "Stakes")
+    eligible_races = FilterRacesService.new.currentEligibleRaces()
+    @races = Race.where("category = (?) AND stakes = (?)", "Priority", true) & eligible_races
+
     @today = Date.today
     if current_user.admin?
       @horses = Horse.all
@@ -151,7 +158,7 @@ class RacesController < ApplicationController
      @sexList = Condition.where(:category_id => Category.find_by_name("Sex"))
      @winList = Condition.where(:category_id => Category.find_by_name("Wins"))
      @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
-     @purses = Race.all.pluck(:purse).uniq.sort
+     @purses = Race.all.pluck(:purse).reject(&:blank?).uniq.sort
 
      confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
 
@@ -166,15 +173,27 @@ class RacesController < ApplicationController
 
   # GET /races/1/edit
   def edit
+    @race_date = @race.race_date
   end
 
   # POST /races
   # POST /races.json
   def create
     @race = Race.new(race_params)
-
+    if(params[:race_date])
+      @race_date = RaceDate.new
+      @race_date.race_id = @race.id         
+      @race_date.date = params[:race_date][:date]
+      @race_date.save
+      @race.race_date = @race_date
+    end
     respond_to do |format|
       if @race.save
+        if(params[:commit] == 'Save and Duplicate')
+          new_race = @race.dup
+          new_race.conditions = @race.conditions
+          new_race.save
+        end
         @race.create_activity :create, owner: current_user
         format.html { redirect_to races_url, notice: 'Race was successfully created.' }
         format.json { render action: 'index', status: :created, location: @races }
@@ -201,8 +220,24 @@ class RacesController < ApplicationController
         end
       end
     else
+      if(params[:race_date])
+        if !@race.race_date
+          @race_date = RaceDate.new
+          @race_date.race_id = @race.id         
+        else
+          @race_date = @race.race_date
+        end
+        @race_date.date = params[:race_date][:date]
+        @race_date.save
+        @race.race_date = @race_date
+      end
       respond_to do |format|
         if @race.update(race_params)
+          if(params[:commit] == 'Save and Duplicate')
+            new_race = @race.dup
+            new_race.conditions = @race.conditions
+            new_race.save
+          end
           @race.create_activity :update, owner: current_user
           format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
           format.json { render action: 'index', status: :ok, location: @races }
@@ -245,8 +280,8 @@ class RacesController < ApplicationController
 
   def duplicate_race
     new_race = @race.dup
+    new_race.conditions = @race.conditions
     new_race.save
-
     respond_to do |format|
       format.html { redirect_to :back }
     end
@@ -271,6 +306,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :stakes, :condition_ids => [])
     end
 end

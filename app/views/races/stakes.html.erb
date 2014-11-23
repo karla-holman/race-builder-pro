@@ -10,7 +10,6 @@
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Type</th>
                     <th style="display: none;">Conditions</th>
                     <th style="display: none;">Distance</th>
                     <th colspan="1"></th>
@@ -21,7 +20,6 @@
                   <% @races.each do |race| %>
                     <tr class="top">
                       <td><%= race.name %></td>
-                      <td><%= race.category %>
                       <td style="display: none;">
                       <% conditions = race.conditions %>
                       <% if conditions.any? %>
@@ -69,8 +67,8 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[3]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[4]+'</td></tr>';
+    sOut += '<tr><td>Conditions: </td><td>'+aData[2]+'</td></tr>';
+    sOut += '<tr><td>Distance:</td><td>'+aData[3]+'</td></tr>';
     sOut += '</table>';
      
     return sOut;

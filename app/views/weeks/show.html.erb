@@ -23,16 +23,29 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Commited</th>
+                  <th>Interested</th>
+                  <th>Confirmed</th>
                   <th style="display: none;">Conditions</th>
                   <th style="display: none;">Distance</th>
+                  <th style="display: none;">Category</th>
+                  <th style="display: none;">Stakes</th>
+                  <th style="display: none;">Date</th>
                 </tr>
               </thead>
               <tbody>
                 <% @races.each do |race| %>
                   <tr >
                     <td><%= race.name %></td>
-                    <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+                    <td>
+                    <span class="badge badge-danger">
+                      <%= race.horseraces.where(:status => "Interested").count %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge badge-success">
+                      <%= race.horseraces.where(:status => "Confirmed").count %>
+                    </span>
+                  </td>
                     <td style="display: none;">
                       <% if race.conditions.any? %>
                         <% race.conditions.each do |condition| %>
@@ -51,6 +64,15 @@
                       <% else %>
                         <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
                       <% end %>
+                      <td style="display: none;"><%= race.category %></td>
+                      <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
+                      <td style="display: none;">
+                        <% if race.category == 'Priority' && race.race_date %>
+                          <%= race.race_date.date.strftime('%b %d, %Y') %>
+                        <% else %>
+                          N/A
+                        <% end %>
+                      </td>
                   </tr>
                 <% end %>
               </tbody>
@@ -67,8 +89,11 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[3]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[4]+'</td></tr>';
+    sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
+    sOut += '<tr><td>Distance:</td><td>'+aData[5]+'</td></tr>';
+    sOut += '<tr><td>Category:</td><td>'+aData[6]+'</td></tr>';
+    sOut += '<tr><td>Stakes: </td><td>'+aData[7]+'</td></tr>';
+    sOut += '<tr><td>Date:</td><td>'+aData[8]+'</td></tr>';
     sOut += '</table>';
    
     return sOut;

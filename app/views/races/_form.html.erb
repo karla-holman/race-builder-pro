@@ -19,19 +19,19 @@
       </div>
       <div class="form-group">
         <%= f.label :description %>
-        <%= f.text_field :description, :autofocus => true, class: 'form-control'%>
+        <%= f.text_area :description, :autofocus => true, class: 'form-control'%>
       </div>
       <div class="form-group">
         <%= f.label :status %>
-        <%= f.select :status, options_for_select(["Draft", "Published"]) %>
+        <%= f.select :status, options_for_select(["Draft", "Published"], @race.status) %>
       </div>
       <div class="form-group">
         <%= f.label :cateogry %>
-        <%= f.select :category, options_for_select(["Priority", "Alternate"]) %>
+        <%= f.select :category, options_for_select(["Priority", "Alternate"], @race.category) %>
       </div>
       <div class="form-group">
         <%= f.label :distance_type %>
-        <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"]) %>
+        <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @race.distance_type) %>
       </div>
       <div class="form-group">
         <%= f.label :distance %>
@@ -41,8 +41,36 @@
         <%= f.label :field_size %>
         <%= f.select :field_size, options_for_select(1..20) %>
       </div>
+      <div class="form-group priority_option" <% if @race.category == 'Alternate' %> style="display:none" <% end %>>
+        <%= f.label 'Is Stakes Race' %>
+        <%= f.check_box :stakes %>
+      </div>
+      <div class="form-group priority_option" <% if @race.category == 'Alternate' %> style="display:none" <% end %>>
+        <%= f.label 'Race Date' %>
+        <% if @race.race_date %>
+          <%= date_field("race_date", "date", value: @race.race_date.date) %>
+        <% else %>
+          <%= date_field("race_date", "date") %>
+        <% end %>
+      </div>
       <div class="form-group">
-        <%= f.submit :class => 'btn btn-success btn-sm'%>
+      <div class="form-group">
+        <ul class="condition-list no-indent">
+          <% Category.all.each do |category| %>
+            <li><%= category.name %>
+              <ul class="condition-list">
+              <% category.conditions.each do |condition| %>
+                <%= hidden_field_tag 'race[condition_ids][]', nil %>
+                <li><%= check_box_tag "race[condition_ids][]", condition.id, @race.conditions.include?(condition) %> <%= condition.name %> </li>
+              <% end %>
+              </ul>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <div class="form-group">
+        <%= f.submit 'Save', :class => 'btn btn-success btn-sm'%>
+        <%= f.submit 'Save and Duplicate', :class => 'btn btn-primary btn-sm'%>
         <%= link_to 'Back', races_path, :class => 'btn btn-danger btn-sm' %>
       </div>
     </div>

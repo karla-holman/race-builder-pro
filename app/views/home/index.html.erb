@@ -7,90 +7,92 @@
 	</h1>
 	<h5>Version: 2.0</h5>
 	<% @entry_lists.each do |el| %>
-		<h4>Entry List <%= el.date.strftime('%b %d, %Y') %></h4>
-		<h5>Number of Races: <%= el.num_races %></h5>
-		<table class="table table-condensed table-hover generic-table">
-			<thead>
-				<tr>
-					<td>type</td>
-					<td>name</td>
-					<td>confirmed</td>
-				</tr>
-			</thead>
-			<tbody>
-				<% el.races.each do |race| %>
-				<tr>
-					<td><%= race.type %></td>
-					<td><%= race.name %></td>
-					<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
-				</tr>
-				<% end %>
-			</tbody>
-		</table>
+	  <div class="col-xs-12">
+	  	<h4>Entry List <%= el.date.strftime('%b %d, %Y') %></h4>
+	  	<h4>Number of Races: <%= el.num_races %></h4>
+	    <div class="grid simple">
+	      <div class="grid-body no-border">
+	        <div class="row">
+	          <div class="col-xs-12">
+	            <table class="genericTable table table-condensed table-hover">
+	              <thead>
+	                <tr>
+	                  	<td>Type</td>
+						<td>Name</td>
+						<td>Interested</td>
+						<td>Confirmed</td>
+						<th colspan="1"></th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	                <% el.races.each do |race| %>
+	                  	<tr>
+							<td><%= race.type %></td>
+							<td><%= race.name %></td>
+							<td>
+								<span class="badge badge-danger">
+									<%= race.horseraces.where(:status => "Interested").count %>
+								</span>
+							</td>
+							<td>
+								<span class="badge badge-success">
+									<%= race.horseraces.where(:status => "Confirmed").count %>
+								</span>
+							</td>
+							<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+						</tr>
+	                <% end %>
+	              </tbody>
+	            </table>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
 	<% end %>
 	<% @tels.each do |tel| %>
-		<h4>TEL <%= tel.date.strftime('%b %d, %Y') %></h4>
-		<h5>Number of Races: <%= tel.num_races %></h5>
-		<table class="table table-condensed table-hover generic-table">
-			<thead>
-				<tr>
-					<td>type</td>
-					<td>name</td>
-					<td>confirmed</td>
-				</tr>
-			</thead>
-			<tbody>
-				<% tel.races.each do |race| %>
-				<tr>
-					<td><%= race.type %></td>
-					<td><%= race.name %></td>
-					<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
-				</tr>
-				<% end %>
-			</tbody>
-		</table>
-	<% end %>
-
-	<% if current_user.admin? %>
-		<div class="col-xs-3">
-			<h3>Pending Approvals</h3>
-			<ul class="condition-list no-indent">
-				<% @condition_requests.each do |notification| %>
-				<li><%= Horse.find(notification.send_id).name %> <%= notification.action %> <%= Condition.find(notification.recv_id).name %>
-					<%= link_to 'Approve', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
-					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
-				</li>
-				<% end %>
-			</ul>
-		</div>
-		<div class="col-xs-3">
-			<h3>Nomination Requests</h3>
-			<ul class="condition-list no-indent">
-				<% @nominations.each do |notification| %>
-				<% @race = Race.find(notification.send_id) %>
-				<li>Nominate <%= Horse.find(notification.recv_id).name %> For <%= @race.name %>
-					<%= link_to 'Accept', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
-					<%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
-					<%= link_to 'View Race', @race, :class => 'btn btn-info btn-xs' %>
-				</li>
-				<% end %>
-			</ul>
-		</div>
-
-	<% else %>
-		<% if @suggestions.any? %>
-			<div class="col-xs-3">
-				<h3>Race Suggestions</h3>
-				<ul class="condition-list no-indent">
-					<% @suggestions.each do |notification| %>
-					<li><%= Horse.find(notification.recv_id).name %> suggested to enter <%= Race.find(notification.send_id).name %>
-						<%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary btn-mini' %>
-						<%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger btn-mini' %>
-					</li>
-					<% end %>
-				</ul>
-			</div>
-		<% end %>
+	  <div class="col-xs-12">
+	  	<h4>Entry List <%= tel.date.strftime('%b %d, %Y') %></h4>
+	  	<h4>Number of Races: <%= tel.num_races %></h4>
+	    <div class="grid simple">
+	      <div class="grid-body no-border">
+	        <div class="row">
+	          <div class="col-xs-12">
+	            <table class="genericTable table table-condensed table-hover">
+	              <thead>
+	                <tr>
+	                  	<td>Type</td>
+						<td>Name</td>
+						<td>Interested</td>
+						<td>Confirmed</td>
+						<th colspan="1"></th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	                <% tel.races.each do |race| %>
+	                  	<tr>
+							<td><%= race.type %></td>
+							<td><%= race.name %></td>
+							<td>
+								<span class="badge badge-danger">
+									<%= race.horseraces.where(:status => "Interested").count %>
+								</span>
+							</td>
+							<td>
+								<span class="badge badge-success">
+									<%= race.horseraces.where(:status => "Confirmed").count %>
+								</span>
+							</td>
+							<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+						</tr>
+	                <% end %>
+	              </tbody>
+	            </table>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
 	<% end %>
 
 	<% if !current_user.admin? %>
@@ -99,7 +101,7 @@
 			<div class="grid-body no-border">
 				<div class="row">
 					<div class="col-xs-12">
-						<table id="dashboard-trainer-table" class="home-stable-sort table table-condensed table-hover">
+						<table class="home-stable-sort table table-condensed table-hover">
 							<thead>
 								<tr>
 									<th>Name</th>
@@ -115,10 +117,12 @@
 									</td>
 									<td style="display:none;">
 										<% if horse.equipment.any? %>
-											<% horse.equipment.each do |equipment| %>
-												<%= equipment.name %>&nbsp;
-											<% end %>
-										<% end %>
+							                <% horse.equipment.each do |equipment| %>
+							                  <%= equipment.name %>&nbsp;
+							                <% end %>
+							              <% else %>
+							                None
+							              <% end %>
 									</td>
 									<td style="display:none;">
 										<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
@@ -155,6 +159,9 @@
 									<th>Interested</th>
 									<th>Confirmed</th>
 									<th style="display:none;">Race Description</th>
+									<th style="display: none;">Category</th>
+				                  	<th style="display: none;">Stakes</th>
+				                  	<th style="display: none;">Date</th>
 									<th style="display:none;">Race Conditions</th>
 									<th style="display:none;">Interested</th>
 									<th style="display:none;">Committed</th>
@@ -179,6 +186,15 @@
 									<td style="display:none;">
 										<%= race.description %>
 									</td>
+									<td style="display: none;"><%= race.category %></td>
+						            <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
+						            <td style="display: none;">
+						              <% if race.category == 'Priority' && race.race_date %>
+						                <%= race.race_date.date.strftime('%b %d, %Y') %>
+						              <% else %>
+						                N/A
+						              <% end %>
+						            </td>
 									<td style="display:none;">
 										<% race.conditions.each do |condition| %>
 										<%= condition.name %>&nbsp;
@@ -211,20 +227,23 @@ function fnFormatDetails ( oTable, nTr )
 	var aData = oTable.fnGetData( nTr );
 	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
 	sOut += '<tr><td>Description:</td><td>'+aData[4]+'</td></tr>';
-	sOut += '<tr><td>Race Conditions:</td><td>'+aData[5]+'</td></tr>';
-	sOut += '<tr><td>Interested:</td><td>'+aData[6]+'</td></tr>';
-	sOut += '<tr><td>Confirmed:</td><td>'+aData[7]+'</td></tr>';
+	    sOut += '<tr><td>Category:</td><td>'+aData[5]+'</td></tr>';
+    sOut += '<tr><td>Stakes: </td><td>'+aData[6]+'</td></tr>';
+    sOut += '<tr><td>Date:</td><td>'+aData[7]+'</td></tr>';
+	sOut += '<tr><td>Race Conditions:</td><td>'+aData[8]+'</td></tr>';
+	sOut += '<tr><td>Interested:</td><td>'+aData[9]+'</td></tr>';
+	sOut += '<tr><td>Confirmed:</td><td>'+aData[10]+'</td></tr>';
 	sOut += '</table>';
 
 	return sOut;
 }
 
-function fnFormatDetails ( sTable, nTr )
+function fnFormatDetailsSecond ( sTable, nTr )
 {
 	var aData = sTable.fnGetData( nTr );
 	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-	sOut += '<tr><td>Equipment / Medication:</td><td>'+aData[1]+'</td></tr>';
-	sOut += '<tr><td>Races:</td><td>'+aData[2]+'</td></tr>';
+	sOut += '<tr><td>Equipment / Medication:</td><td>'+aData[2]+'</td></tr>';
+	sOut += '<tr><td>Races:</td><td>'+aData[3]+'</td></tr>';
 	sOut += '</table>';
 
 	return sOut;
