@@ -52,7 +52,11 @@ class HorsesController < ApplicationController
     end
     
     @equipment_medication = Equipment.all
-    @statuses = Status.all
+    if current_user.admin?
+      @statuses = Status.all
+    else
+      @statuses = Status.where.not(:name => 'Inactive')
+    end
     @race_ids = Array.new()
     @horse.races.all.each do |race|
       @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id)

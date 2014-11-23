@@ -129,17 +129,17 @@ class FilterRacesService
   def currentEligibleRaces()
     races = Race.where(:status => 'Published').to_a
 
-    # week = Week.where(:published => true).order('start_date DESC').first
+    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today).order('date DESC')
     
-    # if !week || week.end_date <= Date.today || !week.closed 
-    #   return races
-    # end
+    if !tels
+      return races
+    end
 
-    # week.tels.each do |tel|
-    #   tel.races.each do |race|
-    #     races.delete(race)
-    #   end
-    # end
+    tels.each do |tel|
+      tel.races.each do |race|
+        races.delete(race)
+      end
+    end
 
     return races
   end

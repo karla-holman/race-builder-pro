@@ -1,20 +1,38 @@
 <%= form_for(@last_win) do |f| %>
   <div class="form-group">
     <%= f.label 'Date' %>
-    <%= date_field("last_win", "date") %>
+    <% if current_user.admin? %>
+      <%= date_field("last_win", "date") %>
+    <% else %>
+      <%= f.text_field :date, :value => @last_win.date, :autofocus => true, :disabled => true, class: 'form-control' %>
+    <% end %>
     <div class="form-group">
       <%= f.label :distance_type %>
-      <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
+      <% if current_user.admin? %>
+        <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
+      <% else %>
+        <%= f.text_field :distance_type, :value => @last_win.distance_type, :autofocus => true, :disabled => true, class: 'form-control' %>
+      <% end %>
     </div>
     <div class="form-group">
       <%= f.label :distance %>
-      <%= f.select :distance, options_for_select(0..30, @last_win.distance) %>
+      <% if current_user.admin? %>
+        <%= f.select :distance, options_for_select(0..30, @last_win.distance) %>
+      <% else %>
+        <%= f.text_field :distance, :value => @last_win.distance, :autofocus => true, :disabled => true, class: 'form-control' %>
+      <% end %>
     </div>
     <div class="form-group">
       <%= f.label :money_earned %>
-       <%= f.text_field :money_earned, :autofocus => true, class: 'form-control' %>
+      <% if current_user.admin? %>
+        <%= f.text_field :money_earned, :value => number_to_currency(f.object.money_earned, :precision => 2), :autofocus => true, class: 'form-control' %>
+      <% else %>
+          <%= f.text_field :money_earned, :value => number_to_currency(f.object.money_earned, :precision => 2), :autofocus => true, :disabled => true, class: 'form-control' %>
+      <% end %>
     </div>
-    <%= f.submit :class => 'btn btn-success btn-sm'%>
+    <% if current_user.admin? %>
+      <%= f.submit :class => 'btn btn-success btn-sm'%>
+    <% end %>
   </div>
 </div>
 <% end %>

@@ -89,7 +89,8 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th># Interested</th>
+                                    <th>Interested</th>
+                                    <th>Confirmed</th>
                                     <th>Distance</th>
                                     <th>Purse</th>
                                     <th style="display: none;">Conditions</th>
@@ -103,7 +104,12 @@
                                         <tr class="top">
                                             <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
                                             <td><%= race.name %></td>
-                                            <td><span class="badge badge-inverse"><%= race.horseraces.where(:status => "Interested").count %></span></td>
+                                            <td><span class="badge badge-danger">
+                                                <%= race.horseraces.where(:status => "Interested").count %></span>
+                                            </td>
+                                            <td><span class="badge badge-success">
+                                                <%= race.horseraces.where(:status => "Confirmed").count %></span>
+                                            </td>
                                             <% if race.distance <= 1 %>
                                                 <% if race.distance_type == 'Furlongs' %>
                                                     <td><%= race.distance %> Furlong</td>
@@ -115,7 +121,8 @@
                                             <% else %>
                                                 <td><%= race.distance %> <%= race.distance_type %></td>
                                             <% end %>
-                                            <td><%= race.purse %></td>
+                                            <td><%= number_to_currency(race.purse, precision: 2) %>
+                                            </td>
                                             <td style="display: none;">
                                                 <% conditions = race.conditions %>
                                                 <% if conditions.any? %>

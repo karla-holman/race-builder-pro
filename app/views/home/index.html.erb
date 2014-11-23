@@ -6,9 +6,9 @@
 			Welcome to Race Builder Pro
 	</h1>
 	<h5>Version: 2.0</h5>
-
-	<% if @publishedTel %>
-		<h4>Published Tel</h4>
+	<% @entry_lists.each do |el| %>
+		<h4>Entry List <%= el.date.strftime('%b %d, %Y') %></h4>
+		<h5>Number of Races: <%= el.num_races %></h5>
 		<table class="table table-condensed table-hover generic-table">
 			<thead>
 				<tr>
@@ -18,14 +18,34 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @publishedTel.days.each do |day| %>
-				<% day.races.each do |race| %>
+				<% el.races.each do |race| %>
 				<tr>
 					<td><%= race.type %></td>
 					<td><%= race.name %></td>
 					<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
 				</tr>
 				<% end %>
+			</tbody>
+		</table>
+	<% end %>
+	<% @tels.each do |tel| %>
+		<h4>TEL <%= tel.date.strftime('%b %d, %Y') %></h4>
+		<h5>Number of Races: <%= tel.num_races %></h5>
+		<table class="table table-condensed table-hover generic-table">
+			<thead>
+				<tr>
+					<td>type</td>
+					<td>name</td>
+					<td>confirmed</td>
+				</tr>
+			</thead>
+			<tbody>
+				<% tel.races.each do |race| %>
+				<tr>
+					<td><%= race.type %></td>
+					<td><%= race.name %></td>
+					<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+				</tr>
 				<% end %>
 			</tbody>
 		</table>

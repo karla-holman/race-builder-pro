@@ -23,7 +23,6 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Description</th>
                   <th>Commited</th>
                   <th style="display: none;">Conditions</th>
                   <th style="display: none;">Distance</th>
@@ -33,7 +32,6 @@
                 <% @races.each do |race| %>
                   <tr >
                     <td><%= race.name %></td>
-                    <td><%= race.description %></td>
                     <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
                     <td style="display: none;">
                       <% if race.conditions.any? %>
@@ -69,8 +67,8 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[5]+'</td></tr>';
+    sOut += '<tr><td>Conditions: </td><td>'+aData[3]+'</td></tr>';
+    sOut += '<tr><td>Distance:</td><td>'+aData[4]+'</td></tr>';
     sOut += '</table>';
    
     return sOut;
