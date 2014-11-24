@@ -100,17 +100,30 @@ class HorsesController < ApplicationController
   # POST /horses
   # POST /horses.json
   def create
-    @horse = Horse.new(horse_params)
-    @race_ready = Status.find_by_name("Race Ready")
-    @horse.status= @race_ready
-    respond_to do |format|
-      if @horse.save
-        @horse.create_activity :create, owner: current_user
-        format.html { redirect_to horses_url, notice: 'Horse was successfully created.' }
-        format.json { render action: 'index', status: :created, location: @horse }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @horse.errors, status: :unprocessable_entity }
+    @horse = Horse.find_by_name(horse_params[:name])
+    if @horse
+      respond_to do |format|
+        @horse = Horse.new(horse_params)
+        @horse.errors.add(:name, "Already in use.")
+        @owners = User.where(:role => '0')
+        @trainers = User.where(:role => '1')
+        @statuses = Status.all
+        @sexes = { "Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
+        format.html { render action: 'new', notice: 'Horse name already taken.'}
+      end
+    else
+      @horse = Horse.new(horse_params)
+      @race_ready = Status.find_by_name("Race Ready")
+      @horse.status= @race_ready
+      respond_to do |format|
+        if @horse.save
+          @horse.create_activity :create, owner: current_user
+          format.html { redirect_to horses_url, notice: 'Horse was successfully created.' }
+          format.json { render action: 'index', status: :created, location: @horse }
+        else
+          format.html { render action: 'new' }
+          format.json { render json: @horse.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
