@@ -19,6 +19,13 @@
                 <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
               <% end %>
             </td>
+        <% elsif @confirmed %>
+	        <td>
+	            <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
+	            <%= check_box("horserace", "status", {}, "Interested", "") %> /
+	            <% end %>
+	            <input class="confirm_alert"type="checkbox" name="confirm" value="0"  />
+	        </td>
 		<% else %>
 			<td ><%= form_for(@horserace) do |f| %>
 				<%= check_box("horserace", "status", {}, "Interested", "") %> /

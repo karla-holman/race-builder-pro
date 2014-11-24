@@ -70,12 +70,11 @@ $(document).ready(function() {
 	});
 
 	$("#race_category").change(function(){
-		var option = $(this).val();
-		if (option == 'Alternate'){
-			$(".priority_option").hide();
+		if ($(this).is(":checked")){
+			$(".priority_option").show();
 		}
 		else{
-			$(".priority_option").show();
+			$(".priority_option").hide();
 		}
 	});
 

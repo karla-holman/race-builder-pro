@@ -187,6 +187,11 @@ class RacesController < ApplicationController
       @race_date.save
       @race.race_date = @race_date
     end
+    if(params[:category])
+        @race.category = 'Priority'
+      else
+        @race.category = 'Alternate'
+      end
     respond_to do |format|
       if @race.save
         if(params[:commit] == 'Save and Duplicate')
@@ -233,6 +238,11 @@ class RacesController < ApplicationController
         @race_date.date = params[:race_date][:date]
         @race_date.save
         @race.race_date = @race_date
+      end
+      if(params[:category])
+        @race.category = 'Priority'
+      else
+        @race.category = 'Alternate'
       end
       respond_to do |format|
         if @race.update(race_params)
@@ -312,6 +322,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :stakes, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :purse, :stakes, :condition_ids => [])
     end
 end

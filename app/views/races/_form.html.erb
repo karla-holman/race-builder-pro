@@ -21,17 +21,29 @@
         <%= f.label :description %>
         <%= f.text_area :description, :autofocus => true, class: 'form-control'%>
       </div>
-      <div class="form-group">
-        <%= f.label :status %>
-        <%= f.select :status, options_for_select(["Draft", "Published"], @race.status) %>
+      <div class="form-group row">
+        <div class="col-xs-6">
+            <%= f.label 'Priority' %>
+            <input id="race_category" type="checkbox" name="category" <% if @race.category == 'Priority' %> checked <% end %>/>
+        </div>
+        <div class="col-xs-6">
+          <div class="priority_option" <% if @race.category != 'Priority' %> style="display:none" <% end %>>
+            <%= f.label 'Stakes Race' %>
+            <%= f.check_box :stakes %>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <%= f.label :cateogry %>
-        <%= f.select :category, options_for_select(["Priority", "Alternate"], @race.category) %>
-      </div>
-      <div class="form-group">
-        <%= f.label :purse %>
-        <%= f.text_field :purse, :autofocus => true, class: 'form-control' %>
+    </div>
+    <div class="col-xs-12 col-md-6">
+      <div class="form-group row">
+        <div class="col-xs-6">
+          <%= f.label :status %>
+          <%= f.select :status, options_for_select(["Draft", "Published"], @race.status) %>
+        </div>
+        <div class="col-xs-6">
+          <%= f.label :purse %>
+          <%= f.text_field :purse, :autofocus => true, class: 'form-control' %>
+        </div>
       </div>
       <div class="form-group row">
         <div class="col-xs-12">
@@ -44,36 +56,37 @@
           <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @race.distance_type) %>
         </div>
       </div>
-      <div class="form-group">
-        <%= f.label :field_size %>
+      <div class="form-group row">
+        <div class="col-xs-6">
+          <%= f.label :field_size %>
         <%= f.select :field_size, options_for_select(1..20) %>
+        </div>
+        <div class="col-xs-6">
+          <div class="priority_option" <% if @race.category != 'Priority' %> style="display:none" <% end %>>
+          <%= f.label 'Race Date' %>
+            <% if @race.race_date %>
+              <%= date_field("race_date", "date", value: @race.race_date.date) %>
+            <% else %>
+              <%= date_field("race_date", "date") %>
+            <% end %>
+          </div>
+        </div>
       </div>
-      <div class="form-group priority_option" <% if @race.category == 'Alternate' %> style="display:none" <% end %>>
-        <%= f.label 'Is Stakes Race' %>
-        <%= f.check_box :stakes %>
-      </div>
-      <div class="form-group priority_option" <% if @race.category == 'Alternate' %> style="display:none" <% end %>>
-        <%= f.label 'Race Date' %>
-        <% if @race.race_date %>
-          <%= date_field("race_date", "date", value: @race.race_date.date) %>
-        <% else %>
-          <%= date_field("race_date", "date") %>
-        <% end %>
-      </div>
-      <div class="form-group">
-      <div class="form-group">
-        <ul class="condition-list no-indent">
+    </div>
+    <div class="col-xs-12">
+      <div class="form-group row">
+        <h4>Conditions</h4>
           <% Category.all.each do |category| %>
-            <li><%= category.name %>
+            <div class="col-xs-3">
+              <%= category.name %>
               <ul class="condition-list">
               <% category.conditions.each do |condition| %>
                 <%= hidden_field_tag 'race[condition_ids][]', nil %>
                 <li><%= check_box_tag "race[condition_ids][]", condition.id, @race.conditions.include?(condition) %> <%= condition.name %> </li>
               <% end %>
               </ul>
-            </li>
+            </div>
           <% end %>
-        </ul>
       </div>
       <div class="form-group">
         <%= f.submit 'Save', :class => 'btn btn-success btn-sm'%>

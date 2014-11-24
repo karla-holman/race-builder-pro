@@ -54,13 +54,6 @@ class HorseracesController < ApplicationController
     @horse = Horse.find(@horserace.horse_id)
     @race = Race.find(@horserace.race_id)
 
-    if horserace_params[:status] == 'Confirmed'
-      @horse.horseraces.where(:status => 'Confirmed').each do |horserace|
-        horserace.status = 'Interested'
-        horserace.save
-      end
-    end
-
     respond_to do |format|
       if @horserace.update(horserace_params)
         if (@horserace.status.empty?)

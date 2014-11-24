@@ -39,6 +39,10 @@ $(document).ready(function() {
            location.reload()
            return false;
          });
+         $(".confirm_alert").change(function(){
+          alert('You are already confirmed for another race. Unconfirm from other race to confirm for this one.')
+          $(this).removeAttr('checked');
+        });
        },
     });
     
