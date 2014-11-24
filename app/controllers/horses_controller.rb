@@ -113,6 +113,9 @@ class HorsesController < ApplicationController
       end
     else
       @horse = Horse.new(horse_params)
+      if horse_params[:country_code]
+        @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.first.code
+      end
       @race_ready = Status.find_by_name("Race Ready")
       @horse.status= @race_ready
       respond_to do |format|
