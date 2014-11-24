@@ -42,14 +42,6 @@ class HorsesController < ApplicationController
   # GET /horses/1.json
   def show
     @last_win = @horse.last_win
-
-    if !@last_win
-      @last_win = LastWin.new
-      @last_win.horse_id = @horse.id
-      @last_win.save
-      @horse.last_win = @last_win
-      @horse.save
-    end
     
     @equipment_medication = Equipment.all
     if current_user.admin?
@@ -84,6 +76,7 @@ class HorsesController < ApplicationController
   # GET /horses/new
   def new
     @horse = Horse.new
+    @last_win = LastWin.new
     @owners = User.where(:role => '0')
     @trainers = User.where(:role => '1')
     @statuses = Status.all
@@ -92,6 +85,7 @@ class HorsesController < ApplicationController
 
   # GET /horses/1/edit
   def edit
+    @last_win = @horse.last_win
     @owners = User.where(:role => '0')
     @trainers = User.where(:role => '1')
     @sexes = { "Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
@@ -116,6 +110,14 @@ class HorsesController < ApplicationController
       if horse_params[:country_code]
         @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.first.code
       end
+      @last_win = LastWin.new
+      @last_win.date = params[:last_win][:date]
+      @last_win.distance_type = params[:last_win][:distance_type]
+      @last_win.distance = params[:last_win][:distance]
+      @last_win.money_earned = params[:last_win][:money_earned]
+      @last_win.horse_id = @horse.id
+      @last_win.save
+      @horse.last_win = @last_win
       @race_ready = Status.find_by_name("Race Ready")
       @horse.status= @race_ready
       respond_to do |format|
@@ -159,7 +161,22 @@ class HorsesController < ApplicationController
         end
       end
     end
-    
+      @last_win = @horse.last_win
+      if params[:last_win][:date]
+        @last_win.date = params[:last_win][:date]
+      end
+      if params[:last_win][:distance_type]
+        @last_win.distance_type = params[:last_win][:distance_type]
+      end
+      if params[:last_win][:distance]
+        @last_win.distance = params[:last_win][:distance]
+      end
+      if params[:last_win][:money_earned]
+        @last_win.money_earned = params[:last_win][:money_earned]
+      end
+      @last_win.horse_id = @horse.id
+      @last_win.save
+      @horse.last_win = @last_win
     respond_to do |format|
       if !horse_params[:equipment_ids]
         if @horse.update(horse_params)

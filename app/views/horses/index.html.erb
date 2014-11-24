@@ -14,7 +14,6 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>POB</th>
               <th>Sex</th>
               <th>Age</th>
               <th>Wins</th>
@@ -29,8 +28,10 @@
           <tbody>
             <% @horses.each do |horse| %>
             <tr>
-              <td><%= horse.name %></td>
-              <td><%= horse.country_code %>/<%=horse.subregion_code%></td>
+              <td>
+                <%= horse.name %>
+                <p style="font-size: 10px;"><%= Carmen::Country.coded(horse.country_code).subregions.coded(horse.subregion_code).name %></p>
+              </td>
               <td><%= horse.sex %></td>
               <td>
                <% def age(dob)

@@ -11,7 +11,7 @@
   <% end %>
   <div class="form-group attribute">
     <% if current_user.admin? %>
-      <%= f.text_field :last_claiming_price, :value => number_to_currency(f.object.last_claiming_price, :precision => 2), :autofocus => true, class: 'form-control' %>
+      <%= f.text_field :last_claiming_price, :autofocus => true, class: 'form-control' %>
       <%= f.submit :class => 'btn btn-success btn-sm'%>
     <% else %>
       <%= f.text_field :last_claiming_price, :value => number_to_currency(f.object.last_claiming_price, :precision => 2), :autofocus => true, :disabled => true, class: 'form-control' %>

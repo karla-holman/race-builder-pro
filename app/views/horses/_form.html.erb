@@ -31,7 +31,7 @@
     </div>
     <div class="form-group">
       <%= f.label 'Breed' %>
-      <%= f.text_field :breed, :autofocus => true, class: 'form-control' %>
+      <%= f.select :breed, options_for_select(["Thoroughbred", "Quarter", "Standardbred"], @horse.breed) %>
     </div>
     <div class="form-group">
       <%= f.label :sex %><br/>
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
       <%= f.label 'Birth Year' %>
-      <%= f.select :birth_year, options_for_select(1970..2017) %>
+      <%= f.select :birth_year, options_for_select(2012.downto(2000)) %>
     </div>
      <div class="form-group">
       <%= f.label 'Owner' %>
@@ -63,6 +63,30 @@
       <%= f.label :wins %>
       <%= f.select :wins, options_for_select(0..200) %>
     </div>
+    <div class="form-group">
+      <%= f.label :last_claiming_price %>
+      <%= f.text_field :last_claiming_price, :autofocus => true, class: 'form-control' %>
+    </div>
+    <h2>Last Win</h2>
+    <%= form_for(@last_win) do |f| %>
+      <div class="form-group">
+          <%= f.label 'Date' %>
+          <%= date_field("last_win", "date") %>
+        <div class="form-group">
+          <%= f.label :distance_type %>
+          <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
+        </div>
+        <div class="form-group">
+          <%= f.label :distance %>
+          <%= f.select :distance, options_for_select(0..30, @last_win.distance) %>
+        </div>
+        <div class="form-group">
+          <%= f.label :money_earned %>
+          <%= f.text_field :money_earned, :autofocus => true, class: 'form-control' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
   </div>
 </div>
 <% end %>
