@@ -31,51 +31,64 @@
         <div class="row race-menu-selectors">
             <div class="col-xs-1">
                 <% if @age %>
-                Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'All'}) %>
+                <p>Age</p>
+                 <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'All'}) %>
                 <% else %>
-                Age <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'All'}) %>
+                <p>Age</p>
+                 <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'All'}) %>
                 <% end %>
             </div>
             <div class="col-xs-1">
                 <% if @sex %>
-                Sex <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:selected => @sex.id, :include_blank => 'All'}) %>
+                <p>Sex</p>
+                 <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:selected => @sex.id, :include_blank => 'All'}) %>
                 <% else %>
-                Sex <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:prompt => 'All'}) %>
+               <p>Sex</p>
+                <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:prompt => 'All'}) %>
                 <% end %>
             </div>
             <div class="col-xs-1">
                 <% if @wins %>
-                Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
+                <p>Wins</p>
+                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
                 <% else %>
-                Wins <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
+                <p>Wins</p>
+                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
                 <% end %>
             </div>
             <div class="col-xs-2">
                 <% if @noWinsSince %>
-                No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
+                <p>No Wins Since</p>
+                 <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
                 <% else %>
-                No Wins Since <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
+                <p>No Wins Since</p>
+                 <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
                 <% end %>
             </div>
             <div class="col-xs-2">
                 <% if @distance %>
-                Distances <%= select_tag "Distances", options_for_select(['Short', 'Long'], @distance), :prompt => 'All' %>
+                <p>Distances</p>
+                 <%= select_tag "Distances", options_for_select(['Short', 'Long'], @distance), :prompt => 'All' %>
                 <% else %>
-                Distances <%= select_tag "Distances", options_for_select(['Short', 'Long']), :prompt => 'All'  %>
+                <p>Distances</p> <%= select_tag "Distances", options_for_select(['Short', 'Long']), :prompt => 'All'  %>
                 <% end %>
             </div>
             <div class="col-xs-2">
                 <% if @lower_purse %>
-                Lower Purse <%= select_tag "Lower Purse", options_for_select(@purses, @lower_purse), :prompt => 'None' %>
+                <p>Lower Purse</p>
+                 <%= select_tag "Lower Purse", options_for_select(@purses, @lower_purse), :prompt => 'None' %>
                 <% else %>
-                Lower Purse <%= select_tag "Lower Purse", options_for_select(@purses), :prompt => 'None'  %>
+                <p>Lower Purse</p>
+                 <%= select_tag "Lower Purse", options_for_select(@purses), :prompt => 'None'  %>
                 <% end %>
               </div>
               <div class="col-xs-2">
                 <% if @upper_purse %>
-                Upper Purse <%= select_tag "Upper Purse", options_for_select(@purses, @upper_purse), :prompt => 'None' %>
+                <p>Upper Purse</p>
+                 <%= select_tag "Upper Purse", options_for_select(@purses, @upper_purse), :prompt => 'None' %>
                 <% else %>
-                Upper Purse <%= select_tag "Upper Purse", options_for_select(@purses), :prompt => 'None'  %>
+                <p>Upper Purse</p>
+                 <%= select_tag "Upper Purse", options_for_select(@purses), :prompt => 'None'  %>
                 <% end %>
               </div>
             </div>
