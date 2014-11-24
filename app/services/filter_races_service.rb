@@ -1,4 +1,14 @@
 class FilterRacesService
+  def winCategories(horse)
+    @conditions = []
+    Condition.where(:category_id => Category.find_by_name("Wins")).each do |condition|
+      if filter_range(condition, horse.wins)
+            @conditions.push(condition)
+      end
+    end
+    return @conditions
+  end
+
 	def horseFilter(horse)
 		filtered_races = []
 		@sex_category = Category.find_by_name("Sex")

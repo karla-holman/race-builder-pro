@@ -73,12 +73,9 @@
           <%= f.label 'Date' %>
           <%= date_field("last_win", "date") %>
         <div class="form-group">
-          <%= f.label :distance_type %>
-          <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
-        </div>
-        <div class="form-group">
-          <%= f.label :distance %>
+          <%= f.label 'Distance' %>
           <%= f.select :distance, options_for_select(0..30, @last_win.distance) %>
+          <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
         </div>
         <div class="form-group">
           <%= f.label :money_earned %>

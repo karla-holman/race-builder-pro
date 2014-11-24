@@ -156,7 +156,7 @@ class RacesController < ApplicationController
 
      @ageList = Condition.where(:category_id => Category.find_by_name("Age"))
      @sexList = Condition.where(:category_id => Category.find_by_name("Sex"))
-     @winList = Condition.where(:category_id => Category.find_by_name("Wins"))
+     @winList = FilterRacesService.new.winCategories(@horse)
      @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
      @purses = Race.all.pluck(:purse).reject(&:blank?).uniq.sort
 
@@ -193,10 +193,13 @@ class RacesController < ApplicationController
           new_race = @race.dup
           new_race.conditions = @race.conditions
           new_race.save
+          @race.create_activity :create, owner: current_user
+          format.html { redirect_to edit_race_path(@race) }
+        else
+          @race.create_activity :create, owner: current_user
+          format.html { redirect_to races_url, notice: 'Race was successfully created.' }
+          format.json { render action: 'index', status: :created, location: @races }
         end
-        @race.create_activity :create, owner: current_user
-        format.html { redirect_to races_url, notice: 'Race was successfully created.' }
-        format.json { render action: 'index', status: :created, location: @races }
       else
         format.html { render action: 'new' }
         format.json { render json: @race.errors, status: :unprocessable_entity }
@@ -237,10 +240,13 @@ class RacesController < ApplicationController
             new_race = @race.dup
             new_race.conditions = @race.conditions
             new_race.save
+            @race.create_activity :update, owner: current_user
+            format.html { redirect_to :back }
+          else
+            @race.create_activity :update, owner: current_user
+            format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
+            format.json { render action: 'index', status: :ok, location: @races }
           end
-          @race.create_activity :update, owner: current_user
-          format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
-          format.json { render action: 'index', status: :ok, location: @races }
         else
           format.html { render action: 'edit' }
           format.json { render json: @race.errors, status: :unprocessable_entity }

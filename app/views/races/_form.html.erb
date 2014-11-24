@@ -30,12 +30,19 @@
         <%= f.select :category, options_for_select(["Priority", "Alternate"], @race.category) %>
       </div>
       <div class="form-group">
-        <%= f.label :distance_type %>
-        <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @race.distance_type) %>
+        <%= f.label :purse %>
+        <%= f.text_field :purse, :autofocus => true, class: 'form-control' %>
       </div>
-      <div class="form-group">
-        <%= f.label :distance %>
-        <%= f.text_field :distance, :autofocus => true, class: 'form-control'%>
+      <div class="form-group row">
+        <div class="col-xs-12">
+          <%= f.label 'Distance' %>
+        </div>
+        <div class="col-xs-6">
+          <%= f.text_field :distance, :autofocus => true, class: 'form-control'%>
+        </div>
+        <div class="col-xs-6">
+          <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @race.distance_type) %>
+        </div>
       </div>
       <div class="form-group">
         <%= f.label :field_size %>
