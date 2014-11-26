@@ -107,8 +107,8 @@ class HorsesController < ApplicationController
       end
     else
       @horse = Horse.new(horse_params)
-      if horse_params[:country_code]
-        @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.first.code
+      if !horse_params[:subregion_code]
+        @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
       end
       @last_win = LastWin.new
       @last_win.date = params[:last_win][:date]
@@ -177,6 +177,9 @@ class HorsesController < ApplicationController
       @last_win.horse_id = @horse.id
       @last_win.save
       @horse.last_win = @last_win
+      if !horse_params[:subregion_code]
+        @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
+      end
     respond_to do |format|
       if !horse_params[:equipment_ids]
         if @horse.update(horse_params)

@@ -20,7 +20,7 @@ categories = Hash['Age'=>['3+', '3YO', '2YO'],
 equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'Blinkers', 'Cheek Piece',
 						'Cornell Collar', 'Front Wraps', 'Nasal Strip']
 
-statuses = ['Race Ready', 'Not Race Ready', 'Resting From Race', 'Vet\'s List', 'Steward\'s List', 'Inactive']
+statuses = ['Race Ready', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
 #Races: [Name, Description, Status, Category, Distance Type, Distance, Purse]
 races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,400', 'Published', "Alternate",'Yards', 400, 4400, 10],

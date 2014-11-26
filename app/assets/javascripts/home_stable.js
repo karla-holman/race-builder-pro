@@ -27,7 +27,7 @@ $(document).ready(function() {
     var oTable = $('#stable-table').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bSortClasses": false,
-       "aaSorting": [],
+       "aaSorting": [[ 5, "asc" ]],
                 "oLanguage": {
             "sLengthMenu": "_MENU_ ",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"

@@ -3,11 +3,36 @@ class FilterRacesService
     @conditions = []
     Condition.where(:category_id => Category.find_by_name("Wins")).each do |condition|
       if filter_range(condition, horse.wins)
-            @conditions.push(condition)
+        @conditions.push(condition)
       end
     end
     return @conditions
   end
+
+  def ageCategories(horse)
+    @conditions = []
+    Condition.where(:category_id => Category.find_by_name("Age")).each do |condition|
+      if filter_range(condition, age(horse.birth_year))
+        @conditions.push(condition)
+      end
+    end
+    return @conditions
+  end
+
+  def noWinsSinceCategories(horse)
+    @conditions = []
+    Condition.where(:category_id => Category.find_by_name("Hasn't Won Since")).each do |condition|
+      if horse.last_win.date
+        if condition.value.to_i > horse.last_win.date.year
+            @conditions.push(condition)
+        end
+      else
+        @conditions.push(condition)
+      end
+    end
+    return @conditions
+  end
+
 
 	def horseFilter(horse)
 		filtered_races = []
@@ -45,8 +70,10 @@ class FilterRacesService
           #   @bred = true
           # end 
         when 'Hasn\'t Won Since'
-          if condition.value.to_i > @horse.last_win.year
-            @remove = true
+          if horse.last_win.date
+            if condition.value.to_i < horse.last_win.date.year
+              @remove = true
+            end
           end
         end
         if @remove

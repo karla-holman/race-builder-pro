@@ -154,10 +154,10 @@ class RacesController < ApplicationController
       @races = FilterRacesService.new.upperPurseFilter(@races, @upper_purse)
     end
 
-     @ageList = Condition.where(:category_id => Category.find_by_name("Age"))
+     @ageList = FilterRacesService.new.ageCategories(@horse)
      @sexList = Condition.where(:category_id => Category.find_by_name("Sex"))
      @winList = FilterRacesService.new.winCategories(@horse)
-     @noWinsSinceList = Condition.where(:category_id => Category.find_by_name("Hasn't Won Since"))
+     @noWinsSinceList = FilterRacesService.new.noWinsSinceCategories(@horse)
      @purses = Race.all.pluck(:purse).reject(&:blank?).uniq.sort
 
      confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")

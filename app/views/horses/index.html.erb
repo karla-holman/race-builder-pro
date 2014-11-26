@@ -14,13 +14,12 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Sex</th>
               <th>Age</th>
+              <th>Sex</th>
               <th>Wins</th>
-              <th>Last Claiming Price</th>
+              <th>Trainer</th>
               <th>Status</th>
               <th style="display:none;">Owner</th>
-              <th style="display:none;">Trainer</th>
               <th style="display:none;">Equipment/Medication</th>
               <th colspan="1"></th>
             </tr>
@@ -32,7 +31,6 @@
                 <%= horse.name %>
                 <p style="font-size: 10px;"><%= Carmen::Country.coded(horse.country_code).subregions.coded(horse.subregion_code).name %></p>
               </td>
-              <td><%= horse.sex %></td>
               <td>
                <% def age(dob)
                   now = Time.now.utc.to_date
@@ -40,17 +38,11 @@
                 end %>
                 <%= age(horse.birth_year) %>
               </td>
+              <td><%= horse.sex %></td>
               <td><%= horse.wins %></td>
-              <td>
-                <% if horse.last_claiming_price? %>
-                  <%= number_to_currency(horse.last_claiming_price, precision: 2) %>
-                <% else %>
-                  <%= number_to_currency(0, precision: 2) %>
-                <% end %>
-              </td>
+              <td ><%= horse.trainer.name %></td>
               <td><span class="label"><%= horse.status.name %></span></td>
               <td style="display:none;"><%= horse.owner.name %></td>
-              <td style="display:none;"><%= horse.trainer.name %></td>
               <td style="display:none;">
               <% if horse.equipment.any? %>
                 <% horse.equipment.each do |equipment| %>
@@ -81,9 +73,8 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Horse Equipment/Medication:</td><td>'+aData[10]+'</td></tr>';
-    sOut += '<tr><td>Trainer:</td><td>'+aData[9]+'</td></tr>';
-    sOut += '<tr><td>Owner:</td><td>'+aData[8]+'</td></tr>';
+    sOut += '<tr><td>Horse Equipment/Medication:</td><td>'+aData[8]+'</td></tr>';
+    sOut += '<tr><td>Owner:</td><td>'+aData[7]+'</td></tr>';
     sOut += '</table>';
      
     return sOut;

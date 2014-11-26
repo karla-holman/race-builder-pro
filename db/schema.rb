@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141123213330) do
+ActiveRecord::Schema.define(version: 20141126030856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20141123213330) do
   create_table "last_wins", force: true do |t|
     t.date     "date"
     t.string   "distance_type"
-    t.integer  "distance"
+    t.decimal  "distance"
     t.decimal  "money_earned"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -17,7 +17,7 @@
     <div class="form-group">
       <%= f.label :distance %>
       <% if current_user.admin? %>
-        <%= f.select :distance, options_for_select(0..30, @last_win.distance) %>
+        <%= f.text_field :distance, :autofocus => true, class: 'form-control' %>
       <% else %>
         <%= f.text_field :distance, :value => @last_win.distance, :autofocus => true, :disabled => true, class: 'form-control' %>
       <% end %>

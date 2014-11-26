@@ -57,30 +57,40 @@
   <div class="col-xs-12 col-md-6">
     <div class="form-group">
       <%= f.label :starts %>
-      <%= f.select :starts, options_for_select(0..200) %>
+      <%= f.select :starts, options_for_select(0..200, @horse.starts) %>
     </div>
     <div class="form-group">
       <%= f.label :wins %>
-      <%= f.select :wins, options_for_select(0..200) %>
+      <%= f.select :wins, options_for_select(0..200, @horse.wins) %>
     </div>
-    <div class="form-group">
-      <%= f.label :last_claiming_price %>
-      <%= f.text_field :last_claiming_price, :autofocus => true, class: 'form-control' %>
+    <div class="form-group row">
+      <div class="col-xs-6">
+        <%= f.label :last_claiming_price %>
+        <%= f.text_field :last_claiming_price, :autofocus => true, class: 'form-control' %>
+      </div>
     </div>
     <h2>Last Win</h2>
     <%= form_for(@last_win) do |f| %>
-      <div class="form-group">
-          <%= f.label 'Date' %>
-          <%= date_field("last_win", "date") %>
-        <div class="form-group">
-          <%= f.label 'Distance' %>
-          <%= f.select :distance, options_for_select(0..30, @last_win.distance) %>
-          <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
-        </div>
-        <div class="form-group">
-          <%= f.label :money_earned %>
-          <%= f.text_field :money_earned, :autofocus => true, class: 'form-control' %>
-        </div>
+      <div class="form-group row">
+          <div class="form-group col-xs-12">
+            <%= f.label 'Date' %>
+            <%= date_field("last_win", "date") %>
+            </div>
+          <div class="form-group col-xs-12">
+            <%= f.label 'Distance' %>
+            <div class="row">
+              <div class="col-xs-6"> 
+                <%= f.text_field :distance, :autofocus => true, class: 'form-control' %>
+              </div>
+              <div class="form-group col-xs-6"> 
+                <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-xs-6">
+            <%= f.label :money_earned %>
+            <%= f.text_field :money_earned, :autofocus => true, class: 'form-control' %>
+          </div>
       </div>
     </div>
   <% end %>
