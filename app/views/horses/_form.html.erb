@@ -1,17 +1,17 @@
 <%= form_for(@horse) do |f| %>
-  <% if @horse.errors.any? %>
   <div class="row">
-    <div class="col-xs-12">
-      <div id="error_explanation">
-        <h4><%= pluralize(@horse.errors.count, "error") %> prohibited this horse from being saved:</h4>
-        <ul>
-        <% @horse.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
+    <% if @horse.errors.any? %>
+      <div class="col-xs-12">
+        <div id="error_explanation">
+          <h4><%= pluralize(@horse.errors.count, "error") %> prohibited this horse from being saved:</h4>
+          <ul>
+          <% @horse.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
       </div>
     <% end %>
-  </div>
   <div class="col-xs-12 col-md-6">  
     <div class="form-group">
       <%= f.label :name %>
@@ -72,28 +72,26 @@
     <h2>Last Win</h2>
     <%= form_for(@last_win) do |f| %>
       <div class="form-group row">
-          <div class="form-group col-xs-12">
-            <%= f.label 'Date' %>
-            <%= date_field("last_win", "date") %>
+        <div class="form-group col-xs-12">
+          <%= f.label 'Date' %>
+          <%= date_field("last_win", "date") %>
+          </div>
+        <div class="form-group col-xs-12">
+          <%= f.label 'Distance' %>
+          <div class="row">
+            <div class="col-xs-6"> 
+              <%= f.text_field :distance, :autofocus => true, class: 'form-control' %>
             </div>
-          <div class="form-group col-xs-12">
-            <%= f.label 'Distance' %>
-            <div class="row">
-              <div class="col-xs-6"> 
-                <%= f.text_field :distance, :autofocus => true, class: 'form-control' %>
-              </div>
-              <div class="form-group col-xs-6"> 
-                <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
-              </div>
+            <div class="form-group col-xs-6"> 
+              <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
             </div>
           </div>
-          <div class="form-group col-xs-6">
-            <%= f.label :money_earned %>
-            <%= f.text_field :money_earned, :autofocus => true, class: 'form-control' %>
-          </div>
+        </div>
+        <div class="form-group col-xs-6">
+          <%= f.label :money_earned %>
+          <%= f.text_field :money_earned, :autofocus => true, class: 'form-control' %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
   </div>
-</div>
 <% end %>

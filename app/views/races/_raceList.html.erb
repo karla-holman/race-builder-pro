@@ -108,6 +108,7 @@
                                     <th>Purse</th>
                                     <th style="display: none;">Conditions</th>
                                     <th style="display: none;">Description</th>
+                                    <th>Priority</th>
                                     <th>Interested / Confirmed</th>
                                 </tr>
                             </thead>
@@ -147,6 +148,13 @@
                                                 <% end %>
                                             </td>
                                             <td style="display: none;"><%= race.description %></td>
+                                            <td>
+                                                <% if race.category == 'Priority' %>
+                                                    <span class="label label-inverse">Yes</span>
+                                                <% else %>
+                                                    <span class="label badge-danger">No</span>
+                                                <% end %>
+                                            </td>
                                             <% if @horserace.status == "Confirmed" %>
                                                 <td>
                                                     Confirmed: 

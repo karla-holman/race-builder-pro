@@ -30,6 +30,7 @@
                   <th style="display: none;">Category</th>
                   <th style="display: none;">Stakes</th>
                   <th style="display: none;">Date</th>
+                  <th>Priority</th>
                 </tr>
               </thead>
               <tbody>
@@ -71,6 +72,13 @@
                           <%= race.race_date.date.strftime('%b %d, %Y') %>
                         <% else %>
                           N/A
+                        <% end %>
+                      </td>
+                      <td>
+                        <% if race.category == 'Priority' %>
+                          <span class="label label-inverse">Yes</span>
+                        <% else %>
+                          <span class="label badge-danger">No</span>
                         <% end %>
                       </td>
                   </tr>
