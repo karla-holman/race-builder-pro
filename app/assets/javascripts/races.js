@@ -78,6 +78,16 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#race_race_type").change(function(){
+		if (($(this).val() == 'Claiming') || ($(this).val() == 'Allowance Optional Claiming')
+		|| ($(this).val() == 'Maiden Claiming')){
+			$("#claiming_prices").show();
+		}
+		else{
+			$("#claiming_prices").hide();
+		}
+	});
+
 	function attemptUpdate(f){
 	  $.ajax({
 	    type: "POST",

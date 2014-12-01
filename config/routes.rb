@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :claiming_prices
+
   resources :race_dates
 
   resources :tels

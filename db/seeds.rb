@@ -22,7 +22,7 @@ equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'B
 
 statuses = ['Race Ready', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
-#Races: [Name, Description, Status, Category, Distance Type, Distance, Purse]
+#Races: [Name, Description, Status, Category, Distance Type, Distance, Purse, Field Size]
 races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,400', 'Published', "Alternate",'Yards', 400, 4400, 10],
 		['f Md 12500', 'maidens, fillies, two years old, purse $4,400, claiming price $12,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 12],
 		['Clm 2500N3L', '3 year olds and upwards, never won three races, non-winners since June 15, purse $4,400, claiming price $2,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 6],
@@ -186,6 +186,7 @@ end
 
 races.each do |race|
 	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], distance_type: race[4], distance: race[5], purse: race[6], field_size: race[7])
+	new_race.race_type = 'Default'
 	if new_race.save
 		puts 'CREATED RACE: ' << new_race.name
 	end
@@ -211,6 +212,50 @@ horses.each do |horse|
 	end
 end
 
+race = Race.find_by_name('Clm 2500N3L')
+race.race_type = 'Claiming'
+claiming = ClaimingPrice.new
+claiming.race_id = race.id
+claiming.price = 2500
+claiming.save
+race.claiming_prices[0] = claiming
+race.save
+
+race = Race.find_by_name('Clm 3500B')
+race.race_type = 'Claiming'
+claiming = ClaimingPrice.new
+claiming.race_id = race.id
+claiming.price = 3500
+claiming.save
+race.claiming_prices[0] = claiming
+race.save
+
+race = Race.find_by_name('Clm 7500N3L')
+race.race_type = 'Claiming'
+claiming = ClaimingPrice.new
+claiming.race_id = race.id
+claiming.price =7500
+claiming.save
+race.claiming_prices[0] = claiming
+race.save	
+
+race = Race.find_by_name('Clm 2500B')
+race.race_type = 'Claiming'
+claiming = ClaimingPrice.new
+claiming.race_id = race.id
+claiming.price =2500
+claiming.save
+race.claiming_prices[0] = claiming
+race.save	
+
+race = Race.find_by_name('Clm 7500')
+race.race_type = 'Claiming'
+claiming = ClaimingPrice.new
+claiming.race_id = race.id
+claiming.price =7500
+claiming.save
+race.claiming_prices[0] = claiming
+race.save
 
 
 race = Race.find_by_name('r CahillRoad50k')

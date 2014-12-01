@@ -35,7 +35,7 @@ class RacesController < ApplicationController
     end
     @categories.uniq
     
-    if @race.type == 'Stakes'
+    if @race.category == 'Priority' && @race.stakes
       possible_horses = Horse.all
       if !@confirmed.empty?
         possible_horses = possible_horses.where("id not IN (?)", confirmed_ids)
@@ -66,7 +66,7 @@ class RacesController < ApplicationController
       end
     end
 
-    if @race.type == 'Stakes'
+    if @race.category == 'Priority' && @race.stakes
       @race_groups = [["Confirmed", @confirmed], ["Pending", @pending], ["Denied", @denied], ["Eligible", @eligible]]
     else
       @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
@@ -76,6 +76,8 @@ class RacesController < ApplicationController
   # GET /races/new
   def new
     @race = Race.new
+    @claiming_one = ClaimingPrice.new
+    @claiming_two = ClaimingPrice.new
   end
 
   def menu
@@ -145,20 +147,20 @@ class RacesController < ApplicationController
       @distance = params[:distance]
       @races = FilterRacesService.new.distanceFilter(@races, @distance)
     end
-    if !params[:lower_purse].blank?
-      @lower_purse = params[:lower_purse]
-      @races = FilterRacesService.new.lowerPurseFilter(@races, @lower_purse)
+    if !params[:lower_claiming].blank?
+      @lower_claiming = params[:lower_claiming]
+      @races = FilterRacesService.new.lowerClaimingFilter(@races, @lower_claiming)
     end
-    if !params[:upper_purse].blank?
-      @upper_purse =  params[:upper_purse]
-      @races = FilterRacesService.new.upperPurseFilter(@races, @upper_purse)
+    if !params[:upper_claiming].blank?
+      @upper_claiming =  params[:upper_claiming]
+      @races = FilterRacesService.new.upperClaimingFilter(@races, @upper_claiming)
     end
 
      @ageList = FilterRacesService.new.ageCategories(@horse)
      @sexList = Condition.where(:category_id => Category.find_by_name("Sex"))
      @winList = FilterRacesService.new.winCategories(@horse)
      @noWinsSinceList = FilterRacesService.new.noWinsSinceCategories(@horse)
-     @purses = Race.all.pluck(:purse).reject(&:blank?).uniq.sort
+     @claiming_prices = ClaimingPrice.all.pluck(:price).reject(&:blank?).uniq.sort
 
      confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
 
@@ -174,6 +176,18 @@ class RacesController < ApplicationController
   # GET /races/1/edit
   def edit
     @race_date = @race.race_date
+    if(@race.claiming_prices[0])
+      @claiming_one = @race.claiming_prices[0]
+    else
+      @claiming_one = ClaimingPrice.new
+    end
+
+    if(@race.claiming_prices[1])
+      @claiming_two = @race.claiming_prices[1]
+    else
+      @claiming_two = ClaimingPrice.new
+    end
+    
   end
 
   # POST /races
@@ -188,12 +202,37 @@ class RacesController < ApplicationController
       @race.race_date = @race_date
     end
     if(params[:category])
-        @race.category = 'Priority'
-      else
-        @race.category = 'Alternate'
-      end
+      @race.category = 'Priority'
+    else
+      @race.category = 'Alternate'
+    end
     respond_to do |format|
       if @race.save
+        if(params[:claiming_one])
+          if(@race.claiming_prices[0])
+            @race.claiming_prices[0].price = params[:claiming_one]
+            @race.claiming_prices[0].save
+          else
+            @claiming_one = ClaimingPrice.new
+            @claiming_one.race_id = @race.id
+            @claiming_one.price = params[:claiming_one]
+            @claiming_one.save
+            @race.claiming_prices[0] = @claiming_one
+          end
+        end
+        if (params[:claiming_two])
+          if(@race.claiming_prices[1])
+            @race.claiming_prices[1].price = params[:claiming_two]
+            @race.claiming_prices[1].save
+          else
+            @claiming_two = ClaimingPrice.new
+            @claiming_two.race_id = @race.id
+            @claiming_two.price = params[:claiming_two]
+            @claiming_two.save
+            @race.claiming_prices[1] = @claiming_two
+          end
+        end
+        @race.save
         if(params[:commit] == 'Save and Duplicate')
           new_race = @race.dup
           new_race.conditions = @race.conditions
@@ -246,6 +285,31 @@ class RacesController < ApplicationController
       end
       respond_to do |format|
         if @race.update(race_params)
+          if(params[:claiming_one])
+            if(@race.claiming_prices[0])
+              @race.claiming_prices[0].price = params[:claiming_one]
+              @race.claiming_prices[0].save
+            else
+              @claiming_one = ClaimingPrice.new
+              @claiming_one.race_id = @race.id
+              @claiming_one.price = params[:claiming_one]
+              @claiming_one.save
+              @race.claiming_prices[0] = @claiming_one
+            end
+          end
+          if (params[:claiming_two])
+            if(@race.claiming_prices[1])
+              @race.claiming_prices[1].price = params[:claiming_two]
+              @race.claiming_prices[1].save
+            else
+              @claiming_two = ClaimingPrice.new
+              @claiming_two.race_id = @race.id
+              @claiming_two.price = params[:claiming_two]
+              @claiming_two.save
+              @race.claiming_prices[1] = @claiming_two
+            end
+          end
+          @race.save
           if(params[:commit] == 'Save and Duplicate')
             new_race = @race.dup
             new_race.conditions = @race.conditions
@@ -322,6 +386,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :purse, :stakes, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :purse, :race_type, :stakes, :condition_ids => [])
     end
 end

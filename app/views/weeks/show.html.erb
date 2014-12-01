@@ -23,10 +23,11 @@
               <thead>
                 <tr>
                   <th>Name</th>
+                  <th>Claiming</th>
+                  <td>Distance</td>
                   <th>Interested</th>
                   <th>Confirmed</th>
                   <th style="display: none;">Conditions</th>
-                  <th style="display: none;">Distance</th>
                   <th style="display: none;">Category</th>
                   <th style="display: none;">Stakes</th>
                   <th style="display: none;">Date</th>
@@ -37,6 +38,36 @@
                 <% @races.each do |race| %>
                   <tr >
                     <td><%= race.name %></td>
+                    <td>
+                    <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
+                        <% if race.claiming_prices[1] %>
+                            <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
+                                <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                            <% else %>
+                                <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                            <% end %>
+                        <% else %>
+                            <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                        <% end %>
+                    <% elsif race.claiming_prices[1] %>
+                        <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                    <% end %>
+                    </td>
+                    <% if race.distance %>
+                        <% if race.distance <= 1 %>
+                            <% if race.distance_type == 'Furlongs' %>
+                                <td><%= race.distance %> Furlong</td>
+                            <% elsif race.distance_type == 'Yards'%>
+                                <td><%= race.distance %> Yard</td>
+                            <% else %>
+                                <td><%= race.distance %> Mile</td>
+                            <% end %>
+                        <% else %>
+                            <td><%= race.distance %> <%= race.distance_type %></td>
+                        <% end %>
+                    <% else %>
+                        <td>N/A</td>
+                    <% end %>
                     <td>
                     <span class="badge badge-danger">
                       <%= race.horseraces.where(:status => "Interested").count %>
@@ -56,15 +87,6 @@
                         | None |
                       <% end %>
                       </td>
-                      <% if race.distance <= 1 %>
-                        <% if race.distance_type == 'Furlongs' %>
-                          <td style="display: none;"><%= race.distance %> Furlong</td>
-                        <% else %>
-                          <td style="display: none;"><%= race.distance %> Mile</td>
-                        <% end %>
-                      <% else %>
-                        <td style="display: none;"><%= race.distance %> <%= race.distance_type %></td>
-                      <% end %>
                       <td style="display: none;"><%= race.category %></td>
                       <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
                       <td style="display: none;">
@@ -98,10 +120,9 @@
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
     sOut += '<tr><td>Conditions: </td><td>'+aData[4]+'</td></tr>';
-    sOut += '<tr><td>Distance:</td><td>'+aData[5]+'</td></tr>';
-    sOut += '<tr><td>Category:</td><td>'+aData[6]+'</td></tr>';
-    sOut += '<tr><td>Stakes: </td><td>'+aData[7]+'</td></tr>';
-    sOut += '<tr><td>Date:</td><td>'+aData[8]+'</td></tr>';
+    sOut += '<tr><td>Category:</td><td>'+aData[5]+'</td></tr>';
+    sOut += '<tr><td>Stakes: </td><td>'+aData[6]+'</td></tr>';
+    sOut += '<tr><td>Date:</td><td>'+aData[7]+'</td></tr>';
     sOut += '</table>';
    
     return sOut;

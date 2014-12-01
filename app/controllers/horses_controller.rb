@@ -139,7 +139,7 @@ class HorsesController < ApplicationController
     if horse_params[:equipment_ids]
       horse_params[:equipment_ids].each do |equipment|
         if HorseEquipment.where(equipment_id: equipment, horse_id: @horse.id).empty? && !equipment.empty?
-          if Equipment.find(equipment).required
+          if Equipment.find(equipment).required && !current_user.admin?
             notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Add")
             @horse.create_activity :add_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
           else
@@ -152,7 +152,7 @@ class HorsesController < ApplicationController
       current_equipment = @horse.equipment.pluck(:id) - horse_params[:equipment_ids].map(&:to_i)
 
       current_equipment.each do |equipment|
-        if Equipment.find(equipment).required
+        if Equipment.find(equipment).required && !current_user.admin?
           notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Remove")
           @horse.create_activity :remove_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
         else
@@ -161,6 +161,7 @@ class HorsesController < ApplicationController
         end
       end
     end
+    if params[:last_win]
       @last_win = @horse.last_win
       if params[:last_win][:date]
         @last_win.date = params[:last_win][:date]
@@ -174,12 +175,14 @@ class HorsesController < ApplicationController
       if params[:last_win][:money_earned]
         @last_win.money_earned = params[:last_win][:money_earned]
       end
+
       @last_win.horse_id = @horse.id
       @last_win.save
       @horse.last_win = @last_win
-      if !horse_params[:subregion_code]
-        @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
-      end
+    end
+    if horse_params[:country_code] && !horse_params[:subregion_code]
+      @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
+    end
     respond_to do |format|
       if !horse_params[:equipment_ids]
         if @horse.update(horse_params)

@@ -132,32 +132,48 @@ class FilterRacesService
     filtered_races = []
 
     races.each do |race|
-      if distance == "Long" && race.distance_type == "Miles"
-        filtered_races.push(race)
-      elsif distance == "Short" && race.distance_type == "Furlongs"
-        filtered_races.push(race)
+      if race.distance 
+        if distance == "Long"
+          if race.distance_type == "Miles" && race.distance >= 1
+            filtered_races.push(race)
+          elsif race.distance_type == "Furlongs" && race.distance >= 8
+            filtered_races.push(race)
+          end
+        elsif distance == "Short"
+          if race.distance_type == "Miles" && race.distance < 1
+            filtered_races.push(race)
+          elsif race.distance_type == "Furlongs" && race.distance < 8
+            filtered_races.push(race)
+          end
+        end
       end
     end
     return filtered_races
   end
 
-  def lowerPurseFilter(races, purse)
+  def lowerClaimingFilter(races, purse)
     filtered_races = []
 
     races.each do |race|
-      if race.purse >= purse.to_i
-        filtered_races.push(race)
+      race.claiming_prices.each do |claiming|
+        if claiming.price >= purse.to_i
+          filtered_races.push(race)
+          break
+        end
       end
     end
     return filtered_races
   end
 
-  def upperPurseFilter(races, purse)
+  def upperClaimingFilter(races, purse)
     filtered_races = []
 
     races.each do |race|
-      if race.purse <= purse.to_i
-        filtered_races.push(race)
+      race.claiming_prices.each do |claiming|
+        if claiming.price <= purse.to_i
+          filtered_races.push(race)
+          break
+        end
       end
     end
     return filtered_races

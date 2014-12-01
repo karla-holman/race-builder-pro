@@ -1,0 +1,23 @@
+<h1>Listing claiming_prices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @claiming_prices.each do |claiming_price| %>
+      <tr>
+        <td><%= link_to 'Show', claiming_price %></td>
+        <td><%= link_to 'Edit', edit_claiming_price_path(claiming_price) %></td>
+        <td><%= link_to 'Destroy', claiming_price, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Claiming price', new_claiming_price_path %>

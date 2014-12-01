@@ -13,6 +13,8 @@ class Race < ActiveRecord::Base
 
 	has_one :race_date
 
+	has_many :claiming_prices
+
 	def self.search(query)
   		where("lower(name) like ?", "%#{query}%".downcase)
 	end

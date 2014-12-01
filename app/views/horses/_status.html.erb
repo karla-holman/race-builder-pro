@@ -11,7 +11,11 @@
   <% end %>
   <div class="form-group">
     <div class="form-group attribute">
-      <%= f.collection_select :status_id, @statuses, :id, :name, {}, class: 'form-control'%>
+      <% if current_user.admin? %>
+        <%= f.collection_select :status_id, @statuses, :id, :name, {}, class: 'form-control'%>
+      <% else %>
+        <%= f.collection_select :status_id, @statuses, :id, :name, {}, class: 'form-control', :disabled => true%>
+      <% end %>
     </div>
   </div>
 <% end %>

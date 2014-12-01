@@ -12,28 +12,32 @@
 	      <td><%= race.distance %> <%= race.distance_type %></td>
 	    <% end %>
 		<td><%= race.horseraces.where(:status => "Interested").count %></td>
-		<% if @horserace.status == "Confirmed" %>
-			<td>
-              Confirmed: 
-              <%= form_for(@horserace) do |f| %>
-                <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-              <% end %>
-            </td>
-        <% elsif @confirmed %>
-	        <td>
-	            <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
-	            <%= check_box("horserace", "status", {}, "Interested", "") %> /
-	            <% end %>
-	            <input class="confirm_alert"type="checkbox" name="confirm" value="0"  />
-	        </td>
-		<% else %>
-			<td ><%= form_for(@horserace) do |f| %>
-				<%= check_box("horserace", "status", {}, "Interested", "") %> /
+		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' %>
+         	<td><%= @horse.status.name %></td>
+        <% else %>
+			<% if @horserace.status == "Confirmed" %>
+				<td>
+	              Confirmed: 
+	              <%= form_for(@horserace) do |f| %>
+	                <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+	              <% end %>
+	            </td>
+	        <% elsif @confirmed %>
+		        <td>
+		            <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
+		            <%= check_box("horserace", "status", {}, "Interested", "") %> /
+		            <% end %>
+		            <input class="confirm_alert"type="checkbox" name="confirm" value="0"  />
+		        </td>
+			<% else %>
+				<td ><%= form_for(@horserace) do |f| %>
+					<%= check_box("horserace", "status", {}, "Interested", "") %> /
+				<% end %>
+				<%= form_for(@horserace) do |f| %>
+					<%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+				<% end %>
+				</td>
 			<% end %>
-			<%= form_for(@horserace) do |f| %>
-				<%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-			<% end %>
-			</td>
 		<% end %>
 		<td style="display: none;">
 	    <% if race.conditions.any? %>
