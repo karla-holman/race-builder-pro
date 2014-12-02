@@ -112,8 +112,9 @@ $('#racelist-table').dataTable({
         attemptUpdate(form);
         return false;
       });
+
       $(".confirm_alert").change(function(){
-        alert('You are already confirmed for another race. Unconfirm from other race to confirm for this one.')
+        $('#already_confirmed').modal('show');
         $(this).removeAttr('checked');
       });
     }
