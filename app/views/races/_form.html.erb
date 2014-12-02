@@ -78,16 +78,18 @@
             "Maiden Claiming "], @race.race_type) %>
         </div>
       </div>
-      <div id="claiming_prices" class="form-group row" 
-      <% if (@race.race_type != 'Claiming') && (@race.race_type != 'Allowance Optional Claiming') && (@race.race_type != 'Maiden Claiming')%> style="display:none" <% end %>>
-        <div class="col-xs-12">
-          <%= f.label 'Claiming Prices' %>
-        </div>
-        <div class="col-xs-6">
-          <input type="textbox" name="claiming_one" value="<%= @claiming_one.price%>"/>
-        </div>
-        <div class="col-xs-6">
-            <input type="textbox" name="claiming_two" value="<%= @claiming_two.price%>"/>
+      <div class="form-group row">
+        <div id="claiming_prices" 
+        <% if (@race.race_type != 'Claiming') && (@race.race_type != 'Allowance Optional Claiming') && (@race.race_type != 'Maiden Claiming')%> style="display:none" <% end %>>
+          <div class="col-xs-12">
+            <%= f.label 'Claiming Prices' %><p>(Enter claiming price in one or both of the boxes below)</p>
+          </div>
+          <div class="col-xs-6">
+            <input type="textbox" name="claiming_one" class="form-control" value="<%= @claiming_one.price%>"/>
+          </div>
+          <div class="col-xs-6">
+              <input type="textbox" name="claiming_two" class="form-control" value="<%= @claiming_two.price%>"/>
+          </div>
         </div>
       </div>
     </div>
@@ -107,7 +109,7 @@
           <% end %>
       </div>
     </div>
-      <div class="form-group">
+      <div class="form-group col-xs-12">
       <%= f.submit 'Save', :class => 'btn btn-success btn-sm'%>
       <%= f.submit 'Save and Duplicate', :class => 'btn btn-primary btn-sm'%>
       <%= link_to 'Back', races_path, :class => 'btn btn-danger btn-sm' %>

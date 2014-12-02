@@ -92,7 +92,7 @@
 	<% end %>
 	<% @tels.each do |tel| %>
 	  <div class="col-xs-12">
-	  	<h4>Entry List <%= tel.date.strftime('%b %d, %Y') %></h4>
+	  	<h4>TEL <%= tel.date.strftime('%b %d, %Y') %></h4>
 	  	<h4>Number of Races: <%= tel.num_races %></h4>
 	    <div class="grid simple">
 	      <div class="grid-body no-border">
@@ -116,6 +116,7 @@
 	                  	<tr>
 							<td><%= race.race_type %></td>
 							<td><%= race.name %></td>
+							<td>
 							<% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
                                 <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
                                     <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
@@ -184,6 +185,11 @@
 							<thead>
 								<tr>
 									<th>Name</th>
+									<% if current_user.admin? %>
+								    	<th>Trainer</th>
+								    <% else %>
+								    	<th>Owner</th>
+								    <% end %>
 									<th style="display:none;">Equipment / Medication</th>
 									<th style="display:none;">Races</th>
 									<th colspan="1"></th>
@@ -195,6 +201,11 @@
 									<td>
 										<%= horse.name %>
 									</td>
+									<% if current_user.admin? %>
+						                <td><%= horse.trainer.name %></td>
+						            <% else %>
+						                <td><%= horse.owner.name %></td>
+						            <% end %>
 									<td style="display:none;">
 										<% if horse.equipment.any? %>
 							                <% horse.equipment.each do |equipment| %>

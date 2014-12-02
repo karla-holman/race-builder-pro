@@ -32,8 +32,8 @@ class WeeksController < ApplicationController
 
   def update
     respond_to do |format|
-      if @week.update(tel_params)
-        format.html { redirect_to @tel, notice: 'Week was successfully updated.' }
+      if @week.update(week_params)
+        format.html { redirect_to @week, notice: 'Week was successfully updated.' }
         format.json { render :show, status: :ok, location: @week }
       else
         format.html { render :edit }

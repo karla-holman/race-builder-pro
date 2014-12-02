@@ -49,7 +49,7 @@
             </div>
             <div class="col-xs-1">
                 <% if @wins %>
-                <p>Wins</p>
+                <p>Conditions</p>
                  <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
                 <% else %>
                 <p>Wins</p>
@@ -102,7 +102,7 @@
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Claiming</th>
+                                    <th>Claiming Price</th>
                                     <th>Distance</th>
                                     <th># Interested</th>
                                     <th># Confirmed</th>
@@ -118,6 +118,7 @@
                                         <tr class="top">
                                             <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
                                             <td><%= race.name %></td>
+                                            <td>
                                             <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
                                                 <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
                                                     <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>

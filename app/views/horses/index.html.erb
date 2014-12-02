@@ -17,7 +17,11 @@
               <th>Age</th>
               <th>Sex</th>
               <th>Wins</th>
-              <th>Trainer</th>
+              <% if current_user.admin? %>
+                <th>Trainer</th>
+              <% else %>
+                <th>Owner</th>
+              <% end %>
               <th>Status</th>
               <th style="display:none;">Owner</th>
               <th style="display:none;">Equipment/Medication</th>
@@ -40,7 +44,11 @@
               </td>
               <td><%= horse.sex %></td>
               <td><%= horse.wins %></td>
-              <td ><%= horse.trainer.name %></td>
+              <% if current_user.admin? %>
+                <td><%= horse.trainer.name %></td>
+              <% else %>
+                <td><%= horse.owner.name %></td>
+              <% end %>
               <td><span class="label"><%= horse.status.name %></span></td>
               <td style="display:none;"><%= horse.owner.name %></td>
               <td style="display:none;">

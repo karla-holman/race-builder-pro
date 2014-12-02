@@ -84,7 +84,7 @@ class TelsController < ApplicationController
 
   def remove_race
     @race = Race.find(tel_params[:race_id])
-    @race.day_id = ''
+    @race.tel_id = ''
     @race.save
   end
 
