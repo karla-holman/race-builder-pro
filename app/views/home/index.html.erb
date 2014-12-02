@@ -34,7 +34,7 @@
 							<td><%= race.name %></td>
 							<td>
                             <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
-                                <% if race.claiming_prices[1] %>
+                                <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
                                     <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
                                         <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
                                     <% else %>
@@ -43,7 +43,7 @@
                                 <% else %>
                                     <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
                                 <% end %>
-                            <% elsif race.claiming_prices[1] %>
+                            <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
                                 <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
                             <% end %>
                             </td>
@@ -116,9 +116,8 @@
 	                  	<tr>
 							<td><%= race.race_type %></td>
 							<td><%= race.name %></td>
-							<td>
-                            <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
-                                <% if race.claiming_prices[1] %>
+							<% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
+                                <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
                                     <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
                                         <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
                                     <% else %>
@@ -127,7 +126,7 @@
                                 <% else %>
                                     <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
                                 <% end %>
-                            <% elsif race.claiming_prices[1] %>
+                            <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
                                 <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
                             <% end %>
                             </td>
@@ -260,7 +259,7 @@
 									</td>
 									<td>
                                     <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
-                                        <% if race.claiming_prices[1] %>
+                                        <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
                                             <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
                                                 <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
                                             <% else %>
@@ -269,7 +268,7 @@
                                         <% else %>
                                             <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
                                         <% end %>
-                                    <% elsif race.claiming_prices[1] %>
+                                    <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
                                         <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
                                     <% end %>
                                     </td>
