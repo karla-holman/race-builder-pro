@@ -122,11 +122,20 @@ $('#racelist-table').dataTable({
         var horse_id = $(this).attr("horse");
         var race_id = $(this).attr("race");
         $.ajax({url: "/notifications", type: "POST", data: {notification: { send_id: race_id, recv_id: horse_id, action: "Nominate"}}}).done(function(data){
-              location.reload(true);
         });
+        $.ajax({
+          url : 'menu/raceList',
+           method: "GET",
+           data: {upper_claiming: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+           age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+           sex_id: $(".page-info").attr("sex"), distance: $(".page-info").attr("distance"),
+           lower_claiming: $(".page-info").attr("lower-claiming"),
+           distance: $(".page-info").attr("distance"), 
+           noWinsSince_id: $(".page-info").attr("noWinsSince")},
+            success: function(response) {
+            }
+        })
       });
-
-
       $(".confirm_alert").change(function(){
         $('#already_confirmed').modal('show');
         $(this).removeAttr('checked');
