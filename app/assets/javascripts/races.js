@@ -89,7 +89,7 @@ $(document).ready(function() {
 
 	$("#race_race_type").change(function(){
 		if (($(this).val() == 'Claiming') || ($(this).val() == 'Allowance Optional Claiming')
-		|| ($(this).val() == 'Maiden Claiming')){
+		|| ($(this).val() == 'Maiden Claiming') || ($(this).val() == 'Maiden Optional Claiming')){
 			$("#claiming_prices").show();
 		}
 		else{

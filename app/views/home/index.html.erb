@@ -24,7 +24,6 @@
 						<td>Interested</td>
 						<td>Confirmed</td>
 						<td>Priority</td>
-						<td>Field Size</td>
 						<th colspan="1"></th>
 	                </tr>
 	              </thead>
@@ -80,7 +79,6 @@
 									<span class="label badge-danger">No</span>
 								<% end %>
 							</td>
-							<td><%= race.field_size %></td>
 							<% if current_user.admin? %>
 								<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
 							<% end %>
@@ -112,19 +110,12 @@
 						<td>Interested</td>
 						<td>Confirmed</td>
 						<td>Priority</td>
-						<td>Field Size</td>
 						<th colspan="1"></th>
 	                </tr>
 	              </thead>
 	              <tbody>
-	              	<% @number_of_races = 0 %>
 	                <% tel.races.each do |race| %>
-	                	<% @number_of_races = @number_of_races +1 %>
-	                	<% if @number_of_races > tel.num_races %>
-	                  		<tr style="border-top: 2px solid black;">
-	                  	<% else %>
-	                  		<tr>
-	                  	<% end %>
+	                  	<tr>
 							<td><%= race.race_type %></td>
 							<td><%= race.name %></td>
 							<td>
@@ -174,7 +165,6 @@
 									<span class="label badge-danger">No</span>
 								<% end %>
 							</td>
-							<td><%= race.field_size %></td>
 							<% if current_user.admin? %>
 								<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
 							<% end %>

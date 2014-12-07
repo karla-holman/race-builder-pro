@@ -126,7 +126,7 @@
                                     <% @races.each do |race| %>
                                         <tr class="top">
                                             <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
-                                            <td><%= race.name %><%= @horserace.status %></td>
+                                            <td><%= race.name %></td>
                                             <td>
                                             <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
                                                 <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
