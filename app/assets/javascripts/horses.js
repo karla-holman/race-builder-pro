@@ -23,6 +23,16 @@ $(document).ready(function() {
 	    url = "/horses/subregion_options?parent_region=" + country_code
 	    select_wrapper.load(url)
 	});
+
+	$("#trainer_owner").change(function(){
+		if ($(this).is(":checked")){
+			$("#owner_select").hide();
+		}
+		else{
+			$("#owner_select").show();
+		}
+	});
+
 	function attemptUpdate(f){
 	  $.ajax({
 	    type: "POST",

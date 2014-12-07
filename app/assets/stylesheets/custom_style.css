@@ -50,14 +50,8 @@
 	
 }
 
-#day-table {
-	min-height: 200px;	
+#tel-table {
 	border: 1px solid #e8edf1;
-}
-
-#day-table tr,
-#day-table td {
-	max-height: 50px !important;
 }
 
 form.edit_horserace {

@@ -35,7 +35,7 @@ class RacesController < ApplicationController
     end
     @categories.uniq
     
-    if @race.category == 'Priority' && @race.stakes
+    if @race.category == 'Priority' && @race.stakes && @race.needs_nomination
       possible_horses = Horse.all
       if !@confirmed.empty?
         possible_horses = possible_horses.where("id not IN (?)", confirmed_ids)
@@ -66,7 +66,7 @@ class RacesController < ApplicationController
       end
     end
 
-    if @race.category == 'Priority' && @race.stakes
+    if @race.category == 'Priority' && @race.stakes && @race.needs_nomination
       @race_groups = [["Confirmed", @confirmed], ["Pending", @pending], ["Denied", @denied], ["Eligible", @eligible]]
     else
       @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
@@ -386,6 +386,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :purse, :race_type, :stakes, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :purse, :race_type, :stakes, :needs_nomination, :condition_ids => [])
     end
 end

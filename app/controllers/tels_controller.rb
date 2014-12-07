@@ -94,6 +94,6 @@ class TelsController < ApplicationController
     end
 
     def tel_params
-      params.require(:tel).permit(:week_id, :num_races, :date, :race_id, :tel_id, :published, :entry_list)
+      params.require(:tel).permit(:week_id, :num_races, :date, :race_id, :tel_id, :published, :entry_list, :entry_date)
     end
 end

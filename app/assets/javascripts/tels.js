@@ -8,8 +8,15 @@ $(document).ready(function() {
     helper: "clone",
     zIndex: 100,
     start: function(event, ui) {
+       $("#tel-table").css("background-color", "#B1FAC5");
       c.tr = this;
       c.helper = ui.helper;
+    }
+  });
+
+  $(".page-container").droppable({
+    drop: function(event, ui) {
+       $("#tel-table").css("background-color", "");
     }
   });
 
@@ -34,12 +41,13 @@ $(document).ready(function() {
             $(c.helper).remove();
           },
           Cancel: function() {
-            $(this).dialog("close");
+            $(this).dialog("close");          
           }
         }
       }); 
     }
   });
+
 
   $('.remove_from_day').on('click', function (e) {
     var race_id = $(this).attr("race");

@@ -41,13 +41,16 @@
       <%= f.label 'Birth Year' %>
       <%= f.select :birth_year, options_for_select(2012.downto(2000)) %>
     </div>
-     <div class="form-group">
+     <div id="owner_select" class="form-group" <% if @ownerIsTrainer %> style="display:none;" <%end %>>
       <%= f.label 'Owner' %>
-      <%= f.collection_select :owner_id, @owners, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+        <%= f.collection_select :owner_id, @owners, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
     </div>
     <div class="form-group">
       <%= f.label :trainer_id %>
       <%= f.collection_select :trainer_id, @trainers, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
+      <br>
+      <p>Is the trainer also the owner?<p>
+      <input id="trainer_owner" type="checkbox" name="trainer_owner" <% if @ownerIsTrainer %>checked <% end %>/>
     </div>
     <div class="form-group">
       <%= f.submit :class => 'btn btn-success btn-sm'%>

@@ -55,7 +55,7 @@ races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,4
 		['f OC 50k/C', 'fillies and mares, 3 year olds and upwards, $30,000 once since april 12, 2014 Or which have never won three races or claiming price $50,000, non-winners of a race since June 15 allowed 3lbs, purse $21,000, claiming price $50,000', 'Published', "Priority",'Furlongs', 6.5, 21000],
 		['Md 5000', 'maidens, 3 year olds and upwards, purse $5,500, claiming price $5,000', 'Published', "Priority",'Furlongs', 6.5, 5500, 12]]
 
-#Horses: [Name, Breed, Country, Region, Sex, Birth Year, Starts, Wins, Last Win, Owner Email, Trainer Email, Week Running]
+#Horses: [Name, Breed, Country, Region, Sex, Birth Year, Starts, Wins, Last Win, Owner Email, Trainer Email]
 horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 12, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['BH Country Chrome', 'Quarter Horse', 'US', 'WA', 'C', 2011, 10, 5, '2014-6-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
 		['Eyes Movin', 'Quarter Horse', 'US', 'WA', 'G', 2007, 16, 12, '2014-7-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],

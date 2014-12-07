@@ -27,9 +27,11 @@ class NotificationsController < ApplicationController
     if @notification.action == "Add"
       HorseEquipment.find_or_create_by!(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id)
     elsif @notification.action == "Nominate"
-      horserace = Horserace.new
-      horserace.horse_id = @notification.recv_id
-      horserace.race_id = @notification.send_id
+      @new_notification = @notification.dup
+      @new_notification.action = "Confirm Nomination"
+      @new_notification.save
+    elsif @notification.action == "Confirm Nomination"   
+      horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
       horserace.status = 'Confirmed'
       horserace.save
     else
@@ -39,7 +41,7 @@ class NotificationsController < ApplicationController
     @notification.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Approval was successful' }
+      format.html { redirect_to :back, notice: 'Approval was successful' }
     end
   end
 
@@ -80,9 +82,7 @@ class NotificationsController < ApplicationController
     elsif @notification.action == "Remove"
       HorseEquipment.find_or_create_by!(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id)
     elsif @notification.action == "Nominate"
-      horserace = Horserace.new
-      horserace.horse_id = @notification.recv_id
-      horserace.race_id = @notification.send_id
+      horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
       horserace.status = 'Denied'
       horserace.save
     else
@@ -91,7 +91,7 @@ class NotificationsController < ApplicationController
     @notification.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_path, notice: 'Notification was successful' }
+      format.html { redirect_to :back, notice: 'Notification was successful' }
     end
   end
 

@@ -43,6 +43,12 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+          <div class="nomination_option" <% if !@race.stakes %> style="display:none" <% end %>>
+            <%= f.label 'Needs Nomination' %>
+            <%= f.check_box :needs_nomination %>
+          </div>
+        </div>
     </div>
     <div class="col-xs-12 col-md-6">
       <div class="form-group row">

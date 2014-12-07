@@ -9,12 +9,12 @@
 	<% @entry_lists.each do |el| %>
 	  <div class="col-xs-12">
 	  	<h4>Entry List <%= el.date.strftime('%b %d, %Y') %></h4>
-	  	<h4>Number of Races: <%= el.num_races %></h4>
+	  	<h4>Number of Races to Run: <%= el.num_races %></h4>
 	    <div class="grid simple">
 	      <div class="grid-body no-border">
 	        <div class="row">
 	          <div class="col-xs-12">
-	            <table class="genericTable table table-condensed table-hover">
+	            <table class="telTable table table-condensed table-hover">
 	              <thead>
 	                <tr>
 	                  	<td>Type</td>
@@ -24,6 +24,7 @@
 						<td>Interested</td>
 						<td>Confirmed</td>
 						<td>Priority</td>
+						<td>Field Size</td>
 						<th colspan="1"></th>
 	                </tr>
 	              </thead>
@@ -79,7 +80,10 @@
 									<span class="label badge-danger">No</span>
 								<% end %>
 							</td>
-							<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+							<td><%= race.field_size %></td>
+							<% if current_user.admin? %>
+								<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+							<% end %>
 						</tr>
 	                <% end %>
 	              </tbody>
@@ -98,22 +102,29 @@
 	      <div class="grid-body no-border">
 	        <div class="row">
 	          <div class="col-xs-12">
-	            <table class="genericTable table table-condensed table-hover">
+	            <table class="telTable table table-condensed table-hover">
 	              <thead>
 	                <tr>
 	                  	<td>Type</td>
 						<td>Name</td>
 						<td>Claiming</td>
-						<td>Distance
+						<td>Distance</td>
 						<td>Interested</td>
 						<td>Confirmed</td>
 						<td>Priority</td>
+						<td>Field Size</td>
 						<th colspan="1"></th>
 	                </tr>
 	              </thead>
 	              <tbody>
+	              	<% @number_of_races = 0 %>
 	                <% tel.races.each do |race| %>
-	                  	<tr>
+	                	<% @number_of_races = @number_of_races +1 %>
+	                	<% if @number_of_races > tel.num_races %>
+	                  		<tr style="border-top: 2px solid black;">
+	                  	<% else %>
+	                  		<tr>
+	                  	<% end %>
 							<td><%= race.race_type %></td>
 							<td><%= race.name %></td>
 							<td>
@@ -163,7 +174,10 @@
 									<span class="label badge-danger">No</span>
 								<% end %>
 							</td>
-							<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+							<td><%= race.field_size %></td>
+							<% if current_user.admin? %>
+								<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+							<% end %>
 						</tr>
 	                <% end %>
 	              </tbody>
@@ -258,7 +272,7 @@
 				                  	<th style="display: none;">Date</th>
 									<th style="display:none;">Race Conditions</th>
 									<th style="display:none;">Interested</th>
-									<th style="display:none;">Committed</th>
+									<th style="display:none;">Cofirmed</th>
 									<th>Priority</th>
 								</tr>
 							</thead>
@@ -314,7 +328,7 @@
 									<td style="display: none;"><%= race.category %></td>
 						            <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
 						            <td style="display: none;">
-						              <% if race.category == 'Priority' && race.race_date %>
+						              <% if race.category == 'Priority' && race.race_date && race.race_date.date%>
 						                <%= race.race_date.date.strftime('%b %d, %Y') %>
 						              <% else %>
 						                N/A
@@ -396,8 +410,8 @@ function fnFormatDetailsSecond ( sTable, nTr )
 {
 	var aData = sTable.fnGetData( nTr );
 	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-	sOut += '<tr><td>Equipment / Medication:</td><td>'+aData[2]+'</td></tr>';
-	sOut += '<tr><td>Races:</td><td>'+aData[3]+'</td></tr>';
+	sOut += '<tr><td>Equipment / Medication:</td><td>'+aData[3]+'</td></tr>';
+	sOut += '<tr><td>Races:</td><td>'+aData[4]+'</td></tr>';
 	sOut += '</table>';
 
 	return sOut;

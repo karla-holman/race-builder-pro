@@ -1,6 +1,7 @@
 <% @races.each do |race| %>
 	<tr >
-		<% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
+		<% @horserace = Horserace.where(:race_id => race.id, :horse_id => @horse.id).first %>
+		<%= @horserace.status %>
 		<td><%= race.name %></td>
 		<% if race.distance <= 1 %>
 	      <% if race.distance_type == 'Furlongs' %>
@@ -11,11 +12,29 @@
 	    <% else %>
 	      <td><%= race.distance %> <%= race.distance_type %></td>
 	    <% end %>
-		<td><%= race.horseraces.where(:status => "Interested").count %></td>
+		<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
 		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' %>
          	<td><%= @horse.status.name %></td>
         <% else %>
-			<% if @horserace.status == "Confirmed" %>
+        	<% if race.stakes && race.needs_nomination %>
+	            <td>
+	            <% if @horserace.status == "Confirmed" %>
+	                Confirmed: 
+	              <%= form_for(@horserace) do |f| %>
+	                <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+	              <% end %>
+	            <% elsif @horserace.status == "Denied" %>
+	                Denied
+	            <% elsif Notification.where(:action => "Confirm Nomination", :recv_id => @horse.id, :send_id => race.id).any? %>
+	                Waiting Confirmation
+	            <% elsif Notification.where(:action => "Nominate", :recv_id => @horse.id, :send_id => race.id).any? %>
+	                Nomination Sent 
+	            <% else %>
+	                <button class="nominate_horse" horse="<%=@horse.id%>" race="<%= race.id %>">
+	                Nominate</button>
+	            <% end %>
+	            </td>
+			<% elsif @horserace.status == "Confirmed" %>
 				<td>
 	              Confirmed: 
 	              <%= form_for(@horserace) do |f| %>

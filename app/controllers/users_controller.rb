@@ -40,12 +40,36 @@ class UsersController < ApplicationController
 
   def create
     if current_user.admin?
-      @newuser = User.new(:email => secure_params[:email], :password => secure_params[:password], :name => secure_params[:name], :phone => secure_params[:phone], :role => secure_params[:role])
-      if @newuser.save
-        flash[:notice] = "Successfully created User." 
-        redirect_to users_path
+      if secure_params[:password] != secure_params[:password_confirmation]
+        respond_to do |format|
+          @newuser = User.new
+          @newuser.email = secure_params[:email]
+          @newuser.name = secure_params[:name]
+          @newuser.phone = secure_params[:phone]
+          @newuser.role = secure_params[:role]
+          @newuser.errors.add(:password_confirmation, "does not match")
+          format.html { render action: 'new', notice: "does not match"}
+        end
+      elsif secure_params[:password].empty?
+        respond_to do |format|
+          @newuser = User.new
+          @newuser.email = secure_params[:email]
+          @newuser.name = secure_params[:name]
+          @newuser.phone = secure_params[:phone]
+          @newuser.role = secure_params[:role]
+          @newuser.errors.add(:password, "blank password")
+          format.html { render action: 'new', notice: "blank password"}  
+        end
       else
-        render :action => 'new'
+        @newuser = User.new(secure_params)
+        if @newuser.save
+          flash[:notice] = "Successfully created User." 
+          redirect_to users_path
+        else
+          respond_to do |format|
+          format.html { render action: 'new', notice: "blank password"}  
+        end
+        end
       end
     else
       redirect_to root_path, :alert => "Access denied."

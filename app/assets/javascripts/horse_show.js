@@ -27,9 +27,9 @@ $(document).ready(function() {
     var oTable = $('#racestatus-table').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bSortClasses": false,
-       "aaSorting": [],
+       "aaSorting": [[ 4, "desc" ], [ 3, "desc" ]],
                 "oLanguage": {
-            "sLengthMenu": "_MENU_ ",
+            "sLengthMenu": "Show  _MENU_  entries",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },
         "fnDrawCallback": function( oSettings ) {

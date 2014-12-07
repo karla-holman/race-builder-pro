@@ -78,6 +78,15 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#race_stakes").change(function(){
+		if ($(this).is(":checked")){
+			$(".nomination_option").show();
+		}
+		else{
+			$(".nomination_option").hide();
+		}
+	});
+
 	$("#race_race_type").change(function(){
 		if (($(this).val() == 'Claiming') || ($(this).val() == 'Allowance Optional Claiming')
 		|| ($(this).val() == 'Maiden Claiming')){

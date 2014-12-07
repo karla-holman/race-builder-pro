@@ -55,7 +55,7 @@
                     <td style="display: none;"><%= race.category %></td>
                     <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
                     <td style="display: none;">
-                      <% if race.category == 'Priority' && race.race_date %>
+                      <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
                         <%= race.race_date.date.strftime('%b %d, %Y') %>
                       <% else %>
                         N/A

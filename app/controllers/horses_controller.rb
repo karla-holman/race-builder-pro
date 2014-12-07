@@ -88,6 +88,11 @@ class HorsesController < ApplicationController
     @last_win = @horse.last_win
     @owners = User.where(:role => '0')
     @trainers = User.where(:role => '1')
+
+    if (@horse.owner == @horse.trainer)
+      @ownerIsTrainer = true
+    end
+
     @sexes = { "Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
   end
 
@@ -107,6 +112,11 @@ class HorsesController < ApplicationController
       end
     else
       @horse = Horse.new(horse_params)
+
+      if params[:trainer_owner]
+        @horse.owner = @horse.trainer
+      end
+
       if !horse_params[:subregion_code]
         @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
       end
@@ -186,6 +196,10 @@ class HorsesController < ApplicationController
     respond_to do |format|
       if !horse_params[:equipment_ids]
         if @horse.update(horse_params)
+          if params[:trainer_owner]
+            @horse.owner = @horse.trainer
+          end
+          @horse.save
           @horse.create_activity :update, owner: current_user
           format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
           format.json { render action: 'index', status: :ok, location: @horse }

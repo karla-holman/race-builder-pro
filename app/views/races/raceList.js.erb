@@ -105,13 +105,27 @@ $("#Upper_Claiming").change(function(){
 
 
 $('#racelist-table').dataTable({
-    sPaginationType: "full_numbers",
+    "bSortClasses": false,
+     "aaSorting": [[ 4, "desc" ], [ 3, "desc" ]],
+              "oLanguage": {
+          "sLengthMenu": "Show  _MENU_  entries",
+          "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+      },
     "fnDrawCallback": function( oSettings ) {
       $(".edit_horserace").change(function(){
         form = $(this).closest("form");
         attemptUpdate(form);
         return false;
       });
+
+      $(".nominate_horse").on('click', function (e) {
+        var horse_id = $(this).attr("horse");
+        var race_id = $(this).attr("race");
+        $.ajax({url: "/notifications", type: "POST", data: {notification: { send_id: race_id, recv_id: horse_id, action: "Nominate"}}}).done(function(data){
+              location.reload(true);
+        });
+      });
+
 
       $(".confirm_alert").change(function(){
         $('#already_confirmed').modal('show');
@@ -133,7 +147,13 @@ function attemptUpdate(f){
     	$.ajax({
 		     url : 'menu/raceList',
 		     method: "GET",
-		     data: "horse_id=" + $(".page-info").attr("horse"),
+		     data: {upper_claiming: $(".page-info").attr("upper-claiming"), horse_id: $(".page-info").attr("horse"), 
+         age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
+         sex_id: $(".page-info").attr("sex"), distance: $(".page-info").attr("distance"),
+         lower_claiming: $(".page-info").attr("lower-claiming"),
+         upper_claiming: $(".page-info").attr("upper-claiming"),
+         distance: $(".page-info").attr("distance"), 
+         noWinsSince_id: $(".page-info").attr("noWinsSince")},
 		     success: function(response) {
 		     }
 			})

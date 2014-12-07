@@ -19,7 +19,7 @@
 					<div class="col-md-9">
 						<div class="center">
 							<h1><%= @race.name %></h1>
-							<% if @race.category == 'Priority' && @race.race_date %>
+							<% if @race.category == 'Priority' && @race.race_date && @race.race_date.date %>
 								<h2><%= @race.race_date.date.strftime('%b %d, %Y') %></h2>
 							<% end %>
 							<% if @race.status == "Draft"%>
