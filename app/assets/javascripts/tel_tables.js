@@ -20,6 +20,15 @@ $(document).ready(function() {
             "sLengthMenu": "Show  _MENU_  entries",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },
+        "fnInitComplete": function(oSettings, json) {
+          $('.targetTels').each(function() {
+            var num_races = this.getAttribute("num-races");
+            num_races++;
+            var rows = this.getElementsByTagName('tr');
+
+            rows[num_races].setAttribute("style", "border-top: 2px solid black;");
+          });
+        },
     });
 
     $('.genericTable_wrapper .dataTables_filter input').addClass("input-medium ");
