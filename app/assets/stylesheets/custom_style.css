@@ -55,6 +55,7 @@
 }
 
 form.edit_horserace {
+  text-align: center;
 	position: relative;
 	max-height: 25px;
 }
