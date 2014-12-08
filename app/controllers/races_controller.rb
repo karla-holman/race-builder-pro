@@ -237,6 +237,21 @@ class RacesController < ApplicationController
           new_race = @race.dup
           new_race.conditions = @race.conditions
           new_race.save
+          if(params[:claiming_one])
+            @claiming_one = ClaimingPrice.new
+            @claiming_one.race_id = new_race.id
+            @claiming_one.price = params[:claiming_one]
+            @claiming_one.save
+            new_race.claiming_prices[0] = @claiming_one
+          end
+          if (params[:claiming_two])
+            @claiming_two = ClaimingPrice.new
+            @claiming_two.race_id = new_race.id
+            @claiming_two.price = params[:claiming_two]
+            @claiming_two.save
+            new_race.claiming_prices[1] = @claiming_two
+          end
+          new_race.save
           @race.create_activity :create, owner: current_user
           format.html { redirect_to edit_race_path(@race) }
         else
@@ -313,6 +328,22 @@ class RacesController < ApplicationController
           if(params[:commit] == 'Save and Duplicate')
             new_race = @race.dup
             new_race.conditions = @race.conditions
+            new_race.claiming_prices = @race.claiming_prices
+            new_race.save
+            if(params[:claiming_one])
+              @claiming_one = ClaimingPrice.new
+              @claiming_one.race_id = new_race.id
+              @claiming_one.price = params[:claiming_one]
+              @claiming_one.save
+              new_race.claiming_prices[0] = @claiming_one
+            end
+            if (params[:claiming_two])
+              @claiming_two = ClaimingPrice.new
+              @claiming_two.race_id = new_race.id
+              @claiming_two.price = params[:claiming_two]
+              @claiming_two.save
+              new_race.claiming_prices[1] = @claiming_two
+            end
             new_race.save
             @race.create_activity :update, owner: current_user
             format.html { redirect_to :back }
