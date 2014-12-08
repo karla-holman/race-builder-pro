@@ -210,14 +210,15 @@
                                                       <% end %>
                                                     </td>
                                                 <% elsif @confirmed %>
+                                                    <% @confirmed_id = @horserace.id.to_s + '_confirmed' %>
                                                     <td style="text-align: center;">
                                                         <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
                                                             <%= check_box("horserace", "status", {:id => @horserace.id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
                                                             <%= label_tag(@horserace.id, "", :data => {:on => 'Yes', :off => 'No'}) %>
                                                         <% end %>
                                                         <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
-                                                            <input id="no_confirm" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0"  />
-                                                            <label for="no_confirm" data-on="Yes" data-off="No"></label>
+                                                            <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0"  />
+                                                            <label for="<%=@confirmed_id%>" data-on="Yes" data-off="No"></label>
                                                         <% end %>
                                                     </td>
                                                 <% else %>

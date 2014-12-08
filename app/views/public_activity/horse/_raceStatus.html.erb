@@ -1,4 +1,4 @@
-<% @race = Race.find(activity.parameters[:race_id]) %>
+<% @race = Race.find_by_id(activity.parameters[:race_id]) %>
 <% if activity.trackable %>
 	Changed <%= link_to activity.trackable.name, activity.trackable %>'s status to
 	<%= activity.parameters[:status]%> for race

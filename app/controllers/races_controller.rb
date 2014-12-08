@@ -370,7 +370,7 @@ class RacesController < ApplicationController
   # DELETE /races/1
   # DELETE /races/1.json
   def destroy
-    @hrace.create_activity :destroy, parameters: {name: @race.name}, owner: current_user
+    @race.create_activity :destroy, parameters: {name: @race.name}, owner: current_user
     @race.destroy
     respond_to do |format|
       format.html { redirect_to races_url }

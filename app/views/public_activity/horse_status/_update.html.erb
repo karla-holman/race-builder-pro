@@ -1,5 +1,5 @@
-<% @horse = Horse.find(activity.trackable.horse_id) %>
-<% @status = Status.find(activity.trackable.status_id) %>
+<% @horse = Horse.find_by_id(activity.trackable.horse_id) %>
+<% @status = Status.find_by_id(activity.trackable.status_id) %>
 
 Updated horse
 <% if activity.trackable %>

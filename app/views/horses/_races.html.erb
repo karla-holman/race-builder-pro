@@ -35,28 +35,37 @@
 	            <% end %>
 	            </td>
 			<% elsif @horserace.status == "Confirmed" %>
-				<td>
-	              Confirmed: 
-	              <%= form_for(@horserace) do |f| %>
-	                <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-	              <% end %>
-	            </td>
-	        <% elsif @confirmed %>
-		        <td>
-		            <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
-		            <%= check_box("horserace", "status", {}, "Interested", "") %> /
-		            <% end %>
-		            <input class="confirm_alert"type="checkbox" name="confirm" value="0"  />
-		        </td>
-			<% else %>
-				<td ><%= form_for(@horserace) do |f| %>
-					<%= check_box("horserace", "status", {}, "Interested", "") %> /
-				<% end %>
-				<%= form_for(@horserace) do |f| %>
-					<%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-				<% end %>
-				</td>
-			<% end %>
+                <td>
+                  <%= form_for(@horserace) do |f| %>
+                    <%= check_box("horserace", "status", {:id => 'confirm_racestatus', :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
+                    <%= label_tag("confirm_racestatus", "", :data => {:on => 'Confirmed', :off => 'No'}) %>
+                  <% end %>
+                </td>
+            <% elsif @confirmed %>
+                <% @confirmed_id = @horserace.id.to_s + '_confirmed' %>
+                <td style="text-align: center;">
+                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace', style: 'width: 50px;'}) do |f| %>
+                        <%= check_box("horserace", "status", {:id => @horserace.id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
+                        <%= label_tag(@horserace.id, "", :data => {:on => 'Yes', :off => 'No'}) %>
+                    <% end %>
+                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace', style: 'width: 50px;'}) do |f| %>
+                        <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0"  />
+                        <label for="<%=@confirmed_id%>" data-on="Yes" data-off="No"></label>
+                    <% end %>
+                </td>
+            <% else %>
+                <% @interested_id = @horserace.id.to_s + '_interested'%>
+                <% @confirmed_id = @horserace.id.to_s + '_confirmed' %>
+                <td style="text-align: center;"><%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
+                    <%= check_box("horserace", "status", {:id => @interested_id ,:class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
+                    <%= label_tag(@interested_id, "", :data => {:on => 'Yes', :off => 'No'}) %>
+                <% end %>
+                <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
+                    <%= check_box("horserace", "status", {:id => @confirmed_id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
+                    <%= label_tag(@confirmed_id, "", :data => {:on => 'Yes', :off => 'No'}) %>
+                <% end %>
+                </td>
+            <% end %>
 		<% end %>
 		<td style="display: none;">
 	    <% if race.conditions.any? %>
