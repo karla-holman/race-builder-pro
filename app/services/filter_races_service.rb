@@ -95,7 +95,6 @@ class FilterRacesService
   	races.each do |race|
   		conditions = race.conditions.where(:category_id => category.id)
   		if conditions.empty?
-  			filtered_races.push(race)
   			next
   		end
 
@@ -115,7 +114,6 @@ class FilterRacesService
     races.each do |race|
       conditions = race.conditions.where(:category_id => category.id)
       if conditions.empty?
-        filtered_races.push(race)
         next
       end
 
@@ -156,9 +154,11 @@ class FilterRacesService
 
     races.each do |race|
       race.claiming_prices.each do |claiming|
-        if claiming.price >= purse.to_i
-          filtered_races.push(race)
-          break
+        if claiming.price
+          if claiming.price >= purse.to_i
+            filtered_races.push(race)
+            break
+          end
         end
       end
     end
@@ -170,9 +170,11 @@ class FilterRacesService
 
     races.each do |race|
       race.claiming_prices.each do |claiming|
-        if claiming.price <= purse.to_i
-          filtered_races.push(race)
-          break
+        if claiming.price
+          if claiming.price <= purse.to_i
+            filtered_races.push(race)
+            break
+          end
         end
       end
     end
