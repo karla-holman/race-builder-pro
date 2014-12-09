@@ -79,8 +79,10 @@
 									<span class="label badge-danger">No</span>
 								<% end %>
 							</td>
+							<td>
 							<% if current_user.admin? %>
-								<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+								<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
+							</td>
 							<% end %>
 						</tr>
 	                <% end %>
@@ -165,8 +167,9 @@
 									<span class="label badge-danger">No</span>
 								<% end %>
 							</td>
+							<td>
 							<% if current_user.admin? %>
-								<td><%= link_to 'View', race, :class => 'btn btn-success btn-mini' %></td>
+								<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
 							<% end %>
 						</tr>
 	                <% end %>

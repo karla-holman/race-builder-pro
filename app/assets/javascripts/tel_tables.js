@@ -15,7 +15,8 @@ $(document).ready(function() {
        "aoColumnDefs": [
           { "bSortable": false, "aTargets": [ 0, 1, 2, 3, 4, 5, 6, 7 ] }
         ],
-       "aaSorting": [[ 6, "desc" ], [ 5, "desc" ]],
+      "aoColumns": [null, null, null, null, {"sType": "natural"}, {"sType": "natural"}, null, null],
+       "aaSorting": [[5, "desc"],[ 4, "desc" ]],
                 "oLanguage": {
             "sLengthMenu": "Show  _MENU_  entries",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
