@@ -7,7 +7,7 @@
         win="<%= @wins.id %>" 
         <%end%>
         <% if @sex %>
-        sex="<%= @sex.id %>" 
+        sex="<%= @sex %>" 
         <%end%>
         <% if @lower_claiming %>
         lower-claiming="<%=@lower_claiming%>" 
@@ -43,10 +43,10 @@
                     <div class="col-xs-3 center">
                         <% if @sex %>
                         <p>Sex</p>
-                         <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:selected => @sex.id, :include_blank => 'All'}) %>
+                         <%= select_tag "Sex", options_for_select(['F/M', 'C/G'], @sex), :prompt => 'All' %>
                         <% else %>
                        <p>Sex</p>
-                        <%= collection_select(:menu, :sex_id, @sexList, :id, :name, {:prompt => 'All'}) %>
+                        <%= select_tag "Sex", options_for_select(['F/M', 'C/G']), :prompt => 'All'  %>
                         <% end %>
                     </div>
                     <div class="col-xs-3 center">

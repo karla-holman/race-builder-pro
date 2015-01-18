@@ -111,6 +111,15 @@ class FilterRacesService
     filtered_races = []
     category = Category.find_by_name("Sex")
 
+    if(condition == 'F/M')
+      sex_one = Condition.find_by_name("F")
+      sex_two = Condition.find_by_name("M") 
+    else
+      sex_one = Condition.find_by_name("C")
+      sex_two = Condition.find_by_name("G")
+    end
+
+
     races.each do |race|
       conditions = race.conditions.where(:category_id => category.id)
       if conditions.empty?
@@ -118,7 +127,7 @@ class FilterRacesService
       end
 
       conditions.each do |sexCondition|
-        if sexCondition == condition
+        if sexCondition == sex_one || sexCondition == sex_two
           filtered_races.push(race)
         end
       end
@@ -185,6 +194,26 @@ class FilterRacesService
     races = Race.where(:status => 'Published').to_a
 
     tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today).order('date DESC')
+    
+    if !tels
+      return races
+    end
+
+    tels.each do |tel|
+      tel.races.each do |race|
+        races.delete(race)
+      end
+    end
+
+    return races
+  end
+
+  def eligibleRacesForWeek(week_id)
+    races = Race.where(:status => 'Published').to_a
+
+    week = Week.find(week_id)
+
+    tels = week.tels
     
     if !tels
       return races

@@ -55,7 +55,7 @@ class TelsController < ApplicationController
 
     respond_to do |format|
       if @tel.save
-        format.html { redirect_to @week, notice: 'Day was successfully created.' }
+        format.html { redirect_to @week, notice: 'Tel was successfully created.' }
       end
     end
   end
@@ -63,8 +63,7 @@ class TelsController < ApplicationController
   def update
     respond_to do |format|
       if @tel.update(tel_params)
-        format.html { redirect_to @tel, notice: 'Meet was successfully updated.' }
-        format.json { render :show, status: :ok, location: @tel }
+        format.html { redirect_to :back, notice: 'Meet was successfully updated.' }
       else
         format.html { render :edit }
         format.json { render json: @tel.errors, status: :unprocessable_entity }

@@ -6,9 +6,9 @@
 		<h4>Choose Your Horse</h4>
 		<% if @horse %>
 		<div id='specificHorse' horse="<%=@horse.id%>"></div>
-		<%= collection_select(:menu, :horse_id, @horses, :id, :name, {:selected => @horse.id, :include_blank => 'None'}) %>
+		<%= collection_select(:menu, :horse_id, @horses.order('name ASC'), :id, :name, {:selected => @horse.id, :include_blank => 'None'}) %>
 		<% else %>
-		<%= collection_select(:menu, :horse_id, @horses,:id, :name, {:prompt => 'Please select a horse'}) %>
+		<%= collection_select(:menu, :horse_id, @horses.order('name ASC'),:id, :name, {:prompt => 'Please select a horse'}) %>
 		<% end %>
 	</div>
 	<div class="col-xs-12">

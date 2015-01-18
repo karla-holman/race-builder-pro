@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 
     @races = FilterRacesService.new.currentEligibleRaces()
 
-    @tels = Tel.where('entry_list = ? AND date >= ?', false, Date.today).order('date DESC')
+    @tels = Tel.where('entry_list = ? AND date >= ? AND published = ?', false, Date.today, true).order('date DESC')
     @entry_lists = Tel.where('entry_list = ? AND date >= ?', true, Date.today).order('date DESC')
 
     if current_user.trainer?

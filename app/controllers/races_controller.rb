@@ -135,8 +135,8 @@ class RacesController < ApplicationController
       @wins = Condition.find(params[:wins_id])
       @races = FilterRacesService.new.conditionFilter(@races, @wins)
     end
-    if !params[:sex_id].blank?
-      @sex = Condition.find(params[:sex_id])
+    if !params[:sex].blank?
+      @sex = params[:sex]
       @races = FilterRacesService.new.sexFilter(@races, @sex)
     end
     if !params[:noWinsSince_id].blank?

@@ -48,6 +48,13 @@ $(document).ready(function() {
     }
   });
 
+  $(".add_race_to_tel").change(function(){
+    var tel_id = $(this).val();
+    var race_id = $(this).attr("race");
+    $.ajax({url: "/tels/add_race", type: "POST", data: {tel: {race_id: race_id, tel_id: tel_id}}}).done(function(data){
+              location.reload(true);
+            });
+  });
 
   $('.remove_from_day').on('click', function (e) {
     var race_id = $(this).attr("race");
