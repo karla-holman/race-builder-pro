@@ -190,6 +190,16 @@ class HorsesController < ApplicationController
       @last_win.save
       @horse.last_win = @last_win
     end
+    if horse_params[:status_id]
+      status = Status.find(horse_params[:status_id])
+      vets = Status.find_by_name('Vet\'s List')
+      steward = Status.find_by_name('Steward\'s List')
+
+      if status == vets || status == steward
+        notification = Notification.find_or_create_by!(send_id: horse_params[:status_id], recv_id: @horse.id, action: "Status Changed")
+        notification.save
+      end
+    end
     if horse_params[:country_code] && !horse_params[:subregion_code]
       @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
     end

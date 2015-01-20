@@ -28,9 +28,9 @@
             <div class="user-details">
               <div class="username">
                 <% if current_user.admin?
-                  @notifications = Notification.all - Notification.where(:action => "Suggest") - Notification.where(:action => "Confirm Nomination")
+                  @notifications = Notification.all - Notification.where("action = (?) OR action = (?) OR action = (?) OR action = (?) OR action = (?) OR action = (?) OR action = (?)", "Suggest", "Confirm Nomination", "Add Approved", "Remove Approved", "Remove Denied", "Add Denied", "Status Changed")
                   else
-                    all_suggestions = Notification.where("action = (?) OR action = (?)", "Suggest", "Confirm Nomination")
+                    all_suggestions = Notification.where("action = (?) OR action = (?) OR action = (?) OR action = (?) OR action = (?) OR action = (?) OR action = (?)", "Suggest", "Confirm Nomination", "Add Approved", "Remove Approved", "Remove Denied", "Add Denied", "Status Changed")
                     inactive = Status.find_by_name('Inactive')
                     if current_user.trainer?
                       horses = Horse.where(:trainer_id => current_user.id).where.not(:status => inactive)
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-xs-5">
                           <%= link_to 'OK', notification, method: :delete, :class => 'btn btn-primary btn-mini' %>
-                          <%= link_to 'View Race', race_path(Race.find(notification.send_id)), :class => 'btn btn-danger btn-mini' %>
+                          <%= link_to 'Race Menu', races_menu_path(:horse_id => notification.recv_id), :class => 'btn btn-danger btn-mini' %>
                         </div>
                       </div>
                       <div class="clearfix"></div>
@@ -91,7 +91,52 @@
                       </div>
                       <div class="clearfix"></div>
                     </div>
-                    <% elsif notification.action == 'Confirm Nomination' %>%>
+                    <% elsif notification.action == 'Add Approved' ||  notification.action == 'Remove Approved'%>
+                      <div class="message-wrapper row">
+                        <div class="col-xs-7">
+                          <div class="heading">
+                              <%= Horse.find(notification.recv_id).name %>
+                          </div>
+                          <div class="description pull-left"> Approved For <%= Equipment.find(notification.send_id).name %> Change</div>
+                          <div class="date pull-left"><%= notification.created_at.strftime('%b %d, %Y') %></div>
+                        </div>
+                        <div class="col-xs-5">
+                          <%= link_to 'OK', notification, method: :delete, :class => 'btn btn-danger btn-mini' %>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                    <% elsif notification.action == 'Add Denied' ||  notification.action == 'Remove Denied'%>
+                      <div class="message-wrapper row">
+                        <div class="col-xs-7">
+                          <div class="heading">
+                              <%= Horse.find(notification.recv_id).name %>
+                          </div>
+                          <div class="description pull-left"> Denied For <%= Equipment.find(notification.send_id).name %> Change</div>
+                          <div class="date pull-left"><%= notification.created_at.strftime('%b %d, %Y') %></div>
+                        </div>
+                        <div class="col-xs-5">
+                          <%= link_to 'OK', notification, method: :delete, :class => 'btn btn-danger btn-mini' %>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                    <% elsif notification.action == 'Status Changed' ||  notification.action == 'Remove Denied'%>
+                      <div class="message-wrapper row">
+                        <div class="col-xs-7">
+                          <div class="heading">
+                              <%= Horse.find(notification.recv_id).name %>
+                          </div>
+                          <div class="description pull-left"> Now On <%= Status.find(notification.send_id).name %></div>
+                          <div class="date pull-left"><%= notification.created_at.strftime('%b %d, %Y') %></div>
+                        </div>
+                        <div class="col-xs-5">
+                          <%= link_to 'OK', notification, method: :delete, :class => 'btn btn-danger btn-mini' %>
+                        </div>
+                      </div>
+                      <div class="clearfix"></div>
+                    </div>
+                    <% elsif notification.action == 'Confirm Nomination' %>
                       <div class="message-wrapper row">
                         <div class="col-xs-7">
                           <div class="heading">

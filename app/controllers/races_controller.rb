@@ -57,11 +57,15 @@ class RacesController < ApplicationController
         possible_horses = Horse.where("id not IN (?) and id not IN (?)", confirmed_ids, interested_ids)
       end
     end
-    @inactive = Status.find_by_name('Inactive')
+
+    inactive = Status.find_by_name('Inactive')
+    vets = Status.find_by_name('Vet\'s List')
+    steward = Status.find_by_name('Steward\'s List')
+
     @eligible = Array.new()
     possible_horses.each do |horse|
       @races = FilterRacesService.new.horseFilter(horse) 
-      if @races.include?(@race) && horse.status != @inactive
+      if @races.include?(@race) && horse.status != inactive && horse.status != vets && horse.status != steward
         @eligible.push(horse)
       end
     end
