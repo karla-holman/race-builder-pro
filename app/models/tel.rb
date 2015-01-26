@@ -3,7 +3,7 @@ class Tel < ActiveRecord::Base
 	belongs_to :week
 
 	def long_date
-  		date.strftime('%b %d, %Y')
+  		date.strftime('%a %b %d, %Y')
 	end
 
 	def purse_total

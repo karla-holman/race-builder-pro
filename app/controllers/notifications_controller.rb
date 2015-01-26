@@ -55,7 +55,12 @@ class NotificationsController < ApplicationController
     @notification = Notification.new(notification_params)
 
     respond_to do |format|
-      if @notification.save
+      if @notification.action == 'Nominate' && current_user.admin?
+        horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
+        horserace.status = 'Confirmed'
+        horserace.save
+        format.html { redirect_to :back, notice: 'Notification Sent' }
+      elsif @notification.save
         format.html { redirect_to :back, notice: 'Notification Sent' }
       else
         format.html { render :back }

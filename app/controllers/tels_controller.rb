@@ -61,9 +61,10 @@ class TelsController < ApplicationController
   end
 
   def update
+    @week = Week.find(@tel.week_id)
     respond_to do |format|
       if @tel.update(tel_params)
-        format.html { redirect_to :back, notice: 'Meet was successfully updated.' }
+        format.html { redirect_to @week, notice: 'Tel was successfully updated.' }
       else
         format.html { render :edit }
         format.json { render json: @tel.errors, status: :unprocessable_entity }

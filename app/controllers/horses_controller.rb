@@ -104,6 +104,7 @@ class HorsesController < ApplicationController
       respond_to do |format|
         @horse = Horse.new(horse_params)
         @horse.errors.add(:name, "Already in use.")
+        @last_win = LastWin.new
         @owners = User.where(:role => '0')
         @trainers = User.where(:role => '1')
         @statuses = Status.all
@@ -146,80 +147,98 @@ class HorsesController < ApplicationController
   # PATCH/PUT /horses/1
   # PATCH/PUT /horses/1.json
   def update
-    if horse_params[:equipment_ids]
-      horse_params[:equipment_ids].each do |equipment|
-        if HorseEquipment.where(equipment_id: equipment, horse_id: @horse.id).empty? && !equipment.empty?
+    @compare_horse = Horse.find_by_name(horse_params[:name])
+    if @compare_horse && @compare_horse != @horse
+      respond_to do |format|
+        @last_win = @horse.last_win
+        @owners = User.where(:role => '0')
+        @trainers = User.where(:role => '1')
+
+        if (@horse.owner == @horse.trainer)
+          @ownerIsTrainer = true
+        end
+
+        @horse.errors.add(:name, "Already in use.")
+        @statuses = Status.all
+        @sexes = { "Mare" => "M", "Filly" => "F", "Colt" => "C", "Gelding" => "G", "Horse" => "H", "Ridgling" => "R" }
+        format.html { render action: 'edit', notice: 'Horse name already taken.'}
+      end
+    else
+      if horse_params[:equipment_ids]
+        horse_params[:equipment_ids].each do |equipment|
+          if HorseEquipment.where(equipment_id: equipment, horse_id: @horse.id).empty? && !equipment.empty?
+            if Equipment.find(equipment).required && !current_user.admin?
+              notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Add")
+              @horse.create_activity :add_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
+            else
+              HorseEquipment.find_or_create_by!(:horse_id => @horse.id, :equipment_id => equipment)
+              @horse.create_activity :add_equipment, parameters: {name: Equipment.find(equipment).name}, owner: current_user
+            end
+          end
+        end
+        
+        current_equipment = @horse.equipment.pluck(:id) - horse_params[:equipment_ids].map(&:to_i)
+
+        current_equipment.each do |equipment|
           if Equipment.find(equipment).required && !current_user.admin?
-            notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Add")
-            @horse.create_activity :add_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
+            notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Remove")
+            @horse.create_activity :remove_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
           else
-            HorseEquipment.find_or_create_by!(:horse_id => @horse.id, :equipment_id => equipment)
-            @horse.create_activity :add_equipment, parameters: {name: Equipment.find(equipment).name}, owner: current_user
+            HorseEquipment.where(:horse_id => @horse.id, :equipment_id => equipment).first.destroy
+            @horse.create_activity :remove_equipment, parameters: {name: Equipment.find(equipment).name}, owner: current_user
           end
         end
       end
-      
-      current_equipment = @horse.equipment.pluck(:id) - horse_params[:equipment_ids].map(&:to_i)
+      if params[:last_win]
+        @last_win = @horse.last_win
+        if params[:last_win][:date]
+          @last_win.date = params[:last_win][:date]
+        end
+        if params[:last_win][:distance_type]
+          @last_win.distance_type = params[:last_win][:distance_type]
+        end
+        if params[:last_win][:distance]
+          @last_win.distance = params[:last_win][:distance]
+        end
+        if params[:last_win][:money_earned]
+          @last_win.money_earned = params[:last_win][:money_earned]
+        end
 
-      current_equipment.each do |equipment|
-        if Equipment.find(equipment).required && !current_user.admin?
-          notification = Notification.find_or_create_by!(send_id: @horse.id, recv_id: equipment, action: "Remove")
-          @horse.create_activity :remove_equipment_request, parameters: {name: Equipment.find(equipment).name}, owner: current_user
-        else
-          HorseEquipment.where(:horse_id => @horse.id, :equipment_id => equipment).first.destroy
-          @horse.create_activity :remove_equipment, parameters: {name: Equipment.find(equipment).name}, owner: current_user
+        @last_win.horse_id = @horse.id
+        @last_win.save
+        @horse.last_win = @last_win
+      end
+      if horse_params[:status_id]
+        status = Status.find(horse_params[:status_id])
+        vets = Status.find_by_name('Vet\'s List')
+        steward = Status.find_by_name('Steward\'s List')
+
+        if status == vets || status == steward
+          notification = Notification.find_or_create_by!(send_id: horse_params[:status_id], recv_id: @horse.id, action: "Status Changed")
+          notification.save
         end
       end
-    end
-    if params[:last_win]
-      @last_win = @horse.last_win
-      if params[:last_win][:date]
-        @last_win.date = params[:last_win][:date]
+      if horse_params[:country_code] && !horse_params[:subregion_code]
+        @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
       end
-      if params[:last_win][:distance_type]
-        @last_win.distance_type = params[:last_win][:distance_type]
-      end
-      if params[:last_win][:distance]
-        @last_win.distance = params[:last_win][:distance]
-      end
-      if params[:last_win][:money_earned]
-        @last_win.money_earned = params[:last_win][:money_earned]
-      end
-
-      @last_win.horse_id = @horse.id
-      @last_win.save
-      @horse.last_win = @last_win
-    end
-    if horse_params[:status_id]
-      status = Status.find(horse_params[:status_id])
-      vets = Status.find_by_name('Vet\'s List')
-      steward = Status.find_by_name('Steward\'s List')
-
-      if status == vets || status == steward
-        notification = Notification.find_or_create_by!(send_id: horse_params[:status_id], recv_id: @horse.id, action: "Status Changed")
-        notification.save
-      end
-    end
-    if horse_params[:country_code] && !horse_params[:subregion_code]
-      @horse.subregion_code = Carmen::Country.coded(horse_params[:country_code]).subregions.sort_by!{ |s| s.name.downcase }.first.code
-    end
-    respond_to do |format|
-      if !horse_params[:equipment_ids]
-        if @horse.update(horse_params)
-          if params[:trainer_owner]
-            @horse.owner = @horse.trainer
+      respond_to do |format|
+        if !horse_params[:equipment_ids]
+          if @horse.update(horse_params)
+            if params[:trainer_owner]
+              @horse.owner = @horse.trainer
+            end
+            @horse.save
+            @horse.create_activity :update, owner: current_user
+            format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
+            format.json { render action: 'index', status: :ok, location: @horse }
+          else
+            format.html { render action: 'edit' }
+            format.json { render json: @horse.errors, status: :unprocessable_entity }
           end
-          @horse.save
-          @horse.create_activity :update, owner: current_user
-          format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
-          format.json { render action: 'index', status: :ok, location: @horse }
         else
-          format.html { render action: 'edit' }
-          format.json { render json: @horse.errors, status: :unprocessable_entity }
+          @equipment_medication = Equipment.all
+          format.js
         end
-      else
-        @equipment_medication = Equipment.all
-        format.js
       end
     end
   end

@@ -200,6 +200,7 @@
 									<th style="display:none;">Equipment / Medication</th>
 									<th style="display:none;">Races</th>
 									<th colspan="1"></th>
+									<th colspan="1"></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -234,7 +235,8 @@
 											None
 										<% end %> 
 									</td>
-									<td><%= link_to 'Race Menu', races_menu_path(:horse_id => horse.id), :class => 'btn btn-success btn-mini' %>
+									<td><%= link_to 'Race Menu', races_menu_path(:horse_id => horse.id), :class => 'btn btn-success btn-mini' %></td>
+									<td><%= link_to 'View Horse', horse, :class => 'btn btn-primary btn-mini'%></td>
 								</tr>
 								<% end %>  
 							</tbody>

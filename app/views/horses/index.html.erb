@@ -61,7 +61,7 @@
               <% end %>
               </td>
               <td>
-                <%= link_to 'Show', horse, :class => 'btn btn-success btn-mini'%>
+                <%= link_to 'View Horse', horse, :class => 'btn btn-success btn-mini'%>
                 <% if current_user.admin? %>
                   <%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
                   <%= link_to 'Delete', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>

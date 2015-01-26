@@ -15,12 +15,12 @@
     <div class="col-xs-12 col-md-6">  
       <div class="form-group">
         <%= f.label 'Start Date' %>
-        <%= date_field("week", "start_date") %>
+        <%= date_field("week", "start_date", min: @week.meet.start_date, max: @week.meet.end_date) %>
         <%= f.hidden_field :meet_id, :value => @meet.id %>
        </div>
        <div class="form-group">
        <%= f.label 'End Date' %>
-       <%= date_field("week", "end_date") %>
+       <%= date_field("week", "end_date", min: @week.meet.start_date, max: @week.meet.end_date) %>
       </div>
      <div class="form-group">
         <%= f.label :week_number %>

@@ -15,7 +15,7 @@
     <div class="col-xs-12 col-md-6">  
       <div class="form-group">
         <%= f.label 'Date' %>
-        <%= date_field("tel", "date") %>
+        <%= date_field("tel", "date", min: @tel.week.start_date, max: @tel.week.end_date) %>
         <%= f.hidden_field :week_id, :value => @week.id %>
       </div>
       <div class="form-group">

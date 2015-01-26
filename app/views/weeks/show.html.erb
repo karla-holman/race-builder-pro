@@ -9,7 +9,7 @@
     <%= link_to 'New TEL', new_tel_path({tel: {:week_id=> @week.id}}), :class => 'btn btn-primary btn-mini' %>
     <% @week.tels.each do |tel| %>
       <div class="col-xs-12">
-        <h3>TEL for <%= tel.date.strftime('%b %d, %Y') %></h2>
+        <h3>TEL for <%= tel.date.strftime('%a %b %d, %Y') %></h2>
         <h4>Total Purse Amount: <td><%= number_to_currency(tel.purse_total, precision: 2) %></h4>
             <h4>Average Field Size: <td><%= tel.average_field_size %></h4>
             <%= link_to 'Edit', edit_tel_path(tel),  :class => 'btn btn-success btn-mini'%>
@@ -113,8 +113,8 @@
                           <td style="display: none;"><%= race.category %></td>
                           <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
                           <td style="display: none;">
-                            <% if race.category == 'Priority' && race.race_date %>
-                              <%= race.race_date.date.strftime('%b %d, %Y') %>
+                            <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+                              <%= race.race_date.date.strftime('%a %b %d, %Y') %>
                             <% else %>
                               N/A
                             <% end %>
@@ -216,8 +216,8 @@
                       <td style="display: none;"><%= race.category %></td>
                       <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
                       <td style="display: none;">
-                        <% if race.category == 'Priority' && race.race_date %>
-                          <%= race.race_date.date.strftime('%b %d, %Y') %>
+                        <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+                          <%= race.race_date.date.strftime('%a %b %d, %Y') %>
                         <% else %>
                           N/A
                         <% end %>
