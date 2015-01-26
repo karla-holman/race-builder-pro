@@ -9,7 +9,7 @@
     <%= link_to 'New TEL', new_tel_path({tel: {:week_id=> @week.id}}), :class => 'btn btn-primary btn-mini' %>
     <% @week.tels.each do |tel| %>
       <div class="col-xs-12">
-        <h3>TEL for <%= tel.date.strftime('%a %b %d, %Y') %></h2>
+        <h3>TEL for <%= tel.date.strftime('%b %d, %Y') %></h2>
         <h4>Total Purse Amount: <td><%= number_to_currency(tel.purse_total, precision: 2) %></h4>
             <h4>Average Field Size: <td><%= tel.average_field_size %></h4>
             <%= link_to 'Edit', edit_tel_path(tel),  :class => 'btn btn-success btn-mini'%>
@@ -44,9 +44,7 @@
                 <table class="genericTable table table-condensed table-hover">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Claiming</th>
-                      <th>Distance</th>
+                      <th>Race</th>
                       <th>Interested</th>
                       <th>Confirmed</th>
                       <th style="display: none;">Conditions</th>
@@ -60,37 +58,37 @@
                   <tbody>
                     <% tel.races.each do |race| %>
                       <tr >
-                        <td><%= race.name %></td>
-                        <td>
-                        <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
-                            <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
-                                <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
-                                    <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
-                                <% else %>
-                                    <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
-                                <% end %>
-                            <% else %>
-                                <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
-                            <% end %>
-                        <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
-                            <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
-                        <% end %>
-                        </td>
-                        <% if race.distance %>
-                            <% if race.distance <= 1 %>
-                                <% if race.distance_type == 'Furlongs' %>
-                                    <td><%= race.distance %> Furlong</td>
-                                <% elsif race.distance_type == 'Yards'%>
-                                    <td><%= race.distance %> Yard</td>
-                                <% else %>
-                                    <td><%= race.distance %> Mile</td>
-                                <% end %>
-                            <% else %>
-                                <td><%= race.distance %> <%= race.distance_type %></td>
-                            <% end %>
-                        <% else %>
-                            <td>N/A</td>
-                        <% end %>
+                          <td class="condition-book">
+                          <div class="race-type">
+                            <span><%= race.race_type %></span>
+                          </div>
+                          <div class="race-description">
+                            <span><%= number_to_currency(race.purse, precision: 0) %>. <%= race.description %></span>
+                          </div>
+                          <div class="race-weight">
+                            <span><%= race.weights %></span>
+                          </div>
+                          <div class="race-claiming">
+                            <span>
+                              <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
+                                                    <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
+                                                        <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
+                                                            Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                                                        <% else %>
+                                                            Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                                                        <% end %>
+                                                    <% else %>
+                                                        Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                                                    <% end %>
+                                                <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
+                                                    Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                                                <% end %>
+                            </span>
+                          </div>
+                          <div class="race-distance pull-right">
+                            <span><%= race.distance %> <%= race.distance_type %></span>
+                          </div>
+                      </td>
                       <td>
                         <span class="badge badge-danger">
                           <%= race.horseraces.where(:status => "Interested").count %>
@@ -113,8 +111,8 @@
                           <td style="display: none;"><%= race.category %></td>
                           <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
                           <td style="display: none;">
-                            <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
-                              <%= race.race_date.date.strftime('%a %b %d, %Y') %>
+                            <% if race.category == 'Priority' && race.race_date %>
+                              <%= race.race_date.date.strftime('%b %d, %Y') %>
                             <% else %>
                               N/A
                             <% end %>
@@ -152,10 +150,7 @@
                   <th>Distance</th>
                   <th>Interested</th>
                   <th>Confirmed</th>
-                  <th style="display: none;">Conditions</th>
-                  <th style="display: none;">Category</th>
-                  <th style="display: none;">Stakes</th>
-                  <th style="display: none;">Date</th>
+                  <th style="display: none;"></th>
                   <th>Priority</th>
                   <th colspan="1"></th>
                 </tr>
@@ -204,24 +199,37 @@
                       <%= race.horseraces.where(:status => "Confirmed").count %>
                     </span>
                   </td>
-                    <td style="display: none;">
-                      <% if race.conditions.any? %>
-                        <% race.conditions.each do |condition| %>
-                            | <%= condition.name %> |
-                        <% end %>
-                      <% else %>
-                        | None |
-                      <% end %>
-                      </td>
-                      <td style="display: none;"><%= race.category %></td>
-                      <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
-                      <td style="display: none;">
-                        <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
-                          <%= race.race_date.date.strftime('%a %b %d, %Y') %>
-                        <% else %>
-                          N/A
-                        <% end %>
-                      </td>
+                    <td class="condition-book" style="display:none;">
+                      <div class="race-type">
+                        <span><%= race.race_type %></span>
+                      </div>
+                      <div class="race-description">
+                        <span><%= number_to_currency(race.purse, precision: 0) %>. <%= race.description %></span>
+                      </div>
+                      <div class="race-weight">
+                        <span><%= race.weights %></span>
+                      </div>
+                      <div class="race-claiming">
+                        <span>
+                          <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
+                                                <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
+                                                    <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
+                                                        Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                                                    <% else %>
+                                                        Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                                                    <% end %>
+                                                <% else %>
+                                                    Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                                                <% end %>
+                                            <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
+                                                Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                                            <% end %>
+                        </span>
+                      </div>
+                      <div class="race-distance pull-right">
+                        <span><%= race.distance %> <%= race.distance_type %></span>
+                      </div>
+                  </td>
                       <td>
                         <% if race.category == 'Priority' %>
                           <span class="label label-inverse">Yes</span>
@@ -247,11 +255,8 @@
   function fnFormatDetails ( oTable, nTr )
   {
     var aData = oTable.fnGetData( nTr );
-    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-    sOut += '<tr><td>Conditions: </td><td>'+aData[6]+'</td></tr>';
-    sOut += '<tr><td>Category:</td><td>'+aData[7]+'</td></tr>';
-    sOut += '<tr><td>Stakes: </td><td>'+aData[8]+'</td></tr>';
-    sOut += '<tr><td>Date:</td><td>'+aData[9]+'</td></tr>';
+    var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;  width: 100%;" class="inner-table">';
+    sOut += '<tr><td class="condition-book">'+aData[6]+'</td></tr>';
     sOut += '</table>';
    
     return sOut;
