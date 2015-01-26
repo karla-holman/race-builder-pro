@@ -13,6 +13,7 @@ class WeeksController < ApplicationController
   def new
     @week = Week.new
     @meet = Meet.find(week_params[:meet_id])
+    @week.meet = @meet
   end
 
   def edit

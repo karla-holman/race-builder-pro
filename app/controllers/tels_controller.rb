@@ -43,6 +43,7 @@ class TelsController < ApplicationController
   def new
     @tel = Tel.new
     @week = Week.find(tel_params[:week_id])
+    @tel.week = @week
   end
 
   def edit
