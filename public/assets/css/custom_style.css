@@ -59,3 +59,62 @@
 #day-table td {
 	max-height: 50px !important;
 }
+
+
+
+.condition-book  span {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.condition-book .race-type {
+	display: block;
+	width: 100%;
+	text-align: right;
+}
+
+.condition-book .race-weight span {
+	text-transform: none;
+	font-weight: normal;
+}
+
+.condition-book .race-distance,
+.condition-book .race-claiming {
+	display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

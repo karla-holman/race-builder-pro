@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141206224840) do
+ActiveRecord::Schema.define(version: 20150126012220) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 20141206224840) do
     t.integer  "field_size"
     t.boolean  "stakes",           default: false
     t.boolean  "needs_nomination", default: false
+    t.string   "weights"
   end
 
   create_table "statuses", force: true do |t|
