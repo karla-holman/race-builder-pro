@@ -180,7 +180,7 @@
 			<div class="grid-body no-border">
 				<div class="row">
 					<div class="col-xs-12">
-						<table class="home-stable-sort table table-condensed table-hover">
+						<table class="table table-condensed">
 							<thead>
 								<tr>
 									<th>Name</th>
@@ -189,8 +189,6 @@
 								    <% else %>
 								    	<th>Owner</th>
 								    <% end %>
-									<th style="display:none;">Equipment / Medication</th>
-									<th style="display:none;">Races</th>
 									<th colspan="1"></th>
 									<th colspan="1"></th>
 								</tr>
@@ -249,8 +247,8 @@
 							<thead>
 								<tr>
 									<th>Name</th>
-									<td>Claiming</td>
-									<td>Distance
+									<th>Claiming</th>
+									<th>Distance</th>
 									<th>Interested</th>
 									<th>Confirmed</th>
 									<th style="display:none;">Race</th>
@@ -398,18 +396,6 @@ function fnFormatDetails ( oTable, nTr )
 
 	return sOut;
 }
-
-function fnFormatDetailsSecond ( sTable, nTr )
-{
-	var aData = sTable.fnGetData( nTr );
-	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;  width: 100%;" class="inner-table">';
-	sOut += '<tr><td>Equipment / Medication:</td><td>'+aData[3]+'</td></tr>';
-	sOut += '<tr><td>Races:</td><td>'+aData[4]+'</td></tr>';
-	sOut += '</table>';
-
-	return sOut;
-}
-
 
 </script>
 
