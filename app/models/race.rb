@@ -20,4 +20,20 @@ class Race < ActiveRecord::Base
 	def self.search(query)
   		where("lower(name) like ?", "%#{query}%".downcase)
 	end
+
+	def isHorseEligible(horse)
+		if self.condition_node
+			return self.condition_node.isHorseEligible(horse)
+		else
+			return true
+		end
+	end
+
+	def includesCondition(condition)
+		if self.condition_node
+			return self.condition_node.includesCondition(condition)
+		else
+			return false
+		end
+	end
 end

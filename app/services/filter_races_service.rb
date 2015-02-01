@@ -35,103 +35,45 @@ class FilterRacesService
 
 
 	def horseFilter(horse)
-		filtered_races = []
-		@sex_category = Category.find_by_name("Sex")
-		@bred_category = Category.find_by_name("Bred")
+    filtered_races = []
 
-		FilterRacesService.new.currentEligibleRaces().each do |race|
-			@remove = false
-			@sex = true
-			# @bred = true
-
-			if race.conditions.where(:category_id => @sex_category.id).any?
-				@sex = false
-			# elsif race.conditions.where(:category_id => @bred_category.id).any?
-			# 	@bred = false
-			end
-
-			race.conditions.each do |condition|
-        category = condition.category
-        case category.name
-        when 'Age'
-          if !filter_range(condition, age(horse.birth_year))
-          	@remove = true
-          end
-        when 'Wins'
-          if !filter_range(condition, horse.wins)
-          	@remove = true
-          end
-        when 'Sex'
-          if horse.sex == condition.value
-          	@sex = true
-          end
-        when 'Bred'
-          # if condition.value == horse.POB
-          #   @bred = true
-          # end 
-        when 'Hasn\'t Won Since'
-          if horse.last_win.date
-            if condition.value.to_i < horse.last_win.date.year
-              @remove = true
-            end
-          end
-        end
-        if @remove
-        	next
-        end
+    FilterRacesService.new.currentEligibleRaces().each do |race|
+      if race.isHorseEligible(horse)
+        filtered_races.push(race)
       end
-      if !@remove && @sex
-      	filtered_races.push(race)
-      end
-		end
-		return filtered_races
+    end
+    return filtered_races
 	end
 
 
   def conditionFilter(races, condition)
   	filtered_races = []
-  	category = condition.category
-
   	races.each do |race|
-  		conditions = race.conditions.where(:category_id => category.id)
-  		if conditions.empty?
-  			next
-  		end
-
-      checkCondition = conditions.first
-
-  		if checkCondition == condition 
-  			filtered_races.push(race)
-  		end
+  		if race.includesCondition(condition)
+        filtered_races.push(race)
+      end
   	end
   	return filtered_races
   end
 
   def sexFilter(races, condition)
     filtered_races = []
-    category = Category.find_by_name("Sex")
 
-    if(condition == 'F/M')
+    if condition == 'F/M'
       sex_one = Condition.find_by_name("F")
       sex_two = Condition.find_by_name("M") 
     else
       sex_one = Condition.find_by_name("C")
       sex_two = Condition.find_by_name("G")
     end
-
-
     races.each do |race|
-      conditions = race.conditions.where(:category_id => category.id)
-      if conditions.empty?
-        next
-      end
-
-      conditions.each do |sexCondition|
-        if sexCondition == sex_one || sexCondition == sex_two
-          filtered_races.push(race)
-        end
+      if race.includesCondition(sex_one)
+        filtered_races.push(race)
+      elsif race.includesCondition(sex_two)
+        filtered_races.push(race)
       end
     end
+
     return filtered_races
   end
 

@@ -52,6 +52,14 @@ class ConditionNode < ActiveRecord::Base
   		end
 	end
 
+	def hasCondition
+  		if self.node_type == CONDITION && Condition.find_by_id(self.value)
+  			return true
+  		else
+  			return false
+  		end
+	end
+
 	def getOperator
   		if self.value == 0
   			return "OR"
@@ -61,6 +69,15 @@ class ConditionNode < ActiveRecord::Base
 	end
 
 	def getCondition
+		condition = Condition.find_by_id(self.value)
+		if condition
+  			return condition
+  		else
+  			return nil
+  		end
+	end
+
+	def getConditionName
 		condition = Condition.find_by_id(self.value)
 		if condition
   			return condition.name
@@ -100,10 +117,6 @@ class ConditionNode < ActiveRecord::Base
 						end
 
 						expression_string += " " + expression
-
-						if child != self.children.last
-							
-						end
 					end
 				end
 				expression_string += " )"
@@ -114,8 +127,8 @@ class ConditionNode < ActiveRecord::Base
 		else
 			if self.isRoot
 				expression_string =  "No Conditions"
-			elsif self.isCondition
-				expression_string = self.getCondition
+			elsif self.hasCondition
+				expression_string = self.getConditionName
 			else
 				expression_string = ""
 			end
@@ -124,22 +137,55 @@ class ConditionNode < ActiveRecord::Base
 	end
 
 
+	def isHorseEligible(horse)
+		if self.children.any?
+			if self.children.length > 1
+				self.children.each do |child|
+					if child == self.children.first
+						@truth_val = child.isHorseEligible(horse)
+					else
+						if self.getOperator == "AND"
+							@truth_val = @truth_val && child.isHorseEligible(horse)
+						else
+							@truth_val = @truth_val || child.isHorseEligible(horse)
+						end
+					end
+				end
+				eligible = @truth_val
+			else
+				child = self.children.first
+				eligible = child.isHorseEligible(horse)
+			end
+		else
+			if self.hasCondition
+				eligible = horse.satisfiesCondition(self.getCondition)
+			else
+				eligible = true
+			end
+		end
+		return eligible
+	end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	def includesCondition(condition)
+		hasCondition = false
+		if self.children.any?
+			if self.children.length > 1
+				self.children.each do |child|
+					if child.includesCondition(condition)
+						hasCondition = true
+					end
+				end
+			else
+				child = self.children.first
+				if child.includesCondition(condition)
+					hasCondition = true
+				end	
+			end
+		else
+			if self.hasCondition
+				hasCondition = condition == self.getCondition
+			end
+		end
+		return hasCondition
+	end
 end

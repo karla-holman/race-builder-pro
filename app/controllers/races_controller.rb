@@ -64,8 +64,7 @@ class RacesController < ApplicationController
 
     @eligible = Array.new()
     possible_horses.each do |horse|
-      @races = FilterRacesService.new.horseFilter(horse) 
-      if @races.include?(@race) && horse.status != inactive && horse.status != vets && horse.status != steward
+      if @race.isHorseEligible(horse) && horse.status != inactive && horse.status != vets && horse.status != steward
         @eligible.push(horse)
       end
     end
@@ -130,7 +129,7 @@ class RacesController < ApplicationController
   def raceList
     @horse = Horse.find(params[:horse_id])
     @races = FilterRacesService.new.horseFilter(@horse)
-
+    
     if !params[:age_id].blank?
       @age = Condition.find(params[:age_id])
       @races = FilterRacesService.new.conditionFilter(@races, @age)
@@ -161,7 +160,6 @@ class RacesController < ApplicationController
     end
 
      @ageList = FilterRacesService.new.ageCategories(@horse)
-     @sexList = Condition.where(:category_id => Category.find_by_name("Sex"))
      @winList = FilterRacesService.new.winCategories(@horse)
      @noWinsSinceList = FilterRacesService.new.noWinsSinceCategories(@horse)
      @claiming_prices = ClaimingPrice.all.pluck(:price).reject(&:blank?).uniq.sort
