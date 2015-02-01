@@ -36,4 +36,12 @@ class Race < ActiveRecord::Base
 			return false
 		end
 	end
+
+	def getExpressionString
+		if self.condition_node
+			return self.condition_node.getExpressionString
+		else
+			return false
+		end 
+	end
 end
