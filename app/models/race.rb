@@ -41,7 +41,7 @@ class Race < ActiveRecord::Base
 		if self.condition_node
 			return self.condition_node.getExpressionString
 		else
-			return false
+			return "No Conditions"
 		end 
 	end
 end
