@@ -82,6 +82,11 @@ form.edit_horserace {
   display: inline-block;
 }
 
+.childSelector {
+    width: 120px;
+    text-align: center;
+}
+
 
 /* ============================================================
   SWITCH 3 - YES NO

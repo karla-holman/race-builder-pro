@@ -11,6 +11,8 @@ class Race < ActiveRecord::Base
 
 	belongs_to :tel
 
+	belongs_to :condition_node
+
 	has_one :race_date
 
 	has_many :claiming_prices

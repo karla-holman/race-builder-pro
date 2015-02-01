@@ -191,7 +191,15 @@ class RacesController < ApplicationController
     else
       @claiming_two = ClaimingPrice.new
     end
-    
+
+    if(@race.condition_node.nil?)
+      root = ConditionNode.new
+      root.setAsRoot
+      root.value = @race.id
+      root.save
+      @race.condition_node = root
+      @race.save
+    end
   end
 
   # POST /races

@@ -46,7 +46,7 @@ class CategoriesController < ApplicationController
         format.json { render action: 'index', status: :ok, location: @categories }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @ategory.errors, status: :unprocessable_entity }
+        format.json { render json: @category.errors, status: :unprocessable_entity }
       end
     end
   end

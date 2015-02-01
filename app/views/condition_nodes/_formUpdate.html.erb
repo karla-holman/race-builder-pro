@@ -1,0 +1,35 @@
+<%= simple_form_for(@condition_node) do |f| %>
+  <%= f.error_notification %>
+  <p>Remove an operator will remove all attribute below</p>
+  	<div class="row">
+		<div class="col-xs-12" style="margin-bottom:30px">
+			<div class="row">
+				<div class="col-xs-4 col-sm-offset-4" style="margin-bottom: 10px; text-align: center;">
+					<h3><%= @condition_node.race_name %></h3>
+					<%= f.hidden_field :node_type, :value => 0 %>
+				</div>
+				<% if @condition_node.children.empty? %>
+				  	<div class="col-xs-4 col-sm-offset-4" style="text-align: center;">
+		  				<button style="margin-bottom: 10px" value="Add Condition" class="addCondition btn btn-info btn-mini" node="<%= @condition_node.id%>">+ Cond</button>
+		  			</div>
+		  		<% end %>
+	  		</div>
+		</div>
+		<div class="col-xs-12">
+			<div class="row">
+				<% if @condition_node.children.length > 0 %>
+					<%= colSize = (12/@condition_node.children.length).floor 
+						if colSize < 3
+							colSize = 3
+						end
+					%>
+				<% end %>
+			  	<% @condition_node.children.each do |child| %>
+			  		<div class="col-xs-<%= colSize %>" syle="margin-bottom:30px">
+			  			<%= render partial: 'childTree' , locals: { :child => child } %>
+				  	</div>
+				<% end %>
+			</div>
+		</div>
+	</div>
+<% end %>

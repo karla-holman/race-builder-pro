@@ -1,0 +1,11 @@
+<%= simple_form_for(@condition_node) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+  	<%= f.hidden_field :node_type, :value => 0 %>
+  	<%= f.select :value, options_from_collection_for_select(Condition.all, :id, :categoryAndName, {:selected => @condition_node.value}) %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit 'Add Condition', :class => 'btn btn-success btn-sm'%>
+  </div>
+<% end %>

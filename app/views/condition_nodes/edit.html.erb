@@ -1,0 +1,5 @@
+<%= render 'formUpdate' %>
+
+<% if @condition_node.getRace %>
+	<%= link_to 'Back', edit_race_path(@condition_node.getRace) %>
+<% end %>

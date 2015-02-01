@@ -103,21 +103,9 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-12">
-      <div class="form-group row">
-        <h4>Conditions</h4>
-          <% Category.all.each do |category| %>
-            <div class="col-xs-3">
-              <%= category.name %>
-              <ul class="condition-list">
-              <% category.conditions.each do |condition| %>
-                <%= hidden_field_tag 'race[condition_ids][]', nil %>
-                <li><%= check_box_tag "race[condition_ids][]", condition.id, @race.conditions.include?(condition) %> <%= condition.name %> </li>
-              <% end %>
-              </ul>
-            </div>
-          <% end %>
-      </div>
+    <div class="col-xs-12" style="margin-bottom: 10px">
+      <h3>Conditions: </h3><p><%= @race.condition_node.getExpressionString %></p>
+      <%= link_to 'Edit Conditions', edit_condition_node_path(@race.condition_node), :class => 'btn btn-info btn-mini' %>
     </div>
       <div class="form-group col-xs-12">
       <%= f.submit 'Save', :class => 'btn btn-success btn-sm'%>
