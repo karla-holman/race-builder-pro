@@ -35,5 +35,6 @@ $(document).ready(function() {
 		.done(function(data){
 			return false;
 		})
+		location.reload(true);
 	});
 })
