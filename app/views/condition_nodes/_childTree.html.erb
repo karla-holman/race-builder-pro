@@ -9,23 +9,21 @@
 					  	<%= f.select :value, options_from_collection_for_select(Condition.all, :id, :categoryAndName, {:selected => child.value}), {:prompt => 'Condition'}, { :class => 'childSelector', :node => child.id } %>
 				  	<% end %>
 				</div>
-				<div class="col-xs-12">
-					<button class="addParentOperator btn btn-info btn-mini" value="Add Parent Operator" node="<%= child.id%>">
-					AND / OR</button>
-				</div>
+				
+					<div class="col-xs-12">
+						<% if child.isOperator %>
+		  					<button value="Add Condition" class="addCondition btn btn-success btn-mini" node="<%= child.id%>">Add Condition</button>
+							<button class="addChildOperator btn btn-primary btn-mini" value="Add Child Operator" node="<%= child.id%>">Add Condition Group</button>
+						<% end %>
+						<button class="addParentOperator btn btn-info btn-mini" value="Add Parent Operator" node="<%= child.id%>">
+							AND / OR</button>
+					</div>
+		  		
 				<div class="col-xs-12">
 					<button class="removeNode btn btn-danger btn-mini" value="Remove Node" node="<%= child.id%>">
 						Remove
 					</button>
 				</div>
-				<% if child.isOperator %>
-					<div class="col-xs-6">
-						<button class="addChildOperator btn btn-primary btn-mini" value="Add Child Operator" node="<%= child.id%>">Add Child Operator</button>
-					</div>
-				  	<div class="col-xs-6">
-		  				<button style="margin-bottom: 10px" value="Add Condition" class="addCondition btn btn-success btn-mini" node="<%= child.id%>">Add Condition</button>
-		  			</div>
-		  		<% end %>
 	  		</div>
 		</div>
 		<% old_child = child %>
