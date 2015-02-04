@@ -12,19 +12,23 @@
     </div>
   </div>
   <% end %>
-  <div class="col-xs-12" style="margin-bottom: 10px">
-    <h4>Conditions: </h4><p><%= @race.condition_node.getExpressionString %></p>
-    <%= link_to 'Edit Conditions', edit_condition_node_path(@race.condition_node), :class => 'btn btn-primary btn-mini' %>
-  </div>
+  <% if @race.id %>
+    <div class="col-xs-12" style="margin-bottom: 10px">
+      <h4>Conditions: </h4><p><%= @race.condition_node.getExpressionString %></p>
+      <%= link_to 'Edit Conditions', edit_condition_node_path(@race.condition_node), :class => 'btn btn-primary btn-mini' %>
+    </div>
+  <% end %>
   <div class="col-xs-12 col-md-6">  
     <div class="form-group">
       <%= f.label :name %>
       <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
     </div>
-    <div class="form-group">
-      <%= f.label :description %>
-      <%= f.text_area :description, :autofocus => true, :value => @race.condition_node.getExpressionString, class: 'form-control'%>
-    </div>
+    <% if @race.id %>
+      <div class="form-group">
+        <%= f.label :description %>
+        <%= f.text_area :description, :autofocus => true, :value => @race.condition_node.getExpressionString, class: 'form-control'%>
+      </div>
+    <% end %>
     <div class="form-group">
       <%= f.label :weights %>
       <%= f.text_area :weights, :autofocus => true, class: 'form-control'%>
