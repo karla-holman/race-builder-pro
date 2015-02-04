@@ -87,6 +87,15 @@ form.edit_horserace {
     text-align: center;
 }
 
+.condition-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.condition-container button {
+  margin: 15px 0;
+}
+
 
 /* ============================================================
   SWITCH 3 - YES NO

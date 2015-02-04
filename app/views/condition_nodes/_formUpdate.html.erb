@@ -1,16 +1,17 @@
 <%= simple_form_for(@condition_node) do |f| %>
-  <%= f.error_notification %>
-  <p>Remove an operator will remove all attribute below</p>
+  	<%= f.error_notification %>
   	<div class="row">
-		<div class="col-xs-12" style="margin-bottom:30px">
+		<div class="col-xs-12">
 			<div class="row">
-				<div class="col-xs-4 col-sm-offset-4" style="margin-bottom: 10px; text-align: center;">
+				<div class="col-xs-12 condition-container ">
 					<h3><%= @condition_node.race_name %></h3>
+					<h4><%= @condition_node.getExpressionString %></h4>
 					<%= f.hidden_field :node_type, :value => 0 %>
 				</div>
 				<% if @condition_node.children.empty? %>
-				  	<div class="col-xs-4 col-sm-offset-4" style="text-align: center;">
-		  				<button style="margin-bottom: 10px" value="Add Condition" class="addCondition btn btn-info btn-mini" node="<%= @condition_node.id%>">+ Cond</button>
+				  	<div class="col-xs-12 condition-container">
+		  				<button value="Add Condition" class="addCondition btn btn-success btn-large" node="<%= @condition_node.id%>">Add Condition
+		  				</button>
 		  			</div>
 		  		<% end %>
 	  		</div>
@@ -25,7 +26,7 @@
 					%>
 				<% end %>
 			  	<% @condition_node.children.each do |child| %>
-			  		<div class="col-xs-<%= colSize %>" syle="margin-bottom:30px">
+			  		<div class="col-xs-<%= colSize %>">
 			  			<%= render partial: 'childTree' , locals: { :child => child } %>
 				  	</div>
 				<% end %>

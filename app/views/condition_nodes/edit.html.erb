@@ -1,5 +1,8 @@
 <%= render 'formUpdate' %>
 
 <% if @condition_node.getRace %>
-	<%= link_to 'Back', edit_race_path(@condition_node.getRace) %>
+	<div class="form-group col-xs-12">
+		<%= link_to 'Back to Race', edit_race_path(@condition_node.getRace), :class => 'btn btn-primary btn-sm' %>
+	</div>
 <% end %>
+

@@ -1,116 +1,115 @@
 <%= form_for(@race) do |f| %>
-  <div class="row">
-    <% if @race.errors.any? %>
-      <div class="col-xs-12">
-        <div id="error_explanation">
-          <h2><%= pluralize(@horse.errors.count, "error") %> prohibited this race from being saved:</h2>
-          <ul>
-          <% @horse.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      </div>
-    <% end %>
-    <div class="col-xs-12 col-md-6">  
-      <div class="form-group">
-        <%= f.label :name %>
-        <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
-      </div>
-      <div class="form-group">
-        <%= f.label :description %>
-        <%= f.text_area :description, :autofocus => true, class: 'form-control'%>
-      </div>
-      <div class="form-group">
-        <%= f.label :weights %>
-        <%= f.text_area :weights, :autofocus => true, class: 'form-control'%>
-      </div>
-      <div class="form-group row">
-        <div class="col-xs-3">
-            <%= f.label 'Priority' %>
-            <input id="race_category" type="checkbox" name="category" <% if @race.category == 'Priority' %> checked <% end %>/>
-        </div>
-        <div class="col-xs-3">
-          <div class="priority_option" <% if @race.category != 'Priority' %> style="display:none" <% end %>>
-            <%= f.label 'Stakes Race' %>
-            <%= f.check_box :stakes %>
-          </div>
-        </div>
-        <div class="col-xs-6">
-          <div class="priority_option" <% if @race.category != 'Priority' %> style="display:none" <% end %>>
-          <%= f.label 'Race Date' %>
-            <% if @race.race_date %>
-              <%= date_field("race_date", "date", value: @race.race_date.date) %>
-            <% else %>
-              <%= date_field("race_date", "date") %>
-            <% end %>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-          <div class="nomination_option" <% if !@race.stakes %> style="display:none" <% end %>>
-            <%= f.label 'Needs Nomination' %>
-            <%= f.check_box :needs_nomination %>
-          </div>
-        </div>
+<div class="row">
+  <% if @race.errors.any? %>
+  <div class="col-xs-12">
+    <div id="error_explanation">
+      <h2><%= pluralize(@horse.errors.count, "error") %> prohibited this race from being saved:</h2>
+      <ul>
+        <% @horse.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
-    <div class="col-xs-12 col-md-6">
-      <div class="form-group row">
-        <div class="col-xs-6">
-          <%= f.label :status %>
-          <%= f.select :status, options_for_select(["Draft", "Published"], @race.status) %>
-        </div>
-        <div class="col-xs-6">
-          <%= f.label :purse %>
-          <%= f.text_field :purse, :autofocus => true, class: 'form-control' %>
+  </div>
+  <% end %>
+  <div class="col-xs-12" style="margin-bottom: 10px">
+    <h4>Conditions: </h4><p><%= @race.condition_node.getExpressionString %></p>
+    <%= link_to 'Edit Conditions', edit_condition_node_path(@race.condition_node), :class => 'btn btn-primary btn-mini' %>
+  </div>
+  <div class="col-xs-12 col-md-6">  
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
+    </div>
+    <div class="form-group">
+      <%= f.label :description %>
+      <%= f.text_area :description, :autofocus => true, :value => @race.condition_node.getExpressionString, class: 'form-control'%>
+    </div>
+    <div class="form-group">
+      <%= f.label :weights %>
+      <%= f.text_area :weights, :autofocus => true, class: 'form-control'%>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-3">
+        <%= f.label 'Priority' %>
+        <input id="race_category" type="checkbox" name="category" <% if @race.category == 'Priority' %> checked <% end %>/>
+      </div>
+      <div class="col-xs-3">
+        <div class="priority_option" <% if @race.category != 'Priority' %> style="display:none" <% end %>>
+          <%= f.label 'Stakes Race' %>
+          <%= f.check_box :stakes %>
         </div>
       </div>
-      <div class="form-group row">
-        <div class="col-xs-12">
-          <%= f.label 'Distance' %>
-        </div>
-        <div class="col-xs-6">
-          <%= f.text_field :distance, :autofocus => true, class: 'form-control'%>
-        </div>
-        <div class="col-xs-6">
-          <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @race.distance_type) %>
+      <div class="col-xs-6">
+        <div class="priority_option" <% if @race.category != 'Priority' %> style="display:none" <% end %>>
+          <%= f.label 'Race Date' %>
+          <% if @race.race_date %>
+          <%= date_field("race_date", "date", value: @race.race_date.date) %>
+          <% else %>
+          <%= date_field("race_date", "date") %>
+          <% end %>
         </div>
       </div>
-      <div class="form-group row">
-        <div class="col-xs-6">
-          <%= f.label :field_size %>
+    </div>
+    <div class="form-group">
+      <div class="nomination_option" <% if !@race.stakes %> style="display:none" <% end %>>
+        <%= f.label 'Needs Nomination' %>
+        <%= f.check_box :needs_nomination %>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6">
+    <div class="form-group row">
+      <div class="col-xs-6">
+        <%= f.label :status %>
+        <%= f.select :status, options_for_select(["Draft", "Published"], @race.status) %>
+      </div>
+      <div class="col-xs-6">
+        <%= f.label :purse %>
+        <%= f.text_field :purse, :autofocus => true, class: 'form-control' %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-12">
+        <%= f.label 'Distance' %>
+      </div>
+      <div class="col-xs-6">
+        <%= f.text_field :distance, :autofocus => true, class: 'form-control'%>
+      </div>
+      <div class="col-xs-6">
+        <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @race.distance_type) %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-6">
+        <%= f.label :field_size %>
         <%= f.select :field_size, options_for_select(1..20, 12) %>
-        </div>
-        <div class="col-xs-6">
-          <%= f.label :race_type %>
-          <%= f.select :race_type, options_for_select(["Default", "Claiming", 
-            "Allowance", "Allowance Optional Claiming", "Maiden Special Weight",
-            "Maiden Claiming", "Maiden Optional Claiming"], @race.race_type) %>
+      </div>
+      <div class="col-xs-6">
+        <%= f.label :race_type %>
+        <%= f.select :race_type, options_for_select(["Default", "Claiming", 
+          "Allowance", "Allowance Optional Claiming", "Maiden Special Weight",
+          "Maiden Claiming", "Maiden Optional Claiming"], @race.race_type) %>
         </div>
       </div>
       <div class="form-group row">
         <div id="claiming_prices" 
         <% if (@race.race_type != 'Claiming') && (@race.race_type != 'Allowance Optional Claiming') && (@race.race_type != 'Maiden Claiming')%> style="display:none" <% end %>>
-          <div class="col-xs-12">
-            <%= f.label 'Claiming Prices' %><p>(Enter claiming price in one or both of the boxes below)</p>
-          </div>
-          <div class="col-xs-6">
-            <input type="textbox" name="claiming_one" class="form-control" value="<%= @claiming_one.price%>"/>
-          </div>
-          <div class="col-xs-6">
-              <input type="textbox" name="claiming_two" class="form-control" value="<%= @claiming_two.price%>"/>
-          </div>
+        <div class="col-xs-12">
+          <%= f.label 'Claiming Prices' %><p>(Enter claiming price in one or both of the boxes below)</p>
+        </div>
+        <div class="col-xs-6">
+          <input type="textbox" name="claiming_one" class="form-control" value="<%= @claiming_one.price%>"/>
+        </div>
+        <div class="col-xs-6">
+          <input type="textbox" name="claiming_two" class="form-control" value="<%= @claiming_two.price%>"/>
         </div>
       </div>
     </div>
-    <div class="col-xs-12" style="margin-bottom: 10px">
-      <h3>Conditions: </h3><p><%= @race.condition_node.getExpressionString %></p>
-      <%= link_to 'Edit Conditions', edit_condition_node_path(@race.condition_node), :class => 'btn btn-info btn-mini' %>
-    </div>
-      <div class="form-group col-xs-12">
-      <%= f.submit 'Save', :class => 'btn btn-success btn-sm'%>
-      <%= f.submit 'Save and Duplicate', :class => 'btn btn-primary btn-sm'%>
-      <%= link_to 'Back', races_path, :class => 'btn btn-danger btn-sm' %>
-    </div>
   </div>
-<% end %>
+  <div class="form-group col-xs-12">
+    <%= f.submit 'Save', :class => 'btn btn-success btn-sm'%>
+    <%= f.submit 'Save and Duplicate', :class => 'btn btn-primary btn-sm'%>
+    <%= link_to 'Back', races_path, :class => 'btn btn-danger btn-sm' %>
+  </div>
+  <% end %>
