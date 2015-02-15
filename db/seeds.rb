@@ -14,15 +14,15 @@ puts 'CREATED TRAINER: ' << trainer.email
 puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
-categories = Hash['Age'=>['3+', '3YO', '2YO'], 
-			'Wins'=> ['Maiden', 'NW2', 'NW3'], 'Sex' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Hasn\'t Won Since' => ['2012']]
+categories = Hash['Age'=>['3+', '3YO', '2YO', '4YO', '4+'], 
+			'Wins'=> ['Maiden', 'NW2', 'NW3', 'NW1 Since 2014-12-01', 'NW2 Since 2013-06-01', 'NW3 Since 2012-04-20'], 'Sex' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['OR, US', 'WA, US', 'CA, US', 'VA, US', 'AZ, US', 'KY, US', 'FL, US', 'ON, CA']]
 
 equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'Blinkers', 'Cheek Piece',
 						'Cornell Collar', 'Front Wraps', 'Nasal Strip']
 
 statuses = ['Race Ready', 'Vet\'s List', 'Steward\'s List', 'Inactive']
 
-# #Races: [Name, Description, Status, Category, Distance Type, Distance, Purse, Field Size]
+# #Races: [Name, Description, Status, Category, Distance Type, Distance, Purse, Max Field Size]
 # races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,400', 'Published', "Alternate",'Yards', 400, 4400, 10],
 # 		['f Md 12500', 'maidens, fillies, two years old, purse $4,400, claiming price $12,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 12],
 # 		['Clm 2500N3L', '3 year olds and upwards, never won three races, non-winners since June 15, purse $4,400, claiming price $2,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 6],
@@ -145,10 +145,8 @@ categories.each do |category, conditions|
 	case new_category.name
 	when 'Age', 'Wins'
 		new_category.datatype = 'Range'
-	when 'Sex', 'Bred', 'Hasn\'t Won Since'
+	when 'Sex', 'Bred'
 		new_category.datatype = 'Value'
-	else
-		new_category.datatype = 'Bool'
 	end
 
 	if new_category.save
@@ -156,7 +154,7 @@ categories.each do |category, conditions|
 	end
 	conditions.each do |condition|
 		new_condition = Condition.find_or_create_by!(name: condition, category_id: new_category.id)
-		if new_category.name == "Sex" || new_category.name == "Bred" || new_category.name == "Hasn\'t Won Since"
+		if new_category.name == "Sex" || new_category.name == "Bred"
 			new_condition.value = condition
 		end
 		if new_condition.save
@@ -185,7 +183,7 @@ equipment_medication.each do |equip|
 end
 
 # races.each do |race|
-# 	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], distance_type: race[4], distance: race[5], purse: race[6], field_size: race[7])
+# 	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], distance_type: race[4], distance: race[5], purse: race[6], max_field_size: race[7])
 # 	new_race.race_type = 'Default'
 # 	if new_race.save
 # 		puts 'CREATED RACE: ' << new_race.name
@@ -265,6 +263,13 @@ end
 # race.stakes = true
 # race.save
 
+fourplus = Condition.find_by_name('4+')
+fourplus.lowerbound = 4
+fourplus.save
+four = Condition.find_by_name('4YO')
+four.lowerbound = 4
+four.upperbound = 4
+four.save
 threeplus = Condition.find_by_name('3+')
 threeplus.lowerbound = 3
 threeplus.save
@@ -286,10 +291,26 @@ nwtwo.upperbound = 1
 nwtwo.save
 nwthree = Condition.find_by_name('NW3')
 nwthree.lowerbound = 0
-nwthree.upperbound = 3
+nwthree.upperbound = 2
 nwthree.save
-female = Condition.find_by_name('F')
-male = Condition.find_by_name('M')
+
+nw1since = Condition.find_by_name('NW1 Since 2014-12-01')
+nw1since.lowerbound = 0
+nw1since.upperbound = 0
+nw1since.value = '2014-12-01'
+nw1since.save
+
+nw2since = Condition.find_by_name('NW2 Since 2013-06-01')
+nw2since.lowerbound = 0
+nw2since.upperbound = 1
+nw2since.value = '2013-06-01'
+nw2since.save
+
+nw3since = Condition.find_by_name('NW3 Since 2012-04-20')
+nw3since.lowerbound = 0
+nw3since.upperbound = 2
+nw3since.value = '2012-04-20'
+nw3since.save
 
 # race = Race.find_by_name('Alw4400NC')
 # race_condition = RaceCondition.find_or_create_by!(race_id: race.id, condition_id: threeplus.id)

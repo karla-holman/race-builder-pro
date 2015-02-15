@@ -15,8 +15,12 @@
 		  					<button value="Add Condition" class="addCondition btn btn-success btn-mini" node="<%= child.id%>">Add Condition</button>
 							<button class="addChildOperator btn btn-primary btn-mini" value="Add Child Operator" node="<%= child.id%>">Add Condition Group</button>
 						<% end %>
-						<button class="addParentOperator btn btn-info btn-mini" value="Add Parent Operator" node="<%= child.id%>">
-							AND / OR</button>
+						<% if child.value %>
+							<button class="addParentAND btn btn-info btn-mini" value="Add Parent AND" node="<%= child.id%>">
+								AND</button>
+							<button class="addParentOR btn btn-info btn-mini" value="Add Parent OR" node="<%= child.id%>">
+								OR</button>
+						<% end %>
 					</div>
 		  		
 				<div class="col-xs-12">

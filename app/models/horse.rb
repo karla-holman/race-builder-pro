@@ -35,23 +35,29 @@ class Horse < ActiveRecord::Base
           	return true
           end
         when 'Wins'
-          if filter_range(condition, self.wins)
-          	return true
-          end
+        	if condition.value
+        		wins = getWinsSince(condition.value, self)
+        	else
+        		wins = self.wins
+        	end
+      		if filter_range(condition, wins)
+      			return true
+      		end
         when 'Sex'
           if self.sex == condition.value
           	return true
           end
         when 'Bred'
-          if condition.value == self.POB
-            return true
-          end 
-        when 'Hasn\'t Won Since'
-          if self.last_win.date
-            if condition.value.to_i >= self.last_win.date.year
-              return true
-            end
-          end
+        	split = condition.value.split(',')
+
+        	if !split[0].nil? && !split[1].nil?
+        		sub_code = split[0].strip
+        		country_code = split[1].strip
+        		
+        		if self.country_code == country_code && self.subregion_code == sub_code
+        			return true
+        		end
+        	end
         end
         return false
 	end
@@ -76,5 +82,12 @@ class Horse < ActiveRecord::Base
 	        return true
 	      end
 	    end
-  end
+  	end
+
+  	def getWinsSince(dateString, horse)
+  		date = dateString.to_date
+  		race_wins = horse.race_winners.where('date >= ?', date)
+
+  		return race_wins.count
+  	end
 end

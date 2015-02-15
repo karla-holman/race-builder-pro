@@ -11,8 +11,8 @@
         <div class="row">
           <div class="col-xs-6">  	
             <h2><%= @tel.date.strftime('%A') %>'s' Races</h2>
-            <h4>Total Purse Amount: <td><%= number_to_currency(@purse_total, precision: 2) %></h4>
-            <h4>Average Field Size: <td><%= @average_field_size %></h4>
+            <h4>Total Purse Amount: <td><%= number_to_currency(@purse_total, precision: 0) %></h4>
+            <h4>Average Field Size: <td><%= @tel.average_field_size %></h4>
             <%= link_to 'Edit', edit_tel_path(@tel),  :class => 'btn btn-success btn-mini'%>
             <% if !@tel.published %>
               <%= form_for(@tel, :html => {:class => 'inline-hidden-form'}) do |f| %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150128080927) do
+ActiveRecord::Schema.define(version: 20150214223121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20150128080927) do
   end
 
   create_table "claiming_prices", force: true do |t|
-    t.decimal  "price"
+    t.integer  "price"
     t.integer  "race_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20150128080927) do
     t.integer  "horse_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "date"
   end
 
   create_table "races", force: true do |t|
@@ -191,8 +192,8 @@ ActiveRecord::Schema.define(version: 20150128080927) do
     t.string   "distance_type"
     t.integer  "tel_id"
     t.string   "category"
-    t.decimal  "purse"
-    t.integer  "field_size"
+    t.integer  "purse"
+    t.integer  "max_field_size"
     t.boolean  "stakes",            default: false
     t.boolean  "needs_nomination",  default: false
     t.string   "weights"

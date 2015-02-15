@@ -34,7 +34,7 @@ class ConditionNodesController < ApplicationController
       @condition_node.save
     end
     respond_to do |format|
-      format.html { redirect_to :back }
+      format.html { redirect_to :back, status: 303 }
     end
   end
 
@@ -46,7 +46,28 @@ class ConditionNodesController < ApplicationController
     end
   end
 
-  def addParentOperator
+  def addParentAND
+    if !params[:node_id].blank?
+      base_node = ConditionNode.find_by_id(params[:node_id])
+    end
+
+    if base_node
+      new_node = ConditionNode.new
+      new_node.parent_id = base_node.parent_id
+      new_node.setTypeOperator
+      new_node.setOperatorAnd
+      new_node.save
+
+      base_node.parent_id = new_node.id
+      base_node.save
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back, status: 303 }
+    end
+  end
+
+  def addParentOR
     if !params[:node_id].blank?
       base_node = ConditionNode.find_by_id(params[:node_id])
     end
@@ -63,7 +84,7 @@ class ConditionNodesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to edit_condition_node_url(@condition_node) }
+      format.html { redirect_to :back, status: 303 }
     end
   end
 
@@ -81,7 +102,7 @@ class ConditionNodesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to edit_condition_node_url(@condition_node) }
+      format.html { redirect_to :back, status: 303 }
     end
   end
 
@@ -112,7 +133,7 @@ class ConditionNodesController < ApplicationController
 
 
     respond_to do |format|
-      format.html { redirect_to edit_condition_node_url(@condition_node) }
+      format.html { redirect_to :back, status: 303 }
     end
   end
 

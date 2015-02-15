@@ -1,5 +1,6 @@
 class RacesController < ApplicationController
   before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish, :duplicate_race]
+  skip_before_filter  :verify_authenticity_token
 
   # GET /races
   # GET /races.json
@@ -138,13 +139,13 @@ class RacesController < ApplicationController
       @wins = Condition.find(params[:wins_id])
       @races = FilterRacesService.new.conditionFilter(@races, @wins)
     end
+    if !params[:bred_id].blank?
+      @bred = Condition.find(params[:bred_id])
+      @races = FilterRacesService.new.conditionFilter(@races, @bred)
+    end
     if !params[:sex].blank?
       @sex = params[:sex]
       @races = FilterRacesService.new.sexFilter(@races, @sex)
-    end
-    if !params[:noWinsSince_id].blank?
-      @noWinsSince = Condition.find(params[:noWinsSince_id])
-      @races = FilterRacesService.new.conditionFilter(@races, @noWinsSince)
     end
     if !params[:distance].blank?
       @distance = params[:distance]
@@ -161,7 +162,7 @@ class RacesController < ApplicationController
 
      @ageList = FilterRacesService.new.ageCategories(@horse)
      @winList = FilterRacesService.new.winCategories(@horse)
-     @noWinsSinceList = FilterRacesService.new.noWinsSinceCategories(@horse)
+     @bredList = FilterRacesService.new.bredCategories(@horse)
      @claiming_prices = ClaimingPrice.all.pluck(:price).reject(&:blank?).uniq.sort
 
      confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
@@ -382,6 +383,14 @@ class RacesController < ApplicationController
 
   def add_winner
     new_winner = RaceWinner.new(:race_id => params[:race_id], :horse_id => params[:horse_id])
+
+    if new_winner.race.tel
+      date = new_winner.race.tel.date
+    else
+      date = Date.today
+    end
+
+    new_winner.date = date
     new_winner.save
 
     respond_to do |format|

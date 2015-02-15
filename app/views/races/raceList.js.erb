@@ -6,9 +6,9 @@ $("#menu_age_id").change(function(){
        method: "GET",
        data: {age_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
        wins_id: $(".page-info").attr("win"), sex: $(".page-info").attr("sex"),  
-       noWinsSince_id: $(".page-info").attr("noWinsSince"),
        lower_claiming: $(".page-info").attr("lower-claiming"), 
-       upper_claiming: $(".page-info").attr("upper-claiming"), 
+       upper_claiming: $(".page-info").attr("upper-claiming"),
+       bred_id: $(".page-info").attr("bred"),
        distance: $(".page-info").attr("distance")},
        success: function(response) {
        }
@@ -23,22 +23,7 @@ $("#Distances").change(function(){
        wins_id: $(".page-info").attr("win"), sex: $(".page-info").attr("sex"), age_id: $(".page-info").attr("age"),  
        lower_claiming: $(".page-info").attr("lower-claiming"), 
        upper_claiming: $(".page-info").attr("upper-claiming"),
-       noWinsSince_id: $(".page-info").attr("noWinsSince")},
-       success: function(response) {
-       }
-    })
-  });
-
-$("#menu_noWinsSince_id").change(function(){
-    $.ajax({
-       url : 'menu/raceList',
-       method: "GET",
-       data: {noWinsSince_id: $(this).val(), age_id: $(".page-info").attr("age"), 
-       horse_id: $(".page-info").attr("horse"), wins_id: $(".page-info").attr("win"), 
-       sex: $(".page-info").attr("sex"),  
-       lower_claiming: $(".page-info").attr("lower-claiming"), 
-       upper_claiming: $(".page-info").attr("upper-claiming"),
-       distance: $(".page-info").attr("distance")},
+       bred_id: $(".page-info").attr("bred")},
        success: function(response) {
        }
     })
@@ -53,7 +38,22 @@ $("#menu_wins_id").change(function(){
        lower_claiming: $(".page-info").attr("lower-claiming"), 
        upper_claiming: $(".page-info").attr("upper-claiming"),
        distance: $(".page-info").attr("distance"),
-       noWinsSince_id: $(".page-info").attr("noWinsSince")},
+       bred_id: $(".page-info").attr("bred")},
+       success: function(response) {
+       }
+    })
+  });
+
+$("#menu_bred_id").change(function(){
+    $.ajax({
+       url : 'menu/raceList',
+       method: "GET",
+       data: {bred_id: $(this).val(), horse_id: $(".page-info").attr("horse"), 
+       age_id: $(".page-info").attr("age"), sex: $(".page-info").attr("sex"), 
+       lower_claiming: $(".page-info").attr("lower-claiming"), 
+       upper_claiming: $(".page-info").attr("upper-claiming"),
+       distance: $(".page-info").attr("distance"),
+       wins_id: $(".page-info").attr("win")},
        success: function(response) {
        }
     })
@@ -67,8 +67,8 @@ $("#Sex").change(function(){
        age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
        lower_claiming: $(".page-info").attr("lower-claiming"), 
        upper_claiming: $(".page-info").attr("upper-claiming"),
-       distance: $(".page-info").attr("distance"), 
-       noWinsSince_id: $(".page-info").attr("noWinsSince")},
+       distance: $(".page-info").attr("distance"),
+       bred_id: $(".page-info").attr("bred")},
        success: function(response) {
        }
     })
@@ -82,7 +82,7 @@ $("#Lower_Claiming").change(function(){
       age_id: $(".page-info").attr("age"), wins_id: $(".page-info").attr("win"), 
       sex: $(".page-info").attr("sex"), distance: $(".page-info").attr("distance"),
       upper_claiming: $(".page-info").attr("upper-claiming"), 
-      noWinsSince_id: $(".page-info").attr("noWinsSince")},
+      bred_id: $(".page-info").attr("bred")},
        success: function(response) {
        }
     })
@@ -97,7 +97,7 @@ $("#Upper_Claiming").change(function(){
        sex: $(".page-info").attr("sex"), distance: $(".page-info").attr("distance"),
        lower_claiming: $(".page-info").attr("lower-claiming"),
        distance: $(".page-info").attr("distance"), 
-       noWinsSince_id: $(".page-info").attr("noWinsSince")},
+       bred_id: $(".page-info").attr("bred")},
         success: function(response) {
         }
     })

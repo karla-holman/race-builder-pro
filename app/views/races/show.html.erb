@@ -74,9 +74,9 @@
 									</td>
 									<td>
 										<% if horse.last_claiming_price %>
-										<%= number_to_currency(horse.last_claiming_price, precision: 2) %>
+										<%= number_to_currency(horse.last_claiming_price, precision: 0) %>
 										<% else %>
-										<%= number_to_currency(0, precision: 2) %>
+										<%= number_to_currency(0, precision: 0) %>
 										<% end %>
 									</td>
 									<td style="display:none;"><%= horse.owner.name %></td>

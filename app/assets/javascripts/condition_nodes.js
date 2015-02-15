@@ -1,7 +1,14 @@
 $(document).ready(function() {
-	$('.addParentOperator').on('click', function (e) {
+	$('.addParentAND').on('click', function (e) {
 		var node_id = $(this).attr("node");
-		$.ajax({url: "addParentOperator", type: "POST", data: {node_id: node_id}})
+		$.ajax({url: "addParentAND", type: "POST", data: {node_id: node_id}})
+		.done(function(data){
+			return false;
+		});
+	});
+	$('.addParentOR').on('click', function (e) {
+		var node_id = $(this).attr("node");
+		$.ajax({url: "addParentOR", type: "POST", data: {node_id: node_id}})
 		.done(function(data){
 			return false;
 		});
@@ -33,8 +40,7 @@ $(document).ready(function() {
 		var url = '/condition_nodes/'+ node_id
 		$.ajax({url: url, type: "PATCH", data: {condition_node: {value: value}, update: true}})
 		.done(function(data){
-			return false;
+			location.reload(true);
 		})
-		location.reload(true);
 	});
 })

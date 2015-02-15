@@ -51,7 +51,8 @@ RailsDevisePundit::Application.routes.draw do
 
   get '/horses/subregion_options' => 'horses#subregion_options'
 
-  post 'condition_nodes/:id/addParentOperator' => 'condition_nodes#addParentOperator'
+  post 'condition_nodes/:id/addParentAND' => 'condition_nodes#addParentAND'
+  post 'condition_nodes/:id/addParentOR' => 'condition_nodes#addParentOR'
   post 'condition_nodes/:id/addChildOperator' => 'condition_nodes#addChildOperator'
   post 'condition_nodes/:id/addCondition' => 'condition_nodes#addCondition'
   post 'condition_nodes/:id/removeNode' => 'condition_nodes#removeNode'

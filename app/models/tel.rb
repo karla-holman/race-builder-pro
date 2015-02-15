@@ -21,8 +21,8 @@ class Tel < ActiveRecord::Base
 		num_races = 0
 
 	    races.each do |race|
-	      if race.field_size
-	        average_field_size += race.field_size
+	      if race.horseraces
+	        average_field_size += race.horseraces.where(:status => "Confirmed").count
 	        num_races = num_races + 1
 	      end
 	    end

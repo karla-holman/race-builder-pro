@@ -18,19 +18,6 @@ class TelsController < ApplicationController
 
     @purse_total = 0
     num_races = 0
-    @average_field_size = 0
-
-    @tel.races.each do |race|
-      @purse_total += race.purse
-      if race.field_size
-        @average_field_size += race.field_size
-        num_races = num_races + 1
-      end
-    end
-
-    if num_races > 0
-      @average_field_size = @average_field_size/num_races
-    end
 
     eligible_races = FilterRacesService.new.currentEligibleRaces()
     if @race_ids.any?

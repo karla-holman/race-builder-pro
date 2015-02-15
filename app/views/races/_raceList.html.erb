@@ -9,14 +9,14 @@
         <% if @sex %>
         sex="<%= @sex %>" 
         <%end%>
+        <% if @bred %>
+        bred="<%= @bred.id %>" 
+        <%end%>
         <% if @lower_claiming %>
         lower-claiming="<%=@lower_claiming%>" 
         <%end%>
         <% if @upper_claiming %>
         upper-claiming="<%=@upper_claiming%>" 
-        <%end%>
-        <% if @noWinsSince %>
-        noWinsSince="<%= @noWinsSince.id %>" 
         <%end%>
         <% if @distance %>
         distance="<%= @distance %>" 
@@ -31,7 +31,7 @@
         <div class="row race-menu-selectors">
             <div class="col-xs-6">
                 <div class='row'>
-                    <div class="col-xs-3 center">
+                    <div class="col-xs-2 center">
                         <% if @age %>
                         <p>Age</p>
                          <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:selected => @age.id, :include_blank => 'All'}) %>
@@ -40,7 +40,7 @@
                          <%= collection_select(:menu, :age_id, @ageList, :id, :name, {:prompt => 'All'}) %>
                         <% end %>
                     </div>
-                    <div class="col-xs-3 center">
+                    <div class="col-xs-2 center">
                         <% if @sex %>
                             <p>Sex</p>
                             <% if @age && (@age.name == '3' || @age.name == '2') %>
@@ -58,21 +58,21 @@
                         <% end %>
                     </div>
                     <div class="col-xs-3 center">
+                        <% if @bred %>
+                        <p>Bred</p>
+                         <%= collection_select(:menu, :bred_id, @bredList, :id, :name, {:selected => @bred.id, :include_blank => 'All'}) %>
+                        <% else %>
+                        <p>Bred</p>
+                         <%= collection_select(:menu, :bred_id, @bredList, :id, :name, {:prompt => 'All'}) %>
+                        <% end %>
+                    </div>
+                    <div class="col-xs-5 center">
                         <% if @wins %>
                         <p>Conditions</p>
                          <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
                         <% else %>
                         <p>Conditions</p>
                          <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
-                        <% end %>
-                    </div>
-                    <div class="col-xs-3 center">
-                        <% if @noWinsSince %>
-                        <p>No Wins Since</p>
-                         <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:selected => @noWinsSince.id, :include_blank => 'None'}) %>
-                        <% else %>
-                        <p>No Wins Since</p>
-                         <%= collection_select(:menu, :noWinsSince_id, @noWinsSinceList, :id, :name, {:prompt => 'None'}) %>
                         <% end %>
                     </div>
                 </div>
@@ -139,15 +139,15 @@
                                             <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
                                                 <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
                                                     <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
-                                                        <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                                                        <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
                                                     <% else %>
-                                                        <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                                                        <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
                                                     <% end %>
                                                 <% else %>
-                                                    <%= number_to_currency(race.claiming_prices[0].price, precision: 2) %>
+                                                    <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
                                                 <% end %>
                                             <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
-                                                <%= number_to_currency(race.claiming_prices[1].price, precision: 2) %>
+                                                <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
                                             <% end %>
                                             </td>
                                             <% if race.distance %>

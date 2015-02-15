@@ -28,6 +28,10 @@ class ConditionNode < ActiveRecord::Base
   		self.value = OR
 	end
 
+	def setOperatorAnd
+  		self.value = AND
+	end
+
 	def setTypeCondition
   		self.node_type = CONDITION
 	end

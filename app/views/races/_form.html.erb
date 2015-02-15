@@ -86,8 +86,8 @@
     </div>
     <div class="form-group row">
       <div class="col-xs-6">
-        <%= f.label :field_size %>
-        <%= f.select :field_size, options_for_select(1..20, 12) %>
+        <%= f.label 'Max Field Size' %>
+        <%= f.select :max_field_size, options_for_select(1..20, 12) %>
       </div>
       <div class="col-xs-6">
         <%= f.label :race_type %>
@@ -100,12 +100,14 @@
         <div id="claiming_prices" 
         <% if (@race.race_type != 'Claiming') && (@race.race_type != 'Allowance Optional Claiming') && (@race.race_type != 'Maiden Claiming')%> style="display:none" <% end %>>
         <div class="col-xs-12">
-          <%= f.label 'Claiming Prices' %><p>(Enter claiming price in one or both of the boxes below)</p>
+          <%= f.label 'Claiming Prices' %><p>(Enter a claiming price in one or both of the boxes below)</p>
         </div>
         <div class="col-xs-6">
+          <%= f.label 'Lower Claiming' %>
           <input type="textbox" name="claiming_one" class="form-control" value="<%= @claiming_one.price%>"/>
         </div>
         <div class="col-xs-6">
+          <%= f.label 'Upper Claiming' %>
           <input type="textbox" name="claiming_two" class="form-control" value="<%= @claiming_two.price%>"/>
         </div>
       </div>
