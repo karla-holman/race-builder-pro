@@ -32,9 +32,10 @@ class WeeksController < ApplicationController
   end
 
   def update
+    @meet = Meet.find(week_params[:meet_id])
     respond_to do |format|
       if @week.update(week_params)
-        format.html { redirect_to @week, notice: 'Week was successfully updated.' }
+        format.html { redirect_to @meet, notice: 'Week was successfully updated.' }
         format.json { render :show, status: :ok, location: @week }
       else
         format.html { render :edit }

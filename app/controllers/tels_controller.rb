@@ -43,6 +43,7 @@ class TelsController < ApplicationController
 
     respond_to do |format|
       if @tel.save
+        addRaces(@tel)
         format.html { redirect_to @week, notice: 'Tel was successfully created.' }
       end
     end
@@ -52,6 +53,7 @@ class TelsController < ApplicationController
     @week = Week.find(@tel.week_id)
     respond_to do |format|
       if @tel.update(tel_params)
+        addRaces(@tel)
         format.html { redirect_to @week, notice: 'Tel was successfully updated.' }
       else
         format.html { render :edit }
@@ -74,6 +76,16 @@ class TelsController < ApplicationController
     @race = Race.find(tel_params[:race_id])
     @race.tel_id = ''
     @race.save
+  end
+
+  def addRaces(tel)
+    race_dates = RaceDate.where(:date => tel.date)
+    race_dates.each do |race_date|
+      if race_date.race.status == "Published"
+        race_date.race.tel = tel
+        race_date.race.save
+      end
+    end
   end
 
   private

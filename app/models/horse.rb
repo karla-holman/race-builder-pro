@@ -4,16 +4,16 @@ class Horse < ActiveRecord::Base
 	belongs_to :status
 	belongs_to :last_win
 
-	has_many :horseraces
+	has_many :horseraces, :dependent => :destroy
 	has_many :races, :through => :horseraces
 
 	has_many :horse_equipments
-	has_many :equipment, :through => :horse_equipments
+	has_many :equipment, :through => :horse_equipments, :dependent => :destroy
 
 	has_many :horse_meets
-	has_many :meets, :through => :horse_meets
+	has_many :meets, :through => :horse_meets, :dependent => :destroy
 
-	has_many :race_winners
+	has_many :race_winners, :dependent => :destroy
 
 	belongs_to :owner, class_name: 'User'
 	belongs_to :trainer, class_name: 'User'

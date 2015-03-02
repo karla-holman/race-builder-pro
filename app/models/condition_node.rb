@@ -1,6 +1,6 @@
 class ConditionNode < ActiveRecord::Base
 	belongs_to :parent, class_name: 'ConditionNode', foreign_key: :parent_id
-    has_many :children, class_name: 'ConditionNode', foreign_key: :parent_id
+    has_many :children, class_name: 'ConditionNode', foreign_key: :parent_id, :dependent => :destroy
 
 
 	#Types

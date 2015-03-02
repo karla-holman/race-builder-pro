@@ -31,9 +31,9 @@
 				<tbody>
 					<% @weeks.each do |week| %>
 		        	<tr>
-		        	<td><%= week.week_number %></td>
-		          	<td><%= week.start_date.strftime('%b %d, %Y') %></td>
-		          	<td><%= week.end_date.strftime('%b %d, %Y') %></td>
+		        	<td><% if week.week_number %><%= week.week_number %><% end %></td>
+		          	<td><% if week.start_date %><%= week.start_date.strftime('%b %d, %Y') %><%end%></td>
+		          	<td><% if week.end_date %><%= week.end_date.strftime('%b %d, %Y') %><%end%></td>
 		          	<td>
 		          	<%= link_to 'Show', week, :class => 'btn btn-primary btn-mini' %>
 		            	<%= link_to 'Edit', edit_week_path({week: {:meet_id=> @meet.id}, :id => week.id}), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>

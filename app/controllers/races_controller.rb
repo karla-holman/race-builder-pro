@@ -204,22 +204,34 @@ class RacesController < ApplicationController
   # POST /races
   # POST /races.json
   def create
-    @race = Race.new(race_params)
-    if(params[:race_date])
-      @race_date = RaceDate.new
-      @race_date.race_id = @race.id         
-      @race_date.date = params[:race_date][:date]
-      @race_date.save
-      @race.race_date = @race_date
+    if(params[:claiming_one])
+      @claiming_one = ClaimingPrice.new(:price => params[:claiming_one])
+    else
+      @claiming_one = ClaimingPrice.new
     end
+    if(params[:claiming_two])
+      @claiming_two = ClaimingPrice.new(:price => params[:claiming_two])
+    else
+      @claiming_two = ClaimingPrice.new
+    end
+    @race = Race.new(race_params)
     if(params[:category])
       @race.category = 'Priority'
+      if(params[:race_date] && !params[:race_date][:date].empty?)
+        @race_date = RaceDate.new
+        @race_date.race_id = @race.id         
+        @race_date.date = params[:race_date][:date]
+        @race_date.save
+        @race.race_date = @race_date
+      else
+        @race.errors.add('Priority', "Race must have a date.")
+      end
     else
       @race.category = 'Alternate'
     end
     respond_to do |format|
-      if @race.save
-        if(params[:claiming_one])
+      if !@race.errors.any? && @race.save
+        if(params[:claiming_one] && @race.isClaiming)
           if(@race.claiming_prices[0])
             @race.claiming_prices[0].price = params[:claiming_one]
             @race.claiming_prices[0].save
@@ -231,7 +243,7 @@ class RacesController < ApplicationController
             @race.claiming_prices[0] = @claiming_one
           end
         end
-        if (params[:claiming_two])
+        if (params[:claiming_two] && @race.isClaiming)
           if(@race.claiming_prices[1])
             @race.claiming_prices[1].price = params[:claiming_two]
             @race.claiming_prices[1].save
@@ -244,25 +256,27 @@ class RacesController < ApplicationController
           end
         end
         @race.save
+        addRaceToTEL(@race)
         if(params[:commit] == 'Save and Duplicate')
           new_race = @race.dup
-          new_race.conditions = @race.conditions
           new_race.save
-          if(params[:claiming_one])
+          if(params[:claiming_one] && @race.isClaiming)
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = new_race.id
             @claiming_one.price = params[:claiming_one]
             @claiming_one.save
             new_race.claiming_prices[0] = @claiming_one
           end
-          if (params[:claiming_two])
+          if (params[:claiming_two] && @race.isClaiming)
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = new_race.id
             @claiming_two.price = params[:claiming_two]
             @claiming_two.save
             new_race.claiming_prices[1] = @claiming_two
           end
+          new_race.cloneConditions(@race)
           new_race.save
+          addRaceToTEL(new_race)
           @race.create_activity :create, owner: current_user
           format.html { redirect_to edit_race_path(@race) }
         else
@@ -280,6 +294,16 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1
   # PATCH/PUT /races/1.json
   def update
+    if(params[:claiming_one])
+      @claiming_one = ClaimingPrice.new(:price => params[:claiming_one])
+    else
+      @claiming_one = ClaimingPrice.new
+    end
+    if(params[:claiming_two])
+      @claiming_two = ClaimingPrice.new(:price => params[:claiming_two])
+    else
+      @claiming_two = ClaimingPrice.new
+    end
     if params[:condition_ids]
       current_conditions = RaceCondition.where(:race => @race)
       params[:condition_ids].each do |condition|
@@ -306,12 +330,26 @@ class RacesController < ApplicationController
       end
       if(params[:category])
         @race.category = 'Priority'
+        if(params[:race_date] && !params[:race_date][:date].empty?)
+          if !@race.race_date
+            @race_date = RaceDate.new
+            @race_date.race_id = @race.id         
+          else
+            @race_date = @race.race_date
+          end       
+          @race_date.date = params[:race_date][:date]
+          @race_date.save
+          @race.race_date = @race_date
+        else
+          @race.errors.add('Priority', "Race must have a date.")
+        end
       else
         @race.category = 'Alternate'
       end
       respond_to do |format|
-        if @race.update(race_params)
-          if(params[:claiming_one])
+        if !@race.errors.any? && @race.update(race_params)
+          @race.claiming_prices.delete_all
+          if(params[:claiming_one] && @race.isClaiming)
             if(@race.claiming_prices[0])
               @race.claiming_prices[0].price = params[:claiming_one]
               @race.claiming_prices[0].save
@@ -323,7 +361,7 @@ class RacesController < ApplicationController
               @race.claiming_prices[0] = @claiming_one
             end
           end
-          if (params[:claiming_two])
+          if (params[:claiming_two] && @race.isClaiming)
             if(@race.claiming_prices[1])
               @race.claiming_prices[1].price = params[:claiming_two]
               @race.claiming_prices[1].save
@@ -336,26 +374,27 @@ class RacesController < ApplicationController
             end
           end
           @race.save
+          addRaceToTEL(@race)
           if(params[:commit] == 'Save and Duplicate')
             new_race = @race.dup
-            new_race.conditions = @race.conditions
-            new_race.claiming_prices = @race.claiming_prices
             new_race.save
-            if(params[:claiming_one])
+            if(params[:claiming_one] && @race.isClaiming)
               @claiming_one = ClaimingPrice.new
               @claiming_one.race_id = new_race.id
               @claiming_one.price = params[:claiming_one]
               @claiming_one.save
               new_race.claiming_prices[0] = @claiming_one
             end
-            if (params[:claiming_two])
+            if (params[:claiming_two] && @race.isClaiming)
               @claiming_two = ClaimingPrice.new
               @claiming_two.race_id = new_race.id
               @claiming_two.price = params[:claiming_two]
               @claiming_two.save
               new_race.claiming_prices[1] = @claiming_two
             end
+            new_race.cloneConditions(@race)
             new_race.save
+            addRaceToTEL(new_race)
             @race.create_activity :update, owner: current_user
             format.html { redirect_to :back }
           else
@@ -374,6 +413,8 @@ class RacesController < ApplicationController
   def update_status
     race = Race.find(params[:id])
     race.status = params[:status]
+    addRaceToTEL(race)
+    
     race.save
 
     respond_to do |format|
@@ -408,9 +449,36 @@ class RacesController < ApplicationController
     end
   end
 
+  def addRaceToTEL(race)
+    if race.race_date.date && race.status == "Published"
+      tel = Tel.where(:date => race.race_date.date).first
+      race.tel = tel
+      race.save
+    else
+      race.tel = nil
+    end 
+  end
+
   def duplicate_race
     new_race = @race.dup
-    new_race.conditions = @race.conditions
+    new_race.save
+
+    if @race.claiming_prices[0]
+      new_claiming = @race.claiming_prices[0].dup
+      new_claiming.race_id = new_race.id
+      new_claiming.save
+      new_race.claiming_prices[0] = new_claiming
+    end
+
+    if @race.claiming_prices[1]
+      new_claiming = @race.claiming_prices[1].dup
+      new_claiming.race_id = new_race.id
+      new_claiming.save
+      new_race.claiming_prices[1] = new_claiming
+    end
+
+    new_race.cloneConditions(@race)
+
     new_race.save
     respond_to do |format|
       format.html { redirect_to :back }
@@ -436,6 +504,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :weights, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :field_size, :purse, :race_type, :stakes, :needs_nomination, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :weights, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :max_field_size, :purse, :race_type, :stakes, :needs_nomination, :condition_ids => [])
     end
 end

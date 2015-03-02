@@ -24,7 +24,7 @@
       </div>
      <div class="form-group">
         <%= f.label :week_number %>
-        <%= f.select :week_number, options_for_select(0..100) %>
+        <%= f.select :week_number, options_for_select(0..100, @week.week_number) %>
      </div>
       <div class="form-group">
         <%= f.submit :class => 'btn btn-success btn-sm'%>

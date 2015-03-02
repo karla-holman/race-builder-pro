@@ -10,7 +10,9 @@ class Tel < ActiveRecord::Base
 		purse_total = 0
 
 		races.each do |race|
-      		purse_total += race.purse
+			if race.purse
+      			purse_total += race.purse
+      		end
     	end
 
     	return purse_total
