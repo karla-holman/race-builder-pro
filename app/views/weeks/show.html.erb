@@ -13,13 +13,13 @@
         <h4>Total Purse Amount: <td><%= number_to_currency(tel.purse_total, precision: 0) %></h4>
             <h4>Average Field Size: <td><%= tel.average_field_size %></h4>
             <%= link_to 'Edit', edit_tel_path(tel),  :class => 'btn btn-success btn-mini'%>
-            <% if !tel.published %>
+            <% if !tel.published && !tel.entry_list %>
               <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
                 <%= f.hidden_field :published, :value => true %>
                 <%= f.submit "Publish Tel", :class => 'btn btn-primary btn-mini'%>
               <% end %>
             <% end %>
-            <% if tel.published %>
+            <% if tel.published && !tel.entry_list %>
               <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
                 <%= f.hidden_field :published, :value => false %>
                 <%= f.submit "Un-Publish Tel", :class => 'btn btn-primary btn-mini'%>
@@ -28,20 +28,14 @@
             <% if !tel.entry_list %>
               <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
                 <%= f.hidden_field :entry_list, :value => true %>
-                <%= f.submit "Convert to Entry List", :class => 'btn btn-info btn-mini'%>
-              <% end %>
-            <% end %>
-            <% if tel.entry_list %>
-              <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-                <%= f.hidden_field :entry_list, :value => false %>
-                <%= f.submit "Convert to TEL", :class => 'btn btn-info btn-mini'%>
+                <%= f.submit "Convert to Entry List", data: { confirm: "Once converted you can not convert back to a TEL, Are you sure?" }, :class => 'btn btn-info btn-mini'%>
               <% end %>
             <% end %>
         <div class="grid simple">
           <div class="grid-body no-border">
             <div class="row">
               <div class="col-xs-12">
-                <table class="genericTable table table-condensed table-hover">
+                <table class="weeksTelTable table table-condensed table-hover">
                   <thead>
                     <tr>
                       <th>Race</th>
@@ -142,7 +136,7 @@
       <div class="grid-body no-border">
         <div class="row">
           <div class="col-xs-12">
-            <table class="detailTable table table-condensed table-hover">
+            <table class="weeksTable table table-condensed table-hover">
               <thead>
                 <tr>
                   <th>Name</th>

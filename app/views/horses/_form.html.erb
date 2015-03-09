@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
       <%= f.label 'Birth Year' %>
-      <%= f.select :birth_year, options_for_select(2012.downto(2000)) %>
+      <%= f.select :birth_year, options_for_select(2013.downto(2000), @horse.birth_year) %>
     </div>
      <div id="owner_select" class="form-group" <% if @ownerIsTrainer %> style="display:none;" <%end %>>
       <%= f.label 'Owner' %>

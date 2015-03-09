@@ -1,0 +1,2 @@
+module HorseFilterSettingsHelper
+end

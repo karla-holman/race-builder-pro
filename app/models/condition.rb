@@ -4,8 +4,24 @@ class Condition < ActiveRecord::Base
 	has_many :races, :through => :raceconditions
 
 
+	def parsedName
+		if self.category.name == "Restriction"
+			split = self.name.split(',')
+			return split[0]
+		else
+			return self.name
+		end
+	end
 
 	def categoryAndName
-    	"#{self.category.name} - #{self.name}"
+		if self.category.name == "Restriction"
+			split = self.name.split(',')
+			name = split[0]
+		else
+			name = self.name
+		end
+
+
+    	"#{self.category.name} - #{name}"
   	end
 end

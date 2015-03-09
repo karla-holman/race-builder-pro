@@ -90,21 +90,33 @@ class Race < ActiveRecord::Base
 		new_node.save
 	end
 
+	def duplicateRace
+	    new_race = self.dup
+	    new_race.save
 
+	    if self.claiming_prices[0]
+	      new_claiming = self.claiming_prices[0].dup
+	      new_claiming.race_id = new_race.id
+	      new_claiming.save
+	      new_race.claiming_prices[0] = new_claiming
+	    end
 
+	    if self.claiming_prices[1]
+	      new_claiming = self.claiming_prices[1].dup
+	      new_claiming.race_id = new_race.id
+	      new_claiming.save
+	      new_race.claiming_prices[1] = new_claiming
+	    end
 
+	    new_race.cloneConditions(self)
 
+	    if new_race.race_date && new_race.race_date.date && new_race.status == "Published"
+	      tel = Tel.where(:date => new_race.race_date.date).first
+	      new_race.tel = tel
+	    else
+	      new_race.tel = nil
+	    end 
 
-
-
-
-
-
-
-
-
-
-
-
-
+	    new_race.save
+	end
 end

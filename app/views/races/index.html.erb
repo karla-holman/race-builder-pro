@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <h2><%= current_user.name %>'s Races</h2>
     <% if current_user.admin? %>
-      <%= link_to 'New Race', new_race_path, :class => 'btn btn-primary btn-small' %>
+      <%= link_to 'New Race', new_race_path(:race), :class => 'btn btn-primary btn-small' %>
     <% end %>
   </div>
   <div class="col-xs-12">

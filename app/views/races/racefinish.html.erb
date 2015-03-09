@@ -6,6 +6,9 @@
 <div class="row">
   <div class="col-xs-12">
     <h2><%= @race.name %></h2>
+    <% if @resetHorses %>
+      <%= link_to 'Set Horses To Race Ready', '/races/'+@race.id.to_s+'/resetHorseStatuses', :method=> :post, :class => 'btn btn-primary btn-mini' %>
+    <% end %>
   </div>
   <div class="col-xs-12">
     <div class="grid simple">

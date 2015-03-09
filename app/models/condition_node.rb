@@ -84,7 +84,12 @@ class ConditionNode < ActiveRecord::Base
 	def getConditionName
 		condition = Condition.find_by_id(self.value)
 		if condition
-  			return condition.name
+			if condition.category.name == "Restriction"
+				split = condition.name.split(',')
+				return split[0]
+			else
+				return name = condition.name
+			end
   		else
   			return ""
   		end
@@ -94,6 +99,9 @@ class ConditionNode < ActiveRecord::Base
 		race = Race.find_by_id(self.value)
 		if race
 			return race.name
+		elsif Rails.cache.read('New Race')
+			params = Rails.cache.read('New Race')
+        	return params[:race][:name]	
 		else
 			return "no race connected"
 		end

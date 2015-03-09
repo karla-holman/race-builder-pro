@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :horse_filter_settings
+
   resources :condition_nodes
 
   resources :claiming_prices
@@ -33,9 +35,11 @@ RailsDevisePundit::Application.routes.draw do
   get 'races/menu/raceList' => 'races#raceList'
   get 'races/schedule' => 'races#schedule'
   get 'races/stakes' => 'races#stakes'
+  get 'races/new/race_conditions' => 'races#new_with_condition_node'
   post 'races/add_winner' => 'races#add_winner'
   post 'races/scratch_horse' => 'races#scratch_horse'
   post 'races/:id/duplicate' => 'races#duplicate_race'
+  post 'races/:id/resetHorseStatuses' => 'races#resetHorseStatuses'
 
   post 'weeks/:id/reset_races' => 'weeks#reset_races'
 

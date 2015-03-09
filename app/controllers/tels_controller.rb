@@ -54,6 +54,18 @@ class TelsController < ApplicationController
     respond_to do |format|
       if @tel.update(tel_params)
         addRaces(@tel)
+
+        if tel_params[:entry_list] == 'true'
+          running = Status.find_by_name('Running')
+          @tel.races.each do |race|
+            race.duplicateRace
+            race.horses.each do |horse|
+              horse.status = running
+              horse.save
+            end
+          end
+        end
+
         format.html { redirect_to @week, notice: 'Tel was successfully updated.' }
       else
         format.html { render :edit }

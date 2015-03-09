@@ -21,7 +21,7 @@ class FilterRacesService
 
   def bredCategories(horse)
     @conditions = []
-    Condition.where(:category_id => Category.find_by_name("Bred")).each do |condition|
+    Condition.where(:category_id => Category.find_by_name("Restriction")).each do |condition|
       if horse.satisfiesCondition(condition)
         @conditions.push(condition)
       end
@@ -57,15 +57,24 @@ class FilterRacesService
     if condition == 'F/M'
       sex_one = Condition.find_by_name("F")
       sex_two = Condition.find_by_name("M") 
-    else
+    elsif condition == 'C/G'
       sex_one = Condition.find_by_name("C")
       sex_two = Condition.find_by_name("G")
     end
-    races.each do |race|
-      if race.includesCondition(sex_one)
-        filtered_races.push(race)
-      elsif race.includesCondition(sex_two)
-        filtered_races.push(race)
+
+    if sex_one && sex_two
+      races.each do |race|
+        if race.includesCondition(sex_one)
+          filtered_races.push(race)
+        elsif race.includesCondition(sex_two)
+          filtered_races.push(race)
+        end
+      end
+    else
+      races.each do |race|
+        if race.includesCondition(condition)
+          filtered_races.push(race)
+        end
       end
     end
 
@@ -129,9 +138,9 @@ class FilterRacesService
 
   def currentEligibleRaces()
     races = Race.where(:status => 'Published').to_a
-
-    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today).order('date DESC')
     
+    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today).order('date DESC')
+
     if !tels
       return races
     end

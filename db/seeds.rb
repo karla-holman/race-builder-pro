@@ -15,12 +15,12 @@ puts 'CREATED OWNER: ' << owner.email
 
 #Category Hash Array: Category => [Conditions]
 categories = Hash['Age'=>['3+', '3YO', '2YO', '4YO', '4+'], 
-			'Wins'=> ['Maiden', 'NW2', 'NW3', 'NW1 Since 2014-12-01', 'NW2 Since 2013-06-01', 'NW3 Since 2012-04-20'], 'Sex' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Bred' => ['OR, US', 'WA, US', 'CA, US', 'VA, US', 'AZ, US', 'KY, US', 'FL, US', 'ON, CA']]
+			'Wins'=> ['Maiden', 'NW2', 'NW3', 'NW1 Since 2014-12-01', 'NW2 Since 2013-06-01', 'NW3 Since 2012-04-20'], 'Sex' => ['M', 'F', 'C', 'G', 'H', 'R'], 'Restriction' => ['OR, US', 'WA, US', 'CA, US', 'VA, US', 'AZ, US', 'KY, US', 'FL, US', 'ON, CA']]
 
 equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'Blinkers', 'Cheek Piece',
 						'Cornell Collar', 'Front Wraps', 'Nasal Strip']
 
-statuses = ['Race Ready', 'Vet\'s List', 'Steward\'s List', 'Inactive']
+statuses = ['Race Ready', 'Vet\'s List', 'Steward\'s List', 'Inactive', 'Running']
 
 # #Races: [Name, Description, Status, Category, Distance Type, Distance, Purse, Max Field Size]
 # races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,400', 'Published', "Alternate",'Yards', 400, 4400, 10],
@@ -145,7 +145,7 @@ categories.each do |category, conditions|
 	case new_category.name
 	when 'Age', 'Wins'
 		new_category.datatype = 'Range'
-	when 'Sex', 'Bred'
+	when 'Sex', 'Restriction'
 		new_category.datatype = 'Value'
 	end
 
@@ -154,7 +154,7 @@ categories.each do |category, conditions|
 	end
 	conditions.each do |condition|
 		new_condition = Condition.find_or_create_by!(name: condition, category_id: new_category.id)
-		if new_category.name == "Sex" || new_category.name == "Bred"
+		if new_category.name == "Sex" || new_category.name == "Restriction"
 			new_condition.value = condition
 		end
 		if new_condition.save

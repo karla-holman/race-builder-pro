@@ -3,6 +3,7 @@ class Horse < ActiveRecord::Base
 
 	belongs_to :status
 	belongs_to :last_win
+	belongs_to :horse_filter_setting
 
 	has_many :horseraces, :dependent => :destroy
 	has_many :races, :through => :horseraces
@@ -14,6 +15,8 @@ class Horse < ActiveRecord::Base
 	has_many :meets, :through => :horse_meets, :dependent => :destroy
 
 	has_many :race_winners, :dependent => :destroy
+
+
 
 	belongs_to :owner, class_name: 'User'
 	belongs_to :trainer, class_name: 'User'
@@ -47,7 +50,7 @@ class Horse < ActiveRecord::Base
           if self.sex == condition.value
           	return true
           end
-        when 'Bred'
+        when 'Restriction'
         	split = condition.value.split(',')
 
         	if !split[0].nil? && !split[1].nil?

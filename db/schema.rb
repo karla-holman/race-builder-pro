@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150214223121) do
+ActiveRecord::Schema.define(version: 20150308173123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,19 @@ ActiveRecord::Schema.define(version: 20150214223121) do
     t.datetime "updated_at"
   end
 
+  create_table "horse_filter_settings", force: true do |t|
+    t.integer  "lower_claiming"
+    t.integer  "upper_claiming"
+    t.integer  "wins_id"
+    t.integer  "age_id"
+    t.string   "sex"
+    t.integer  "horse_id"
+    t.string   "distance"
+    t.string   "bred_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "horse_meets", force: true do |t|
     t.integer  "horse_id"
     t.integer  "meet_id"
@@ -113,6 +126,7 @@ ActiveRecord::Schema.define(version: 20150214223121) do
     t.integer  "last_win_id"
     t.string   "country_code"
     t.string   "subregion_code"
+    t.integer  "horse_filter_setting_id"
   end
 
   add_index "horses", ["name"], name: "index_horses_on_name", unique: true, using: :btree
@@ -194,10 +208,11 @@ ActiveRecord::Schema.define(version: 20150214223121) do
     t.string   "category"
     t.integer  "purse"
     t.integer  "max_field_size"
-    t.boolean  "stakes",            default: false
-    t.boolean  "needs_nomination",  default: false
+    t.boolean  "stakes",             default: false
+    t.boolean  "needs_nomination",   default: false
     t.string   "weights"
     t.integer  "condition_node_id"
+    t.boolean  "hasOtherConditions"
   end
 
   create_table "statuses", force: true do |t|

@@ -81,27 +81,35 @@
                     </div>
                     <div class="col-xs-4 center">
                         <% if @bred %>
-                        <p>State-Bred</p>
-                         <%= collection_select(:menu, :bred_id, @bredList, :id, :name, {:selected => @bred.id, :include_blank => 'All'}) %>
+                        <p>Restriction</p>
+                         <%= collection_select(:menu, :bred_id, @bredList, :id, :parsedName, {:selected => @bred.id, :include_blank => 'All'}) %>
                         <% else %>
-                        <p>State-Bred</p>
-                         <%= collection_select(:menu, :bred_id, @bredList, :id, :name, {:prompt => 'All'}) %>
+                        <p>Restriction</p>
+                         <%= collection_select(:menu, :bred_id, @bredList, :id, :parsedName, {:prompt => 'All'}) %>
                         <% end %>
                     </div>
                     <div class="col-xs-4 center">
                         <% if @sex %>
                             <p>Sex</p>
-                            <% if @age && (@age.name == '3' || @age.name == '2') %>
-                                <%= select_tag "Sex", options_for_select([['F', 'F/M'], 'C/G'], @sex), :prompt => 'All' %>
+                            <% if (@horse.age == 2 && @horse.sex == 'F') || (@age && @age.name == '3YO' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4YO' && @horse.age == 4 && @horse.sex == 'F') %>
+                                <%= select_tag "Sex", options_for_select(['F'], @sex), :prompt => 'All' %>
+                             <% elsif (@age && @age.name == '3+' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4+' && @horse.age == 4 && @horse.sex == 'F')%>
+                                <%= select_tag "Sex", options_for_select(['F/M'], @sex), :prompt => 'All' %>
+                            <% elsif @horse.sex == 'F' || @horse.sex =='M' %>
+                                <%= select_tag "Sex", options_for_select(['F/M'], @sex), :prompt => 'All' %>
                             <% else %>
-                             <%= select_tag "Sex", options_for_select(['F/M', 'C/G'], @sex), :prompt => 'All' %>
-                             <% end %>
+                                <%= select_tag "Sex", options_for_select(['C/G'], @sex), :prompt => 'All' %>
+                            <% end %>
                         <% else %>
-                           <p>Sex</p>
-                           <% if @age && (@age.name == '3YO' || @age.name == '2YO') %>
-                                <%= select_tag "Sex", options_for_select([['F', 'F/M'], 'C/G']), :prompt => 'All' %>
+                            <p>Sex</p>
+                            <% if (@horse.age == 2 && @horse.sex == 'F') || (@age && @age.name == '3YO' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4YO' && @horse.age == 4 && @horse.sex == 'F') %>
+                                <%= select_tag "Sex", options_for_select(['F']), :prompt => 'All' %>
+                             <% elsif (@age && @age.name == '3+' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4+' && @horse.age == 4 && @horse.sex == 'F')%>
+                                <%= select_tag "Sex", options_for_select(['F/M']), :prompt => 'All' %>
+                            <% elsif @horse.age == 2 && @horse.sex == 'F' %>
+                                <%= select_tag "Sex", options_for_select(['F']), :prompt => 'All' %>
                             <% else %>
-                            <%= select_tag "Sex", options_for_select(['F/M', 'C/G']), :prompt => 'All'  %>
+                                <%= select_tag "Sex", options_for_select(['C/G']), :prompt => 'All' %>
                             <% end %>
                         <% end %>
                     </div>
@@ -125,6 +133,7 @@
                                     <th style="display: none;">Conditions</th>
                                     <th style="display: none;">Description</th>
                                     <th>Priority</th>
+                                    <th>Other Cond.</th>
                                     <th style="text-align: center;">Interested / Confirmed</th>
                                 </tr>
                             </thead>
@@ -188,7 +197,14 @@
                                                     <span class="label badge-danger">No</span>
                                                 <% end %>
                                             </td>
-                                            <% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' %>
+                                            <td>
+                                                <% if race.hasOtherConditions %>
+                                                    <span class="label label-inverse">Yes</span>
+                                                <% else %>
+                                                    <span class="label badge-danger">No</span>
+                                                <% end %>
+                                            </td>
+                                            <% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
                                                 <td><%= @horse.status.name %></td>
                                             <% else %>
                                                 <% if race.stakes && race.needs_nomination %>

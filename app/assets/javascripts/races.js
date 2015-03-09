@@ -3,17 +3,16 @@ $(document).ready(function() {
 		$.ajax({
 	     url : 'menu/raceList',
 	     method: "GET",
-	     data: "horse_id=" + $("#specificHorse").attr("horse"),
+	     data: {horse_id: $("#specificHorse").attr("horse"), loadSettings: true},
 	     success: function(response) {
 	     }
 		})
 	}
-
 	$("#menu_horse_id").change(function(){
 		$.ajax({
 	     url : 'menu/raceList',
 	     method: "GET",
-	     data: "horse_id=" + $(this).val(),
+	     data: {horse_id: $(this).val(), loadSettings: true},
 	     success: function(response) {
 	     }
 		})

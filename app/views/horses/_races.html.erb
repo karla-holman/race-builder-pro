@@ -13,7 +13,7 @@
 	      <td><%= race.distance %> <%= race.distance_type %></td>
 	    <% end %>
 		<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
-		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' %>
+		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
          	<td><%= @horse.status.name %></td>
         <% else %>
         	<% if race.stakes && race.needs_nomination %>
