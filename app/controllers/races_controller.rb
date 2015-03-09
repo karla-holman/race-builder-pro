@@ -421,6 +421,9 @@ class RacesController < ApplicationController
           condition_node.save
           @race.condition_node = condition_node
           Rails.cache.clear('New Race') 
+          if condition_node.getExpressionString
+            @race.description = condition_node.getExpressionString
+          end
           @race.save
         end
         if @race.category == 'Priority'
@@ -543,6 +546,9 @@ class RacesController < ApplicationController
               @claiming_two.save
               @race.claiming_prices[1] = @claiming_two
             end
+          end
+          if @race.condition_node && @race.condition_node.getExpressionString
+            @race.description = @race.condition_node.getExpressionString
           end
           @race.save
           if @race.category == 'Priority'

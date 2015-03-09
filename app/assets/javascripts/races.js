@@ -51,6 +51,13 @@ $(document).ready(function() {
 		});
 	})
 
+	$('.resetHorseStatuses').on('click', function (e) {
+		var horse_id = $(this).attr("horse");
+		var race_id = $(this).attr("race");
+	  $.ajax({url: "/races/scratch_horse", type: "POST", data: { race_id: race_id, horse_id: horse_id}}).done(function(data){
+					location.reload(true);
+		});
+	})
 
 	$(".transferOwner").change(function(){
 		var owner_id = $(this).val();
