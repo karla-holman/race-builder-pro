@@ -1,3 +1,7 @@
+.dataTable tr td i {
+  cursor: pointer;
+}
+
 .race-menu-selectors select {
 	width: auto;
 }
@@ -105,10 +109,12 @@ form.edit_horserace {
   }
 
   input.cmn-toggle-yes-no + label {
+    cursor: pointer;
   	width: 60px;
   	height: 25px;
   	padding: 5px;
   	display: block;
+    line-height: 25px;
   }
   input.cmn-toggle-yes-no + label:before, input.cmn-toggle-yes-no + label:after {
   	display: block;

@@ -4,37 +4,22 @@
 	<li><%= link_to 'Go To Race Menu', races_menu_path(:horse_id => @horse.id) %></li>
 </ul>
 <div class="row">
-  <div class="col-md-12">
-    <div class="grid simple">
-      <div class="grid-body no-border">
-        <div class="row">
-        	<div class="col-xs-12 col-md-3">
-        		<h4>Status:</h4>
-				<%= render 'status' %>
-				<h4>Last Win: </h4>
-				<%= render 'last_win' %>
-        		<h4>Equipment/Medication:</h4>
-        		<div id="equipmentPartial">
-					<%= render 'equipment' %>
-				</div>
-				<h4>Last Claiming Level: </h4>
-				<%= render 'last_claimingprice' %>
-        	</div>
-        	<div class="col-xs-12 col-md-9">
-        		<div class="center">
-	        		<h2><%= @horse.name %></h2>
-	        		<h4><%= @horse.breed %></h4>
-	        		<h4>POB: <%= Carmen::Country.coded(@horse.country_code).subregions.coded(@horse.subregion_code).name %> </h4>
-	        		<h4>Age: <% def age(dob)
-	                  now = Time.now.utc.to_date
-	                  now.year - dob
-	                	end %>
-	                	<%= age(@horse.birth_year) %>
-	            	</h4>
-							<h4>Starts: <%= @horse.starts %> </h4>
-							<h4>Wins: <%= @horse.wins %></h4>
-							<h4>Trainer: <%= @horse.trainer.name%></h4>
-							<h4>Owner: <%= @horse.owner.name%></h4>
+	<div class="col-md-12">
+		<div class="grid simple">
+			<div class="grid-body no-border">
+				<div class="row">
+					<div class="col-xs-12 col-md-3">
+						<h4>Status:</h4>
+						<%= render 'status' %>
+						<h4>Equipment/Medication:</h4>
+						<div id="equipmentPartial">
+							<%= render 'equipment' %>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-9">
+						<div class="center">
+							<h2><%= @horse.name %></h2>
+							<h4>Trainer: <%= @horse.trainer.name%> | Owner: <%= @horse.owner.name%></h4>
 						</div>
 						<table id="racestatus-table" class="table table-condensed table-hover">
 							<thead>
@@ -49,26 +34,26 @@
 							</thead>
 							<tbody id="race-list">
 								<% if @races %>
-									<%= render 'races' %>
+								<%= render 'races' %>
 								<% end %>
 							</tbody>
 						</table>
-        	</div>
-	      </div>
-      </div>
-    </div>
-  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
-	/* Formating function for row details */
-	function fnFormatDetails ( oTable, nTr )
-	{
-		var aData = oTable.fnGetData( nTr );
-		var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-		sOut += '<tr><td>Conditions: </td><td>'+aData[5]+'</td></tr>';
-		sOut += '<tr><td>Race Description:</td><td>'+aData[6]+'</td></tr>';
-		sOut += '</table>';
-	 
-		return sOut;
-	}
+/* Formating function for row details */
+function fnFormatDetails ( oTable, nTr )
+{
+	var aData = oTable.fnGetData( nTr );
+	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
+	sOut += '<tr><td>Conditions: </td><td>'+aData[5]+'</td></tr>';
+	sOut += '<tr><td>Race Description:</td><td>'+aData[6]+'</td></tr>';
+	sOut += '</table>';
+
+	return sOut;
+}
 </script>

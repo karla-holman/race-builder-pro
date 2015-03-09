@@ -100,6 +100,9 @@
 							<thead>
 								<tr>
 									<th>Name</th>
+									<th>Age</th>
+									<th>Sex</th>
+									<th>Wins</th>
 									<% if current_user.admin? %>
 								    	<th>Trainer</th>
 								    <% else %>
@@ -115,6 +118,9 @@
 									<td>
 										<%= horse.name %>
 									</td>
+									<td><%= horse.age %></td>
+									<td><%= horse.sex %></td>
+									<td><%= horse.wins %></td>
 									<% if current_user.admin? %>
 						                <td><%= horse.trainer.name %></td>
 						            <% else %>
@@ -169,7 +175,7 @@
 									<th>Confirmed</th>
 									<th style="display:none;">Race</th>
 									<th style="display:none;">Interested</th>
-									<th style="display:none;">Cofirmed</th>
+									<th style="display:none;">Confirmed</th>
 									<th>Priority</th>
 								</tr>
 							</thead>
@@ -251,35 +257,43 @@
 										</div>
 									</td>
 									<td style="display:none;">
-										<% race.horseraces.where(:status => "Interested").each do |interested| %> 
-											<% horse = Horse.find(interested.horse_id) %>
-											<% if current_user.trainer? %>
-												<% if horse.trainer_id == current_user.id %>
-													<%= horse.name %>
-												<% end %>
-											<% elsif current_user.user?%>
-												<% if horse.owner_id == current_user.id %>
-													<%= horse.name %>
-												<% end %>
-											<% else %>
-												<%= horse.name %>&nbsp;
-											<% end %>	
+										<% if current_user.admin? %>
+											<% race.horseraces.where(:status => "Interested").each do |interested| %> 
+												<% horse = Horse.find(interested.horse_id) %>
+												<% if current_user.trainer? %>
+													<% if horse.trainer_id == current_user.id %>
+														<%= horse.name %>
+													<% end %>
+												<% elsif current_user.user?%>
+													<% if horse.owner_id == current_user.id %>
+														<%= horse.name %>
+													<% end %>
+												<% else %>
+													<%= horse.name %>&nbsp;
+												<% end %>	
+											<% end %>
+										<% else %>
+											Admin Only
 										<% end %>
 									</td>
 									<td style="display:none;">
-										<% race.horseraces.where(:status => "Confirmed").each do |confirmed| %>
-											<% horse = Horse.find(confirmed.horse_id) %>
-											<% if current_user.trainer? %>
-												<% if horse.trainer_id == current_user.id %>
-													<%= horse.name %>
+										<% if current_user.admin? %>
+											<% race.horseraces.where(:status => "Confirmed").each do |confirmed| %>
+												<% horse = Horse.find(confirmed.horse_id) %>
+												<% if current_user.trainer? %>
+													<% if horse.trainer_id == current_user.id %>
+														<%= horse.name %>
+													<% end %>
+												<% elsif current_user.user?%>
+													<% if horse.owner_id == current_user.id %>
+														<%= horse.name %>
+													<% end %>
+												<% else %>
+													<%= horse.name %>&nbsp;
 												<% end %>
-											<% elsif current_user.user?%>
-												<% if horse.owner_id == current_user.id %>
-													<%= horse.name %>
-												<% end %>
-											<% else %>
-												<%= horse.name %>&nbsp;
 											<% end %>
+										<% else %>
+											Admin Only
 										<% end %>
 									</td>
 									<td>

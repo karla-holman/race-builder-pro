@@ -22,38 +22,38 @@ equipment_medication =  ['Bute', 'First Time Lasix', 'Lasix On', 'Lasix Off', 'B
 
 statuses = ['Race Ready', 'Vet\'s List', 'Steward\'s List', 'Inactive', 'Running']
 
-# #Races: [Name, Description, Status, Category, Distance Type, Distance, Purse, Max Field Size]
-# races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,400', 'Published', "Alternate",'Yards', 400, 4400, 10],
-# 		['f Md 12500', 'maidens, fillies, two years old, purse $4,400, claiming price $12,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 12],
-# 		['Clm 2500N3L', '3 year olds and upwards, never won three races, non-winners since June 15, purse $4,400, claiming price $2,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 6],
-# 		['Clm 3500B', '3 year olds and upwards, have not won two races since April 12 or never won 4 races, purse $6,200, claiming price $3,500', 'Published', "Alternate",'Furlongs', 6, 7775, 8],
-# 		['Clm 7500N3L', '3 year olds and upwards, never won three races, non-winners since June 15, purse $7,775, claiming price $7,500', 'Published', "Alternate",'Mile', 1, 7500, 10],
-# 		['Clm 2500B', '3 year olds and upwards, never won two races since April 12 or which have never won 4 races, purse $10,700, claiming price $2,500', 'Published', "Alternate",'Furlongs', 6, 10700, 14],
-# 		['Clm 7500', '3 year olds and upwards, non-winners since June 15, purse $9,300, claiming price $7,500', 'Published', "Alternate",'Furlongs', 5.5, 7500, 6],
-# 		['r CahillRoad50k', 'THE NWSS CAHILL ROAD. purse $50,000 for two-year-olds, progeny of stallions standing in 2011 that have been duly nominated. stallions to be nominated
-# 			at a fee of $500 or 50% of published stud fee by April 15, 2010. $350 to enter, $350 additional to start. 5% of gross
-# 			NWRS monies shall be paid to the eligible nominators of the top 5 finishers. 5% of gross NWRS monies shall be
-# 			paid to the eligible nominators of the sires of the top 3 finishers. Remaining monies to be divided 55% to the winner,
-# 			20% to second, 15% to third, 7.5% to fourth and 2.5% to fifth. Weight 120 lbs.; Maidens allowed 2 lbs. In the event
-# 			more than 12 entries are received, preference in the draw for post positions will be based on money earned.
-# 			Starters to be named through the entry box by the closing time of entries. The conditions of this race may be
-# 			changed with the consent of the Washington Thoroughbred Breeders and Owners Association. See condition book
-# 			for a breakdown of The Northwest Race Series. STALLION NOMINATIONS CLOSED. Supplementary
-# 			nomination may be made at entry time at a cost of $2,500 (Stallion must be eligible)',
-# 			'Published', "Priority",'Furlongs', 6, 50000, 6],
-# 		['GottstnFut65k', 'THE GOTTSTEIN FUTURITY. Purse $65,000 (includes $12,500 Other Sources) For
-# 			Two-year-olds (Foals Of 2012). $500 to enter, $500 additional to start. 5% of NWRS gross monies shall be paid to
-# 			the eligible nominators of the top 5 finishers. 5% of NWRS gross monies shall be paid to the eligible nominators of
-# 			the top 3 finishers with remaining monies to be divided 55% to the winner, 20% to second, 15% to third, 7.5% to
-# 			fourth and 2.5% to fifth. Weight 120 lbs., Fillies 117 lbs. In the event more than 12 entries are received, preference in
-# 			the draw for post poisitions will be based on money earned. Starters to be named through the entry box by the
-# 			closing time of entries. The conditions of this race may be changed with the consent of the Washington
-# 			Thoroughbred Breeders and Owners Association. See condition book for a breakdown ofThe Northwest Race
-# 			Series. Limited to 12 starters. NOMINATIONS CLOSED. Supplementary nominations may be made at time of
-# 			entry at a cost of $7,500.',
-# 			'Published', "Priority",'Miles', 1.0625, 65000, 8],
-# 		['f OC 50k/C', 'fillies and mares, 3 year olds and upwards, $30,000 once since april 12, 2014 Or which have never won three races or claiming price $50,000, non-winners of a race since June 15 allowed 3lbs, purse $21,000, claiming price $50,000', 'Published', "Priority",'Furlongs', 6.5, 21000],
-# 		['Md 5000', 'maidens, 3 year olds and upwards, purse $5,500, claiming price $5,000', 'Published', "Priority",'Furlongs', 6.5, 5500, 12]]
+#Races: [Name, Description, Status, Category, Distance Type, Distance, Purse, Max Field Size]
+races = [['Alw4400NC', '3 year olds and upwards, 400 yards allowance, purse $4,400', 'Published', "Alternate",'Yards', 400, 4400, 10],
+		['f Md 12500', 'maidens, fillies, two years old, purse $4,400, claiming price $12,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 12],
+		['Clm 2500N3L', '3 year olds and upwards, never won three races, non-winners since June 15, purse $4,400, claiming price $2,500', 'Published', "Alternate",'Furlongs', 5.5, 4400, 6],
+		['Clm 3500B', '3 year olds and upwards, have not won two races since April 12 or never won 4 races, purse $6,200, claiming price $3,500', 'Published', "Alternate",'Furlongs', 6, 7775, 8],
+		['Clm 7500N3L', '3 year olds and upwards, never won three races, non-winners since June 15, purse $7,775, claiming price $7,500', 'Published', "Alternate",'Mile', 1, 7500, 10],
+		['Clm 2500B', '3 year olds and upwards, never won two races since April 12 or which have never won 4 races, purse $10,700, claiming price $2,500', 'Published', "Alternate",'Furlongs', 6, 10700, 14],
+		['Clm 7500', '3 year olds and upwards, non-winners since June 15, purse $9,300, claiming price $7,500', 'Published', "Alternate",'Furlongs', 5.5, 7500, 6],
+		['r CahillRoad50k', 'THE NWSS CAHILL ROAD. purse $50,000 for two-year-olds, progeny of stallions standing in 2011 that have been duly nominated. stallions to be nominated
+			at a fee of $500 or 50% of published stud fee by April 15, 2010. $350 to enter, $350 additional to start. 5% of gross
+			NWRS monies shall be paid to the eligible nominators of the top 5 finishers. 5% of gross NWRS monies shall be
+			paid to the eligible nominators of the sires of the top 3 finishers. Remaining monies to be divided 55% to the winner,
+			20% to second, 15% to third, 7.5% to fourth and 2.5% to fifth. Weight 120 lbs.; Maidens allowed 2 lbs. In the event
+			more than 12 entries are received, preference in the draw for post positions will be based on money earned.
+			Starters to be named through the entry box by the closing time of entries. The conditions of this race may be
+			changed with the consent of the Washington Thoroughbred Breeders and Owners Association. See condition book
+			for a breakdown of The Northwest Race Series. STALLION NOMINATIONS CLOSED. Supplementary
+			nomination may be made at entry time at a cost of $2,500 (Stallion must be eligible)',
+			'Published', "Priority",'Furlongs', 6, 50000, 6],
+		['GottstnFut65k', 'THE GOTTSTEIN FUTURITY. Purse $65,000 (includes $12,500 Other Sources) For
+			Two-year-olds (Foals Of 2012). $500 to enter, $500 additional to start. 5% of NWRS gross monies shall be paid to
+			the eligible nominators of the top 5 finishers. 5% of NWRS gross monies shall be paid to the eligible nominators of
+			the top 3 finishers with remaining monies to be divided 55% to the winner, 20% to second, 15% to third, 7.5% to
+			fourth and 2.5% to fifth. Weight 120 lbs., Fillies 117 lbs. In the event more than 12 entries are received, preference in
+			the draw for post poisitions will be based on money earned. Starters to be named through the entry box by the
+			closing time of entries. The conditions of this race may be changed with the consent of the Washington
+			Thoroughbred Breeders and Owners Association. See condition book for a breakdown ofThe Northwest Race
+			Series. Limited to 12 starters. NOMINATIONS CLOSED. Supplementary nominations may be made at time of
+			entry at a cost of $7,500.',
+			'Published', "Priority",'Miles', 1.0625, 65000, 8],
+		['f OC 50k/C', 'fillies and mares, 3 year olds and upwards, $30,000 once since april 12, 2014 Or which have never won three races or claiming price $50,000, non-winners of a race since June 15 allowed 3lbs, purse $21,000, claiming price $50,000', 'Published', "Priority",'Furlongs', 6.5, 21000],
+		['Md 5000', 'maidens, 3 year olds and upwards, purse $5,500, claiming price $5,000', 'Published', "Priority",'Furlongs', 6.5, 5500, 12]]
 
 #Horses: [Name, Breed, Country, Region, Sex, Birth Year, Starts, Wins, Last Win, Owner Email, Trainer Email]
 horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 12, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
@@ -182,13 +182,13 @@ equipment_medication.each do |equip|
 	end
 end
 
-# races.each do |race|
-# 	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], distance_type: race[4], distance: race[5], purse: race[6], max_field_size: race[7])
-# 	new_race.race_type = 'Default'
-# 	if new_race.save
-# 		puts 'CREATED RACE: ' << new_race.name
-# 	end
-# end
+races.each do |race|
+	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], distance_type: race[4], distance: race[5], purse: race[6], max_field_size: race[7])
+	new_race.race_type = 'Default'
+	if new_race.save
+		puts 'CREATED RACE: ' << new_race.name
+	end
+end
 
 horses.each do |horse|
 	owner = User.find_by_email(horse[9])
