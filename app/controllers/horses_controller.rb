@@ -227,7 +227,9 @@ class HorsesController < ApplicationController
             if params[:trainer_owner]
               @horse.owner = @horse.trainer
             end
-            @horse.horse_filter_setting.delete
+            if @horse.horse_filter_setting
+              @horse.horse_filter_setting.delete
+            end
             @horse.save
             @horse.create_activity :update, owner: current_user
             format.html { redirect_to horses_url, notice: 'Horse was successfully updated.' }
