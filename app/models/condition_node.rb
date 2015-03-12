@@ -200,4 +200,38 @@ class ConditionNode < ActiveRecord::Base
 		end
 		return hasCondition
 	end
+
+	def getSexConditions
+		conditions = Array.new
+		if self.children.any?
+			self.children.each do |child|
+				conditions += child.getSexConditions
+			end
+		else
+			if self.hasCondition
+				node_condition = self.getCondition
+				if node_condition && node_condition.category.name == 'Sex'
+					conditions.push(node_condition)
+				end
+			end
+		end
+		return conditions
+	end
+
+	def getAgeConditions
+		conditions = Array.new
+		if self.children.any?
+			self.children.each do |child|
+				conditions += child.getAgeConditions
+			end
+		else
+			if self.hasCondition
+				node_condition = self.getCondition
+				if node_condition && node_condition.category.name == 'Age'
+					conditions.push(node_condition)
+				end
+			end
+		end
+		return conditions
+	end
 end

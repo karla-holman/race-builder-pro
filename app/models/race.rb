@@ -36,6 +36,22 @@ class Race < ActiveRecord::Base
 		end
 	end
 
+	def getSexConditions
+		if self.condition_node
+			return self.condition_node.getSexConditions.uniq
+		else
+			return false
+		end
+	end
+
+	def getAgeConditions
+		if self.condition_node
+			return self.condition_node.getAgeConditions.uniq
+		else
+			return false
+		end
+	end
+
 	def getExpressionString
 		if self.condition_node
 			return self.condition_node.getExpressionString
