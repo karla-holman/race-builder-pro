@@ -105,7 +105,7 @@
                           <td style="display: none;"><%= race.category %></td>
                           <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
                           <td style="display: none;">
-                            <% if race.category == 'Priority' && race.race_date %>
+                            <% if race.category == 'Priority' && race.race_date && race.race_date.date%>
                               <%= race.race_date.date.strftime('%b %d, %Y') %>
                             <% else %>
                               N/A
@@ -225,14 +225,12 @@
                       </div>
                   </td>
                       <td>
-                        <% if race.category == 'Priority' %>
-                          <span class="label label-inverse">Yes</span>
-                        <% else %>
-                          <span class="label badge-danger">No</span>
+                        <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+                          <%= race.race_date.date.strftime('%a %b %d, %Y') %>
                         <% end %>
                       </td>
                       <td>
-                        <%= collection_select(:tel, :tel_id, @week.tels,:id, :long_date, {:prompt => 'Add to TEL'}, {race: race.id, class: 'add_race_to_tel'}) %>
+                        <%= collection_select(:tel, :tel_id, @week.tels.where(:entry_list => false),:id, :long_date, {:prompt => 'Add to TEL'}, {race: race.id, class: 'add_race_to_tel'}) %>
                       </td>
                   </tr>
                 <% end %>

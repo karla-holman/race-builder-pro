@@ -1,17 +1,20 @@
 <% @races.each do |race| %>
 	<tr >
 		<% @horserace = Horserace.where(:race_id => race.id, :horse_id => @horse.id).first %>
-		<%= @horserace.status %>
 		<td><%= race.name %></td>
-		<% if race.distance <= 1 %>
-	      <% if race.distance_type == 'Furlongs' %>
-	        <td><%= race.distance %> Furlong</td>
-	      <% else %>
-	        <td><%= race.distance %> Mile</td>
-	      <% end %>
-	    <% else %>
-	      <td><%= race.distance %> <%= race.distance_type %></td>
-	    <% end %>
+		<% if race.distance %>
+			<% if race.distance <= 1 %>
+		      <% if race.distance_type == 'Furlongs' %>
+		        <td><%= race.distance %> Furlong</td>
+		      <% else %>
+		        <td><%= race.distance %> Mile</td>
+		      <% end %>
+		    <% else %>
+		      <td><%= race.distance %> <%= race.distance_type %></td>
+		    <% end %>
+		<% else %>
+			<td></td>
+		<% end %>
 		<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
 		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
          	<td><%= @horse.status.name %></td>

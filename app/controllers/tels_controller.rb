@@ -53,7 +53,6 @@ class TelsController < ApplicationController
     @week = Week.find(@tel.week_id)
     respond_to do |format|
       if @tel.update(tel_params)
-        addRaces(@tel)
 
         if tel_params[:entry_list] == 'true'
           running = Status.find_by_name('Running')

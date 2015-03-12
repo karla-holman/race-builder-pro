@@ -63,10 +63,10 @@
             <div class="col-xs-3 center">
                 <% if @wins %>
                 <p>Conditions</p>
-                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
+                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'Open'}) %>
                 <% else %>
                 <p>Conditions</p>
-                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
+                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'Open'}) %>
                 <% end %>
             </div>
             <div class="col-xs-4">
@@ -82,34 +82,34 @@
                     <div class="col-xs-4 center">
                         <% if @bred %>
                         <p>Restriction</p>
-                         <%= collection_select(:menu, :bred_id, @bredList, :id, :parsedName, {:selected => @bred.id, :include_blank => 'All'}) %>
+                         <%= collection_select(:menu, :bred_id, @bredList, :id, :parsedName, {:selected => @bred.id, :include_blank => 'Open'}) %>
                         <% else %>
                         <p>Restriction</p>
-                         <%= collection_select(:menu, :bred_id, @bredList, :id, :parsedName, {:prompt => 'All'}) %>
+                         <%= collection_select(:menu, :bred_id, @bredList, :id, :parsedName, {:prompt => 'Open'}) %>
                         <% end %>
                     </div>
                     <div class="col-xs-4 center">
                         <% if @sex %>
                             <p>Sex</p>
                             <% if (@horse.age == 2 && @horse.sex == 'F') || (@age && @age.name == '3YO' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4YO' && @horse.age == 4 && @horse.sex == 'F') %>
-                                <%= select_tag "Sex", options_for_select(['F'], @sex), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['F'], @sex), :prompt => 'Open' %>
                              <% elsif (@age && @age.name == '3+' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4+' && @horse.age == 4 && @horse.sex == 'F')%>
-                                <%= select_tag "Sex", options_for_select(['F/M'], @sex), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['F/M'], @sex), :prompt => 'Open' %>
                             <% elsif @horse.sex == 'F' || @horse.sex =='M' %>
-                                <%= select_tag "Sex", options_for_select(['F/M'], @sex), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['F/M'], @sex), :prompt => 'Open' %>
                             <% else %>
-                                <%= select_tag "Sex", options_for_select(['C/G'], @sex), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['C/G'], @sex), :prompt => 'Open' %>
                             <% end %>
                         <% else %>
                             <p>Sex</p>
                             <% if (@horse.age == 2 && @horse.sex == 'F') || (@age && @age.name == '3YO' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4YO' && @horse.age == 4 && @horse.sex == 'F') %>
-                                <%= select_tag "Sex", options_for_select(['F']), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['F']), :prompt => 'Open' %>
                              <% elsif (@age && @age.name == '3+' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4+' && @horse.age == 4 && @horse.sex == 'F')%>
-                                <%= select_tag "Sex", options_for_select(['F/M']), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['F/M']), :prompt => 'Open' %>
                             <% elsif @horse.age == 2 && @horse.sex == 'F' %>
-                                <%= select_tag "Sex", options_for_select(['F']), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['F']), :prompt => 'Open' %>
                             <% else %>
-                                <%= select_tag "Sex", options_for_select(['C/G']), :prompt => 'All' %>
+                                <%= select_tag "Sex", options_for_select(['C/G']), :prompt => 'Open' %>
                             <% end %>
                         <% end %>
                     </div>

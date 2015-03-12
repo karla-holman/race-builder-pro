@@ -155,10 +155,27 @@ class FilterRacesService
   end
 
   def eligibleRacesForWeek(week_id)
+    week = Week.find_by_id(week_id)
+
+    if !week
+      return []
+    end
+
+    start_date = week.start_date
+    end_date = week.end_date
     races = Race.where(:status => 'Published').to_a
 
-    week = Week.find(week_id)
-
+    races.each do |race|
+      if race.category == 'Priority'
+        if race.race_date && race.race_date.date
+          if race.race_date.date < start_date || race.race_date.date > end_date
+            races.delete(race)
+          end
+        elsif !race.race_date || !race.race_date.date
+          races.delete(race)
+        end
+      end
+    end
     tels = week.tels
     
     if !tels

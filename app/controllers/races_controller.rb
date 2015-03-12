@@ -1,5 +1,5 @@
 class RacesController < ApplicationController
-  before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish, :duplicate_race, :resetHorseStatuses]
+  before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish, :duplicate_race, :resetHorseStatuses, :edit_with_condition_node]
   skip_before_filter  :verify_authenticity_token
 
   # GET /races
@@ -131,6 +131,51 @@ class RacesController < ApplicationController
 
     respond_to do |format|
       format.html { render 'new' }
+    end
+  end
+
+  def edit_with_condition_node
+    @claiming_one = ClaimingPrice.new
+    @claiming_two = ClaimingPrice.new
+
+    saved_race = Rails.cache.read('Edit Race')
+    @race.name = saved_race[:race][:name]
+    @race.description = saved_race[:race][:description]
+    @race.weights = saved_race[:race][:weights]
+    @race.stakes = saved_race[:race][:stakes]
+    @race.hasOtherConditions = saved_race[:race][:hasOtherConditions]
+    @race.needs_nomination = saved_race[:race][:needs_nomination]
+    @race.status = saved_race[:race][:status]
+    @race.purse = saved_race[:race][:purse]
+    @race.distance = saved_race[:race][:distance]
+    @race.distance_type = saved_race[:race][:distance_type]
+    @race.max_field_size = saved_race[:race][:max_field_size]
+    @race.race_type = saved_race[:race][:race_type]
+
+    if saved_race[:claiming_one]
+      @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one])
+    else
+      @claiming_one = ClaimingPrice.new
+    end
+    if saved_race[:claiming_two]
+      @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two])
+    else
+      @claiming_two = ClaimingPrice.new
+    end
+    
+    if(saved_race[:category])
+      @race.category = 'Priority'
+      if(saved_race[:race_date] && !saved_race[:race_date][:date].empty?)
+        race_date = RaceDate.new       
+        race_date.date = saved_race[:race_date][:date]
+        @race.race_date = race_date
+      end
+    else
+      @race.category = 'Alternate'
+    end
+
+    respond_to do |format|
+      format.html { render 'edit' }
     end
   end
 
@@ -385,6 +430,10 @@ class RacesController < ApplicationController
       else
         @race.category = 'Alternate'
       end
+      if(!race_params[:race_type] || race_params[:race_type].empty?)
+          @race.update(race_params)
+          @race.errors.add('Race type', "must be selected")
+      end
     end
     respond_to do |format|
       if(params[:commit] == 'Add Conditions' || params[:commit] == 'Edit Conditions')
@@ -468,125 +517,137 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1
   # PATCH/PUT /races/1.json
   def update
-    if(params[:claiming_one])
-      @claiming_one = ClaimingPrice.new(:price => params[:claiming_one])
+    if(params[:commit] == 'Edit Conditions')
+      @root = ConditionNode.find_by_id(params[:condition_node_id])
+      Rails.cache.write('Edit Race', params)
     else
-      @claiming_one = ClaimingPrice.new
-    end
-    if(params[:claiming_two])
-      @claiming_two = ClaimingPrice.new(:price => params[:claiming_two])
-    else
-      @claiming_two = ClaimingPrice.new
-    end
-    if params[:condition_ids]
-      current_conditions = RaceCondition.where(:race => @race)
-      params[:condition_ids].each do |condition|
-      RaceCondition.find_or_create_by!(condition_id: condition, race_id: @race.id)
+      if(params[:claiming_one])
+        @claiming_one = ClaimingPrice.new(:price => params[:claiming_one])
+      else
+        @claiming_one = ClaimingPrice.new
       end
-      current_conditions.each do |condition|
-        found = params[:condition_ids].find(condition.id)
-        if found
-        else
-          condition.destroy
+      if(params[:claiming_two])
+        @claiming_two = ClaimingPrice.new(:price => params[:claiming_two])
+      else
+        @claiming_two = ClaimingPrice.new
+      end
+      if params[:condition_ids]
+        current_conditions = RaceCondition.where(:race => @race)
+        params[:condition_ids].each do |condition|
+        RaceCondition.find_or_create_by!(condition_id: condition, race_id: @race.id)
         end
-      end
-    else
-      if(params[:race_date])
-        if !@race.race_date
-          @race_date = RaceDate.new
-          @race_date.race_id = @race.id         
-        else
-          @race_date = @race.race_date
+        current_conditions.each do |condition|
+          found = params[:condition_ids].find(condition.id)
+          if found
+          else
+            condition.destroy
+          end
         end
-        @race_date.date = params[:race_date][:date]
-        @race_date.save
-        @race.race_date = @race_date
-      end
-      if(params[:category])
-        @race.category = 'Priority'
-        if(params[:race_date] && !params[:race_date][:date].empty?)
+      else
+        if(params[:race_date])
           if !@race.race_date
             @race_date = RaceDate.new
             @race_date.race_id = @race.id         
           else
             @race_date = @race.race_date
-          end       
+          end
           @race_date.date = params[:race_date][:date]
           @race_date.save
           @race.race_date = @race_date
-        else
-          @race.errors.add('Priority', "Race must have a date.")
         end
-      else
-        @race.category = 'Alternate'
-      end
-      respond_to do |format|
-        if !@race.errors.any? && @race.update(race_params)
-          @race.claiming_prices.delete_all
-          if(params[:claiming_one] && @race.isClaiming)
-            if(@race.claiming_prices[0])
-              @race.claiming_prices[0].price = params[:claiming_one]
-              @race.claiming_prices[0].save
+        if(params[:category])
+          @race.category = 'Priority'
+          if(params[:race_date] && !params[:race_date][:date].empty?)
+            if !@race.race_date
+              @race_date = RaceDate.new
+              @race_date.race_id = @race.id         
             else
-              @claiming_one = ClaimingPrice.new
-              @claiming_one.race_id = @race.id
-              @claiming_one.price = params[:claiming_one]
-              @claiming_one.save
-              @race.claiming_prices[0] = @claiming_one
-            end
+              @race_date = @race.race_date
+            end       
+            @race_date.date = params[:race_date][:date]
+            @race_date.save
+            @race.race_date = @race_date
+          else
+            @race.update(race_params)
+            @race.errors.add('Priority', "Race must have a date.")
+          end
+        else
+          @race.category = 'Alternate'
+        end
+        if(!race_params[:race_type] || race_params[:race_type].empty?)
+          @race.update(race_params)
+          @race.errors.add('Race type', "must be selected")
+        end
+      end
+    end
+    respond_to do |format|
+      if(params[:commit] == 'Edit Conditions')
+       format.html { redirect_to edit_condition_node_path(@root) }
+      elsif !@race.errors.any? && @race.update(race_params)
+        @race.claiming_prices.delete_all
+        if(params[:claiming_one] && @race.isClaiming)
+          if(@race.claiming_prices[0])
+            @race.claiming_prices[0].price = params[:claiming_one]
+            @race.claiming_prices[0].save
+          else
+            @claiming_one = ClaimingPrice.new
+            @claiming_one.race_id = @race.id
+            @claiming_one.price = params[:claiming_one]
+            @claiming_one.save
+            @race.claiming_prices[0] = @claiming_one
+          end
+        end
+        if (params[:claiming_two] && @race.isClaiming)
+          if(@race.claiming_prices[1])
+            @race.claiming_prices[1].price = params[:claiming_two]
+            @race.claiming_prices[1].save
+          else
+            @claiming_two = ClaimingPrice.new
+            @claiming_two.race_id = @race.id
+            @claiming_two.price = params[:claiming_two]
+            @claiming_two.save
+            @race.claiming_prices[1] = @claiming_two
+          end
+        end
+        if @race.condition_node && @race.condition_node.getExpressionString
+          @race.description = @race.condition_node.getExpressionString
+        end
+        @race.save
+        if @race.category == 'Priority'
+          addRaceToTEL(@race)
+        end
+        if(params[:commit] == 'Save and Duplicate')
+          new_race = @race.dup
+          new_race.save
+          if(params[:claiming_one] && @race.isClaiming)
+            @claiming_one = ClaimingPrice.new
+            @claiming_one.race_id = new_race.id
+            @claiming_one.price = params[:claiming_one]
+            @claiming_one.save
+            new_race.claiming_prices[0] = @claiming_one
           end
           if (params[:claiming_two] && @race.isClaiming)
-            if(@race.claiming_prices[1])
-              @race.claiming_prices[1].price = params[:claiming_two]
-              @race.claiming_prices[1].save
-            else
-              @claiming_two = ClaimingPrice.new
-              @claiming_two.race_id = @race.id
-              @claiming_two.price = params[:claiming_two]
-              @claiming_two.save
-              @race.claiming_prices[1] = @claiming_two
-            end
+            @claiming_two = ClaimingPrice.new
+            @claiming_two.race_id = new_race.id
+            @claiming_two.price = params[:claiming_two]
+            @claiming_two.save
+            new_race.claiming_prices[1] = @claiming_two
           end
-          if @race.condition_node && @race.condition_node.getExpressionString
-            @race.description = @race.condition_node.getExpressionString
+          new_race.cloneConditions(@race)
+          new_race.save
+          if new_race.category == 'Priority'
+            addRaceToTEL(new_race)
           end
-          @race.save
-          if @race.category == 'Priority'
-            addRaceToTEL(@race)
-          end
-          if(params[:commit] == 'Save and Duplicate')
-            new_race = @race.dup
-            new_race.save
-            if(params[:claiming_one] && @race.isClaiming)
-              @claiming_one = ClaimingPrice.new
-              @claiming_one.race_id = new_race.id
-              @claiming_one.price = params[:claiming_one]
-              @claiming_one.save
-              new_race.claiming_prices[0] = @claiming_one
-            end
-            if (params[:claiming_two] && @race.isClaiming)
-              @claiming_two = ClaimingPrice.new
-              @claiming_two.race_id = new_race.id
-              @claiming_two.price = params[:claiming_two]
-              @claiming_two.save
-              new_race.claiming_prices[1] = @claiming_two
-            end
-            new_race.cloneConditions(@race)
-            new_race.save
-            if new_race.category == 'Priority'
-              addRaceToTEL(new_race)
-            end
-            @race.create_activity :update, owner: current_user
-            format.html { redirect_to :back }
-          else
-            @race.create_activity :update, owner: current_user
-            format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
-            format.json { render action: 'index', status: :ok, location: @races }
-          end
+          @race.create_activity :update, owner: current_user
+          format.html { redirect_to :back }
         else
-          format.html { render action: 'edit' }
-          format.json { render json: @race.errors, status: :unprocessable_entity }
+          @race.create_activity :update, owner: current_user
+          format.html { redirect_to races_url, notice: 'Race was successfully updated.' }
+          format.json { render action: 'index', status: :ok, location: @races }
         end
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @race.errors, status: :unprocessable_entity }
       end
     end
   end
