@@ -38,91 +38,102 @@
                     <table class="weeksTelTable table table-condensed table-hover">
                       <thead>
                         <tr>
-                          <th>Race</th>
+                          <th>Type of Race</th>
+                          <th>Age / Sex</th>
+                          <th>Distance</th>
                           <th>INT</th>
                           <th>CON</th>
-                          <th style="display: none;">Conditions</th>
-                          <th style="display: none;">Category</th>
-                          <th style="display: none;">Stakes</th>
-                          <th style="display: none;">Date</th>
                           <th>Priority</th>
-                          <th colspan="1"></th>
+                          <th>Action</th>
                       </tr>
                   </thead>
                   <tbody>
                     <% tel.races.each do |race| %>
                     <tr >
-                      <td class="condition-book">
-                          <div class="race-type">
-                            <span><%= race.race_type %></span>
-                        </div>
-                        <div class="race-description">
-                            <span>Purse: <%= number_to_currency(race.purse, precision: 0) %>. <%= race.description %></span>
-                        </div>
-                        <div class="race-weight">
-                            <span><%= race.weights %></span>
-                        </div>
-                        <div class="race-claiming">
-                            <span>
-                              <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
-                              <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
-                              <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
-                              Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
-                              <% else %>
-                              Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
-                              <% end %>
-                              <% else %>
-                              Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
-                              <% end %>
-                              <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
-                              Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
-                              <% end %>
+                        <td><%=race.name %></td>
+                        <td>
+                            <% if race.getAgeConditions %>
+                                <% if !race.getAgeConditions.empty? %>
+                                    <% race.getAgeConditions.each.with_index do |age, index| %>
+                                        <% if index == race.getAgeConditions.size - 1 %>
+                                            <%= age.name %>
+                                        <% else %>
+                                            <%= age.name %>&nbsp;
+                                        <% end %>
+                                    <% end %>
+                                <% else %>
+                                    -
+                                <% end %>
+                            <% end %>
+                            <% if race.getAgeConditions %>
+                                <% if !race.getSexConditions.empty? %>
+                                    <% race.getSexConditions.each.with_index do |sex, index| %>
+                                        <% if index == race.getSexConditions.size - 1 %>
+                                            <%= sex.name %> 
+                                        <% else %>
+                                            <%= sex.name %>/
+                                        <% end %>
+                                    <% end %>
+                                <% else %>
+                                    -
+                                <% end %>
+                            <% end %>
+                        </td>
+                        <% if race.distance %>
+                        <% if race.distance <= 1 %>
+                        <% if race.distance_type == 'Furlongs' %>
+                        <td><%= race.distance %> Furlong</td>
+                        <% elsif race.distance_type == 'Yards'%>
+                        <td><%= race.distance %> Yard</td>
+                        <% else %>
+                        <td><%= race.distance %> Mile</td>
+                        <% end %>
+                        <% else %>
+                        <td><%= race.distance %> <%= race.distance_type %></td>
+                        <% end %>
+                        <% else %>
+                        <td>N/A</td>
+                        <% end %>
+                        <td>
+                            <span class="badge badge-danger">
+                              <%= race.horseraces.where(:status => "Interested").count %>
                           </span>
-                      </div>
-                      <div class="race-distance pull-right">
-                        <span><%= race.distance %> <%= race.distance_type %></span>
-                    </div>
+                      </td>
+                      <td>
+                        <span class="badge badge-success">
+                          <%= race.horseraces.where(:status => "Confirmed").count %>
+                      </span>
+                  </td>
+                  <td style="display: none;">
+                      <% if race.conditions.any? %>
+                      <% race.conditions.each do |condition| %>
+                      | <%= condition.name %> |
+                      <% end %>
+                      <% else %>
+                      | None |
+                      <% end %>
+                  </td>
+                  <td style="display: none;"><%= race.category %></td>
+                  <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
+                  <td style="display: none;">
+                    <% if race.category == 'Priority' && race.race_date && race.race_date.date%>
+                    <%= race.race_date.date.strftime('%b %d, %Y') %>
+                    <% else %>
+                    N/A
+                    <% end %>
                 </td>
                 <td>
-                    <span class="badge badge-danger">
-                      <%= race.horseraces.where(:status => "Interested").count %>
-                  </span>
-              </td>
-              <td>
-                <span class="badge badge-success">
-                  <%= race.horseraces.where(:status => "Confirmed").count %>
-              </span>
-          </td>
-          <td style="display: none;">
-              <% if race.conditions.any? %>
-              <% race.conditions.each do |condition| %>
-              | <%= condition.name %> |
-              <% end %>
-              <% else %>
-              | None |
-              <% end %>
-          </td>
-          <td style="display: none;"><%= race.category %></td>
-          <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
-          <td style="display: none;">
-            <% if race.category == 'Priority' && race.race_date && race.race_date.date%>
-            <%= race.race_date.date.strftime('%b %d, %Y') %>
-            <% else %>
-            N/A
+                    <% if race.category == 'Priority' %>
+                    <span class="label label-inverse">Yes</span>
+                    <% else %>
+                    <span class="label badge-danger">No</span>
+                    <% end %>
+                </td>
+                <td><button type="button" class="btn btn-danger btn-mini remove_from_day" race="<%=race.id%>">Remove</button></td>
+            </tr>
             <% end %>
-        </td>
-        <td>
-            <% if race.category == 'Priority' %>
-            <span class="label label-inverse">Yes</span>
-            <% else %>
-            <span class="label badge-danger">No</span>
-            <% end %>
-        </td>
-        <td><button type="button" class="btn btn-danger btn-mini remove_from_day" race="<%=race.id%>">Remove</button></td>
-    </tr>
-    <% end %>
-</tbody>
-</table>
+        </tbody>
+    </table>
 </div>
 </div>
 </div>
@@ -182,20 +193,20 @@
                             <% end %>
                         </td>
                         <% if race.distance %>
-                                        <% if race.distance <= 1 %>
-                                        <% if race.distance_type == 'Furlongs' %>
-                                        <td><%= race.distance %> Furlong</td>
-                                        <% elsif race.distance_type == 'Yards'%>
-                                        <td><%= race.distance %> Yard</td>
-                                        <% else %>
-                                        <td><%= race.distance %> Mile</td>
-                                        <% end %>
-                                        <% else %>
-                                        <td><%= race.distance %> <%= race.distance_type %></td>
-                                        <% end %>
-                                        <% else %>
-                                        <td>N/A</td>
-                                        <% end %>
+                        <% if race.distance <= 1 %>
+                        <% if race.distance_type == 'Furlongs' %>
+                        <td><%= race.distance %> Furlong</td>
+                        <% elsif race.distance_type == 'Yards'%>
+                        <td><%= race.distance %> Yard</td>
+                        <% else %>
+                        <td><%= race.distance %> Mile</td>
+                        <% end %>
+                        <% else %>
+                        <td><%= race.distance %> <%= race.distance_type %></td>
+                        <% end %>
+                        <% else %>
+                        <td>N/A</td>
+                        <% end %>
                         <td><span class="badge badge-danger">
                             <%= race.horseraces.where(:status => "Interested").count %></span>
                         </td>
