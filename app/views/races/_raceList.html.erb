@@ -141,26 +141,33 @@
                                             <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
                                             <td><%= race.name %></td>
                                             <td>
-                                                <% if race.getAgeConditions %>
-                                                    <% if !race.getAgeConditions.empty? %>
-                                                        <% race.getAgeConditions.each do |age| %>
+                                            <% if race.getAgeConditions %>
+                                                <% if !race.getAgeConditions.empty? %>
+                                                    <% race.getAgeConditions.each.with_index do |age, index| %>
+                                                        <% if index == race.getAgeConditions.size - 1 %>
                                                             <%= age.name %>
+                                                        <% else %>
+                                                            <%= age.name %>&nbsp;
                                                         <% end %>
-                                                    <% else %>
-                                                        -
                                                     <% end %>
+                                                <% else %>
+                                                    -
                                                 <% end %>
-                                                /
-                                                <% if race.getAgeConditions %>
-                                                    <% if !race.getSexConditions.empty? %>
-                                                        <% race.getSexConditions.each do |sex| %>
-                                                            <%= sex.name %>
+                                            <% end %>
+                                            <% if race.getAgeConditions %>
+                                                <% if !race.getSexConditions.empty? %>
+                                                    <% race.getSexConditions.each.with_index do |sex, index| %>
+                                                        <% if index == race.getSexConditions.size - 1 %>
+                                                            <%= sex.name %> 
+                                                        <% else %>
+                                                            <%= sex.name %>/
                                                         <% end %>
-                                                    <% else %>
-                                                        -
                                                     <% end %>
+                                                <% else %>
+                                                    -
                                                 <% end %>
-                                            </td>
+                                            <% end %>
+                                        </td>
                                             <% if race.distance %>
                                                 <% if race.distance <= 1 %>
                                                     <% if race.distance_type == 'Furlongs' %>
