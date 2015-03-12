@@ -69,17 +69,6 @@
           <div class="form-group">
             <%= f.label 'Date' %>
             <%= date_field("last_win", "date") %>
-            </div>
-          <div class="form-group ">
-            <%= f.label 'Distance' %>
-            <div class="row">
-              <div class="col-xs-6"> 
-                <%= f.text_field :distance, :autofocus => true, class: 'form-control' %>
-              </div>
-              <div class="form-group col-xs-6"> 
-                <%= f.select :distance_type, options_for_select(["Furlongs", "Miles", "Yards"], @last_win.distance_type) %>
-              </div>
-            </div>
           </div>
         </div>
       <% end %>
