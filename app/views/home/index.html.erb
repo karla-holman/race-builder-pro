@@ -1,126 +1,117 @@
 <div class="row">
-	<h1>
-		<% if !current_user.nil? %>
-		<%= current_user.name %>, 
-		<% end %> 
-		Welcome to Race Builder Pro
-	</h1>
-	<h5>Version: 2.0</h5>
+	<div class="col-xs-12">
+		<h1>
+			<% if !current_user.nil? %>
+			<%= current_user.name %>, 
+			<% end %> 
+			Welcome to Race Builder Pro
+		</h1>
+		<h5>Version: 2.0</h5>
+	</div>
 	<% @tels.each do |tel| %>
 	<div class="col-xs-12">
 		<h4>TEL <%= tel.date.strftime('%b %d, %Y') %></h4>
 		<h4>Number of Races: <%= tel.num_races %></h4>
 		<div class="grid simple">
 			<div class="grid-body no-border">
-				<div class="row">
-					<div class="col-xs-12">
-						<table num-races="<%= tel.num_races %>" class="telTable targetTels table table-condensed table-hover">
-							<thead>
-								<tr>
-									<th>Type of Race</th>
-									<th>Age / Sex</th>
-									<th>Distance</th>
-									<th>INT</th>
-									<th>CON</th>
-									<th>Priority</th>
-									<%if current_user.admin? %>
-										<th>Action</th>	
-									<% end %>											
+				<div class="row-fluid">
+					<table num-races="<%= tel.num_races %>" class="telTable targetTels table table-condensed table-hover">
+						<thead>
+							<tr>
+								<th>Type of Race</th>
+								<th data-hide="phone, tablet">Age / Sex</th>
+								<th data-hide="phone, tablet">Distance</th>
+								<th>INT</th>
+								<th>CON</th>
+								<th data-hide="phone, tablet">Priority</th>
+								<%if current_user.admin? %>
+									<th>Action</th>	
+								<% end %>											
+							</tr>
+						</thead>
+						<tbody>
+							<% tel.races.each do |race| %>
+							<tr >
+								<td><%=race.name %></td>
+								<td>
+									<% if race.getAgeConditions %>
+									<% if !race.getAgeConditions.empty? %>
+									<% race.getAgeConditions.each.with_index do |age, index| %>
+									<% if index == race.getAgeConditions.size - 1 %>
+									<%= age.name %>
+									<% else %>
+									<%= age.name %>&nbsp;
+									<% end %>
+									<% end %>
+									<% else %>
+									-
+									<% end %>
+									<% end %>
+									<% if race.getAgeConditions %>
+									<% if !race.getSexConditions.empty? %>
+									<% race.getSexConditions.each.with_index do |sex, index| %>
+									<% if index == race.getSexConditions.size - 1 %>
+									<%= sex.name %> 
+									<% else %>
+									<%= sex.name %>/
+									<% end %>
+									<% end %>
+									<% else %>
+									-
+									<% end %>
+									<% end %>
+								</td>
+								<% if race.distance %>
+								<% if race.distance <= 1 %>
+								<% if race.distance_type == 'Furlongs' %>
+								<td><%= race.distance %> Furlong</td>
+								<% elsif race.distance_type == 'Yards'%>
+								<td><%= race.distance %> Yard</td>
+								<% else %>
+								<td><%= race.distance %> Mile</td>
+								<% end %>
+								<% else %>
+								<td><%= race.distance %> <%= race.distance_type %></td>
+								<% end %>
+								<% else %>
+								<td>N/A</td>
+								<% end %>
+								<td>
+									<span class="badge badge-danger">
+										<%= race.horseraces.where(:status => "Interested").count %>
+									</span>
+								</td>
+								<td>
+									<span class="badge badge-success">
+										<%= race.horseraces.where(:status => "Confirmed").count %>
+									</span>
+								</td>
+								<td style="display: none;">
+									<% if race.conditions.any? %>
+									<% race.conditions.each do |condition| %>
+									| <%= condition.name %> |
+									<% end %>
+									<% else %>
+									| None |
+									<% end %>
+								</td>
+								<td>
+									<% if race.category == 'Priority' %>
+									<span class="label label-inverse">Yes</span>
+									<% else %>
+									<span class="label badge-danger">No</span>
+									<% end %>
+								</td>
+								<% if current_user.admin? %>
+									<td>
+										<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
+									</td>
+								<% end %>
 								</tr>
-							</thead>
-							<tbody>
-								<% tel.races.each do |race| %>
-								<tr >
-									<td><%=race.name %></td>
-									<td>
-										<% if race.getAgeConditions %>
-										<% if !race.getAgeConditions.empty? %>
-										<% race.getAgeConditions.each.with_index do |age, index| %>
-										<% if index == race.getAgeConditions.size - 1 %>
-										<%= age.name %>
-										<% else %>
-										<%= age.name %>&nbsp;
-										<% end %>
-										<% end %>
-										<% else %>
-										-
-										<% end %>
-										<% end %>
-										<% if race.getAgeConditions %>
-										<% if !race.getSexConditions.empty? %>
-										<% race.getSexConditions.each.with_index do |sex, index| %>
-										<% if index == race.getSexConditions.size - 1 %>
-										<%= sex.name %> 
-										<% else %>
-										<%= sex.name %>/
-										<% end %>
-										<% end %>
-										<% else %>
-										-
-										<% end %>
-										<% end %>
-									</td>
-									<% if race.distance %>
-									<% if race.distance <= 1 %>
-									<% if race.distance_type == 'Furlongs' %>
-									<td><%= race.distance %> Furlong</td>
-									<% elsif race.distance_type == 'Yards'%>
-									<td><%= race.distance %> Yard</td>
-									<% else %>
-									<td><%= race.distance %> Mile</td>
-									<% end %>
-									<% else %>
-									<td><%= race.distance %> <%= race.distance_type %></td>
-									<% end %>
-									<% else %>
-									<td>N/A</td>
-									<% end %>
-									<td>
-										<span class="badge badge-danger">
-											<%= race.horseraces.where(:status => "Interested").count %>
-										</span>
-									</td>
-									<td>
-										<span class="badge badge-success">
-											<%= race.horseraces.where(:status => "Confirmed").count %>
-										</span>
-									</td>
-									<td style="display: none;">
-										<% if race.conditions.any? %>
-										<% race.conditions.each do |condition| %>
-										| <%= condition.name %> |
-										<% end %>
-										<% else %>
-										| None |
-										<% end %>
-									</td>
-									<td style="display: none;"><%= race.category %></td>
-									<td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
-									<td style="display: none;">
-										<% if race.category == 'Priority' && race.race_date && race.race_date.date%>
-										<%= race.race_date.date.strftime('%b %d, %Y') %>
-										<% else %>
-										N/A
-										<% end %>
-									</td>
-									<td>
-										<% if race.category == 'Priority' %>
-										<span class="label label-inverse">Yes</span>
-										<% else %>
-										<span class="label badge-danger">No</span>
-										<% end %>
-									</td>
-									<% if current_user.admin? %>
-										<td>
-											<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
-										</td>
-									<% end %>
-									</tr>
-									<% end %>
+								<% end %>
 
-								</tbody>
-							</table>
-						</div>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
