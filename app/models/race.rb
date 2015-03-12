@@ -40,7 +40,7 @@ class Race < ActiveRecord::Base
 		if self.condition_node
 			return self.condition_node.getSexConditions.uniq
 		else
-			return false
+			return []
 		end
 	end
 
@@ -48,7 +48,7 @@ class Race < ActiveRecord::Base
 		if self.condition_node
 			return self.condition_node.getAgeConditions.uniq
 		else
-			return false
+			return []
 		end
 	end
 
