@@ -187,19 +187,23 @@
 										</td>
 										<td>
 											<% if race.getAgeConditions %>
-											<% race.getAgeConditions.each do |age| %>
-											<%= age.name %>
-											<% end %>
-											<% else %>
-											-
+												<% if !race.getAgeConditions.empty? %>
+													<% race.getAgeConditions.each do |age| %>
+														<%= age.name %>
+													<% end %>
+												<% else %>
+													-
+												<% end %>
 											<% end %>
 											/
 											<% if race.getAgeConditions %>
-											<% race.getSexConditions.each do |sex| %>
-											<%= sex.name %>
-											<% end %>
-											<% else %>
-											-
+												<% if !race.getSexConditions.empty? %>
+													<% race.getSexConditions.each do |sex| %>
+														<%= sex.name %>
+													<% end %>
+												<% else %>
+													-
+												<% end %>
 											<% end %>
 										</td>
 										<% if race.distance %>

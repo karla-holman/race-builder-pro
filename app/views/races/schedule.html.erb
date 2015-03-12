@@ -25,19 +25,23 @@
                                             <td><%= race.name %></td>
                                             <td>
                                                 <% if race.getAgeConditions %>
-                                                    <% race.getAgeConditions.each do |age| %>
-                                                        <%= age.name %>
+                                                    <% if !race.getAgeConditions.empty? %>
+                                                        <% race.getAgeConditions.each do |age| %>
+                                                            <%= age.name %>
+                                                        <% end %>
+                                                    <% else %>
+                                                        -
                                                     <% end %>
-                                                <% else %>
-                                                    -
                                                 <% end %>
-                                                    /
+                                                /
                                                 <% if race.getAgeConditions %>
-                                                    <% race.getSexConditions.each do |sex| %>
-                                                        <%= sex.name %>
+                                                    <% if !race.getSexConditions.empty? %>
+                                                        <% race.getSexConditions.each do |sex| %>
+                                                            <%= sex.name %>
+                                                        <% end %>
+                                                    <% else %>
+                                                        -
                                                     <% end %>
-                                                <% else %>
-                                                    -
                                                 <% end %>
                                             </td>
                                             <% if race.distance <= 1 %>

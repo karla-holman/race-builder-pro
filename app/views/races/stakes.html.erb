@@ -25,19 +25,23 @@
                             <td><%= race.name %></td>
                             <td>
                                 <% if race.getAgeConditions %>
+                                <% if !race.getAgeConditions.empty? %>
                                 <% race.getAgeConditions.each do |age| %>
                                 <%= age.name %>
                                 <% end %>
                                 <% else %>
                                 -
                                 <% end %>
+                                <% end %>
                                 /
                                 <% if race.getAgeConditions %>
+                                <% if !race.getSexConditions.empty? %>
                                 <% race.getSexConditions.each do |sex| %>
                                 <%= sex.name %>
                                 <% end %>
                                 <% else %>
                                 -
+                                <% end %>
                                 <% end %>
                             </td>
                             <% if race.distance <= 1 %>
