@@ -396,6 +396,7 @@ class RacesController < ApplicationController
   # POST /races
   # POST /races.json
   def create
+    @race = Race.new(race_params)
     if(params[:commit] == 'Add Conditions')
       @root = ConditionNode.new
       @root.setAsRoot
@@ -415,7 +416,6 @@ class RacesController < ApplicationController
       else
         @claiming_two = ClaimingPrice.new
       end
-      @race = Race.new(race_params)
       if(params[:category])
         @race.category = 'Priority'
         if(params[:race_date] && !params[:race_date][:date].empty?)
@@ -431,8 +431,11 @@ class RacesController < ApplicationController
         @race.category = 'Alternate'
       end
       if(!race_params[:race_type] || race_params[:race_type].empty?)
-          @race.update(race_params)
           @race.errors.add('Race type', "must be selected")
+      end
+      if params[:condition_node_id]
+        condition_node = ConditionNode.find_by_id(params[:condition_node_id])
+        @race.condition_node = condition_node
       end
     end
     respond_to do |format|
@@ -568,17 +571,18 @@ class RacesController < ApplicationController
             @race_date.save
             @race.race_date = @race_date
           else
-            @race.update(race_params)
             @race.errors.add('Priority', "Race must have a date.")
           end
         else
           @race.category = 'Alternate'
         end
         if(!race_params[:race_type] || race_params[:race_type].empty?)
-          @race.update(race_params)
           @race.errors.add('Race type', "must be selected")
         end
       end
+    end
+    if @race.errors
+      @race = addParams(@race, params)
     end
     respond_to do |format|
       if(params[:commit] == 'Edit Conditions')
@@ -650,6 +654,34 @@ class RacesController < ApplicationController
         format.json { render json: @race.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def addParams(race, params)
+    race.name = params[:race][:name]
+    race.description = params[:race][:description]
+    race.weights = params[:race][:weights]
+    race.stakes = params[:race][:stakes]
+    race.hasOtherConditions = params[:race][:hasOtherConditions]
+    race.needs_nomination = params[:race][:needs_nomination]
+    race.status = params[:race][:status]
+    race.purse = params[:race][:purse]
+    race.distance = params[:race][:distance]
+    race.distance_type = params[:race][:distance_type]
+    race.max_field_size = params[:race][:max_field_size]
+    race.race_type = params[:race][:race_type]
+      
+    if(params[:category])
+      race.category = 'Priority'
+      if(params[:race_date] && !params[:race_date][:date].empty?)
+        race_date = RaceDate.new       
+        race_date.date = params[:race_date][:date]
+        race.race_date = race_date
+      end
+    else
+      race.category = 'Alternate'
+    end
+
+    return race
   end
 
   def update_status

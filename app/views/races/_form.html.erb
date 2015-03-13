@@ -106,7 +106,7 @@
       </div>
       <div class="col-xs-6">
         <%= f.label :race_type %>
-        <%= f.select :race_type, options_for_select(["Claiming", 
+        <%= f.select :race_type, options_for_select(["Stakes", "Claiming", 
           "Allowance", "Allowance Optional Claiming", "Maiden Special Weight",
           "Maiden Claiming", "Maiden Optional Claiming"], @race.race_type), {:include_blank => '--Select Race Type--'} %>
         </div>
