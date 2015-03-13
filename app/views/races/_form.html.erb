@@ -33,9 +33,11 @@
       <%= f.text_field :name, :autofocus => true, class: 'form-control'%>
     </div>
     <% if @race.id %>
-      <div class="form-group">
-        <%= f.label :description %>
-        <%= f.text_area :description, :autofocus => true, :value => @race.condition_node.getExpressionString, class: 'form-control'%>
+      <div class="form-group"> 
+        <% if @race.condition_node %>
+          <%= f.label :description %>
+          <%= f.text_area :description, :autofocus => true, :value => @race.condition_node.getExpressionString, class: 'form-control'%>
+        <% end %>
       </div>
     <% end %>
     <div class="form-group">

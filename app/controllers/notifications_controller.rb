@@ -32,10 +32,11 @@ class NotificationsController < ApplicationController
       @new_notification = @notification.dup
       @new_notification.action = "Confirm Nomination"
       @new_notification.save
-    elsif @notification.action == "Confirm Nomination"   
       horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
-      horserace.status = 'Confirmed'
+      horserace.status = 'Interested'
       horserace.save
+    elsif @notification.action == "Confirm Nomination"
+      
     else
       HorseEquipment.where(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id).delete_all
       notification = Notification.find_or_create_by!(send_id: @notification.recv_id, recv_id: @notification.send_id, action: "Remove Approved")
@@ -57,7 +58,7 @@ class NotificationsController < ApplicationController
     respond_to do |format|
       if @notification.action == 'Nominate' && current_user.admin?
         horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
-        horserace.status = 'Confirmed'
+        horserace.status = 'Interested'
         horserace.save
         format.html { redirect_to :back, notice: 'Notification Sent' }
       elsif @notification.save

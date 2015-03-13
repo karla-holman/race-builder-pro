@@ -223,9 +223,9 @@ class RacesController < ApplicationController
     if current_user.admin?
       @horses = Horse.all
     elsif current_user.trainer?
-      @horses = Horse.where(:trainer_id => current_user.id).where.not(:status => @inactive)
+      @horses = Horse.where(:trainer_id => current_user.id).where.not(:status => @inactive).order('name ASC')
     else
-      @horses = Horse.where(:owner_id => current_user.id).where.not(:status => @inactive)
+      @horses = Horse.where(:owner_id => current_user.id).where.not(:status => @inactive).order('name ASC')
     end
   end
 

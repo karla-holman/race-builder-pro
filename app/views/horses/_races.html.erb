@@ -19,7 +19,7 @@
 		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
          	<td><%= @horse.status.name %></td>
         <% else %>
-        	<% if race.stakes && race.needs_nomination %>
+        	<% if race.stakes && race.needs_nomination && (@horserace.status != "Confirmed" && @horserace.status != "Interested")%>
 	            <td>
 	            <% if @horserace.status == "Confirmed" %>
 	                Confirmed: 
@@ -28,8 +28,6 @@
 	              <% end %>
 	            <% elsif @horserace.status == "Denied" %>
 	                Denied
-	            <% elsif Notification.where(:action => "Confirm Nomination", :recv_id => @horse.id, :send_id => race.id).any? %>
-	                Waiting Confirmation
 	            <% elsif Notification.where(:action => "Nominate", :recv_id => @horse.id, :send_id => race.id).any? %>
 	                Nomination Sent 
 	            <% else %>

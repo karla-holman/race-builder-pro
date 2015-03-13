@@ -199,7 +199,7 @@
                                             <% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
                                                 <td><%= @horse.status.name %></td>
                                             <% else %>
-                                                <% if race.stakes && race.needs_nomination %>
+                                                <% if race.stakes && race.needs_nomination && (@horserace.status != "Confirmed" && @horserace.status != "Interested")%>
                                                     <td>
                                                     <% if @horserace.status == "Confirmed" %>
                                                         Confirmed: 

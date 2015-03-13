@@ -146,8 +146,7 @@
                           <div class="date pull-left"><%= notification.created_at.strftime('%b %d, %Y') %></div>
                         </div>
                         <div class="col-xs-5">
-                          <%= link_to 'Confirm', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
-                          <%= link_to 'Deny', notification, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-mini' %>
+                          <%= link_to 'OK', notification, method: :approve, :class => 'btn btn-primary btn-mini' %>
                         </div>
                       </div>
                       <div class="clearfix"></div>
