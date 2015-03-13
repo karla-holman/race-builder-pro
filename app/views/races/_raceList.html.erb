@@ -128,8 +128,8 @@
                                     <th>Type of Race</th>
                                     <th>Age / Sex</th>
                                     <th>Distance</th>
-                                    <th># Interested</th>
-                                    <th># Confirmed</th>
+                                    <th>INT</th>
+                                    <th>CON</th>
                                     <th>Priority</th>
                                     <th style="text-align: center;">Interested / Confirmed</th>
                                 </tr>
@@ -197,10 +197,10 @@
                                                 <% end %>
                                             </td>
                                             <% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
-                                                <td><%= @horse.status.name %></td>
+                                                <td style="text-align:center"><%= @horse.status.name %></td>
                                             <% else %>
                                                 <% if race.stakes && race.needs_nomination && (@horserace.status != "Confirmed" && @horserace.status != "Interested")%>
-                                                    <td>
+                                                    <td style="text-align:center">
                                                     <% if @horserace.status == "Confirmed" %>
                                                         Confirmed: 
                                                           <%= form_for(@horserace) do |f| %>
@@ -218,7 +218,7 @@
                                                     <% end %>
                                                     </td>
                                                 <% elsif @horserace.status == "Confirmed" %>
-                                                    <td>
+                                                    <td style="text-align:center">
                                                       <%= form_for(@horserace) do |f| %>
                                                         <%= check_box("horserace", "status", {:id => 'confirm_racestatus', :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
                                                         <%= label_tag("confirm_racestatus", "", :data => {:on => 'Confirmed', :off => 'No'}) %>

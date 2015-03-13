@@ -63,7 +63,7 @@
 		<% else %>
         	<% if race.stakes && race.needs_nomination && (@horserace.status != "Confirmed" && @horserace.status != "Interested")%>
 
-				<td>
+				<td style="text-align: center">
 					<% if @horserace.status == "Confirmed" %>
 						Confirmed: 
 						<%= form_for(@horserace) do |f| %>
@@ -78,7 +78,7 @@
 					<% end %>
 				</td>
 			<% elsif @horserace.status == "Confirmed" %>
-				<td>
+				<td style="text-align: center">
 					<%= form_for(@horserace) do |f| %>
 						<%= check_box("horserace", "status", {:id => 'confirm_racestatus', :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
 						<%= label_tag("confirm_racestatus", "", :data => {:on => 'Confirmed', :off => 'No'}) %>
