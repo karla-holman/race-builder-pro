@@ -9,7 +9,12 @@
     <%= link_to 'New TEL', new_tel_path({tel: {:week_id=> @week.id}}), :class => 'btn btn-primary btn-mini' %>
     <% @week.tels.each do |tel| %>
     <div class="col-xs-12">
-        <h3>TEL for <%= tel.date.strftime('%b %d, %Y') %></h2>
+            <% if !tel.entry_list %>
+              <h3>Tentative Entry List: <%= tel.date.strftime('%b %d, %Y') %></h3>
+            <% else %>
+              <h3>Entry List: <%= tel.date.strftime('%b %d, %Y') %></h3>
+            <% end %>
+            <h4>Number of Races: <%= tel.num_races %></h4>
             <h4>Total Purse Amount: <td><%= number_to_currency(tel.purse_total, precision: 0) %></h4>
             <h4>Average Field Size: <td><%= tel.average_field_size %></h4>
             <%= link_to 'Edit', edit_tel_path(tel),  :class => 'btn btn-success btn-mini'%>

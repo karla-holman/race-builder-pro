@@ -10,8 +10,8 @@
 	</div>
 	<% @tels.each do |tel| %>
 	<div class="col-xs-12">
-		<h4>TEL <%= tel.date.strftime('%b %d, %Y') %></h4>
-		<h4>Number of Races: <%= tel.num_races %></h4>
+		<h3>Tentative Entry List: <%= tel.date.strftime('%b %d, %Y') %></h3>
+        <h4>Number of Races: <%= tel.num_races %></h4>
 		<div class="grid simple">
 			<div class="grid-body no-border">
 				<div class="row-fluid">
