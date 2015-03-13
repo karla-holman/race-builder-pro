@@ -60,9 +60,6 @@ class HorsesController < ApplicationController
       end
     end
 
-    meet = Meet.all.order('start_date DESC').first
-    horsemeet = @horse.horse_meets.where(:meet_id => meet.id)
-
     confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
     if confirmed_race.any?
       @confirmed = true
