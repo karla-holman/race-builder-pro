@@ -24,17 +24,19 @@
 						<table id="racestatus-table" class="table table-condensed table-hover">
 							<thead>
 								<tr>
-									<th>Name</th>
+									<th>Type of Race</th>
+									<th>Age / Sex</th>
 									<th>Distance</th>
-									<th>Total #</th>
-									<th style="text-alight: center">I/C</th>
-									<th style="display: none;">Conditions</th>
-									<th style="display: none;">Race Description</th>
+									<th>INT</th>
+									<th>CON</th>
+									<th>Priority</th>
+									<th style="text-align: center;">Actions</th>
+									<th style="display: none;"></th>
 								</tr>
 							</thead>
 							<tbody id="race-list">
 								<% if @races %>
-								<%= render 'races' %>
+									<%= render 'races' %>
 								<% end %>
 							</tbody>
 						</table>
@@ -46,14 +48,13 @@
 </div>
 <script>
 /* Formating function for row details */
-function fnFormatDetails ( oTable, nTr )
-{
-	var aData = oTable.fnGetData( nTr );
-	var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;" class="inner-table">';
-	sOut += '<tr><td>Conditions: </td><td>'+aData[5]+'</td></tr>';
-	sOut += '<tr><td>Race Description:</td><td>'+aData[6]+'</td></tr>';
-	sOut += '</table>';
+	function fnFormatDetails ( oTable, nTr )
+	{
+		var aData = oTable.fnGetData( nTr );
+		var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; width: 100%;" class="inner-table">';
+		sOut += '<tr><td class="condition-book">'+aData[8]+'</td></tr>';
+		sOut += '</table>';
 
-	return sOut;
-}
+		return sOut;
+	}
 </script>

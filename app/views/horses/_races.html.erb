@@ -1,82 +1,145 @@
 <% @races.each do |race| %>
-	<tr >
-		<% @horserace = Horserace.where(:race_id => race.id, :horse_id => @horse.id).first %>
+<tr >
+	<% @horserace = Horserace.where(:race_id => race.id, :horse_id => @horse.id).first %>
 		<td><%= race.name %></td>
+		<td>
+			<% if race.getAgeConditions %>
+				<% if !race.getAgeConditions.empty? %>
+					<% race.getAgeConditions.each.with_index do |age, index| %>
+						<% if index == race.getAgeConditions.size - 1 %>
+							<%= age.name %>
+						<% else %>
+							<%= age.name %>&nbsp;
+						<% end %>
+					<% end %>
+				<% else %>
+					-
+				<% end %>
+			<% end %>
+			<% if race.getAgeConditions %>
+				<% if !race.getSexConditions.empty? %>
+					<% race.getSexConditions.each.with_index do |sex, index| %>
+						<% if index == race.getSexConditions.size - 1 %>
+							<%= sex.name %> 
+						<% else %>
+							<%= sex.name %>/
+						<% end %>
+					<% end %>
+				<% else %>
+					-
+				<% end %>
+			<% end %>
+		</td>
 		<% if race.distance %>
 			<% if race.distance <= 1 %>
-		      <% if race.distance_type == 'Furlongs' %>
-		        <td><%= race.distance %> Furlong</td>
-		      <% else %>
-		        <td><%= race.distance %> Mile</td>
-		      <% end %>
-		    <% else %>
-		      <td><%= race.distance %> <%= race.distance_type %></td>
-		    <% end %>
+				<% if race.distance_type == 'Furlongs' %>
+					<td><%= race.distance %> Furlong</td>
+				<% elsif race.distance_type == 'Yards'%>
+					<td><%= race.distance %> Yard</td>
+				<% else %>
+					<td><%= race.distance %> Mile</td>
+				<% end %>
+			<% else %>
+				<td><%= race.distance %> <%= race.distance_type %></td>
+			<% end %>
 		<% else %>
-			<td></td>
+			<td>N/A</td>
 		<% end %>
-		<td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+		<td>
+			<%= race.horseraces.where(:status => "Interested").count %>
+		</td>
+		<td>
+			<%= race.horseraces.where(:status => "Confirmed").count %>
+		</td>
+		<td>
+			<% if race.category == 'Priority' %>
+			<span class="label label-inverse">Yes</span>
+			<% else %>
+			<span class="label badge-danger">No</span>
+			<% end %>
+		</td>
 		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
-         	<td><%= @horse.status.name %></td>
-        <% else %>
+			<td><%= @horse.status.name %></td>
+		<% else %>
         	<% if race.stakes && race.needs_nomination && (@horserace.status != "Confirmed" && @horserace.status != "Interested")%>
-	            <td>
-	            <% if @horserace.status == "Confirmed" %>
-	                Confirmed: 
-	              <%= form_for(@horserace) do |f| %>
-	                <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
-	              <% end %>
-	            <% elsif @horserace.status == "Denied" %>
-	                Denied
-	            <% elsif Notification.where(:action => "Nominate", :recv_id => @horse.id, :send_id => race.id).any? %>
-	                Nomination Sent 
-	            <% else %>
-	                <button class="nominate_horse" horse="<%=@horse.id%>" race="<%= race.id %>">
-	                Nominate</button>
-	            <% end %>
-	            </td>
+
+				<td>
+					<% if @horserace.status == "Confirmed" %>
+						Confirmed: 
+						<%= form_for(@horserace) do |f| %>
+							<%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
+						<% end %>
+					<% elsif @horserace.status == "Denied" %>
+						Denied
+					<% elsif Notification.where(:action => "Nominate", :recv_id => @horse.id, :send_id => race.id).any? %>
+						Nomination Sent 
+					<% else %>
+						<button class="nominate_horse" horse="<%=@horse.id%>" race="<%= race.id %>">Nominate</button>
+					<% end %>
+				</td>
 			<% elsif @horserace.status == "Confirmed" %>
-                <td>
-                  <%= form_for(@horserace) do |f| %>
-                    <%= check_box("horserace", "status", {:id => 'confirm_racestatus', :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
-                    <%= label_tag("confirm_racestatus", "", :data => {:on => 'Confirmed', :off => 'No'}) %>
-                  <% end %>
-                </td>
-            <% elsif @confirmed %>
-                <% @confirmed_id = @horserace.id.to_s + '_confirmed' %>
-                <td style="text-align: center;">
-                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace', style: 'width: 50px;'}) do |f| %>
-                        <%= check_box("horserace", "status", {:id => @horserace.id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
-                        <%= label_tag(@horserace.id, "", :data => {:on => 'Yes', :off => 'No'}) %>
-                    <% end %>
-                    <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace', style: 'width: 50px;'}) do |f| %>
-                        <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0"  />
-                        <label for="<%=@confirmed_id%>" data-on="Yes" data-off="No"></label>
-                    <% end %>
-                </td>
-            <% else %>
-                <% @interested_id = @horserace.id.to_s + '_interested'%>
-                <% @confirmed_id = @horserace.id.to_s + '_confirmed' %>
-                <td style="text-align: center;"><%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
-                    <%= check_box("horserace", "status", {:id => @interested_id ,:class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
-                    <%= label_tag(@interested_id, "", :data => {:on => 'Yes', :off => 'No'}) %>
-                <% end %>
-                <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
-                    <%= check_box("horserace", "status", {:id => @confirmed_id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
-                    <%= label_tag(@confirmed_id, "", :data => {:on => 'Yes', :off => 'No'}) %>
-                <% end %>
-                </td>
-            <% end %>
+				<td>
+					<%= form_for(@horserace) do |f| %>
+						<%= check_box("horserace", "status", {:id => 'confirm_racestatus', :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
+						<%= label_tag("confirm_racestatus", "", :data => {:on => 'Confirmed', :off => 'No'}) %>
+					<% end %>
+				</td>
+			<% elsif @confirmed %>
+				<% @confirmed_id = @horserace.id.to_s + '_confirmed' %>
+				<td style="text-align: center;">
+					<%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace', style: 'width: 50px;'}) do |f| %>
+						<%= check_box("horserace", "status", {:id => @horserace.id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
+						<%= label_tag(@horserace.id, "", :data => {:on => 'Yes', :off => 'No'}) %>
+					<% end %>
+					<%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace', style: 'width: 50px;'}) do |f| %>
+						<input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0"  />
+						<label for="<%=@confirmed_id%>" data-on="Yes" data-off="No"></label>
+					<% end %>
+				</td>
+			<% else %>
+				<% @interested_id = @horserace.id.to_s + '_interested'%>
+				<% @confirmed_id = @horserace.id.to_s + '_confirmed' %>
+				<td style="text-align: center;"><%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
+					<%= check_box("horserace", "status", {:id => @interested_id ,:class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
+					<%= label_tag(@interested_id, "", :data => {:on => 'Yes', :off => 'No'}) %>
+					<% end %>
+					<%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
+					<%= check_box("horserace", "status", {:id => @confirmed_id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Confirmed", "") %>
+					<%= label_tag(@confirmed_id, "", :data => {:on => 'Yes', :off => 'No'}) %>
+					<% end %>
+				</td>
+			<% end %>
 		<% end %>
-		<td style="display: none;">
-	    <% if race.conditions.any? %>
-	    	<% race.conditions.each do |condition| %>
-	          | <%= condition.name %> |
-	    	<% end %>
-	    <% else %>
-	    	| None |
-	    <% end %>
-	    </td>
-	    <td style="display: none;"><%= race.description %></td>
+		<td class="condition-book" style="display:none;">
+			<div class="race-type">
+				<span><%= race.race_type %></span>
+			</div>
+			<div class="race-description">
+				<span>Purse:<%= number_to_currency(race.purse, precision: 0) %>. <%= race.description %></span>
+			</div>
+			<div class="race-weight">
+				<span><%= race.weights %></span>
+			</div>
+			<div class="race-claiming">
+				<span>
+					<% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
+					<% if race.claiming_prices[1] && race.claiming_prices[1].price %>
+					<% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
+					Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
+					<% else %>
+					Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
+					<% end %>
+					<% else %>
+					Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
+					<% end %>
+					<% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
+					Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
+					<% end %>
+				</span>
+			</div>
+			<div class="race-distance pull-right">
+				<span><%= race.distance %> <%= race.distance_type %></span>
+			</div>
+		</td>
 	</tr>
 <% end %>
