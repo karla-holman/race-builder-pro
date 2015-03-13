@@ -10,9 +10,9 @@
     <% @week.tels.each do |tel| %>
     <div class="col-xs-12">
             <% if !tel.entry_list %>
-              <h3>Tentative Entry List: <%= tel.date.strftime('%b %d, %Y') %></h3>
+              <h3>Tentative Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
             <% else %>
-              <h3>Entry List: <%= tel.date.strftime('%b %d, %Y') %></h3>
+              <h3>Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
             <% end %>
             <h4>Number of Races: <%= tel.num_races %></h4>
             <h4>Total Purse Amount: <td><%= number_to_currency(tel.purse_total, precision: 0) %></h4>

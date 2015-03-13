@@ -10,7 +10,7 @@
 	</div>
 	<% @tels.each do |tel| %>
 	<div class="col-xs-12">
-		<h3>Tentative Entry List: <%= tel.date.strftime('%b %d, %Y') %></h3>
+		<h3>Tentative Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
         <h4>Number of Races: <%= tel.num_races %></h4>
 		<div class="grid simple">
 			<div class="grid-body no-border">
