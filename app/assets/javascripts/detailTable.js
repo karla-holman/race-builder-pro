@@ -47,15 +47,15 @@ $(document).ready(function() {
         if ( oTable.fnIsOpen(nTr) )
         {
             /* This row is already open - close it */
-            this.removeClass = "fa fa-plus-circle";
-            this.addClass = "fa fa-minus-circle";     
+            $(this).removeClass("fa fa-minus-circle");   
+            $(this).addClass("fa fa-plus-circle");
             oTable.fnClose( nTr );
         }
         else
         {
             /* Open this row */
-            this.removeClass = "fa fa-minus-circle";
-            this.addClass = "fa fa-plus-circle";  
+            $(this).removeClass("fa fa-plus-circle");
+            $(this).addClass("fa fa-minus-circle");  
             oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
         }
     });
