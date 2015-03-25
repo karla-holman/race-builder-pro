@@ -43,7 +43,14 @@ class HorsesController < ApplicationController
   def show
     @last_win = @horse.last_win
     
-    @equipment_medication = Equipment.all
+    @lasix_medication = Equipment.where("name = (?) OR name = (?) OR name = (?)", "Lasix Off", "Lasix On", 'First Time Lasix')
+    @equipment_medication = Equipment.where("name != (?) AND name != (?) AND name != (?)", "Lasix Off", "Lasix On", 'First Time Lasix')
+
+    @lasix_medication.each do |equipment|
+      if Notification.where(:send_id => @horse.id, :recv_id => equipment.id, :action => "Add").any? || Notification.where(:send_id => @horse.id, :recv_id => equipment.id, :action => "Remove").any?
+        @lasix_pending = true
+      end
+    end
     if current_user.admin?
       @statuses = Status.all
     else
@@ -236,7 +243,13 @@ class HorsesController < ApplicationController
             format.json { render json: @horse.errors, status: :unprocessable_entity }
           end
         else
-          @equipment_medication = Equipment.all
+          @lasix_medication = Equipment.where("name = (?) OR name = (?) OR name = (?)", "Lasix Off", "Lasix On", 'First Time Lasix')
+          @equipment_medication = Equipment.where("name != (?) AND name != (?) AND name != (?)", "Lasix Off", "Lasix On", 'First Time Lasix')
+          @lasix_medication.each do |equipment|
+            if Notification.where(:send_id => @horse.id, :recv_id => equipment.id, :action => "Add").any? || Notification.where(:send_id => @horse.id, :recv_id => equipment.id, :action => "Remove").any?
+              @lasix_pending = true
+            end
+          end
           format.js
         end
       end

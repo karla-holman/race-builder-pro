@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 
     @races = FilterRacesService.new.currentEligibleRaces()
 
-    @tels = Tel.where('entry_list = ? AND date >= ? AND published = ?', false, Date.today, true).order('date DESC')
+    @tels = Tel.where('entry_list = ? AND date >= ? AND published = ?', false, Date.today, true)
 
     if current_user.trainer?
     	@horses = Horse.where(:trainer_id => current_user.id).where.not(:status => @inactive)

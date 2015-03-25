@@ -687,7 +687,13 @@ class RacesController < ApplicationController
   def update_status
     race = Race.find(params[:id])
     race.status = params[:status]
-    addRaceToTEL(race)
+
+    if race.status == 'Draft'
+      race.horseraces.delete_all
+      race.tel = nil
+    else
+      addRaceToTEL(race)
+    end
 
     race.save
 

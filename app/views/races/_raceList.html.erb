@@ -206,8 +206,6 @@
                                                           <%= form_for(@horserace) do |f| %>
                                                             <%= check_box("horserace", "status", {:id => 'confirm_racestatus'}, "Confirmed", "") %>
                                                           <% end %>
-                                                    <% elsif @horserace.status == "Denied" %>
-                                                        Denied
                                                     <% elsif Notification.where(:action => "Confirm Nomination", :recv_id => @horse.id, :send_id => race.id).any? %>
                                                         Waiting Confirmation
                                                     <% elsif Notification.where(:action => "Nominate", :recv_id => @horse.id, :send_id => race.id).any? %>
@@ -231,9 +229,9 @@
                                                             <%= check_box("horserace", "status", {:id => @horserace.id, :class => 'cmn-toggle cmn-toggle-yes-no'}, "Interested", "") %>
                                                             <%= label_tag(@horserace.id, "", :data => {:on => 'Yes', :off => 'No'}) %>
                                                         <% end %>
-                                                        <%= form_for(@horserace, :html => {class: 'inline-checkbox edit_horserace'}) do |f| %>
+                                                        <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
                                                             <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0"  />
-                                                            <label for="<%=@confirmed_id%>" data-on="Yes" data-off="No"></label>
+                                                            <label for="<%=@confirmed_id%>" data-on="Yes" data-off="No" style="margin-bottom:0px;"></label>
                                                         <% end %>
                                                     </td>
                                                 <% else %>

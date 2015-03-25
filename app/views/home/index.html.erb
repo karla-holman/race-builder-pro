@@ -8,7 +8,7 @@
 		</h1>
 		<h5>Version: 2.0</h5>
 	</div>
-	<% @tels.each do |tel| %>
+	<% @tels.order("date asc").each do |tel| %>
 	<div class="col-xs-12">
 		<h3>Tentative Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
         <h4>Number of Races: <%= tel.num_races %></h4>
