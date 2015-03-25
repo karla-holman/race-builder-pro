@@ -44,11 +44,17 @@
                   end
                 %>
                 <% if @notifications %>
-                  <span class="badge badge-important">
-                    <%= @notifications.length %>
-                  </span>
+                    <% if @notifications.length > 0 %>
+                        <span class="badge badge-notification on">
+                          <%= @notifications.length %>
+                        </span>
+                      <% else %>
+                        <span class="badge badge-notification">
+                          <%= @notifications.length %>
+                        </span>
+                    <% end %>
                 <% end %> 
-                <%= current_user.name %>
+                Notifications
                 </div>
             </div>
             <div class="iconset top-down-arrow"></div>
@@ -174,7 +180,6 @@
               <% end %>
             </div>
           </div>
-          <div class="profile-pic"><img src="/assets/img/profiles/horse2.jpg"  alt="" data-src="/assets/img/profiles/horse2.jpg" data-src-retina="/assets/img/profiles/horse2.jpg" width="69" height="69" /></div>
         </div>
         <ul class="nav quick-section ">
           <li class="quicklinks"> <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">

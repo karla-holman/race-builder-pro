@@ -12,8 +12,9 @@ $(document).ready(function() {
     var oTable = $('.weeksTelTable').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bPaginate": false,
-       "aaSorting": [[7, "desc"],[ 2, "desc" ], [ 1, "desc" ]],
+       "aaSorting": [[1, "desc"],[ 7, "desc" ], [ 2, "desc" ]],
                 "oLanguage": {
+                  "sSearch": "Search Weeks:",
             "sLengthMenu": "Show  _MENU_  entries",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },

@@ -32,8 +32,8 @@ development:
   encoding: unicode
   database: rbp_development
   pool: 5
-  username: Kevin
-  password:	paradise1
+  username: postgres
+  password:	newo#1988
   host: localhost
 
 test:
@@ -41,8 +41,8 @@ test:
   encoding: unicode
   database: rbp_test
   pool: 5
-  username: Kevin
-  password: paradise1
+  username: postgres
+  password: newo#1988
   host: localhost
 
 production:
@@ -50,7 +50,7 @@ production:
   encoding: unicode
   database: rbp_production
   pool: 5
-  username: Kevin
-  password: paradise1
+  username: postgres
+  password: newo#1988
   host: localhost
 

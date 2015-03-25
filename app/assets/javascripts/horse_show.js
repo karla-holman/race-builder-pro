@@ -29,6 +29,7 @@ $(document).ready(function() {
        "bSortClasses": false,
        "aaSorting": [[ 4, "asc" ], [ 3, "desc" ]],
                 "oLanguage": {
+            "sSearch": "Search Races:",
             "sLengthMenu": "Show  _MENU_  entries",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },

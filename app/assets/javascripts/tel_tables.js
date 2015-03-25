@@ -18,6 +18,7 @@ $(document).ready(function() {
       "aoColumns": [null, null, null, null, {"sType": "natural"}, {"sType": "natural"}, null, null],
        "aaSorting": [[5, "desc"],[ 4, "desc" ]],
                 "oLanguage": {
+                  "sSearch": "Search Races:",
             "sLengthMenu": "Show  _MENU_  entries",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },

@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-xs-12">
     <h2><%= @meet.name %></h2>
-    <h4><%= @meet.race_days %> days</h4>
+    <h4><%= @meet.race_days %> Racing Days</h4>
 	<p>Start Date: <%= @meet.start_date.strftime('%b %d, %Y') %></p>
 	<p>End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></p>
 	<% if current_user.admin? %>
