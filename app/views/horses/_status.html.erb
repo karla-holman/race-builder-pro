@@ -14,7 +14,7 @@
       <% if current_user.admin? %>
         <%= f.collection_select :status_id, @statuses, :id, :name, {}, class: 'form-control'%>
       <% else %>
-        <%= f.collection_select :status_id, @statuses, :id, :name, {}, class: 'form-control', :disabled => true%>
+        <%= @horse.status.name %>
       <% end %>
     </div>
   </div>
