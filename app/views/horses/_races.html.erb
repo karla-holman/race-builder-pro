@@ -46,16 +46,16 @@
 			<td>N/A</td>
 		<% end %>
 		<td>
-			<%= race.horseraces.where(:status => "Interested").count %>
+			<strong><%= race.horseraces.where(:status => "Interested").count %></strong>
 		</td>
 		<td>
-			<%= race.horseraces.where(:status => "Confirmed").count %>
+			<strong><%= race.horseraces.where(:status => "Confirmed").count %></strong>
 		</td>
 		<td>
 			<% if race.category == 'Priority' %>
-			<span class="label label-inverse">Yes</span>
+			<span>Yes</span>
 			<% else %>
-			<span class="label badge-danger">No</span>
+			<span>No</span>
 			<% end %>
 		</td>
 		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>

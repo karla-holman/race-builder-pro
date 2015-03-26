@@ -77,14 +77,14 @@
 								<td>N/A</td>
 								<% end %>
 								<td>
-									<span class="badge badge-danger">
+									<strong>
 										<%= race.horseraces.where(:status => "Interested").count %>
-									</span>
+									</strong>
 								</td>
 								<td>
-									<span class="badge badge-success">
+									<strong>
 										<%= race.horseraces.where(:status => "Confirmed").count %>
-									</span>
+									</strong>
 								</td>
 								<td style="display: none;">
 									<% if race.conditions.any? %>
@@ -97,9 +97,9 @@
 								</td>
 								<td>
 									<% if race.category == 'Priority' %>
-									<span class="label label-inverse">Yes</span>
+									<span>Yes</span>
 									<% else %>
-									<span class="label badge-danger">No</span>
+									<span>No</span>
 									<% end %>
 								</td>
 								<% if current_user.admin? %>
@@ -257,14 +257,14 @@
 										<td>N/A</td>
 										<% end %>
 										<td>
-											<span class="badge badge-danger">
+											<strong>
 												<%= race.horseraces.where(:status => "Interested").count %>
-											</span>
+											</strong>
 										</td>
 										<td>
-											<span class="badge badge-success">
+											<strong>
 												<%= race.horseraces.where(:status => "Confirmed").count %>
-											</span>
+											</strong>
 										</td>
 										<td class="condition-book" style="display:none;">
 											<div class="race-type">
@@ -339,9 +339,9 @@
 										</td>
 										<td>
 											<% if race.category == 'Priority' %>
-											<span class="label label-inverse">Yes</span>
+											<span>Yes</span>
 											<% else %>
-											<span class="label badge-danger">No</span>
+											<span>No</span>
 											<% end %>
 										</td>
 									</tr>

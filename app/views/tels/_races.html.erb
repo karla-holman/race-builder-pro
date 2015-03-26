@@ -11,8 +11,8 @@
 	  <tr>
 	    <td><%= race.race_type %></td>
 	    <td><%= race.name %></td>
-	    <td><%= race.horseraces.where(:status => "Interested").count %></td>
-	    <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+	    <td><strong><%= race.horseraces.where(:status => "Interested").count %></strong></td>
+	    <td><strong><%= race.horseraces.where(:status => "Confirmed").count %></strong></td>
 	    <td><button type="button" class="btn btn-danger btn-mini remove_from_day" race="<%=race.id%>">Remove</button></td>
 	  </tr>
 	<% end %>

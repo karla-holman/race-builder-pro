@@ -183,17 +183,18 @@
                                             <% else %>
                                                 <td>N/A</td>
                                             <% end %>
-                                            <td><span class="badge badge-danger">
-                                                <%= race.horseraces.where(:status => "Interested").count %></span>
+                                            <td><strong>
+                                                <%= race.horseraces.where(:status => "Interested").count %>
+                                                </strong>
                                             </td>
-                                            <td><span class="badge badge-success">
-                                                <%= race.horseraces.where(:status => "Confirmed").count %></span>
+                                            <td><strong>
+                                                <%= race.horseraces.where(:status => "Confirmed").count %></strong>
                                             </td>   
                                             <td>
                                                 <% if race.category == 'Priority' %>
-                                                    <span class="label label-inverse">Yes</span>
+                                                    <span>Yes</span>
                                                 <% else %>
-                                                    <span class="label badge-danger">No</span>
+                                                    <span>No</span>
                                                 <% end %>
                                             </td>
                                             <% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>

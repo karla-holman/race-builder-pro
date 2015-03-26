@@ -48,16 +48,16 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th># Interested</th>
-                  <th># Confirmed</th>
+                  <th>INT</th>
+                  <th>CON</th>
                 </tr>
               </thead>
               <tbody>
                 <% @alternates.each do |race| %>
                   <tr class="top">
                     <td><div class="invisible" style="display:none"><%= race.id %></div><%= race.name %></td>
-                    <td><%= race.horseraces.where(:status => "Interested").count %></td>
-                    <td><%= race.horseraces.where(:status => "Confirmed").count %></td>
+                    <td><strong><%= race.horseraces.where(:status => "Interested").count %></strong></td>
+                    <td><strong><%= race.horseraces.where(:status => "Confirmed").count %></strong></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -70,8 +70,8 @@
                 <tr>
                   <th>Type</th>
                   <th>Name</th>
-                  <th># Interested</th>
-                  <th># Confirmed</th>
+                  <th>INT</th>
+                  <th>CON</th>
                   <th colspan="1"></th>
                 </tr>
               </thead>
