@@ -21,13 +21,12 @@
         <% if @distance %>
         distance="<%= @distance %>" 
         <%end%>
-    </div>  
-    <div class="col-xs-12 well">
-        <h4>Showing Races for <%= @horse.name %></h4>
-        <p>Use the dropdowns to filter down races and find your desired race!</p>
+    </div>
+    <div class="col-xs-12 view-horse-button">
         <%= link_to 'View Horse', @horse, :class => 'btn btn-success btn-mini' %>
     </div>
     <div class="col-xs-12 well">
+        <h4>Use the dropdown options to filter races:</h4>
         <div class="row race-menu-selectors">
             <div class="col-xs-5">
                 <div class='row'>
@@ -118,6 +117,7 @@
         </div>
     </div>
     <div class="col-xs-12">
+        <h4>Showing races that <%= @horse.name %> is eligible for:</h4>
         <div class="grid simple">
             <div class="grid-body no-border">
                 <div class="row">

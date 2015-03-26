@@ -113,6 +113,16 @@ form.edit_horserace {
   font-size: 12px;
 }
 
+.text-block {
+  margin: 15px 0;
+}
+
+.view-horse-button {
+  position: absolute;
+  margin-top: -45px;
+  margin-left: 245px;
+}
+
 
 /* ============================================================
   SWITCH 3 - YES NO
