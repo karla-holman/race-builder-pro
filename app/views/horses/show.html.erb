@@ -1,5 +1,7 @@
 <ul class="breadcrumb">
-	<li><%= link_to 'Stable', horses_path %></li>
+	<% if current_user.admin? %>
+		<li><%= link_to 'Inventory', horses_path %></li>
+	<% end %>
 	<li class="active"><%= @horse.name %></li>
 	<li><%= link_to 'Go To Race Menu', races_menu_path(:horse_id => @horse.id) %></li>
 </ul>

@@ -4,6 +4,41 @@
 	<li><%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish' %></li>
 </ul>
 <div class="row">
+	<div id="draft_modal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title">Are you sure you want to change race to draft?</h4>
+				</div>
+				<div class="modal-body">
+					<% if Horserace.where(:race_id => @race.id).where("status = (?) OR status = (?)", "Interested", "Confirmed").any? %>
+						<h4>Horses: </h4>
+						<ul>
+						<% @race.horseraces.each do |horserace| %>
+							<% if horserace.horse && (horserace.status == 'Interested' || horserace.status == 'Confirmed') %>
+								<li><%= horserace.horse.name %> (<%= horserace.status %>)</li>
+							<% end %>
+						<% end %>
+						</ul>
+					<% end %>
+					<% if @race.tel && @race.tel.date%>
+						<h4>
+						<% if @race.tel.entry_list %>
+							Tentative Entry List: 
+						<% else %> 
+							Entry List:  
+						<% end %>
+						<%=@race.tel.date.strftime('%A, %b %d') %></h4>
+					<% end %>
+				</div>
+				<div class="modal-footer">
+					<%= link_to 'Change to Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => @race.id }, :class => 'btn btn-warning btn-s' %>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	<div class="col-md-12">
 		<div class="grid simple">
 			<div class="grid-body no-border">
@@ -25,7 +60,7 @@
 							<% if @race.status == "Draft"%>
 							<%= link_to 'Publish Race', {:controller => "races", :action => "update_status", :status => "Published", :id => @race.id }, :class => 'btn btn-success btn-s' %>
 							<% else %>
-							<%= link_to 'Change to Draft', {:controller => "races", :action => "update_status", :status => "Draft", :id => @race.id }, :class => 'btn btn-warning btn-s' %>
+								<button type="button" id="switch_to_draft" class="btn btn-warning btn-s">Change to Draft</button>
 							<% end %>
 						</div>
 						<% @race_groups.each do |racegroup| %>

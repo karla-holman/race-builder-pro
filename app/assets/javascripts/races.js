@@ -103,6 +103,10 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#switch_to_draft").on('click', function (e) {
+        $('#draft_modal').modal('show');
+      });
+
 	function attemptUpdate(f){
 	  $.ajax({
 	    type: "POST",

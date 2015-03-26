@@ -107,12 +107,12 @@ class RacesController < ApplicationController
       @race.condition_node = condition_node
 
       if saved_race[:claiming_one]
-        @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one])
+        @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one].gsub(/[^\d\.]/, ''))
       else
         @claiming_one = ClaimingPrice.new
       end
       if saved_race[:claiming_two]
-        @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two])
+        @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two].gsub(/[^\d\.]/, ''))
       else
         @claiming_two = ClaimingPrice.new
       end
@@ -153,12 +153,12 @@ class RacesController < ApplicationController
     @race.race_type = saved_race[:race][:race_type]
 
     if saved_race[:claiming_one]
-      @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one])
+      @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one].gsub(/[^\d\.]/, ''))
     else
       @claiming_one = ClaimingPrice.new
     end
     if saved_race[:claiming_two]
-      @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two])
+      @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two].gsub(/[^\d\.]/, ''))
     else
       @claiming_two = ClaimingPrice.new
     end
@@ -407,12 +407,12 @@ class RacesController < ApplicationController
       Rails.cache.write('New Race', params) 
     else
       if(params[:claiming_one])
-        @claiming_one = ClaimingPrice.new(:price => params[:claiming_one])
+        @claiming_one = ClaimingPrice.new(:price => params[:claiming_one].gsub(/[^\d\.]/, ''))
       else
         @claiming_one = ClaimingPrice.new
       end
       if(params[:claiming_two])
-        @claiming_two = ClaimingPrice.new(:price => params[:claiming_two])
+        @claiming_two = ClaimingPrice.new(:price => params[:claiming_two].gsub(/[^\d\.]/, ''))
       else
         @claiming_two = ClaimingPrice.new
       end
@@ -444,24 +444,25 @@ class RacesController < ApplicationController
       elsif !@race.errors.any? && @race.save
         if(params[:claiming_one] && @race.isClaiming)
           if(@race.claiming_prices[0])
-            @race.claiming_prices[0].price = params[:claiming_one]
+            @race.claiming_prices[0].price = params[:claiming_one].gsub(/[^\d\.]/, '')
+            puts "CLAIMING: " << 
             @race.claiming_prices[0].save
           else
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = @race.id
-            @claiming_one.price = params[:claiming_one]
+            @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
             @claiming_one.save
             @race.claiming_prices[0] = @claiming_one
           end
         end
         if (params[:claiming_two] && @race.isClaiming)
           if(@race.claiming_prices[1])
-            @race.claiming_prices[1].price = params[:claiming_two]
+            @race.claiming_prices[1].price = params[:claiming_two].gsub(/[^\d\.]/, '')
             @race.claiming_prices[1].save
           else
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = @race.id
-            @claiming_two.price = params[:claiming_two]
+            @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
             @claiming_two.save
             @race.claiming_prices[1] = @claiming_two
           end
@@ -487,14 +488,14 @@ class RacesController < ApplicationController
           if(params[:claiming_one] && @race.isClaiming)
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = new_race.id
-            @claiming_one.price = params[:claiming_one]
+            @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
             @claiming_one.save
             new_race.claiming_prices[0] = @claiming_one
           end
           if (params[:claiming_two] && @race.isClaiming)
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = new_race.id
-            @claiming_two.price = params[:claiming_two]
+            @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
             @claiming_two.save
             new_race.claiming_prices[1] = @claiming_two
           end
@@ -525,12 +526,12 @@ class RacesController < ApplicationController
       Rails.cache.write('Edit Race', params)
     else
       if(params[:claiming_one])
-        @claiming_one = ClaimingPrice.new(:price => params[:claiming_one])
+        @claiming_one = ClaimingPrice.new(:price => params[:claiming_one].gsub(/[^\d\.]/, ''))
       else
         @claiming_one = ClaimingPrice.new
       end
       if(params[:claiming_two])
-        @claiming_two = ClaimingPrice.new(:price => params[:claiming_two])
+        @claiming_two = ClaimingPrice.new(:price => params[:claiming_two].gsub(/[^\d\.]/, ''))
       else
         @claiming_two = ClaimingPrice.new
       end
@@ -591,24 +592,24 @@ class RacesController < ApplicationController
         @race.claiming_prices.delete_all
         if(params[:claiming_one] && @race.isClaiming)
           if(@race.claiming_prices[0])
-            @race.claiming_prices[0].price = params[:claiming_one]
+            @race.claiming_prices[0].price = params[:claiming_one].gsub(/[^\d\.]/, '')
             @race.claiming_prices[0].save
           else
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = @race.id
-            @claiming_one.price = params[:claiming_one]
+            @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
             @claiming_one.save
             @race.claiming_prices[0] = @claiming_one
           end
         end
         if (params[:claiming_two] && @race.isClaiming)
           if(@race.claiming_prices[1])
-            @race.claiming_prices[1].price = params[:claiming_two]
+            @race.claiming_prices[1].price = params[:claiming_two].gsub(/[^\d\.]/, '')
             @race.claiming_prices[1].save
           else
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = @race.id
-            @claiming_two.price = params[:claiming_two]
+            @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
             @claiming_two.save
             @race.claiming_prices[1] = @claiming_two
           end
@@ -626,14 +627,14 @@ class RacesController < ApplicationController
           if(params[:claiming_one] && @race.isClaiming)
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = new_race.id
-            @claiming_one.price = params[:claiming_one]
+            @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
             @claiming_one.save
             new_race.claiming_prices[0] = @claiming_one
           end
           if (params[:claiming_two] && @race.isClaiming)
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = new_race.id
-            @claiming_two.price = params[:claiming_two]
+            @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
             @claiming_two.save
             new_race.claiming_prices[1] = @claiming_two
           end

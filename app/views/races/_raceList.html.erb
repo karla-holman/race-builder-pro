@@ -106,8 +106,8 @@
                                 <%= select_tag "Sex", options_for_select(['F']), :prompt => 'Open' %>
                              <% elsif (@age && @age.name == '3+' && @horse.age == 3 && @horse.sex == 'F') || (@age && @age.name == '4+' && @horse.age == 4 && @horse.sex == 'F')%>
                                 <%= select_tag "Sex", options_for_select(['F/M']), :prompt => 'Open' %>
-                            <% elsif @horse.age == 2 && @horse.sex == 'F' %>
-                                <%= select_tag "Sex", options_for_select(['F']), :prompt => 'Open' %>
+                            <% elsif @horse.sex == 'F' || @horse.sex =='M' %>
+                                <%= select_tag "Sex", options_for_select(['F/M']), :prompt => 'Open' %>
                             <% else %>
                                 <%= select_tag "Sex", options_for_select(['C/G']), :prompt => 'Open' %>
                             <% end %>
@@ -230,7 +230,7 @@
                                                             <%= label_tag(@horserace.id, "", :data => {:on => 'Yes', :off => 'No'}) %>
                                                         <% end %>
                                                         <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
-                                                            <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0"  />
+                                                            <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0" race-name="<%= race.name %>" />
                                                             <label for="<%=@confirmed_id%>" data-on="Yes" data-off="No" style="margin-bottom:0px;"></label>
                                                         <% end %>
                                                     </td>

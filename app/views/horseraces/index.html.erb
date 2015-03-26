@@ -24,7 +24,7 @@
             <td><%= horserace.id %></td>
             <% end %>
             <td><%= horserace.horse.name %></td>
-            <td><%= horserace.race.name %></td>
+            <td><% if horserace.race %><%= horserace.race.name %><% end %></td>
             <td>
               <% if horserace.entered? %>
                 <%= horserace.entered.to_time.strftime('%b %d, %Y') %>
