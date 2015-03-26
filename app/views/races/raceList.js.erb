@@ -108,8 +108,10 @@ $('#racelist-table').dataTable({
     "bSortClasses": false,
      "aaSorting": [[ 4, "desc" ], [ 3, "desc" ]],
               "oLanguage": {
+          "sSearch": "Search Races:",
           "sLengthMenu": "Show  _MENU_  entries",
-          "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+          "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries",
+          "sEmptyTable": "There are no races that fit your description above."
       },
     "fnDrawCallback": function( oSettings ) {
       $(".edit_horserace").change(function(){
