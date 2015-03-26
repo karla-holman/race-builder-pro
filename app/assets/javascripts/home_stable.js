@@ -30,7 +30,7 @@ $(document).ready(function() {
        "aaSorting": [[ 5, "asc" ]],
                 "oLanguage": {
                   "sSearch": "Search Horses:",
-            "sLengthMenu": "Show  _MENU_  entries",
+            "sLengthMenu": "Show  _MENU_  horses",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },
         fnRowCallback  : function (nRow, aData) {

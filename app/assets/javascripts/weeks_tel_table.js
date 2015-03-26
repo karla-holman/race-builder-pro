@@ -15,7 +15,7 @@ $(document).ready(function() {
        "aaSorting": [[1, "desc"],[ 7, "desc" ], [ 2, "desc" ]],
                 "oLanguage": {
                   "sSearch": "Search Weeks:",
-            "sLengthMenu": "Show  _MENU_  entries",
+            "sLengthMenu": "Show  _MENU_  weeks",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
         },
         "fnInitComplete": function(oSettings, json) {

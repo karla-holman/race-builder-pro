@@ -30,7 +30,7 @@ $(document).ready(function() {
        "aaSorting": [[ 4, "asc" ], [ 3, "desc" ]],
                 "oLanguage": {
             "sSearch": "Search Races:",
-            "sLengthMenu": "Show  _MENU_  entries",
+            "sLengthMenu": "Show  _MENU_  races",
             "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries",
             "sEmptyTable": "Your horse is not currently interested or confirmed in any races."
         },
