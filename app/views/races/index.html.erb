@@ -13,7 +13,9 @@
             <table class="detailTable table table-condensed table-hover">
               <thead>
                 <tr>
-                  <th>Name</th> 
+                  <th>Type of Race</th> 
+                  <th>Age / Sex</th>
+                  <th>Distance</th>
                   <th>Status</th>
                   <th>Priority</th>
                   <th style="display: none;"></th>
@@ -24,6 +26,45 @@
                 <% @races.each do |race| %>
                   <tr>
                     <td><%= race.name %></td>
+                    <td>
+                      <% if race.getAgeConditions %>
+                          <% if !race.getAgeConditions.empty? %>
+                              <% race.getAgeConditions.each.with_index do |age, index| %>
+                                  <% if index == race.getAgeConditions.size - 1 %>
+                                      <%= age.name %>
+                                  <% else %>
+                                      <%= age.name %>&nbsp;
+                                  <% end %>
+                              <% end %>
+                          <% end %>
+                      <% end %>
+                      <% if race.getAgeConditions %>
+                          <% if !race.getSexConditions.empty? %>
+                              <% race.getSexConditions.each.with_index do |sex, index| %>
+                                  <% if index == race.getSexConditions.size - 1 %>
+                                      <%= sex.name %> 
+                                  <% else %>
+                                      <%= sex.name %>/
+                                  <% end %>
+                              <% end %>
+                          <% end %>
+                      <% end %>
+                  </td>
+                  <% if race.distance %>
+                    <% if race.distance <= 1 %>
+                      <% if race.distance_type == 'Furlongs' %>
+                        <td><%= race.distance %> Furlong</td>
+                      <% elsif race.distance_type == 'Yards'%>
+                        <td><%= race.distance %> Yard</td>
+                      <% else %>
+                        <td><%= race.distance %> Mile</td>
+                      <% end %>
+                    <% else %>
+                      <td><%= race.distance %> <%= race.distance_type %></td>
+                    <% end %>
+                  <% else %>
+                    <td>N/A</td>
+                  <% end %>
                     <td>
                       <% if race.status == "Draft"%>
                         <%= link_to 'Draft', {:controller => "races", :action => "update_status", :status => "Published", :id => race.id }, :class => 'btn btn-warning btn-mini' %>
@@ -72,8 +113,8 @@
                     <td>
                       <%= link_to 'Show', race, :class => 'btn btn-success btn-mini' %>
                       <%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
-                      <%= link_to 'Delete', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %>
-                      <%= link_to 'Duplicate', '/races/'+race.id.to_s+'/duplicate', :method=> :post, :class => 'btn btn-primary btn-mini' %>
+                      <%= link_to '<i class="fa fa-minus"></i>'.html_safe, race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger   btn-mini' %>
+                      <%= link_to '<i class="fa fa-plus"></i>'.html_safe, '/races/'+race.id.to_s+'/duplicate', :method=> :post, :class => 'btn btn-primary btn-mini' %>
                     </td>
                   </tr>
                 <% end %>
@@ -91,7 +132,7 @@
   {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;  width: 100%;" class="inner-table">';
-    sOut += '<tr><td class="condition-book">'+aData[4]+'</td></tr>';
+    sOut += '<tr><td class="condition-book">'+aData[6]+'</td></tr>';
     sOut += '</table>';
      
     return sOut;

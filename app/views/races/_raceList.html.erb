@@ -131,6 +131,7 @@
                                     <th>INT</th>
                                     <th>CON</th>
                                     <th>Priority</th>
+                                    <th><i class="fa fa-check"></i> Eligibility</th>
                                     <th style="text-align: center;">Interested / Confirmed</th>
                                 </tr>
                             </thead>
@@ -150,8 +151,6 @@
                                                             <%= age.name %>&nbsp;
                                                         <% end %>
                                                     <% end %>
-                                                <% else %>
-                                                    -
                                                 <% end %>
                                             <% end %>
                                             <% if race.getAgeConditions %>
@@ -163,8 +162,6 @@
                                                             <%= sex.name %>/
                                                         <% end %>
                                                     <% end %>
-                                                <% else %>
-                                                    -
                                                 <% end %>
                                             <% end %>
                                         </td>
@@ -196,6 +193,9 @@
                                                 <% else %>
                                                     <span>No</span>
                                                 <% end %>
+                                            </td>
+                                            <td>
+                                                <%= race.hasOtherConditions ? 'Yes' : 'No' %>
                                             </td>
                                             <% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
                                                 <td style="text-align:center"><%= @horse.status.name %></td>

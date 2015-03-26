@@ -3,33 +3,29 @@
 	<% @horserace = Horserace.where(:race_id => race.id, :horse_id => @horse.id).first %>
 		<td><%= race.name %></td>
 		<td>
-			<% if race.getAgeConditions %>
-				<% if !race.getAgeConditions.empty? %>
-					<% race.getAgeConditions.each.with_index do |age, index| %>
-						<% if index == race.getAgeConditions.size - 1 %>
-							<%= age.name %>
-						<% else %>
-							<%= age.name %>&nbsp;
-						<% end %>
-					<% end %>
-				<% else %>
-					-
-				<% end %>
-			<% end %>
-			<% if race.getAgeConditions %>
-				<% if !race.getSexConditions.empty? %>
-					<% race.getSexConditions.each.with_index do |sex, index| %>
-						<% if index == race.getSexConditions.size - 1 %>
-							<%= sex.name %> 
-						<% else %>
-							<%= sex.name %>/
-						<% end %>
-					<% end %>
-				<% else %>
-					-
-				<% end %>
-			<% end %>
-		</td>
+            <% if race.getAgeConditions %>
+                <% if !race.getAgeConditions.empty? %>
+                    <% race.getAgeConditions.each.with_index do |age, index| %>
+                        <% if index == race.getAgeConditions.size - 1 %>
+                            <%= age.name %>
+                        <% else %>
+                            <%= age.name %>&nbsp;
+                        <% end %>
+                    <% end %>
+                <% end %>
+            <% end %>
+            <% if race.getAgeConditions %>
+                <% if !race.getSexConditions.empty? %>
+                    <% race.getSexConditions.each.with_index do |sex, index| %>
+                        <% if index == race.getSexConditions.size - 1 %>
+                            <%= sex.name %> 
+                        <% else %>
+                            <%= sex.name %>/
+                        <% end %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </td>
 		<% if race.distance %>
 			<% if race.distance <= 1 %>
 				<% if race.distance_type == 'Furlongs' %>
@@ -58,6 +54,9 @@
 			<span>No</span>
 			<% end %>
 		</td>
+		<td>
+            <%= race.hasOtherConditions ? 'Yes' : 'No' %>
+        </td>
 		<% if @horse.status.name == 'Vet\'s List' || @horse.status.name == 'Steward\'s List' || @horse.status.name == 'Running' %>
 			<td><%= @horse.status.name %></td>
 		<% else %>

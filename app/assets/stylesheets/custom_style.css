@@ -86,6 +86,10 @@ form.edit_horserace {
   display: inline-block;
 }
 
+.condition-book .race-description {
+  text-align: left;
+}
+
 .childSelector {
     width: 120px;
     text-align: center;
@@ -121,6 +125,15 @@ form.edit_horserace {
   position: absolute;
   margin-top: -45px;
   margin-left: 245px;
+}
+
+.table th,
+.table td  {
+  text-align: center;
+}
+
+.table td.left {
+  text-align: left;
 }
 
 
