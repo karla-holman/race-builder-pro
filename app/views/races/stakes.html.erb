@@ -88,7 +88,7 @@
                                     end
                                     end %>
 
-                                    <%= collection_select(:schedule, :horse_id, @horse_list,:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
+                                    <%= collection_select(:schedule, :horse_id, @horse_list.sort_by(&:name),:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
                                     <% end %>
                                 </td>  
                                 <td class="condition-book" style="display:none;">

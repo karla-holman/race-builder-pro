@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="page-info" horse="<%=@horse.id%>" 
+    <div class="page-info" horse="<%=@horse.id%>"> 
         <% if @age %>
         age="<%= @age.id %>" 
         <%end%>
@@ -21,8 +21,10 @@
         <% if @distance %>
         distance="<%= @distance %>" 
         <%end%>
-    </div>
+    </div>  
     <div class="col-xs-12 view-horse-button">
+        <h4>Showing Races for <%= @horse.name %></h4>
+        <p>Use the dropdowns to filter down races and find your desired race!</p>
         <%= link_to 'View Horse', @horse, :class => 'btn btn-success btn-mini' %>
     </div>
     <div class="col-xs-12 well">
@@ -138,8 +140,26 @@
                             <tbody>
                                 <% if @races %>
                                     <% @races.each do |race| %>
+                                        <% modal_id = 'modal_'+race.id.to_s %>
+                                        <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
+                                        <div id="<%= modal_id%>" class="modal fade">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                        <h4 class="modal-title">Already Confirmed to Race</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>This horse is already confirmed to <%=@confirmed_race%>. Would you like to unconfirm from <%=@confirmed_race%> and confirm to this race?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-success confirm_modal_commit" data-dismiss="modal" modal-id="<%= modal_id%>" horserace-id="<%= @horserace.id %>">Yes</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
                                         <tr class="top">
-                                            <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => @horse.id) %>
                                             <td><%= race.name %></td>
                                             <td>
                                             <% if race.getAgeConditions %>
@@ -188,10 +208,8 @@
                                                 <%= race.horseraces.where(:status => "Confirmed").count %></strong>
                                             </td>   
                                             <td>
-                                                <% if race.category == 'Priority' %>
-                                                    <span>Yes</span>
-                                                <% else %>
-                                                    <span>No</span>
+                                                <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+                                                  <%= race.race_date.date.strftime('%A, %b %d') %>
                                                 <% end %>
                                             </td>
                                             <td>
@@ -231,7 +249,7 @@
                                                             <%= label_tag(@horserace.id, "", :data => {:on => 'Yes', :off => 'No'}) %>
                                                         <% end %>
                                                         <%= form_for(@horserace, :html => {class: 'inline-checkbox'}) do |f| %>
-                                                            <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0" race-name="<%= race.name %>" />
+                                                            <input id="<%=@confirmed_id%>" class="confirm_alert cmn-toggle cmn-toggle-yes-no" type="checkbox" name="confirm" value="0" modal-id="<%= modal_id%>"/>
                                                             <label for="<%=@confirmed_id%>" data-on="Yes" data-off="No" style="margin-bottom:0px;"></label>
                                                         <% end %>
                                                     </td>

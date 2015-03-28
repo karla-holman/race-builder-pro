@@ -1,5 +1,6 @@
 class HorseracesController < ApplicationController
   before_action :set_horserace, only: [:show, :edit, :update, :destroy]
+  skip_before_filter  :verify_authenticity_token
 
   # GET /horseraces
   # GET /horseraces.json
@@ -74,14 +75,32 @@ class HorseracesController < ApplicationController
           status = @horserace.status
         end
         @horse.create_activity :raceStatus, parameters: {status: status, race_id: @race.id}, owner: current_user
-        format.html { redirect_to horseraces_url, notice: 'Horserace was successfully updated.' }
-        format.json { render action: 'index', status: :ok, location: @horseraces }
+        if request.xhr?
+          @horseraces = Horserace.all
+          format.html { render action: 'index' }
+        else
+          format.html { redirect_to horseraces_url, notice: 'Horserace was successfully updated.' }
+          format.json { render action: 'index', status: :ok, location: @horseraces }
+        end
       else
         format.html { render action: 'edit' }
         format.json { render json: @horserace.errors, status: :unprocessable_entity }
       end
     end
   end
+
+  def confirmHorse
+    horse_id = params[:horse_id]
+    race_id = params[:race_id]
+
+    horserace = Horserace.find_or_create_by(:horse_id => horse_id, :race_id => race_id)
+    horserace.status = "Confirmed"
+    horserace.save
+
+    redirect_to :back
+  end
+
+
 
   # DELETE /horseraces/1
   # DELETE /horseraces/1.json

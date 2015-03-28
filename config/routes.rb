@@ -62,6 +62,8 @@ RailsDevisePundit::Application.routes.draw do
   post 'condition_nodes/:id/addCondition' => 'condition_nodes#addCondition'
   post 'condition_nodes/:id/removeNode' => 'condition_nodes#removeNode'
 
+  post 'horseraces/confirm_horse' => 'horseraces#confirmHorse'
+
 
   resources :race_conditions
 

@@ -99,7 +99,7 @@ class RacesController < ApplicationController
       @race.hasOtherConditions = saved_race[:race][:hasOtherConditions]
       @race.needs_nomination = saved_race[:race][:needs_nomination]
       @race.status = saved_race[:race][:status]
-      @race.purse = saved_race[:race][:purse]
+      @race.purse = saved_race[:race][:purse].gsub(/[^\d\.]/, '')
       @race.distance = saved_race[:race][:distance]
       @race.distance_type = saved_race[:race][:distance_type]
       @race.max_field_size = saved_race[:race][:max_field_size]
@@ -146,7 +146,7 @@ class RacesController < ApplicationController
     @race.hasOtherConditions = saved_race[:race][:hasOtherConditions]
     @race.needs_nomination = saved_race[:race][:needs_nomination]
     @race.status = saved_race[:race][:status]
-    @race.purse = saved_race[:race][:purse]
+    @race.purse = saved_race[:race][:purse].gsub(/[^\d\.]/, '')
     @race.distance = saved_race[:race][:distance]
     @race.distance_type = saved_race[:race][:distance_type]
     @race.max_field_size = saved_race[:race][:max_field_size]
@@ -360,7 +360,12 @@ class RacesController < ApplicationController
      confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
 
      if confirmed_race.any?
-       @confirmed = true
+      confirmed_race.each do |horserace|
+        if horserace.race
+          @confirmed = true
+          @confirmed_race = horserace.race.name
+        end
+      end
      end
 
     respond_to do |format|
@@ -397,6 +402,9 @@ class RacesController < ApplicationController
   # POST /races.json
   def create
     @race = Race.new(race_params)
+    if(race_params[:purse])
+      @race.purse = race_params[:purse].gsub(/[^\d\.]/, '')
+    end
     if(params[:commit] == 'Add Conditions')
       @root = ConditionNode.new
       @root.setAsRoot
@@ -589,6 +597,9 @@ class RacesController < ApplicationController
       if(params[:commit] == 'Edit Conditions')
        format.html { redirect_to edit_condition_node_path(@root) }
       elsif !@race.errors.any? && @race.update(race_params)
+        if(race_params[:purse])
+          @race.purse = race_params[:purse].gsub(/[^\d\.]/, '')
+        end
         @race.claiming_prices.delete_all
         if(params[:claiming_one] && @race.isClaiming)
           if(@race.claiming_prices[0])

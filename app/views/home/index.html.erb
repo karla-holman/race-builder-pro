@@ -24,9 +24,7 @@
 								<th>INT</th>
 								<th>CON</th>
 								<th>Priority</th>
-								<%if current_user.admin? %>
-									<th>Action</th>	
-								<% end %>											
+								<th>Action</th>											
 							</tr>
 						</thead>
 						<tbody>
@@ -96,17 +94,24 @@
 									<% end %>
 								</td>
 								<td>
-									<% if race.category == 'Priority' %>
-									<span>Yes</span>
-									<% else %>
-									<span>No</span>
-									<% end %>
+									<% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+				                      <%= race.race_date.date.strftime('%A, %b %d') %>
+				                    <% end %>
 								</td>
-								<% if current_user.admin? %>
+								
 									<td>
-										<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
+										<% if current_user.admin? %>
+											<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
+										<% else %>
+											<% @horse_list = Array.new()
+			                                @horses.each do |horse|
+			                                    if Horserace.where(:race_id => race.id, :horse_id => horse.id).where("status = (?)", "Confirmed").empty? && race.isHorseEligible(horse)
+			                                        @horse_list.push(horse)
+			                                    end
+			                                end %>
+			                                <%= collection_select(:confirm_horse, :horse_id, @horse_list.sort_by(&:name),:id, :name, {:prompt => 'Confirm Horse'}, {race: race.id, class: 'confirm_horse_from_tel'}) %>
+		                                <% end %>
 									</td>
-								<% end %>
 								</tr>
 								<% end %>
 
@@ -168,7 +173,10 @@
 										<% if racestatuses.any? %>
 										<ul class="condition-list no-indent">
 											<% racestatuses.each do |racestatus| %>
-											<li><%= Race.find(racestatus.race_id).name %> - <%= racestatus.status %></li>
+												<% race = Race.find_by_id(racestatus.race_id) %>
+												<% if race %>
+													<li><%= Race.find_by_id(racestatus.race_id).name %> - <%= racestatus.status %></li>
+												<% end %>
 											<% end %>
 										</ul>
 										<% else %>
@@ -265,11 +273,9 @@
 											</strong>
 										</td>
 										<td>
-											<% if race.category == 'Priority' %>
-											<span>Yes</span>
-											<% else %>
-											<span>No</span>
-											<% end %>
+											<% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+						                      <%= race.race_date.date.strftime('%A, %b %d') %>
+						                    <% end %>
 										</td>
 										<td>
 											<%= race.hasOtherConditions ? 'Yes' : 'No' %>

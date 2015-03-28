@@ -107,6 +107,11 @@ $(document).ready(function() {
         $('#draft_modal').modal('show');
       });
 
+	$(".switch_to_draft_modal").on('click', function (e) {
+		var modal_id = $(this).attr("modal-id");
+        $('#'+modal_id).modal('show');
+      });
+
 	function attemptUpdate(f){
 	  $.ajax({
 	    type: "POST",

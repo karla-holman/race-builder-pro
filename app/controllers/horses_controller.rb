@@ -68,8 +68,14 @@ class HorsesController < ApplicationController
     end
 
     confirmed_race = Horserace.where(:horse_id => @horse.id, :status => "Confirmed")
-    if confirmed_race.any?
-      @confirmed = true
+
+     if confirmed_race.any?
+      confirmed_race.each do |horserace|
+        if horserace.race
+          @confirmed = true
+          @confirmed_race = horserace.race.name
+        end
+      end
     end
 
     if @race_ids.any?

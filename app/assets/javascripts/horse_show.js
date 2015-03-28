@@ -42,9 +42,22 @@ $(document).ready(function() {
            return false;
          });
          $(".confirm_alert").change(function(){
-          alert('You are already confirmed for another race. Unconfirm from other race to confirm for this one.')
-          $(this).removeAttr('checked');
-        });
+            var modal_id = $(this).attr("modal-id");
+            $('#'+modal_id).modal('show');
+            $(this).removeAttr('checked');
+          });
+         $(".confirm_modal_commit").on('click', function (e) {
+            var horserace_id = $(this).attr("horserace-id");
+            $.ajax({
+              url : '/horseraces/'+horserace_id,
+               type: "PATCH",
+               data: {horserace: { status: "Confirmed"}}
+              }).complete(function(data)
+                {
+                  location.reload()
+                  return false;
+              });
+          });
        },
     });
     
