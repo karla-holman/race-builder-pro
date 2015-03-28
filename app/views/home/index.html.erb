@@ -15,7 +15,7 @@
 		<div class="grid simple">
 			<div class="grid-body no-border">
 				<div class="row-fluid">
-					<table num-races="<%= tel.num_races %>" class="telTable targetTels table table-condensed table-hover">
+					<table num-races="<%= tel.num_races %>" class="table table-condensed table-hover">
 						<thead>
 							<tr>
 								<th>Type of Race</th>
@@ -104,8 +104,37 @@
 											<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
 										<% else %>
 											<% @horse_list = Array.new()
-			                                @horses.each do |horse|
-			                                    if Horserace.where(:race_id => race.id, :horse_id => horse.id).where("status = (?)", "Confirmed").empty? && race.isHorseEligible(horse)
+			                                @horses.each do |horse| %>
+			                                	<% @confirmed_status = nil %>
+			                                	<% @confirmed_race_name = nil %>
+			                               		<% modal_id = 'modal_'+race.id.to_s+'_'+horse.id.to_s %>
+		                                        <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => horse.id) %>
+		                                        <% @confirmed_race = Horserace.where(:horse_id => horse.id, :status => 'Confirmed')%>
+		                                        <% if @confirmed_race.any? %>
+			                                        <% @confirmed_race = @confirmed_race.first %>
+			                                        <% @confirmed_status = @confirmed_race.status %>
+			                                        <% if @confirmed_race.race %>
+			                                        	<% @confirmed_race_name = @confirmed_race.race.name %>
+			                                        <% end %>
+			                                    <% end %>
+		                                        <div id="<%= modal_id%>" status="<%= @confirmed_status %>"class="modal fade">
+		                                            <div class="modal-dialog">
+		                                                <div class="modal-content">
+		                                                    <div class="modal-header">
+		                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		                                                        <h4 class="modal-title">Already Confirmed to Race</h4>
+		                                                    </div>
+		                                                    <div class="modal-body">
+		                                                        <p>This horse is already confirmed to <%=@confirmed_race_name%>. Would you like to unconfirm from <%=@confirmed_race_name%> and confirm to this race?</p>
+		                                                    </div>
+		                                                    <div class="modal-footer">
+		                                                        <button type="button" class="btn btn-success confirm_modal_commit_home" data-dismiss="modal" modal-id="<%= modal_id%>" horserace-id="<%= @horserace.id %>">Yes</button>
+		                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                                                    </div>
+		                                                </div><!-- /.modal-content -->
+		                                            </div><!-- /.modal-dialog -->
+		                                        </div><!-- /.modal -->
+												<% if race.isHorseEligible(horse) && Horserace.where(:horse_id => horse.id, :race_id => race.id, :status => 'Confirmed').empty?
 			                                        @horse_list.push(horse)
 			                                    end
 			                                end %>
@@ -201,7 +230,7 @@
 				<div class="grid-body no-border">
 					<div class="row">
 						<div class="col-xs-12">
-							<table id="dashboard-admin-table" class="committed-sort table table-condensed table-hover">
+							<table class="table table-condensed table-hover">
 								<thead>
 									<tr>
 										<th>Type of Race</th>

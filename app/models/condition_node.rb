@@ -201,6 +201,29 @@ class ConditionNode < ActiveRecord::Base
 		return hasCondition
 	end
 
+	def includesWins
+		hasWins = false
+		if self.children.any?
+			if self.children.length > 1
+				self.children.each do |child|
+					if child.includesWins
+						hasWins = true
+					end
+				end
+			else
+				child = self.children.first
+				if child.includesWins
+					hasWins = true
+				end	
+			end
+		else
+			if self.hasCondition
+				hasWins = self.getCondition.category.name == 'Wins'
+			end
+		end
+		return hasWins
+	end
+
 	def getSexConditions
 		conditions = Array.new
 		if self.children.any?

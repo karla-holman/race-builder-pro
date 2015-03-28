@@ -15,6 +15,7 @@
                             <th>INT</th>
                             <th>CON</th>
                             <th>Priority</th>
+                            <th>Noms Close</th>
                             <th>Actions</th>
                             <th style="display: none;"></th>
                         </tr>
@@ -78,7 +79,8 @@
                                 <% else %>
                                 <span class="label badge-danger">No</span>
                                 <% end %>
-                            </td>   
+                            </td> 
+                            <td><%if race.nomination_close_date && race.nomination_close_date.date %><%= race.nomination_close_date.date.strftime('%A, %b %d') %><%end%></td>  
                             <td>
                                 <% if race.stakes && race.needs_nomination %>
                                 <% @horse_list = Array.new()
@@ -139,7 +141,7 @@ function fnFormatDetails ( oTable, nTr )
 {
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;  width: 100%;" class="inner-table">';
-    sOut += '<tr><td class="condition-book">'+aData[8]+'</td></tr>';
+    sOut += '<tr><td class="condition-book">'+aData[9]+'</td></tr>';
     sOut += '</table>';
     
     return sOut;

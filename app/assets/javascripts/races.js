@@ -81,6 +81,10 @@ $(document).ready(function() {
 		}
 		else{
 			$(".priority_option").hide();
+			$(".nomination_option").hide();
+			$(".nomination_close").hide();
+			$("#race_stakes").attr('checked', false);
+			$("#race_needs_nomination").attr('checked', false);
 		}
 	});
 
@@ -90,6 +94,8 @@ $(document).ready(function() {
 		}
 		else{
 			$(".nomination_option").hide();
+			$("#race_needs_nomination").attr('checked', false);
+			$(".nomination_close").hide();
 		}
 	});
 
@@ -100,6 +106,16 @@ $(document).ready(function() {
 		}
 		else{
 			$("#claiming_prices").hide();
+		}
+	});
+
+	$("#race_needs_nomination").change(function(){
+		if($(this).is(":checked")){
+			$(".nomination_close").show();
+		}
+		else
+		{
+			$(".nomination_close").hide();
 		}
 	});
 

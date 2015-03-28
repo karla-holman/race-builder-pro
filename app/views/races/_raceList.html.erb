@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="page-info" horse="<%=@horse.id%>"> 
+    <div class="page-info" horse="<%=@horse.id%>"
         <% if @age %>
         age="<%= @age.id %>" 
         <%end%>
@@ -20,7 +20,7 @@
         <%end%>
         <% if @distance %>
         distance="<%= @distance %>" 
-        <%end%>
+        <%end%>>
     </div>  
     <div class="col-xs-12 view-horse-button">
         <h4>Showing Races for <%= @horse.name %></h4>
@@ -64,10 +64,10 @@
             <div class="col-xs-3 center">
                 <% if @wins %>
                 <p>Conditions</p>
-                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'Open'}) %>
+                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:selected => @wins.id, :include_blank => 'All'}) %>
                 <% else %>
                 <p>Conditions</p>
-                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'Open'}) %>
+                 <%= collection_select(:menu, :wins_id, @winList, :id, :name, {:prompt => 'All'}) %>
                 <% end %>
             </div>
             <div class="col-xs-4">

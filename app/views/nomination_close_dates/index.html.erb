@@ -1,0 +1,23 @@
+<h1>Listing nomination_close_dates</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @nomination_close_dates.each do |nomination_close_date| %>
+      <tr>
+        <td><%= link_to 'Show', nomination_close_date %></td>
+        <td><%= link_to 'Edit', edit_nomination_close_date_path(nomination_close_date) %></td>
+        <td><%= link_to 'Destroy', nomination_close_date, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Nomination close date', new_nomination_close_date_path %>

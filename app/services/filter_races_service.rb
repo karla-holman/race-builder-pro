@@ -6,6 +6,8 @@ class FilterRacesService
         @conditions.push(condition)
       end
     end
+    open = Condition.new(:name => 'Open', :id => -1)
+    @conditions.push(open)
     return @conditions
   end
 
@@ -40,6 +42,16 @@ class FilterRacesService
     return filtered_races
 	end
 
+
+  def noWinsFilter(races)
+    filtered_races = []
+    races.each do |race|
+      if !race.includesWins
+        filtered_races.push(race)
+      end
+    end
+    return filtered_races
+  end
 
   def conditionFilter(races, condition)
   	filtered_races = []

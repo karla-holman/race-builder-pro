@@ -14,6 +14,7 @@ class Race < ActiveRecord::Base
 	belongs_to :condition_node
 
 	has_one :race_date, :dependent => :destroy
+	has_one :nomination_close_date, :dependent => :destroy
 
 	has_many :claiming_prices, :dependent => :destroy
 	def self.search(query)
@@ -31,6 +32,14 @@ class Race < ActiveRecord::Base
 	def includesCondition(condition)
 		if self.condition_node
 			return self.condition_node.includesCondition(condition)
+		else
+			return false
+		end
+	end
+
+	def includesWins
+		if self.condition_node
+			return self.condition_node.includesWins
 		else
 			return false
 		end
@@ -123,6 +132,21 @@ class Race < ActiveRecord::Base
 	      new_claiming.save
 	      new_race.claiming_prices[1] = new_claiming
 	    end
+
+	    if self.race_date && self.race_date.date
+            @race_date = RaceDate.new
+            @race_date.race_id = new_race.id        
+            @race_date.date = self.race_date.date
+            @race_date.save
+            new_race.race_date = @race_date
+          end
+          if self.nomination_close_date && self.nomination_close_date.date
+            @race_date = NominationCloseDate.new
+            @race_date.race_id = new_race.id        
+            @race_date.date = self.race_date.date
+            @race_date.save
+            new_race.nomination_close_date = @race_date
+          end
 
 	    new_race.cloneConditions(self)
 

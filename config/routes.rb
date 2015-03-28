@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :nomination_close_dates
+
   resources :horse_filter_settings
 
   resources :condition_nodes

@@ -91,7 +91,62 @@ class RacesController < ApplicationController
 
     if race_params && race_params[:condition_node_id]
       condition_node = ConditionNode.find_by_id(race_params[:condition_node_id])
-      saved_race = Rails.cache.read('New Race')
+      saved_race = Rails.cache.read('New_Race_'+current_user.id.to_s)
+      if saved_race
+        @race.name = saved_race[:race][:name]
+        @race.description = saved_race[:race][:description]
+        @race.weights = saved_race[:race][:weights]
+        @race.stakes = saved_race[:race][:stakes]
+        @race.hasOtherConditions = saved_race[:race][:hasOtherConditions]
+        @race.needs_nomination = saved_race[:race][:needs_nomination]
+        @race.status = saved_race[:race][:status]
+        @race.purse = saved_race[:race][:purse].gsub(/[^\d\.]/, '')
+        @race.distance = saved_race[:race][:distance]
+        @race.distance_type = saved_race[:race][:distance_type]
+        @race.max_field_size = saved_race[:race][:max_field_size]
+        @race.race_type = saved_race[:race][:race_type]
+        @race.condition_node = condition_node
+
+        if saved_race[:claiming_one]
+          @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one].gsub(/[^\d\.]/, ''))
+        else
+          @claiming_one = ClaimingPrice.new
+        end
+        if saved_race[:claiming_two]
+          @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two].gsub(/[^\d\.]/, ''))
+        else
+          @claiming_two = ClaimingPrice.new
+        end
+        
+        if(saved_race[:category])
+          @race.category = 'Priority'
+          if(saved_race[:race_date] && !saved_race[:race_date][:date].empty?)
+            race_date = RaceDate.new       
+            race_date.date = saved_race[:race_date][:date]
+            @race.race_date = race_date
+          end
+          if(saved_race[:race][:stakes] && saved_race[:race][:needs_nomination] && !saved_race[:nomination_close_date][:date].empty?)
+              nom_close_date = NominationCloseDate.new
+              nom_close_date.date = saved_race[:nomination_close_date][:date]
+              @race.nomination_close_date = nom_close_date
+          end
+        else
+          @race.category = 'Alternate'
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.html { render 'new' }
+    end
+  end
+
+  def edit_with_condition_node
+    @claiming_one = ClaimingPrice.new
+    @claiming_two = ClaimingPrice.new
+
+    saved_race = Rails.cache.read('Edit_Race_'+current_user.id.to_s)
+    if saved_race
       @race.name = saved_race[:race][:name]
       @race.description = saved_race[:race][:description]
       @race.weights = saved_race[:race][:weights]
@@ -104,7 +159,6 @@ class RacesController < ApplicationController
       @race.distance_type = saved_race[:race][:distance_type]
       @race.max_field_size = saved_race[:race][:max_field_size]
       @race.race_type = saved_race[:race][:race_type]
-      @race.condition_node = condition_node
 
       if saved_race[:claiming_one]
         @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one].gsub(/[^\d\.]/, ''))
@@ -124,54 +178,14 @@ class RacesController < ApplicationController
           race_date.date = saved_race[:race_date][:date]
           @race.race_date = race_date
         end
+        if(saved_race[:race][:stakes] && saved_race[:race][:needs_nomination] && !saved_race[:nomination_close_date][:date].empty?)
+          nom_close_date = NominationCloseDate.new
+          nom_close_date.date = saved_race[:nomination_close_date][:date]
+          @race.nomination_close_date = nom_close_date
+        end
       else
         @race.category = 'Alternate'
       end
-    end
-
-    respond_to do |format|
-      format.html { render 'new' }
-    end
-  end
-
-  def edit_with_condition_node
-    @claiming_one = ClaimingPrice.new
-    @claiming_two = ClaimingPrice.new
-
-    saved_race = Rails.cache.read('Edit Race')
-    @race.name = saved_race[:race][:name]
-    @race.description = saved_race[:race][:description]
-    @race.weights = saved_race[:race][:weights]
-    @race.stakes = saved_race[:race][:stakes]
-    @race.hasOtherConditions = saved_race[:race][:hasOtherConditions]
-    @race.needs_nomination = saved_race[:race][:needs_nomination]
-    @race.status = saved_race[:race][:status]
-    @race.purse = saved_race[:race][:purse].gsub(/[^\d\.]/, '')
-    @race.distance = saved_race[:race][:distance]
-    @race.distance_type = saved_race[:race][:distance_type]
-    @race.max_field_size = saved_race[:race][:max_field_size]
-    @race.race_type = saved_race[:race][:race_type]
-
-    if saved_race[:claiming_one]
-      @claiming_one = ClaimingPrice.new(:price => saved_race[:claiming_one].gsub(/[^\d\.]/, ''))
-    else
-      @claiming_one = ClaimingPrice.new
-    end
-    if saved_race[:claiming_two]
-      @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two].gsub(/[^\d\.]/, ''))
-    else
-      @claiming_two = ClaimingPrice.new
-    end
-    
-    if(saved_race[:category])
-      @race.category = 'Priority'
-      if(saved_race[:race_date] && !saved_race[:race_date][:date].empty?)
-        race_date = RaceDate.new       
-        race_date.date = saved_race[:race_date][:date]
-        @race.race_date = race_date
-      end
-    else
-      @race.category = 'Alternate'
     end
 
     respond_to do |format|
@@ -240,8 +254,13 @@ class RacesController < ApplicationController
           @races = FilterRacesService.new.conditionFilter(@races, @age)
         end
         if @horse.horse_filter_setting.wins_id
-          @wins = Condition.find_by_id(@horse.horse_filter_setting.wins_id)
-          @races = FilterRacesService.new.conditionFilter(@races, @wins)
+          if @horse.horse_filter_setting.wins_id == -1
+            @wins = Condition.new(:name => 'Open', :id => -1)
+            @races = FilterRacesService.new.noWinsFilter(@races)
+          else
+            @wins = Condition.find_by_id(@horse.horse_filter_setting.wins_id)
+            @races = FilterRacesService.new.conditionFilter(@races, @wins)
+          end
         end
         if @horse.horse_filter_setting.bred_id
           @bred = Condition.find_by_id(@horse.horse_filter_setting.bred_id)
@@ -297,57 +316,77 @@ class RacesController < ApplicationController
         @horse.horse_filter_setting = horse_filter
         @horse.save
       end
-    end
-    if !params[:age_id].blank?
-      @age = Condition.find_by_id(params[:age_id])
+    else
+      if !params[:age_id].blank?
+        @age = Condition.find_by_id(params[:age_id])
 
-      if @horse.sex == 'F' 
-        if @age.name == '3YO' || @age.name == '3YO'
-          if @horse.horse_filter_setting
-            @horse.horse_filter_setting.sex == 'F'
-            params[:sex] = 'F'
+        if @horse.sex == 'F' 
+          if @age.name == '3YO' || @age.name == '3YO'
+            if @horse.horse_filter_setting
+              @horse.horse_filter_setting.sex == 'F'
+              params[:sex] = 'F'
+            end
+          end
+
+          if @age.name == '3+' || @age.name == '4+'
+            if @horse.horse_filter_setting
+              @horse.horse_filter_setting.sex == 'F/M'
+              params[:sex] = 'F/M'
+            end
           end
         end
-
-        if @age.name == '3+' || @age.name == '4+'
-          if @horse.horse_filter_setting
-            @horse.horse_filter_setting.sex == 'F/M'
-            params[:sex] = 'F/M'
-          end
-        end
+        @races = FilterRacesService.new.conditionFilter(@races, @age)
+        @horse.horse_filter_setting.age_id = params[:age_id]
+      else
+        @horse.horse_filter_setting.age_id = nil
       end
-      @races = FilterRacesService.new.conditionFilter(@races, @age)
-      @horse.horse_filter_setting.age_id = params[:age_id]
-    end
-    if !params[:wins_id].blank?
-      @wins = Condition.find_by_id(params[:wins_id])
-      @races = FilterRacesService.new.conditionFilter(@races, @wins)
-      @horse.horse_filter_setting.wins_id = params[:wins_id]
-    end
-    if !params[:bred_id].blank?
-      @bred = Condition.find_by_id(params[:bred_id])
-      @races = FilterRacesService.new.conditionFilter(@races, @bred)
-      @horse.horse_filter_setting.bred_id = params[:bred_id]
-    end
-    if !params[:sex].blank?
-      @sex = params[:sex]
-      @races = FilterRacesService.new.sexFilter(@races, @sex)
-      @horse.horse_filter_setting.sex = params[:sex]
-    end
-    if !params[:distance].blank?
-      @distance = params[:distance]
-      @races = FilterRacesService.new.distanceFilter(@races, @distance)
-      @horse.horse_filter_setting.distance = params[:distance]
-    end
-    if !params[:lower_claiming].blank?
-      @lower_claiming = params[:lower_claiming]
-      @races = FilterRacesService.new.lowerClaimingFilter(@races, @lower_claiming)
-      @horse.horse_filter_setting.lower_claiming = params[:lower_claiming]
-    end
-    if !params[:upper_claiming].blank?
-      @upper_claiming =  params[:upper_claiming]
-      @races = FilterRacesService.new.upperClaimingFilter(@races, @upper_claiming)
-      @horse.horse_filter_setting.upper_claiming = params[:upper_claiming]
+      if !params[:wins_id].blank?
+        if params[:wins_id].to_i == -1
+            @wins = Condition.new(:name => 'Open', :id => -1)
+            @races = FilterRacesService.new.noWinsFilter(@races)
+        else
+          @wins = Condition.find_by_id(params[:wins_id])
+          @races = FilterRacesService.new.conditionFilter(@races, @wins)
+        end
+        @horse.horse_filter_setting.wins_id = @wins.id
+      else
+        @horse.horse_filter_setting.wins_id = nil
+      end
+      if !params[:bred_id].blank?
+        @bred = Condition.find_by_id(params[:bred_id])
+        @races = FilterRacesService.new.conditionFilter(@races, @bred)
+        @horse.horse_filter_setting.bred_id = params[:bred_id]
+      else
+        @horse.horse_filter_setting.bred_id = nil
+      end
+      if !params[:sex].blank?
+        @sex = params[:sex]
+        @races = FilterRacesService.new.sexFilter(@races, @sex)
+        @horse.horse_filter_setting.sex = params[:sex]
+      else
+        @horse.horse_filter_setting.sex = nil
+      end
+      if !params[:distance].blank?
+        @distance = params[:distance]
+        @races = FilterRacesService.new.distanceFilter(@races, @distance)
+        @horse.horse_filter_setting.distance = params[:distance]
+      else
+        @horse.horse_filter_setting.distance = nil
+      end
+      if !params[:lower_claiming].blank?
+        @lower_claiming = params[:lower_claiming]
+        @races = FilterRacesService.new.lowerClaimingFilter(@races, @lower_claiming)
+        @horse.horse_filter_setting.lower_claiming = params[:lower_claiming]
+      else
+        @horse.horse_filter_setting.lower_claiming = nil
+      end
+      if !params[:upper_claiming].blank?
+        @upper_claiming =  params[:upper_claiming]
+        @races = FilterRacesService.new.upperClaimingFilter(@races, @upper_claiming)
+        @horse.horse_filter_setting.upper_claiming = params[:upper_claiming]
+      else
+        @horse.horse_filter_setting.upper_claiming = nil
+      end
     end
 
      @horse.horse_filter_setting.save
@@ -409,10 +448,10 @@ class RacesController < ApplicationController
       @root = ConditionNode.new
       @root.setAsRoot
       @root.save
-      Rails.cache.write('New Race', params)
+      Rails.cache.write('New_Race_'+current_user.id.to_s, params)
     elsif(params[:commit] == 'Edit Conditions')
       @root = ConditionNode.find_by_id(params[:condition_node_id])
-      Rails.cache.write('New Race', params) 
+      Rails.cache.write('New_Race_'+current_user.id.to_s, params) 
     else
       if(params[:claiming_one])
         @claiming_one = ClaimingPrice.new(:price => params[:claiming_one].gsub(/[^\d\.]/, ''))
@@ -434,6 +473,16 @@ class RacesController < ApplicationController
           @race.race_date = @race_date
         else
           @race.errors.add('Priority', "Race must have a date.")
+        end
+        if race_params[:stakes] && race_params[:needs_nomination]
+          if !params[:nomination_close_date][:date].empty?
+            nom_close_date = NominationCloseDate.new
+            nom_close_date.date = params[:nomination_close_date][:date]
+            nom_close_date.save
+            @race.nomination_close_date = nom_close_date
+          else
+            @race.errors.add('Stakes', "Race that needs nominations must have a close date.")
+          end
         end
       else
         @race.category = 'Alternate'
@@ -507,6 +556,20 @@ class RacesController < ApplicationController
             @claiming_two.save
             new_race.claiming_prices[1] = @claiming_two
           end
+          if @race.race_date && @race.race_date.date
+            @race_date = RaceDate.new
+            @race_date.race_id = new_race.id        
+            @race_date.date = @race.race_date.date
+            @race_date.save
+            new_race.race_date = @race_date
+          end
+          if @race.nomination_close_date && @race.nomination_close_date.date
+            @race_date = NominationCloseDate.new
+            @race_date.race_id = new_race.id        
+            @race_date.date = @race.race_date.date
+            @race_date.save
+            new_race.nomination_close_date = @race_date
+          end
           new_race.cloneConditions(@race)
           new_race.save
           if new_race.category == 'Priority'
@@ -531,7 +594,7 @@ class RacesController < ApplicationController
   def update
     if(params[:commit] == 'Edit Conditions')
       @root = ConditionNode.find_by_id(params[:condition_node_id])
-      Rails.cache.write('Edit Race', params)
+      Rails.cache.write('Edit_Race_'+current_user.id.to_s, params)
     else
       if(params[:claiming_one])
         @claiming_one = ClaimingPrice.new(:price => params[:claiming_one].gsub(/[^\d\.]/, ''))
@@ -556,7 +619,7 @@ class RacesController < ApplicationController
           end
         end
       else
-        if(params[:race_date])
+        if(!params[:race_date].empty?)
           if !@race.race_date
             @race_date = RaceDate.new
             @race_date.race_id = @race.id         
@@ -582,7 +645,25 @@ class RacesController < ApplicationController
           else
             @race.errors.add('Priority', "Race must have a date.")
           end
+          if race_params[:stakes] == '1' && race_params[:needs_nomination] == '1'
+            if !params[:nomination_close_date][:date].empty?
+              nom_close_date = NominationCloseDate.new
+              nom_close_date.date = params[:nomination_close_date][:date]
+              nom_close_date.save
+              @race.nomination_close_date = nom_close_date
+            else
+              @race.errors.add('Stakes', "Race that needs nominations must have a close date.")
+            end
+          elsif @race.nomination_close_date
+            @race.nomination_close_date.delete
+          end
         else
+          if @race.race_date
+            @race.race_date.delete
+          end
+          if @race.nomination_close_date
+            @race.nomination_close_date.delete
+          end
           @race.category = 'Alternate'
         end
         if(!race_params[:race_type] || race_params[:race_type].empty?)
@@ -648,6 +729,20 @@ class RacesController < ApplicationController
             @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
             @claiming_two.save
             new_race.claiming_prices[1] = @claiming_two
+          end
+          if @race.race_date && @race.race_date.date
+            @race_date = RaceDate.new
+            @race_date.race_id = new_race.id        
+            @race_date.date = @race.race_date.date
+            @race_date.save
+            new_race.race_date = @race_date
+          end
+          if @race.nomination_close_date && @race.nomination_close_date.date
+            @race_date = NominationCloseDate.new
+            @race_date.race_id = new_race.id        
+            @race_date.date = @race.race_date.date
+            @race_date.save
+            new_race.nomination_close_date = @race_date
           end
           new_race.cloneConditions(@race)
           new_race.save
