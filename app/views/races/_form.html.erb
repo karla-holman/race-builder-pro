@@ -58,7 +58,11 @@
       <div class="col-xs-6">
         <div class="priority_option" <% if @race.category != 'Priority' %> style="display:none" <% end %>>
           <%= f.label 'Race Date' %>
-           <%= f.text_field :race_date, class: 'datepicker' %>
+          <% if @race.race_date %>
+            <%= date_field("race_date", "date", value: @race.race_date.date) %>
+          <% else %>
+            <%= date_field("race_date", "date") %>
+          <% end %>
         </div>
       </div>
     </div>

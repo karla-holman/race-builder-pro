@@ -84,7 +84,8 @@ class Race < ActiveRecord::Base
 		end
 
 		new_node = race.condition_node.dup
-		new_node.parent_id = self.id
+		new_node.value = self.id
+		new_node.save
 
 		race.condition_node.children.each do |child|
 			new_child = child.dup
@@ -101,7 +102,6 @@ class Race < ActiveRecord::Base
 	end
 
 	def cloneChildren (new_node, old_node)
-
 		old_node.children.each do |child|
 			new_child = child.dup
 			new_child.parent_id = new_node.id
@@ -109,7 +109,7 @@ class Race < ActiveRecord::Base
 
 			new_node.children.push(new_child)
 
-			cloneChildren(new_node, child)
+			cloneChildren(new_child, child)
 		end
 
 		new_node.save
