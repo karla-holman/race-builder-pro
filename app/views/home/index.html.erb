@@ -309,11 +309,11 @@
 										<td>
 											<%= race.hasOtherConditions ? 'Yes' : 'No' %>
 										</td>
-										<% if current_user.admin? %>
-											<td>
+										<td>
+											<% if current_user.admin? %>
 												<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
-											</td>
-										<% end %>
+											<% end %>
+										</td>
 										<td class="condition-book" style="display:none;">
 											<div class="race-type">
 												<span><%= race.race_type %></span>
