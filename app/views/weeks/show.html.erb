@@ -50,8 +50,8 @@
                           <th>CON</th>
                           <th>Priority</th>
                           <th>Action</th>
-                      </tr>
-                  </thead>
+                        </tr>
+                    </thead>
                   <tbody>
                     <% tel.races.each do |race| %>
                     <tr >
@@ -109,24 +109,6 @@
                           <%= race.horseraces.where(:status => "Confirmed").count %>
                       </strong>
                   </td>
-                  <td style="display: none;">
-                      <% if race.conditions.any? %>
-                      <% race.conditions.each do |condition| %>
-                      | <%= condition.name %> |
-                      <% end %>
-                      <% else %>
-                      | None |
-                      <% end %>
-                  </td>
-                  <td style="display: none;"><%= race.category %></td>
-                  <td style="display: none;"><%if race.stakes %>Yes<%else%>No<%end%></td>
-                  <td style="display: none;">
-                    <% if race.category == 'Priority' && race.race_date && race.race_date.date%>
-                    <%= race.race_date.date.strftime('%b %d, %Y') %>
-                    <% else %>
-                    N/A
-                    <% end %>
-                </td>
                 <td>
                     <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
                       <%= race.race_date.date.strftime('%A, %b %d') %>
