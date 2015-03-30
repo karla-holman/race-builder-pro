@@ -34,30 +34,26 @@
 								<td><%=race.name %></td>
 								<td>
 									<% if race.getAgeConditions %>
-									<% if !race.getAgeConditions.empty? %>
-									<% race.getAgeConditions.each.with_index do |age, index| %>
-									<% if index == race.getAgeConditions.size - 1 %>
-									<%= age.name %>
-									<% else %>
-									<%= age.name %>&nbsp;
-									<% end %>
-									<% end %>
-									<% else %>
-									-
-									<% end %>
+										<% if !race.getAgeConditions.empty? %>
+											<% race.getAgeConditions.each.with_index do |age, index| %>
+												<% if index == race.getAgeConditions.size - 1 %>
+													<%= age.name %>
+												<% else %>
+													<%= age.name %>&nbsp;
+												<% end %>
+											<% end %>
+										<% end %>
 									<% end %>
 									<% if race.getAgeConditions %>
-									<% if !race.getSexConditions.empty? %>
-									<% race.getSexConditions.each.with_index do |sex, index| %>
-									<% if index == race.getSexConditions.size - 1 %>
-									<%= sex.name %> 
-									<% else %>
-									<%= sex.name %>/
-									<% end %>
-									<% end %>
-									<% else %>
-									-
-									<% end %>
+										<% if !race.getSexConditions.empty? %>
+											<% race.getSexConditions.each.with_index do |sex, index| %>
+												<% if index == race.getSexConditions.size - 1 %>
+													<%= sex.name %> 
+												<% else %>
+													<%= sex.name %>/
+												<% end %>
+											<% end %>
+										<% end %>
 									<% end %>
 								</td>
 								<td><%= race.distance %></td>

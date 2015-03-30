@@ -9,12 +9,12 @@
                 <table id="stakes-table" class="table table-condensed table-hover">
                     <thead>
                         <tr>
+                            <th>Date</th>
                             <th>Type of Race</th>
                             <th>Age / Sex</th>
                             <th>Distance</th>
                             <th>INT</th>
                             <th>CON</th>
-                            <th>Priority</th>
                             <th>Noms Close</th>
                             <th>Actions</th>
                             <th style="display: none;"></th>
@@ -23,7 +23,12 @@
                     <tbody>
                         <% @races.each do |race| %>
                         <tr class="top">
-                            <td><%= race.name %></td>
+                            <td>
+                                <%= race.race_date.date.strftime('%b %d, %Y') %>
+                            </td>
+                            <td>
+                                <%= race.name %>
+                            </td>
                             <td>
                                 <% if race.getAgeConditions %>
                                     <% if !race.getAgeConditions.empty? %>
@@ -34,8 +39,6 @@
                                                 <%= age.name %>&nbsp;
                                             <% end %>
                                         <% end %>
-                                    <% else %>
-                                        -
                                     <% end %>
                                 <% end %>
                                 <% if race.getAgeConditions %>
@@ -47,26 +50,22 @@
                                                 <%= sex.name %>/
                                             <% end %>
                                         <% end %>
-                                    <% else %>
-                                        -
                                     <% end %>
                                 <% end %>
                             </td>
-                            <td ><div style="display:none;"><%= race.distance_sort_value%></div><%= race.distance %></td>
-                            <td><span class="badge badge-danger">
-                                <%= race.horseraces.where(:status => "Interested").count %></span>
-                            </td>
-                            <td><span class="badge badge-success">
-                                <%= race.horseraces.where(:status => "Confirmed").count %></span>
+                            <td >
+                                <div style="display:none;">
+                                    <%= race.distance_sort_value%>
+                                </div>
+                                <%= race.distance %>
                             </td>
                             <td>
-                                <% if race.category == 'Priority' %>
-                                <span class="label label-inverse">Yes</span>
-                                <% else %>
-                                <span class="label badge-danger">No</span>
-                                <% end %>
-                            </td> 
-                            <td><%if race.nomination_close_date && race.nomination_close_date.date %><%= race.nomination_close_date.date.strftime('%A, %b %d') %><%end%></td>  
+                                <strong><%= race.horseraces.where(:status => "Interested").count %></strong>
+                            </td>
+                            <td>
+                                <strong><%= race.horseraces.where(:status => "Confirmed").count %></strong>
+                            </td>
+                            <td><%if race.nomination_close_date && race.nomination_close_date.date %><%= race.nomination_close_date.date.strftime('%b %d, %Y') %><%end%></td>  
                             <td>
                                 <% if race.stakes && race.needs_nomination %>
                                 <% @horse_list = Array.new()
@@ -78,9 +77,9 @@
 
                                     <%= collection_select(:schedule, :horse_id, @horse_list.sort_by(&:name),:id, :name, {:prompt => 'Nominate'}, {race: race.id, class: 'stakes_horse_id'}) %>
                                     <% end %>
-                                </td>  
-                                <td class="condition-book" style="display:none;">
-                                  <div class="race-type">
+                            </td>
+                            <td class="condition-book" style="display:none;">
+                                <div class="race-type">
                                     <span><%= race.race_type %></span>
                                 </div>
                                 <div class="race-description">
@@ -91,26 +90,26 @@
                                 </div>
                                 <div class="race-claiming">
                                     <span>
-                                      <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
-                                      <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
-                                      <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
-                                      Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
-                                      <% else %>
-                                      Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
-                                      <% end %>
-                                      <% else %>
-                                      Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
-                                      <% end %>
-                                      <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
-                                      Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
-                                      <% end %>
-                                  </span>
-                              </div>
-                              <div class="race-distance pull-right">
-                                <span><%= race.distance %></span>
-                            </div>
-                        </td>      
-                    </tr>
+                                        <% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
+                                            <% if race.claiming_prices[1] && race.claiming_prices[1].price %>
+                                                <% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
+                                                    Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
+                                                <% else %>
+                                                    Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
+                                                <% end %>
+                                            <% else %>
+                                                Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
+                                            <% end %>
+                                        <% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
+                                            Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
+                                        <% end %>
+                                    </span>
+                                </div>
+                                <div class="race-distance pull-right">
+                                    <span><%= race.distance %></span>
+                                </div>
+                            </td>      
+                        </tr>
                     <% end %>
                 </tbody>
             </table>
