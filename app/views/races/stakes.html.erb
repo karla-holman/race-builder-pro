@@ -24,7 +24,9 @@
                         <% @races.each do |race| %>
                         <tr class="top">
                             <td>
-                                <%= race.race_date.date.strftime('%b %d, %Y') %>
+                                <% if race.race_date.date %>
+                                    <%= race.race_date.date.strftime('%A, %b %d') %>
+                                <% end %>
                             </td>
                             <td>
                                 <%= race.name %>
@@ -65,7 +67,7 @@
                             <td>
                                 <strong><%= race.horseraces.where(:status => "Confirmed").count %></strong>
                             </td>
-                            <td><%if race.nomination_close_date && race.nomination_close_date.date %><%= race.nomination_close_date.date.strftime('%b %d, %Y') %><%end%></td>  
+                            <td><%if race.nomination_close_date && race.nomination_close_date.date %><%= race.nomination_close_date.date.strftime('%A, %b %d') %><%end%></td>  
                             <td>
                                 <% if race.stakes && race.needs_nomination %>
                                 <% @horse_list = Array.new()
