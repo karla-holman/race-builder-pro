@@ -183,7 +183,7 @@ equipment_medication.each do |equip|
 end
 
 # races.each do |race|
-# 	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], distance_type: race[4], distance: race[5], purse: race[6], max_field_size: race[7])
+# 	new_race = Race.find_or_create_by!(name: race[0], description: race[1], status: race[2], category: race[3], purse: race[6], max_field_size: race[7])
 # 	new_race.race_type = 'Default'
 # 	if new_race.save
 # 		puts 'CREATED RACE: ' << new_race.name

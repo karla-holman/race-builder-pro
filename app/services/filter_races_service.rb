@@ -97,17 +97,19 @@ class FilterRacesService
     filtered_races = []
 
     races.each do |race|
-      if race.distance 
+      if race.race_distance 
         if distance == "Long"
-          if race.distance_type == "Miles" && race.distance >= 1
+          if race.race_distance.distance_type == "M" && race.race_distance.distance >= 1
             filtered_races.push(race)
-          elsif race.distance_type == "Furlongs" && race.distance >= 8
+          elsif race.race_distance.distance_type == "F" && race.race_distance.distance >= 8
             filtered_races.push(race)
           end
         elsif distance == "Short"
-          if race.distance_type == "Miles" && race.distance < 1
+          if race.race_distance.distance_type == "M" && race.race_distance.distance < 1
             filtered_races.push(race)
-          elsif race.distance_type == "Furlongs" && race.distance < 8
+          elsif race.race_distance.distance_type == "F" && race.race_distance.distance < 8
+            filtered_races.push(race)
+          elsif race.race_distance.distance_type == "Y"
             filtered_races.push(race)
           end
         end
@@ -148,10 +150,27 @@ class FilterRacesService
     return filtered_races
   end
 
+  def currentTELDatabaseRaces
+    races = Race.where(:status => 'Published').to_a
+    
+    tels = Tel.where('(entry_list = ? OR published = ?) AND date >= ?', true, true, Date.today)
+
+    if !tels
+      return races
+    end
+
+    tels.each do |tel|
+      tel.races.each do |race|
+        races.delete(race)
+      end
+    end
+
+    return races
+  end
   def currentEligibleRaces()
     races = Race.where(:status => 'Published').to_a
     
-    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today).order('date DESC')
+    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today)
 
     if !tels
       return races
@@ -175,7 +194,7 @@ class FilterRacesService
 
     start_date = week.start_date
     end_date = week.end_date
-    races = Race.where(:status => 'Published').to_a
+    races = currentTELDatabaseRaces()
 
     races.each do |race|
       if race.category == 'Priority'

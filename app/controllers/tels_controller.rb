@@ -55,9 +55,39 @@ class TelsController < ApplicationController
       if @tel.update(tel_params)
 
         if tel_params[:entry_list] == 'true'
+          priority_races = @tel.races.where(:category => "Priority")
+
+          priority_array = Array.new
+          priority_races.each do |race|
+            priority_array.push({'Race' => race, 'Confirmed' => race.confirmed_count, 'Intersted' => race.interested_count})
+          end
+
+          priority_array.sort_by {|x| [x[:Confirmed], x[:Interested]] }
+          nonpriority_races = @tel.races.where.not(:category => "Priority")
+
+          nonpriority_array = Array.new
+          nonpriority_races.each do |race|
+            nonpriority_array.push({'Race' => race, 'Confirmed' => race.confirmed_count, 'Intersted' => race.interested_count})
+          end
+
+          races_array = priority_array + nonpriority_array
+
+          if races_array.length > @tel.num_races
+            delete_races = races_array.slice(@tel.num_races, races_array.length - @tel.num_races)
+
+            delete_races.each do |raceHash|
+              race = raceHash['Race']
+              race.tel = nil
+              race.save
+            end
+          end
+
           running = Status.find_by_name('Running')
           @tel.races.each do |race|
-            race.duplicateRace
+            if race.category != 'Priority'
+              race.duplicateRace
+            end
+            
             race.horses.each do |horse|
               horse.status = running
               horse.save

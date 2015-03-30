@@ -1,0 +1,5 @@
+- separate And/Or buttons
+- bug where you have to select the condition twice should be fixed
+- Only Show And/Or when condition is selected
+- Claiming prices, purse, last_win, now don't show decimals (let us know if we missed some)
+- Field Size now Max field Size(let us know if we missed some), average field size now calculated by confirmed

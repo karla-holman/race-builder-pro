@@ -106,6 +106,7 @@ $("#Upper_Claiming").change(function(){
 
 $('#racelist-table').dataTable({
     "bSortClasses": false,
+      "aoColumns": [null, null, {"sType": "natural"}, {"sType": "natural"}, {"sType": "natural"}, null, null, null],
      "aaSorting": [[ 4, "desc" ], [ 3, "desc" ]],
               "oLanguage": {
           "sSearch": "Search Races:",

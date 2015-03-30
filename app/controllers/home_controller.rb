@@ -6,7 +6,7 @@ class HomeController < ApplicationController
     @nominations = Notification.where(:action => "Nominate")
     @condition_requests = Notification.all - all_suggestions - @nominations
 
-    @races = FilterRacesService.new.currentEligibleRaces()
+    @races = FilterRacesService.new.currentTELDatabaseRaces()
 
     @tels = Tel.where('entry_list = ? AND date >= ? AND published = ?', false, Date.today, true)
 

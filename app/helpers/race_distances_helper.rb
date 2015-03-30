@@ -1,0 +1,2 @@
+module RaceDistancesHelper
+end

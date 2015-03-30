@@ -13,21 +13,21 @@ $(document).ready(function() {
     nCloneTd.innerHTML = '<i class="fa fa-plus-circle"></i>';
     nCloneTd.className = "center";
      
-    $('.committed-sort thead tr').each( function () {
+    $('#stakes-table thead tr').each( function () {
         this.insertBefore( nCloneTh, this.childNodes[0] );
     } );
      
-    $('.committed-sort tbody tr').each( function () {
+    $('#stakes-table tbody tr').each( function () {
         this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[0] );
     } );
      
     /*
      * Initialse DataTables, with no sorting on the 'details' column
      */
-    var oTable = $('.committed-sort').dataTable( {
+    var oTable = $('#stakes-table').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bSortClasses": false,
-       "aoColumns": [null, null, null, {"sType": "natural"}, {"sType": "natural"}, {"sType": "natural"}, null, null, null, null, null, null],
+       "aoColumns": [null, null, null, {"sType": "natural"}, {"sType": "natural"}, {"sType": "natural"}, null, null, null, null],
        "aaSorting": [[ 5, "desc" ], [ 4, "desc" ]],
                 "oLanguage": {
             "sSearch": "Filter Races:",
@@ -36,14 +36,14 @@ $(document).ready(function() {
         },
     });
     
-    $('.committed-sort_wrapper .committed-sort_filter input').addClass("input-medium ");
-    $('.committed-sort_wrapper .committed-sort_length select').addClass("span12"); 
+    $('#stakes-table_wrapper .committed-sort_filter input').addClass("input-medium ");
+    $('#stakes-table_wrapper .committed-sort_length select').addClass("span12"); 
     
     /* Add event listener for opening and closing details
      * Note that the indicator for showing which row is open is not controlled by DataTables,
      * rather it is done here
      */
-    $('.committed-sort tbody td i').live('click', function () {
+    $('#stakes-table tbody td i').live('click', function () {
         var nTr = $(this).parents('tr')[0];
         if ( oTable.fnIsOpen(nTr) )
         {

@@ -119,6 +119,28 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#showClaiming").change(function(){
+		if($(this).is(":checked")){
+			$("#claiming_one").attr('disabled', false);
+		}
+		else
+		{
+			$("#claiming_one").attr('disabled', true);
+			$("#claiming_one").attr('value', null);
+		}
+	});
+
+	$("#showYards").change(function(){
+		if($(this).is(":checked")){
+			$("#yardsDiv").show();
+		}
+		else
+		{
+			$("#yardsDiv").hide();
+			$("#yards").attr('value', null);
+		}
+	});
+
 	$("#switch_to_draft").on('click', function (e) {
         $('#draft_modal').modal('show');
       });

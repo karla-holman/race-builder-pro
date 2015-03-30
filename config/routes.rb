@@ -1,4 +1,6 @@
 RailsDevisePundit::Application.routes.draw do
+  resources :race_distances
+
   resources :nomination_close_dates
 
   resources :horse_filter_settings

@@ -27,12 +27,7 @@ $(document).ready(function() {
     var oTable = $('.weeksTable').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bSortClasses": false,
-       "aaSorting": [],
-                "oLanguage": {
-                    "sSearch": "Search Races:",
-            "sLengthMenu": "Show  _MENU_  races",
-            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
-        },
+       "aoColumns": [null, null, null, {"sType": "natural"}, {"sType": "natural"}, {"sType": "natural"}, null, null, null],
         "aaSorting": [[5, "desc"],[ 4, "desc" ]],
                 "oLanguage": {
                     "sSearch": "Search Races:",

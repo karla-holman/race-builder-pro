@@ -86,21 +86,7 @@
                           <% end %>
                       <% end %>
                   </td>
-                  <% if race.distance %>
-                    <% if race.distance <= 1 %>
-                      <% if race.distance_type == 'Furlongs' %>
-                        <td><%= race.distance %> Furlong</td>
-                      <% elsif race.distance_type == 'Yards'%>
-                        <td><%= race.distance %> Yard</td>
-                      <% else %>
-                        <td><%= race.distance %> Mile</td>
-                      <% end %>
-                    <% else %>
-                      <td><%= race.distance %> <%= race.distance_type %></td>
-                    <% end %>
-                  <% else %>
-                    <td>N/A</td>
-                  <% end %>
+                  <td ><div style="display:none;"><%= race.distance_sort_value%></div><%= race.distance %></td>
                     <td>
                       <% if race.status == "Draft"%>
                         <%= link_to 'Draft', {:controller => "races", :action => "update_status", :status => "Published", :id => race.id }, :class => 'btn btn-warning btn-mini' %>
@@ -143,7 +129,7 @@
                         </span>
                       </div>
                       <div class="race-distance pull-right">
-                        <span><%= race.distance %> <%= race.distance_type %></span>
+                        <span><%= race.distance %></span>
                       </div>
                   </td>
                     <td>

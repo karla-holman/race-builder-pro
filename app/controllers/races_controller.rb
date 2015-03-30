@@ -101,8 +101,6 @@ class RacesController < ApplicationController
         @race.needs_nomination = saved_race[:race][:needs_nomination]
         @race.status = saved_race[:race][:status]
         @race.purse = saved_race[:race][:purse].gsub(/[^\d\.]/, '')
-        @race.distance = saved_race[:race][:distance]
-        @race.distance_type = saved_race[:race][:distance_type]
         @race.max_field_size = saved_race[:race][:max_field_size]
         @race.race_type = saved_race[:race][:race_type]
         @race.condition_node = condition_node
@@ -116,6 +114,16 @@ class RacesController < ApplicationController
           @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two].gsub(/[^\d\.]/, ''))
         else
           @claiming_two = ClaimingPrice.new
+        end
+
+        if saved_race[:distance]
+          @race_distance = RaceDistance.new(:distance => saved_race[:distance])
+          @race_distance.distance_type = saved_race[:distance_type]
+          @race_distance.numerator = saved_race[:numerator]
+          @race_distance.denominator = saved_race[:denominator]
+          @race_distance.yards = saved_race[:yards]
+        else
+          @race_distance = RaceDistance.new
         end
         
         if(saved_race[:category])
@@ -155,8 +163,6 @@ class RacesController < ApplicationController
       @race.needs_nomination = saved_race[:race][:needs_nomination]
       @race.status = saved_race[:race][:status]
       @race.purse = saved_race[:race][:purse].gsub(/[^\d\.]/, '')
-      @race.distance = saved_race[:race][:distance]
-      @race.distance_type = saved_race[:race][:distance_type]
       @race.max_field_size = saved_race[:race][:max_field_size]
       @race.race_type = saved_race[:race][:race_type]
 
@@ -169,6 +175,16 @@ class RacesController < ApplicationController
         @claiming_two = ClaimingPrice.new(:price => saved_race[:claiming_two].gsub(/[^\d\.]/, ''))
       else
         @claiming_two = ClaimingPrice.new
+      end
+
+      if saved_race[:distance]
+        @race_distance = RaceDistance.new(:distance => saved_race[:distance])
+        @race_distance.distance_type = saved_race[:distance_type]
+        @race_distance.numerator = saved_race[:numerator]
+        @race_distance.denominator = saved_race[:denominator]
+        @race_distance.yards = saved_race[:yards]
+      else
+        @race_distance = RaceDistance.new
       end
       
       if(saved_race[:category])
@@ -198,6 +214,7 @@ class RacesController < ApplicationController
     @race = Race.new
     @claiming_one = ClaimingPrice.new
     @claiming_two = ClaimingPrice.new
+    @race_distance = RaceDistance.new
   end
 
   def menu
@@ -416,15 +433,33 @@ class RacesController < ApplicationController
   def edit
     @race_date = @race.race_date
     if(@race.claiming_prices[0])
-      @claiming_one = @race.claiming_prices[0]
-    else
-      @claiming_one = ClaimingPrice.new
+      if @race.claiming_prices[0].lower
+        @claiming_one = @race.claiming_prices[0]
+      else
+        @claiming_two = @race.claiming_prices[0]
+      end
     end
 
     if(@race.claiming_prices[1])
-      @claiming_two = @race.claiming_prices[1]
-    else
+      if @race.claiming_prices[1].lower
+        @claiming_one = @race.claiming_prices[1]
+      else
+        @claiming_two = @race.claiming_prices[1]
+      end
+    end
+
+    if @claiming_one.nil?
+      @claiming_one = ClaimingPrice.new
+    end
+
+    if @claiming_two.nil?
       @claiming_two = ClaimingPrice.new
+    end
+
+    if @race.race_distance
+      @race_distance = @race.race_distance
+    else
+      @race_distance = RaceDistance.new
     end
 
     if(@race.condition_node.nil?)
@@ -462,6 +497,13 @@ class RacesController < ApplicationController
         @claiming_two = ClaimingPrice.new(:price => params[:claiming_two].gsub(/[^\d\.]/, ''))
       else
         @claiming_two = ClaimingPrice.new
+      end
+      if params[:distance]
+        @race_distance = RaceDistance.new(:distance => params[:distance])
+        @race_distance.distance_type = params[:distance_type]
+        @race_distance.numerator = params[:numerator]
+        @race_distance.denominator = params[:denominator]
+        @race_distance.yards = params[:yards]
       end
       if(params[:category])
         @race.category = 'Priority'
@@ -502,12 +544,13 @@ class RacesController < ApplicationController
         if(params[:claiming_one] && @race.isClaiming)
           if(@race.claiming_prices[0])
             @race.claiming_prices[0].price = params[:claiming_one].gsub(/[^\d\.]/, '')
-            puts "CLAIMING: " << 
+            @claiming_one.lower = true
             @race.claiming_prices[0].save
           else
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = @race.id
             @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
+            @claiming_one.lower = true
             @claiming_one.save
             @race.claiming_prices[0] = @claiming_one
           end
@@ -515,14 +558,26 @@ class RacesController < ApplicationController
         if (params[:claiming_two] && @race.isClaiming)
           if(@race.claiming_prices[1])
             @race.claiming_prices[1].price = params[:claiming_two].gsub(/[^\d\.]/, '')
+            @claiming_one.lower = false
             @race.claiming_prices[1].save
           else
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = @race.id
             @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
+            @claiming_one.lower = false
             @claiming_two.save
             @race.claiming_prices[1] = @claiming_two
           end
+        end
+        if params[:distance]
+          @distance = RaceDistance.new(:distance => params[:distance])
+          @distance.race_id = @race.id
+          @distance.distance_type = params[:distance_type]
+          @distance.numerator = params[:numerator]
+          @distance.denominator = params[:denominator]
+          @distance.yards = params[:yards]
+          @distance.save
+          @race.race_distance = @distance
         end
         @race.save
         if params[:condition_node_id]
@@ -542,10 +597,17 @@ class RacesController < ApplicationController
         if(params[:commit] == 'Save and Duplicate')
           new_race = @race.dup
           new_race.save
+          if @race.race_distance
+            new_distance = @race.race_distance.dup
+            new_distance.race_id = new_race.id
+            new_distance.save
+            new_race.race_distance = new_distance
+          end
           if(params[:claiming_one] && @race.isClaiming)
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = new_race.id
             @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
+            @claiming_one.lower = true
             @claiming_one.save
             new_race.claiming_prices[0] = @claiming_one
           end
@@ -553,6 +615,7 @@ class RacesController < ApplicationController
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = new_race.id
             @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
+            @claiming_one.lower = false
             @claiming_two.save
             new_race.claiming_prices[1] = @claiming_two
           end
@@ -682,14 +745,19 @@ class RacesController < ApplicationController
           @race.purse = race_params[:purse].gsub(/[^\d\.]/, '')
         end
         @race.claiming_prices.delete_all
+        if @race.race_distance
+          @race.race_distance.delete
+        end
         if(params[:claiming_one] && @race.isClaiming)
           if(@race.claiming_prices[0])
             @race.claiming_prices[0].price = params[:claiming_one].gsub(/[^\d\.]/, '')
+            @race.claiming_prices[0].lower = true
             @race.claiming_prices[0].save
           else
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = @race.id
             @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
+            @claiming_one.lower = true
             @claiming_one.save
             @race.claiming_prices[0] = @claiming_one
           end
@@ -697,14 +765,26 @@ class RacesController < ApplicationController
         if (params[:claiming_two] && @race.isClaiming)
           if(@race.claiming_prices[1])
             @race.claiming_prices[1].price = params[:claiming_two].gsub(/[^\d\.]/, '')
+            @race.claiming_prices[1].lower = false
             @race.claiming_prices[1].save
           else
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = @race.id
             @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
+            @claiming_two.lower = false
             @claiming_two.save
             @race.claiming_prices[1] = @claiming_two
           end
+        end
+        if params[:distance]
+          @distance = RaceDistance.new(:distance => params[:distance])
+          @distance.race_id = @race.id
+          @distance.distance_type = params[:distance_type]
+          @distance.numerator = params[:numerator]
+          @distance.denominator = params[:denominator]
+          @distance.yards = params[:yards]
+          @distance.save
+          @race.race_distance = @distance
         end
         if @race.condition_node && @race.condition_node.getExpressionString
           @race.description = @race.condition_node.getExpressionString
@@ -716,10 +796,17 @@ class RacesController < ApplicationController
         if(params[:commit] == 'Save and Duplicate')
           new_race = @race.dup
           new_race.save
+          if @race.race_distance
+            new_distance = @race.race_distance.dup
+            new_distance.race_id = new_race.id
+            new_distance.save
+            new_race.race_distance = new_distance
+          end
           if(params[:claiming_one] && @race.isClaiming)
             @claiming_one = ClaimingPrice.new
             @claiming_one.race_id = new_race.id
             @claiming_one.price = params[:claiming_one].gsub(/[^\d\.]/, '')
+            @claiming_one.lower = true
             @claiming_one.save
             new_race.claiming_prices[0] = @claiming_one
           end
@@ -727,6 +814,7 @@ class RacesController < ApplicationController
             @claiming_two = ClaimingPrice.new
             @claiming_two.race_id = new_race.id
             @claiming_two.price = params[:claiming_two].gsub(/[^\d\.]/, '')
+            @claiming_two.lower = false
             @claiming_two.save
             new_race.claiming_prices[1] = @claiming_two
           end
@@ -772,8 +860,6 @@ class RacesController < ApplicationController
     race.needs_nomination = params[:race][:needs_nomination]
     race.status = params[:race][:status]
     race.purse = params[:race][:purse]
-    race.distance = params[:race][:distance]
-    race.distance_type = params[:race][:distance_type]
     race.max_field_size = params[:race][:max_field_size]
     race.race_type = params[:race][:race_type]
       

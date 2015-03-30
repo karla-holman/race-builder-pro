@@ -14,11 +14,67 @@ class Race < ActiveRecord::Base
 	belongs_to :condition_node
 
 	has_one :race_date, :dependent => :destroy
+	has_one :race_distance, :dependent => :destroy
 	has_one :nomination_close_date, :dependent => :destroy
 
 	has_many :claiming_prices, :dependent => :destroy
 	def self.search(query)
   		where("lower(name) like ?", "%#{query}%".downcase)
+	end
+
+	def distance
+		if !self.race_distance
+			return 'N/A'
+		else
+			string = ''
+
+			if self.race_distance.distance
+				string += self.race_distance.distance.to_s
+			else return 'N/A'
+			end
+
+			if !(self.race_distance.numerator == 1 && self.race_distance.denominator == 1)
+				string += ' '+self.race_distance.numerator.to_s+'/'+self.race_distance.denominator.to_s
+			end
+
+			string += self.race_distance.distance_type
+
+			if self.race_distance.yards
+				string += ' '+self.race_distance.yards.to_s+'Y'
+			end
+
+			return string
+		end
+	end
+
+	def interested_count
+		return self.horseraces.where(:status => "Interested").count
+	end
+
+	def confirmed_count
+		return self.horseraces.where(:status => "Confirmed").count
+	end
+
+	def distance_sort_value
+		if !self.race_distance || !self.race_distance.distance
+			return 0
+		end
+
+		if self.race_distance.distance_type == 'Y'
+			return 1000000+self.race_distance.distance
+		elsif self.race_distance.distance_type == 'F'
+			return 2000000+self.race_distance.distance
+		elsif  self.race_distance.distance_type == 'M'
+			if self.race_distance.yards
+				return 3000000+(10000+ self.race_distance.yards)
+			elsif !(self.race_distance.numerator == 1 && self.race_distance.denominator == 1)
+				return 3000000+(1000+ self.race_distance.numerator/self.race_distance.denominator)
+			else
+				return 3000000+(100000+self.race_distance.distance)
+			end
+		else
+			return 0
+		end
 	end
 
 	def isHorseEligible(horse)
@@ -119,6 +175,12 @@ class Race < ActiveRecord::Base
 	    new_race = self.dup
 	    new_race.save
 
+	    if self.race_distance
+		    new_distance = self.race_distance.dup
+		    new_distance.race_id = new_race.id
+		    new_distance.save
+		    new_race.race_distance = new_distance
+        end
 	    if self.claiming_prices[0]
 	      new_claiming = self.claiming_prices[0].dup
 	      new_claiming.race_id = new_race.id
