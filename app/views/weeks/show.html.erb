@@ -49,7 +49,10 @@
                           <th>INT</th>
                           <th>CON</th>
                           <th style="display:none;"></th>
-                          <th>Priority</th>
+                          <% if !tel.entry_list %>
+                            <th>Priority</th>
+                            <th><i class="fa fa-check"></i> Eligibility</th>
+                          <% end %>
                           <th>Action</th>
                         </tr>
                     </thead>
@@ -67,8 +70,6 @@
                                             <%= age.name %>&nbsp;
                                         <% end %>
                                     <% end %>
-                                <% else %>
-                                    -
                                 <% end %>
                             <% end %>
                             <% if race.getAgeConditions %>
@@ -80,8 +81,6 @@
                                             <%= sex.name %>/
                                         <% end %>
                                     <% end %>
-                                <% else %>
-                                    -
                                 <% end %>
                             <% end %>
                         </td>
@@ -97,6 +96,16 @@
                       </strong>
                   </td>
                   <td style="display: none;"></td>
+                  <% if !tel.entry_list %>
+                    <td>
+                      <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+                                  <%= race.race_date.date.strftime('%A, %b %d') %>
+                                <% end %>
+                    </td>
+                    <td>
+                      <%= race.hasOtherConditions ? 'Yes' : 'No' %>
+                    </td>
+                  <% end %>
                 <td>
                     <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
                       <%= race.race_date.date.strftime('%A, %b %d') %>
@@ -139,30 +148,26 @@
                         <td><%= race.name %></td>
                         <td>
                             <% if race.getAgeConditions %>
-                            <% if !race.getAgeConditions.empty? %>
-                            <% race.getAgeConditions.each.with_index do |age, index| %>
-                            <% if index == race.getAgeConditions.size - 1 %>
-                            <%= age.name %>
-                            <% else %>
-                            <%= age.name %>&nbsp;
-                            <% end %>
-                            <% end %>
-                            <% else %>
-                            -
-                            <% end %>
+                                <% if !race.getAgeConditions.empty? %>
+                                    <% race.getAgeConditions.each.with_index do |age, index| %>
+                                        <% if index == race.getAgeConditions.size - 1 %>
+                                            <%= age.name %>
+                                        <% else %>
+                                            <%= age.name %>&nbsp;
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
                             <% end %>
                             <% if race.getAgeConditions %>
-                            <% if !race.getSexConditions.empty? %>
-                            <% race.getSexConditions.each.with_index do |sex, index| %>
-                            <% if index == race.getSexConditions.size - 1 %>
-                            <%= sex.name %> 
-                            <% else %>
-                            <%= sex.name %>/
-                            <% end %>
-                            <% end %>
-                            <% else %>
-                            -
-                            <% end %>
+                                <% if !race.getSexConditions.empty? %>
+                                    <% race.getSexConditions.each.with_index do |sex, index| %>
+                                        <% if index == race.getSexConditions.size - 1 %>
+                                            <%= sex.name %> 
+                                        <% else %>
+                                            <%= sex.name %>/
+                                        <% end %>
+                                    <% end %>
+                                <% end %>
                             <% end %>
                         </td>
                         <td ><div style="display:none;"><%= race.distance_sort_value%></div><%= race.distance %></td>

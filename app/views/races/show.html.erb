@@ -43,15 +43,19 @@
 		<div class="grid simple">
 			<div class="grid-body no-border">
 				<div class="row">
-					<div class="col-md-3">
-						<% if @race.conditions.any? %>
+					<% if @race.conditions.any? %>
+						<div class="col-md-3">
 							<h3>Conditions:</h3>
 							<div id="conditionPartial">
 								<%= render 'condition' %>
 							</div>
-						<% end %>
-					</div>
-					<div class="col-md-9">
+						</div>
+					<% end %>
+					<% if @race.conditions.any? %>
+						<div class="col-md-9">
+					<% else %>
+						<div class="col-xs-12">
+					<% end %>
 						<div class="center">
 							<h1><%= @race.name %></h1>
 							<% if @race.category == 'Priority' && @race.race_date && @race.race_date.date %>
@@ -117,20 +121,12 @@
 									<td style="display:none;"><%= horse.owner.name %></td>
 									<td style="display:none;"><%= horse.trainer.name %></td>
 									<td>
-										<% if racegroup[0] == "Eligible" %>
-										<% if Notification.where(:send_id => @race.id, :recv_id => horse.id, :action => "Suggest").any? %>
-										<button class="btn btn-danger btn-xs">Suggested</button>
-										<% else %>
-											<% if @race.status != 'Draft' %>
-												<button class="suggestion btn btn-success btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Suggest Race</button>
+										<% if horserace.any? %>			              
+											<% if horserace[0].status == "Confirmed"%>
+												<button class="scratch btn btn-danger btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
+											<% elsif horserace[0].status == "Scratched"%>
+												Scratched
 											<% end %>
-										<% end %>
-										<% elsif horserace.any? %>			              
-										<% if horserace[0].status == "Confirmed"%>
-										<button class="scratch btn btn-danger btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
-										<% elsif horserace[0].status == "Scratched"%>
-										Scratched
-										<% end %>
 										<% end %>
 									</td>
 								</tr>

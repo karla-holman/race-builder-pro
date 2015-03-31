@@ -136,6 +136,11 @@ form.edit_horserace {
   text-align: left;
 }
 
+#error_explanation h4,
+#error_explanation ul li {
+  color: red;
+}
+
 
 /* ============================================================
   SWITCH 3 - YES NO

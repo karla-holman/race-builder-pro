@@ -78,9 +78,9 @@ class RacesController < ApplicationController
     end
 
     if @race.category == 'Priority' && @race.stakes && @race.needs_nomination
-      @race_groups = [["Confirmed", @confirmed], ["Pending", @pending], ["Denied", @denied], ["Eligible", @eligible]]
+      @race_groups = [["Confirmed", @confirmed], ["Pending", @pending], ["Denied", @denied]]
     else
-      @race_groups = [["Confirmed", @confirmed], ["Interested", @interested], ["Eligible", @eligible]]
+      @race_groups = [["Confirmed", @confirmed], ["Interested", @interested]]
     end
   end
 
@@ -504,6 +504,15 @@ class RacesController < ApplicationController
         @race_distance.numerator = params[:numerator]
         @race_distance.denominator = params[:denominator]
         @race_distance.yards = params[:yards]
+      end
+      if(!race_params[:name] || race_params[:name].empty?)
+          @race.errors.add('Race name', "is missing")
+      end
+      if(!race_params[:purse] || race_params[:purse].empty?)
+          @race.errors.add('Race purse', "is missing")
+      end
+      if(!params[:distance] || params[:distance].empty?)
+          @race.errors.add('Race distance', "is missing")
       end
       if(params[:category])
         @race.category = 'Priority'
