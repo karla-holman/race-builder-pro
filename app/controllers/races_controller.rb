@@ -738,6 +738,16 @@ class RacesController < ApplicationController
           end
           @race.category = 'Alternate'
         end
+        if params[:distance]
+          @race_distance = RaceDistance.new(:distance => params[:distance])
+          @race_distance.distance_type = params[:distance_type]
+          @race_distance.numerator = params[:numerator]
+          @race_distance.denominator = params[:denominator]
+          @race_distance.yards = params[:yards]
+        end
+        if(!race_params[:name] || race_params[:name].empty?)
+          @race.errors.add('Race name', "is missing")
+        end
         if(!race_params[:race_type] || race_params[:race_type].empty?)
           @race.errors.add('Race type', "must be selected")
         end

@@ -193,7 +193,7 @@
         </div>
         <div class="col-xs-6">
           <%= f.label 'Lower Claiming' %>
-          <input id="claiming_one" type="textbox" name="claiming_one" class="form-control" value="<%= @claiming_one.price%>" <% if !@claiming_one.price %> style="display:none;" <% end %>/>
+          <input id="claiming_one" type="textbox" name="claiming_one" class="form-control" value="<%= @claiming_one.price%>" <% if !@claiming_one.price %> disabled <% end %>/>
         </div>
         <div class="col-xs-6">
           <%= f.label 'Upper Claiming' %>
