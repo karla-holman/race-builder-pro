@@ -9,117 +9,110 @@
     <%= link_to 'New TEL', new_tel_path({tel: {:week_id=> @week.id}}), :class => 'btn btn-primary btn-mini' %>
     <% @week.tels.order("date asc").each do |tel| %>
     <div class="col-xs-12">
-            <% if !tel.entry_list %>
-              <h3>Tentative Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
-            <% else %>
-              <h3>Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
-            <% end %>
-            <h4>Number of Races: <%= tel.num_races %></h4>
-            <h4>Total Purse Amount: <td><%= number_to_currency(tel.purse_total, precision: 0) %></h4>
-            <h4>Average Field Size: <td><%= tel.average_field_size %></h4>
-            <%= link_to 'Edit', edit_tel_path(tel),  :class => 'btn btn-success btn-mini'%>
-            <% if !tel.published && !tel.entry_list %>
-            <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-            <%= f.hidden_field :published, :value => true %>
-            <%= f.submit "Publish Tel", :class => 'btn btn-primary btn-mini'%>
-            <% end %>
-            <% end %>
-            <% if tel.published && !tel.entry_list %>
-            <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-            <%= f.hidden_field :published, :value => false %>
-            <%= f.submit "Un-Publish Tel", :class => 'btn btn-primary btn-mini'%>
-            <% end %>
-            <% end %>
-            <% if !tel.entry_list %>
-            <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
-            <%= f.hidden_field :entry_list, :value => true %>
-            <%= f.submit "Convert to Entry List", data: { confirm: "Once converted you can not convert back to a TEL, Are you sure?" }, :class => 'btn btn-info btn-mini'%>
-            <% end %>
-            <% end %>
-            <div class="grid simple">
-              <div class="grid-body no-border">
-                <div class="row">
-                  <div class="col-xs-12">
-                    <table num-races="<%= tel.num_races %>" class="telTable targetTels table table-condensed table-hover">
-                      <thead>
+        <% if !tel.entry_list %>
+        <h3>Tentative Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
+        <% else %>
+        <h3>Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
+        <% end %>
+        <h4>Number of Races: <%= tel.num_races %></h4>
+        <h4>Total Purse Amount: <td><%= number_to_currency(tel.purse_total, precision: 0) %></h4>
+        <h4>Average Field Size: <td><%= tel.average_field_size %></h4>
+        <%= link_to 'Edit', edit_tel_path(tel),  :class => 'btn btn-success btn-mini'%>
+        <% if !tel.published && !tel.entry_list %>
+        <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
+        <%= f.hidden_field :published, :value => true %>
+        <%= f.submit "Publish Tel", :class => 'btn btn-primary btn-mini'%>
+        <% end %>
+        <% end %>
+        <% if tel.published && !tel.entry_list %>
+        <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
+        <%= f.hidden_field :published, :value => false %>
+        <%= f.submit "Un-Publish Tel", :class => 'btn btn-primary btn-mini'%>
+        <% end %>
+        <% end %>
+        <% if !tel.entry_list %>
+        <%= form_for(tel, :html => {:class => 'inline-hidden-form'}) do |f| %>
+        <%= f.hidden_field :entry_list, :value => true %>
+        <%= f.submit "Convert to Entry List", data: { confirm: "Once converted you can not convert back to a TEL, Are you sure?" }, :class => 'btn btn-info btn-mini'%>
+        <% end %>
+        <% end %>
+        <div class="grid simple">
+          <div class="grid-body no-border">
+            <div class="row">
+              <div class="col-xs-12">
+                <table num-races="<%= tel.num_races %>" class="telTable targetTels table table-condensed table-hover">
+                    <thead>
                         <tr>
-                          <th>Type of Race</th>
-                          <th>Age / Sex</th>
-                          <th>Distance</th>
-                          <th>INT</th>
-                          <th>CON</th>
-                          <th style="display:none;"></th>
-                          <% if !tel.entry_list %>
+                            <th>Type of Race</th>
+                            <th>Age / Sex</th>
+                            <th>Distance</th>
+                            <th>INT</th>
+                            <th>CON</th>
                             <th>Priority</th>
                             <th><i class="fa fa-check"></i> Eligibility</th>
-                          <% end %>
-                          <th>Action</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-                  <tbody>
-                    <% tel.races.each do |race| %>
-                    <tr >
-                        <td><%=race.name %></td>
-                        <td>
-                            <% if race.getAgeConditions %>
-                                <% if !race.getAgeConditions.empty? %>
-                                    <% race.getAgeConditions.each.with_index do |age, index| %>
-                                        <% if index == race.getAgeConditions.size - 1 %>
-                                            <%= age.name %>
-                                        <% else %>
-                                            <%= age.name %>&nbsp;
+                    <tbody>
+                        <% tel.races.each do |race| %>
+                            <tr >
+                                <td><%=race.name %></td>
+                                <td>
+                                    <% if race.getAgeConditions %>
+                                        <% if !race.getAgeConditions.empty? %>
+                                            <% race.getAgeConditions.each.with_index do |age, index| %>
+                                                <% if index == race.getAgeConditions.size - 1 %>
+                                                    <%= age.name %>
+                                                <% else %>
+                                                    <%= age.name %>&nbsp;
+                                                <% end %>
+                                            <% end %>
                                         <% end %>
                                     <% end %>
-                                <% end %>
-                            <% end %>
-                            <% if race.getAgeConditions %>
-                                <% if !race.getSexConditions.empty? %>
-                                    <% race.getSexConditions.each.with_index do |sex, index| %>
-                                        <% if index == race.getSexConditions.size - 1 %>
-                                            <%= sex.name %> 
-                                        <% else %>
-                                            <%= sex.name %>/
+                                    <% if race.getAgeConditions %>
+                                        <% if !race.getSexConditions.empty? %>
+                                            <% race.getSexConditions.each.with_index do |sex, index| %>
+                                                <% if index == race.getSexConditions.size - 1 %>
+                                                    <%= sex.name %> 
+                                                <% else %>
+                                                    <%= sex.name %>/
+                                                <% end %>
+                                            <% end %>
                                         <% end %>
                                     <% end %>
-                                <% end %>
-                            <% end %>
-                        </td>
-                        <td><%= race.distance %></td>
-                        <td>
-                            <strong>
-                              <%= race.horseraces.where(:status => "Interested").count %>
-                          </strong>
-                      </td>
-                      <td>
-                        <strong>
-                          <%= race.horseraces.where(:status => "Confirmed").count %>
-                      </strong>
-                  </td>
-                  <td style="display: none;"></td>
-                  <% if !tel.entry_list %>
-                    <td>
-                      <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
-                                  <%= race.race_date.date.strftime('%A, %b %d') %>
-                                <% end %>
-                    </td>
-                    <td>
-                      <%= race.hasOtherConditions ? 'Yes' : 'No' %>
-                    </td>
-                  <% end %>
-                <td>
-                    <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
-                      <%= race.race_date.date.strftime('%A, %b %d') %>
-                    <% end %>
-                </td>
-                <td><button type="button" class="btn btn-danger btn-mini remove_from_day" race="<%=race.id%>">Remove</button></td>
-            </tr>
-            <% end %>
-        </tbody>
-    </table>
-</div>
-</div>
-</div>
-</div>
+                                </td>
+                                <td>
+                                    <%= race.distance %>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <%= race.horseraces.where(:status => "Interested").count %>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>
+                                        <%= race.horseraces.where(:status => "Confirmed").count %>
+                                    </strong>
+                                </td>
+                                <td>
+                                    <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+                                        <%= race.race_date.date.strftime('%A, %b %d') %>
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <%= race.hasOtherConditions ? 'Yes' : 'No' %>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-mini remove_from_day" race="<%=race.id%>">Remove</button>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
 </div>
 <% end %>
 <%= link_to 'Reset Races', '/weeks/'+@week.id.to_s+'/reset_races', :method=> :post, :class => 'btn btn-primary btn-mini' %>
@@ -148,26 +141,26 @@
                         <td><%= race.name %></td>
                         <td>
                             <% if race.getAgeConditions %>
-                                <% if !race.getAgeConditions.empty? %>
-                                    <% race.getAgeConditions.each.with_index do |age, index| %>
-                                        <% if index == race.getAgeConditions.size - 1 %>
-                                            <%= age.name %>
-                                        <% else %>
-                                            <%= age.name %>&nbsp;
-                                        <% end %>
-                                    <% end %>
-                                <% end %>
+                            <% if !race.getAgeConditions.empty? %>
+                            <% race.getAgeConditions.each.with_index do |age, index| %>
+                            <% if index == race.getAgeConditions.size - 1 %>
+                            <%= age.name %>
+                            <% else %>
+                            <%= age.name %>&nbsp;
+                            <% end %>
+                            <% end %>
+                            <% end %>
                             <% end %>
                             <% if race.getAgeConditions %>
-                                <% if !race.getSexConditions.empty? %>
-                                    <% race.getSexConditions.each.with_index do |sex, index| %>
-                                        <% if index == race.getSexConditions.size - 1 %>
-                                            <%= sex.name %> 
-                                        <% else %>
-                                            <%= sex.name %>/
-                                        <% end %>
-                                    <% end %>
-                                <% end %>
+                            <% if !race.getSexConditions.empty? %>
+                            <% race.getSexConditions.each.with_index do |sex, index| %>
+                            <% if index == race.getSexConditions.size - 1 %>
+                            <%= sex.name %> 
+                            <% else %>
+                            <%= sex.name %>/
+                            <% end %>
+                            <% end %>
+                            <% end %>
                             <% end %>
                         </td>
                         <td ><div style="display:none;"><%= race.distance_sort_value%></div><%= race.distance %></td>
@@ -179,7 +172,7 @@
                         </td>
                         <td>
                             <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
-                              <%= race.race_date.date.strftime('%A, %b %d') %>
+                            <%= race.race_date.date.strftime('%A, %b %d') %>
                             <% end %>
                         </td>   
                         <td>
