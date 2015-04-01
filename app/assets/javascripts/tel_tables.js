@@ -16,7 +16,7 @@ $(document).ready(function() {
           { "bSortable": false, "aTargets": [ 0, 1, 2, 3, 4, 5, 6, 7 ] }
         ],
       "aoColumns": [null, null, null, {"sType": "natural"}, {"sType": "natural"}, {"sType": "natural"}, null, null],
-       "aaSorting": [[6, "desc"], [4, "desc"], [3, "desc"]],
+       "aaSorting": [[5, "desc"], [4, "desc"], [3, "desc"]],
                 "oLanguage": {
                   "sSearch": "Search Races:",
             "sLengthMenu": "Show  _MENU_  entries",
