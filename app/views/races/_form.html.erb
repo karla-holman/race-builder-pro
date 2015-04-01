@@ -106,42 +106,15 @@
             <input id="distance" type="textbox" name="distance" class="form-control" value="<%= @race_distance.distance %>" style="width: 100px;"/>
           </div>
           <div class="col-xs-4">
-            <select id="numerator" name="numerator" value="<%= @race_distance.numerator %>" style="width: 100px;">
-              <option value="1" <% if @race_distance.numerator == 1%>selected<% end%>>1</option>
-              <option value="2" <% if @race_distance.numerator == 2%>selected<% end%>>2</option>
-              <option value="3" <% if @race_distance.numerator == 3%>selected<% end%>>3</option>
-              <option value="4" <% if @race_distance.numerator == 4%>selected<% end%>>4</option>
-              <option value="5" <% if @race_distance.numerator == 5%>selected<% end%>>5</option>
-              <option value="6" <% if @race_distance.numerator == 6%>selected<% end%>>6</option>
-              <option value="7" <% if @race_distance.numerator == 7%>selected<% end%>>7</option>
-              <option value="8" <% if @race_distance.numerator == 8%>selected<% end%>>8</option>
-              <option value="9" <% if @race_distance.numerator == 9%>selected<% end%>>9</option>
-              <option value="10" <% if @race_distance.numerator == 10%>selected<% end%>>10</option>
-              <option value="11" <% if @race_distance.numerator == 11%>selected<% end%>>11</option>
-              <option value="12" <% if @race_distance.numerator == 12%>selected<% end%>>12</option>
-              <option value="13" <% if @race_distance.numerator == 13%>selected<% end%>>13</option>
-              <option value="14" <% if @race_distance.numerator == 14%>selected<% end%>>14</option>
-              <option value="15" <% if @race_distance.numerator == 15%>selected<% end%>>15</option>
-              <option value="16" <% if @race_distance.numerator == 16%>selected<% end%>>16</option>
-            </select>
-            <hr style="margin-bottom: 5px; margin-top: 5px;"/>
-            <select id="denominator" name="denominator" value="<%= @race_distance.denominator %>" style="width: 100px;">
-              <option value="1" <% if @race_distance.denominator == 1%>selected<% end%>>1</option>
-              <option value="2" <% if @race_distance.denominator == 2%>selected<% end%>>2</option>
-              <option value="3" <% if @race_distance.denominator == 3%>selected<% end%>>3</option>
-              <option value="4" <% if @race_distance.denominator == 4%>selected<% end%>>4</option>
-              <option value="5" <% if @race_distance.denominator == 5%>selected<% end%>>5</option>
-              <option value="6" <% if @race_distance.denominator == 6%>selected<% end%>>6</option>
-              <option value="7" <% if @race_distance.denominator == 7%>selected<% end%>>7</option>
-              <option value="8" <% if @race_distance.denominator == 8%>selected<% end%>>8</option>
-              <option value="9" <% if @race_distance.denominator == 9%>selected<% end%>>9</option>
-              <option value="10" <% if @race_distance.denominator == 10%>selected<% end%>>10</option>
-              <option value="11" <% if @race_distance.denominator == 11%>selected<% end%>>11</option>
-              <option value="12" <% if @race_distance.denominator == 12%>selected<% end%>>12</option>
-              <option value="13" <% if @race_distance.denominator == 13%>selected<% end%>>13</option>
-              <option value="14" <% if @race_distance.denominator == 14%>selected<% end%>>14</option>
-              <option value="15" <% if @race_distance.denominator == 15%>selected<% end%>>15</option>
-              <option value="16" <% if @race_distance.denominator == 16%>selected<% end%>>16</option>
+            <select id="fraction_string" name="fraction_string" value="<%= @race_distance.fraction_string %>" style="width: 100px;">
+               <option ></option>
+              <option value="1/16" <% if @race_distance.fraction_string == '1/16'%>selected<% end%>>1/16</option>
+              <option value="1/8" <% if @race_distance.fraction_string == '1/8'%>selected<% end%>>1/8</option>
+              <option value="1/4" <% if @race_distance.fraction_string == '1/4'%>selected<% end%>>1/4</option>
+              <option value="1/2" <% if @race_distance.fraction_string == '1/2'%>selected<% end%>>1/2</option>
+              <option value="3/4" <% if @race_distance.fraction_string == '3/4'%>selected<% end%>>3/4</option>
+              <option value="3/8" <% if @race_distance.fraction_string == '3/8'%>selected<% end%>>3/8</option>
+              <option value="5/8" <% if @race_distance.fraction_string == '5/8'%>selected<% end%>>5/8</option>
             </select>
           </div>
           <div class="col-xs-4">

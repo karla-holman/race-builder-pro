@@ -33,8 +33,8 @@ class Race < ActiveRecord::Base
 			else return 'N/A'
 			end
 
-			if !(self.race_distance.numerator == 1 && self.race_distance.denominator == 1)
-				string += ' '+self.race_distance.numerator.to_s+'/'+self.race_distance.denominator.to_s
+			if self.race_distance.fraction_string
+				string += ' '+self.race_distance.fraction_string
 			end
 
 			string += self.race_distance.distance_type
@@ -61,20 +61,38 @@ class Race < ActiveRecord::Base
 		end
 
 		if self.race_distance.distance_type == 'Y'
-			return 1000000+self.race_distance.distance
+			val = 10000000+self.race_distance.distance
 		elsif self.race_distance.distance_type == 'F'
-			return 2000000+self.race_distance.distance
+			val = 20000000+self.race_distance.distance
 		elsif  self.race_distance.distance_type == 'M'
+			val = 30000000+(1000000*self.race_distance.distance)
 			if self.race_distance.yards
-				return 3000000+(10000+ self.race_distance.yards)
-			elsif !(self.race_distance.numerator == 1 && self.race_distance.denominator == 1)
-				return 3000000+(1000+ self.race_distance.numerator/self.race_distance.denominator)
-			else
-				return 3000000+(100000+self.race_distance.distance)
+				val += (1000* self.race_distance.yards)
 			end
 		else
-			return 0
+			val = 0
 		end
+
+		if self.race_distance.fraction_string
+			case self.race_distance.fraction_string
+			when '1/16'
+			  val += 101
+			when '1/8'
+			  val += 102
+			when '1/4'
+			  val += 103
+			when '1/2'
+			  val += 104
+			when '3/4'
+			  val += 105
+			when '3/8'
+			  val += 106
+			when '5/8'
+			  val += 107
+			end
+		end
+
+		return val
 	end
 
 	def isHorseEligible(horse)
