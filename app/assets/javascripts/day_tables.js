@@ -23,7 +23,7 @@
        "bFilter": true,
        "aaSorting": [[ 2, "desc" ], [ 1, "desc" ]],
        "oLanguage": {
-            "sLengthMenu": "Show  _MENU_  entries",
+            "sLengthMenu": "Show  _MENU_  days",
           }
     })
  });

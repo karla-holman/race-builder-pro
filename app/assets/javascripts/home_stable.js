@@ -31,7 +31,7 @@ $(document).ready(function() {
                 "oLanguage": {
                   "sSearch": "Search Horses:",
             "sLengthMenu": "Show  _MENU_  horses",
-            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ horses"
         },
         fnRowCallback  : function (nRow, aData) {
             switch(aData[7]){

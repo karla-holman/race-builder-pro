@@ -20,7 +20,7 @@ $(document).ready(function() {
                 "oLanguage": {
                   "sSearch": "Search Races:",
             "sLengthMenu": "Show  _MENU_  entries",
-            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ races"
         },
         "fnDrawCallback": function( oSettings ) {
            $(".confirm_horse_from_tel").change(function(){

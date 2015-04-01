@@ -8,7 +8,6 @@
     <h2>Race Database For The Week Of <%= @week.start_date.strftime('%b %d, %Y') %></h2>
     <%= link_to 'New TEL', new_tel_path({tel: {:week_id=> @week.id}}), :class => 'btn btn-primary btn-mini' %>
     <% @week.tels.order("date asc").each do |tel| %>
-    <div class="col-xs-12">
         <% if !tel.entry_list %>
         <h3>Tentative Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
         <% else %>
@@ -112,9 +111,9 @@
             </div>
         </div>
     </div>
-    </div>
 </div>
 <% end %>
+<h3>All Races</h3>
 <%= link_to 'Reset Races', '/weeks/'+@week.id.to_s+'/reset_races', :method=> :post, :class => 'btn btn-primary btn-mini' %>
 </div>
 <div class="col-xs-12">

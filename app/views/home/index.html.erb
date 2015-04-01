@@ -8,14 +8,212 @@
 		</h1>
 		<h5>Version: 2.0</h5>
 	</div>
-	<% @tels.order("date asc").each do |tel| %>
 	<div class="col-xs-12">
-		<h3>Tentative Entry List: <%= tel.date.strftime('%A, %b %d') %></h3>
-        <h4>Number of Races: <%= tel.num_races %></h4>
-		<div class="grid simple">
-			<div class="grid-body no-border">
-				<div class="row-fluid">
-					<table num-races="<%= tel.num_races %>" class="telTable targetTels table table-condensed table-hover">
+		<h3>Published Tentative Entry Lists</h3>
+	</div>
+	<div class="col-xs-12 well">
+		<% if @tels.length > 0 %>
+			<% @tels.order("date asc").each do |tel| %>
+				<h4 class="tel">
+					<button class="btn btn-primary btn-mini expand-button" type="button" data-toggle="collapse" data-target="#<%= tel.id %>" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-plus"></i></button>
+					TEL  <%= tel.date.strftime('%A %b %d') %>, Number of Races to Run: <%= tel.num_races %>
+				</h4>
+				<div class="grid simple collapse" id="<%= tel.id %>">
+						<div class="grid-body no-border">
+							<div class="row-fluid">
+								<table num-races="<%= tel.num_races %>" class="telTable targetTels table table-condensed table-hover">
+									<thead>
+										<tr>
+											<th>Type of Race</th>
+											<th>Age / Sex</th>
+											<th>Distance</th>
+											<th>INT</th>
+											<th>CON</th>
+											<th>Priority</th>
+											<th><i class="fa fa-check"></i> Eligibility</th>
+											<th>Action</th>											
+										</tr>
+									</thead>
+									<tbody>
+										<% tel.races.each do |race| %>
+										<tr >
+											<td><%=race.name %></td>
+											<td>
+												<% if race.getAgeConditions %>
+													<% if !race.getAgeConditions.empty? %>
+														<% race.getAgeConditions.each.with_index do |age, index| %>
+															<% if index == race.getAgeConditions.size - 1 %>
+																<%= age.name %>
+															<% else %>
+																<%= age.name %>&nbsp;
+															<% end %>
+														<% end %>
+													<% end %>
+												<% end %>
+												<% if race.getAgeConditions %>
+													<% if !race.getSexConditions.empty? %>
+														<% race.getSexConditions.each.with_index do |sex, index| %>
+															<% if index == race.getSexConditions.size - 1 %>
+																<%= sex.name %> 
+															<% else %>
+																<%= sex.name %>/
+															<% end %>
+														<% end %>
+													<% end %>
+												<% end %>
+											</td>
+											<td><%= race.distance %></td>
+											<td>
+												<strong>
+													<%= race.horseraces.where(:status => "Interested").count %>
+												</strong>
+											</td>
+											<td>
+												<strong>
+													<%= race.horseraces.where(:status => "Confirmed").count %>
+												</strong>
+											</td>
+											<td>
+												<% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+							                      <%= race.race_date.date.strftime('%A, %b %d') %>
+							                    <% end %>
+											</td>
+											<td>
+			                                    <%= race.hasOtherConditions ? 'Yes' : 'No' %>
+			                                </td>
+												<td>
+													<% if current_user.admin? %>
+														<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
+													<% else %>
+														<% @horse_list = Array.new()
+						                                @horses.each do |horse| %>
+						                                	<% @confirmed_status = nil %>
+						                                	<% @confirmed_race_name = nil %>
+						                               		<% modal_id = 'modal_'+race.id.to_s+'_'+horse.id.to_s %>
+					                                        <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => horse.id) %>
+					                                        <% @confirmed_race = Horserace.where(:horse_id => horse.id, :status => 'Confirmed')%>
+					                                        <% if @confirmed_race.any? %>
+						                                        <% @confirmed_race = @confirmed_race.first %>
+						                                        <% @confirmed_status = @confirmed_race.status %>
+						                                        <% if @confirmed_race.race %>
+						                                        	<% @confirmed_race_name = @confirmed_race.race.name %>
+						                                        <% end %>
+						                                    <% end %>
+					                                        <div id="<%= modal_id%>" status="<%= @confirmed_status %>"class="modal fade">
+					                                            <div class="modal-dialog">
+					                                                <div class="modal-content">
+					                                                    <div class="modal-header">
+					                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					                                                        <h4 class="modal-title">Already Confirmed to Race</h4>
+					                                                    </div>
+					                                                    <div class="modal-body">
+					                                                        <p>This horse is already confirmed to <%=@confirmed_race_name%>. Would you like to unconfirm from <%=@confirmed_race_name%> and confirm to this race?</p>
+					                                                    </div>
+					                                                    <div class="modal-footer">
+					                                                        <button type="button" class="btn btn-success confirm_modal_commit_home" data-dismiss="modal" modal-id="<%= modal_id%>" horserace-id="<%= @horserace.id %>">Yes</button>
+					                                                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+					                                                    </div>
+					                                                </div><!-- /.modal-content -->
+					                                            </div><!-- /.modal-dialog -->
+					                                        </div><!-- /.modal -->
+															<% if race.isHorseEligible(horse) && Horserace.where(:horse_id => horse.id, :race_id => race.id, :status => 'Confirmed').empty?
+						                                        @horse_list.push(horse)
+						                                    end
+						                                end %>
+						                                <%= collection_select(:confirm_horse, :horse_id, @horse_list.sort_by(&:name),:id, :name, {:prompt => 'Confirm Horse'}, {race: race.id, class: 'confirm_horse_from_tel'}) %>
+					                                <% end %>
+												</td>
+											</tr>
+											<% end %>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+			<% end %>
+		<% else %>
+	 		<h4>No published Tentative Entry Lists at this time</h4>
+	 	<% end %>
+	</div>
+	</div>
+	<% if !current_user.admin? %>
+	<h3>Current Stable:</h3>
+	<div class="grid simple">
+		<div class="grid-body no-border">
+			<div class="row">
+				<div class="col-xs-12">
+					<table class="table table-condensed">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Age</th>
+								<th>Sex</th>
+								<th>Wins</th>
+								<% if current_user.trainer? %>
+									<th>Owner</th>
+								<% else %>
+									<th>Trainer</th>
+								<% end %>
+								<th colspan="1"></th>
+								<th colspan="1"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% @horses.each do |horse| %>
+							<tr>
+								<td>
+									<%= horse.name %>
+								</td>
+								<td><%= horse.age %></td>
+								<td><%= horse.sex %></td>
+								<td><%= horse.wins %></td>
+								<% if current_user.trainer? %>
+									<th><%= horse.owner.name%></th>
+								<% else %>
+									<th><%= horse.trainer.name%></th>
+								<% end %>
+								<td style="display:none;">
+									<% if horse.equipment.any? %>
+									<% horse.equipment.each do |equipment| %>
+									<%= equipment.name %>&nbsp;
+									<% end %>
+									<% else %>
+									None
+									<% end %>
+								</td>
+								<td style="display:none;">
+									<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
+									<% if racestatuses.any? %>
+									<ul class="condition-list no-indent">
+										<% racestatuses.each do |racestatus| %>
+											<% race = Race.find_by_id(racestatus.race_id) %>
+											<% if race %>
+												<li><%= Race.find_by_id(racestatus.race_id).name %> - <%= racestatus.status %></li>
+											<% end %>
+										<% end %>
+									</ul>
+									<% else %>
+									None
+									<% end %> 
+								</td>
+								<td><%= link_to 'Race Menu', races_menu_path(:horse_id => horse.id), :class => 'btn btn-success btn-mini' %></td>
+								<td><%= link_to 'View Horse', horse, :class => 'btn btn-primary btn-mini'%></td>
+							</tr>
+							<% end %>  
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% end %>
+	<h3>View All Races</h3>
+	<div class="grid simple">
+		<div class="grid-body no-border">
+			<div class="row">
+				<div class="col-xs-12">
+					<table id="dashboard-admin-table" class="committed-sort table table-condensed table-hover">
 						<thead>
 							<tr>
 								<th>Type of Race</th>
@@ -23,15 +221,20 @@
 								<th>Distance</th>
 								<th>INT</th>
 								<th>CON</th>
-								<th style="display:none;"></th>
 								<th>Priority</th>
-								<th>Action</th>											
+								<th><i class="fa fa-check"></i> Eligibility</th>
+								<th></th>
+								<th style="display:none;">Race</th>
+								<th style="display:none;">Interested</th>
+								<th style="display:none;">Confirmed</th>
 							</tr>
 						</thead>
 						<tbody>
-							<% tel.races.each do |race| %>
-							<tr >
-								<td><%=race.name %></td>
+							<% @races.each do |race| %>
+							<tr>
+								<td>
+									<%= race.name %>
+								</td>
 								<td>
 									<% if race.getAgeConditions %>
 										<% if !race.getAgeConditions.empty? %>
@@ -56,7 +259,7 @@
 										<% end %>
 									<% end %>
 								</td>
-								<td><%= race.distance %></td>
+								<td ><div style="display:none;"><%= race.distance_sort_value%></div><%= race.distance %></td>
 								<td>
 									<strong>
 										<%= race.horseraces.where(:status => "Interested").count %>
@@ -67,302 +270,98 @@
 										<%= race.horseraces.where(:status => "Confirmed").count %>
 									</strong>
 								</td>
-								<td style="display: none;">
-									<% if race.conditions.any? %>
-									<% race.conditions.each do |condition| %>
-									| <%= condition.name %> |
-									<% end %>
-									<% else %>
-									| None |
-									<% end %>
-								</td>
 								<td>
 									<% if race.category == 'Priority' && race.race_date && race.race_date.date %>
 				                      <%= race.race_date.date.strftime('%A, %b %d') %>
 				                    <% end %>
 								</td>
-								
-									<td>
-										<% if current_user.admin? %>
-											<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
-										<% else %>
-											<% @horse_list = Array.new()
-			                                @horses.each do |horse| %>
-			                                	<% @confirmed_status = nil %>
-			                                	<% @confirmed_race_name = nil %>
-			                               		<% modal_id = 'modal_'+race.id.to_s+'_'+horse.id.to_s %>
-		                                        <% @horserace = Horserace.find_or_create_by!(:race_id => race.id, :horse_id => horse.id) %>
-		                                        <% @confirmed_race = Horserace.where(:horse_id => horse.id, :status => 'Confirmed')%>
-		                                        <% if @confirmed_race.any? %>
-			                                        <% @confirmed_race = @confirmed_race.first %>
-			                                        <% @confirmed_status = @confirmed_race.status %>
-			                                        <% if @confirmed_race.race %>
-			                                        	<% @confirmed_race_name = @confirmed_race.race.name %>
-			                                        <% end %>
-			                                    <% end %>
-		                                        <div id="<%= modal_id%>" status="<%= @confirmed_status %>"class="modal fade">
-		                                            <div class="modal-dialog">
-		                                                <div class="modal-content">
-		                                                    <div class="modal-header">
-		                                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		                                                        <h4 class="modal-title">Already Confirmed to Race</h4>
-		                                                    </div>
-		                                                    <div class="modal-body">
-		                                                        <p>This horse is already confirmed to <%=@confirmed_race_name%>. Would you like to unconfirm from <%=@confirmed_race_name%> and confirm to this race?</p>
-		                                                    </div>
-		                                                    <div class="modal-footer">
-		                                                        <button type="button" class="btn btn-success confirm_modal_commit_home" data-dismiss="modal" modal-id="<%= modal_id%>" horserace-id="<%= @horserace.id %>">Yes</button>
-		                                                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-		                                                    </div>
-		                                                </div><!-- /.modal-content -->
-		                                            </div><!-- /.modal-dialog -->
-		                                        </div><!-- /.modal -->
-												<% if race.isHorseEligible(horse) && Horserace.where(:horse_id => horse.id, :race_id => race.id, :status => 'Confirmed').empty?
-			                                        @horse_list.push(horse)
-			                                    end
-			                                end %>
-			                                <%= collection_select(:confirm_horse, :horse_id, @horse_list.sort_by(&:name),:id, :name, {:prompt => 'Confirm Horse'}, {race: race.id, class: 'confirm_horse_from_tel'}) %>
-		                                <% end %>
-									</td>
-								</tr>
-								<% end %>
-
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<% end %>
-
-		<% if !current_user.admin? %>
-		<h3>Current Stable:</h3>
-		<div class="grid simple">
-			<div class="grid-body no-border">
-				<div class="row">
-					<div class="col-xs-12">
-						<table class="table table-condensed">
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th>Age</th>
-									<th>Sex</th>
-									<th>Wins</th>
-									<% if current_user.trainer? %>
-										<th>Owner</th>
-									<% else %>
-										<th>Trainer</th>
+								<td>
+									<%= race.hasOtherConditions ? 'Yes' : 'No' %>
+								</td>
+								<td>
+									<% if current_user.admin? %>
+										<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
 									<% end %>
-									<th colspan="1"></th>
-									<th colspan="1"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<% @horses.each do |horse| %>
-								<tr>
-									<td>
-										<%= horse.name %>
-									</td>
-									<td><%= horse.age %></td>
-									<td><%= horse.sex %></td>
-									<td><%= horse.wins %></td>
+								</td>
+								<td class="condition-book" style="display:none;">
+									<div class="race-type">
+										<span><%= race.race_type %></span>
+									</div>
+									<div class="race-description">
+										<span>Purse:<%= number_to_currency(race.purse, precision: 0) %>. <%= race.description %></span>
+									</div>
+									<div class="race-weight">
+										<span><%= race.weights %></span>
+									</div>
+									<div class="race-claiming">
+										<span>
+											<% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
+											<% if race.claiming_prices[1] && race.claiming_prices[1].price %>
+											<% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
+											Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
+											<% else %>
+											Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
+											<% end %>
+											<% else %>
+											Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
+											<% end %>
+											<% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
+											Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
+											<% end %>
+										</span>
+									</div>
+									<div class="race-distance pull-right">
+										<span><%= race.distance %></span>
+									</div>
+								</td>
+								<td style="display:none;">
+									<% if current_user.admin? %>
+									<% race.horseraces.where(:status => "Interested").each do |interested| %> 
+									<% horse = Horse.find(interested.horse_id) %>
 									<% if current_user.trainer? %>
-										<th><%= horse.owner.name%></th>
-									<% else %>
-										<th><%= horse.trainer.name%></th>
+									<% if horse.trainer_id == current_user.id %>
+									<%= horse.name %>
 									<% end %>
-									<td style="display:none;">
-										<% if horse.equipment.any? %>
-										<% horse.equipment.each do |equipment| %>
-										<%= equipment.name %>&nbsp;
-										<% end %>
-										<% else %>
-										None
-										<% end %>
-									</td>
-									<td style="display:none;">
-										<% racestatuses = horse.horseraces.where("status = ? OR status = ? AND horse_id = ?", "Interested", "Confirmed", horse.id) %>
-										<% if racestatuses.any? %>
-										<ul class="condition-list no-indent">
-											<% racestatuses.each do |racestatus| %>
-												<% race = Race.find_by_id(racestatus.race_id) %>
-												<% if race %>
-													<li><%= Race.find_by_id(racestatus.race_id).name %> - <%= racestatus.status %></li>
-												<% end %>
-											<% end %>
-										</ul>
-										<% else %>
-										None
-										<% end %> 
-									</td>
-									<td><%= link_to 'Race Menu', races_menu_path(:horse_id => horse.id), :class => 'btn btn-success btn-mini' %></td>
-									<td><%= link_to 'View Horse', horse, :class => 'btn btn-primary btn-mini'%></td>
-								</tr>
-								<% end %>  
-							</tbody>
-						</table>
-					</div>
+									<% elsif current_user.user?%>
+									<% if horse.owner_id == current_user.id %>
+									<%= horse.name %>
+									<% end %>
+									<% else %>
+									<%= horse.name %>&nbsp;&nbsp;
+									<% end %>	
+									<% end %>
+									<% else %>
+									Admin Only
+									<% end %>
+								</td>
+								<td style="display:none;">
+									<% if current_user.admin? %>
+									<% race.horseraces.where(:status => "Confirmed").each do |confirmed| %>
+									<% horse = Horse.find(confirmed.horse_id) %>
+									<% if current_user.trainer? %>
+									<% if horse.trainer_id == current_user.id %>
+									<%= horse.name %>
+									<% end %>
+									<% elsif current_user.user?%>
+									<% if horse.owner_id == current_user.id %>
+									<%= horse.name %>
+									<% end %>
+									<% else %>
+									<%= horse.name %>&nbsp;&nbsp;
+									<% end %>
+									<% end %>
+									<% else %>
+									Admin Only
+									<% end %>
+								</td>
+							</tr>
+							<% end %>  
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
-		<% end %>
-
-		<div class="col-xs-12">
-			<h3>View All Races</h3>
-			<div class="grid simple">
-				<div class="grid-body no-border">
-					<div class="row">
-						<div class="col-xs-12">
-							<table id="dashboard-admin-table" class="committed-sort table table-condensed table-hover">
-								<thead>
-									<tr>
-										<th>Type of Race</th>
-										<th>Age / Sex</th>
-										<th>Distance</th>
-										<th>INT</th>
-										<th>CON</th>
-										<th>Priority</th>
-										<th><i class="fa fa-check"></i> Eligibility</th>
-										<th></th>
-										<th style="display:none;">Race</th>
-										<th style="display:none;">Interested</th>
-										<th style="display:none;">Confirmed</th>
-									</tr>
-								</thead>
-								<tbody>
-									<% @races.each do |race| %>
-									<tr>
-										<td>
-											<%= race.name %>
-										</td>
-										<td>
-											<% if race.getAgeConditions %>
-												<% if !race.getAgeConditions.empty? %>
-													<% race.getAgeConditions.each.with_index do |age, index| %>
-														<% if index == race.getAgeConditions.size - 1 %>
-															<%= age.name %>
-														<% else %>
-															<%= age.name %>&nbsp;
-														<% end %>
-													<% end %>
-												<% end %>
-											<% end %>
-											<% if race.getAgeConditions %>
-												<% if !race.getSexConditions.empty? %>
-													<% race.getSexConditions.each.with_index do |sex, index| %>
-														<% if index == race.getSexConditions.size - 1 %>
-															<%= sex.name %> 
-														<% else %>
-															<%= sex.name %>/
-														<% end %>
-													<% end %>
-												<% end %>
-											<% end %>
-										</td>
-										<td ><div style="display:none;"><%= race.distance_sort_value%></div><%= race.distance %></td>
-										<td>
-											<strong>
-												<%= race.horseraces.where(:status => "Interested").count %>
-											</strong>
-										</td>
-										<td>
-											<strong>
-												<%= race.horseraces.where(:status => "Confirmed").count %>
-											</strong>
-										</td>
-										<td>
-											<% if race.category == 'Priority' && race.race_date && race.race_date.date %>
-						                      <%= race.race_date.date.strftime('%A, %b %d') %>
-						                    <% end %>
-										</td>
-										<td>
-											<%= race.hasOtherConditions ? 'Yes' : 'No' %>
-										</td>
-										<td>
-											<% if current_user.admin? %>
-												<%= link_to 'View', race, :class => 'btn btn-success btn-mini' %>
-											<% end %>
-										</td>
-										<td class="condition-book" style="display:none;">
-											<div class="race-type">
-												<span><%= race.race_type %></span>
-											</div>
-											<div class="race-description">
-												<span>Purse:<%= number_to_currency(race.purse, precision: 0) %>. <%= race.description %></span>
-											</div>
-											<div class="race-weight">
-												<span><%= race.weights %></span>
-											</div>
-											<div class="race-claiming">
-												<span>
-													<% if race.claiming_prices[0] &&  race.claiming_prices[0].price%>
-													<% if race.claiming_prices[1] && race.claiming_prices[1].price %>
-													<% if race.claiming_prices[0].price >= race.claiming_prices[1].price %>
-													Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
-													<% else %>
-													Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %> - <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
-													<% end %>
-													<% else %>
-													Claiming Price: <%= number_to_currency(race.claiming_prices[0].price, precision: 0) %>
-													<% end %>
-													<% elsif race.claiming_prices[1] && race.claiming_prices[1].price %>
-													Claiming Price: <%= number_to_currency(race.claiming_prices[1].price, precision: 0) %>
-													<% end %>
-												</span>
-											</div>
-											<div class="race-distance pull-right">
-												<span><%= race.distance %></span>
-											</div>
-										</td>
-										<td style="display:none;">
-											<% if current_user.admin? %>
-											<% race.horseraces.where(:status => "Interested").each do |interested| %> 
-											<% horse = Horse.find(interested.horse_id) %>
-											<% if current_user.trainer? %>
-											<% if horse.trainer_id == current_user.id %>
-											<%= horse.name %>
-											<% end %>
-											<% elsif current_user.user?%>
-											<% if horse.owner_id == current_user.id %>
-											<%= horse.name %>
-											<% end %>
-											<% else %>
-											<%= horse.name %>&nbsp;&nbsp;
-											<% end %>	
-											<% end %>
-											<% else %>
-											Admin Only
-											<% end %>
-										</td>
-										<td style="display:none;">
-											<% if current_user.admin? %>
-											<% race.horseraces.where(:status => "Confirmed").each do |confirmed| %>
-											<% horse = Horse.find(confirmed.horse_id) %>
-											<% if current_user.trainer? %>
-											<% if horse.trainer_id == current_user.id %>
-											<%= horse.name %>
-											<% end %>
-											<% elsif current_user.user?%>
-											<% if horse.owner_id == current_user.id %>
-											<%= horse.name %>
-											<% end %>
-											<% else %>
-											<%= horse.name %>&nbsp;&nbsp;
-											<% end %>
-											<% end %>
-											<% else %>
-											Admin Only
-											<% end %>
-										</td>
-									</tr>
-									<% end %>  
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+	</div>
 	</div>
 	<script>
 	/* Formating function for row details */

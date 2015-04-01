@@ -141,6 +141,19 @@ form.edit_horserace {
   color: red;
 }
 
+h4.tel:first-child {
+  margin-top: 0;
+}
+
+h4.tel {
+  margin-top: 20px;
+}
+
+.expand-button {
+  font-size: 8px !important;
+  margin-right: 10px;
+}
+
 
 /* ============================================================
   SWITCH 3 - YES NO

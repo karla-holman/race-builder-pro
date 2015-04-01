@@ -16,7 +16,7 @@ $(document).ready(function() {
                 "oLanguage": {
                   "sSearch": "Search Weeks:",
             "sLengthMenu": "Show  _MENU_  weeks",
-            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+            "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ weeks"
         },
         "fnInitComplete": function(oSettings, json) {
           $('.targetTels').each(function() {
