@@ -17,7 +17,9 @@
                             <th>CON</th>
                             <th>Noms Close</th>
                             <th>Actions</th>
-                            <th style="display: none;"></th>
+                            <th style="display: none;">Race</th>
+                            <th style="display: none;">Interested</th>
+                            <th style="display: none;">Confirmed</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -110,7 +112,55 @@
                                 <div class="race-distance pull-right">
                                     <span><%= race.distance %></span>
                                 </div>
-                            </td>      
+                            </td> 
+                            <td style="display:none;">
+                                    <% if current_user.admin? %>
+                                        <% race.horseraces.where(:status => "Interested").each.with_index do |interested, index| %> 
+                                            <% horse = Horse.find(interested.horse_id) %>
+                                            <% if current_user.trainer? %>
+                                                <% if horse.trainer_id == current_user.id %>
+                                                    <%= horse.name %>
+                                                <% end %>
+                                            <% elsif current_user.user?%>
+                                                <% if horse.owner_id == current_user.id %>
+                                                    <%= horse.name %>
+                                                <% end %>
+                                            <% else %>
+                                                <% if index == race.horseraces.where(:status => "Interested").size - 1 %>
+                                                    <%= horse.name %>
+                                                <% else %>
+                                                    <%= horse.name %> |
+                                                <% end %>
+                                            <% end %>   
+                                        <% end %>
+                                    <% else %>
+                                        Admin Only
+                                    <% end %>
+                                </td>
+                                <td style="display:none;">
+                                    <% if current_user.admin? %>
+                                        <% race.horseraces.where(:status => "Confirmed").each.with_index do |confirmed, index| %>
+                                            <% horse = Horse.find(confirmed.horse_id) %>
+                                                <% if current_user.trainer? %>
+                                                    <% if horse.trainer_id == current_user.id %>
+                                                        <%= horse.name %>
+                                                    <% end %>
+                                                <% elsif current_user.user?%>
+                                                    <% if horse.owner_id == current_user.id %>
+                                                        <%= horse.name %>
+                                                    <% end %>
+                                                <% else %>
+                                                    <% if index == race.horseraces.where(:status => "Confirmed").size - 1 %>
+                                                        <%= horse.name %>
+                                                    <% else %>
+                                                        <%= horse.name %> |
+                                                    <% end %>
+                                                <% end %>
+                                            <% end %>
+                                    <% else %>
+                                        Admin Only
+                                    <% end %>
+                                </td>
                         </tr>
                     <% end %>
                 </tbody>
@@ -129,6 +179,8 @@ function fnFormatDetails ( oTable, nTr )
     var aData = oTable.fnGetData( nTr );
     var sOut = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;  width: 100%;" class="inner-table">';
     sOut += '<tr><td class="condition-book">'+aData[9]+'</td></tr>';
+    sOut += '<tr><td class="left">Interested: '+aData[10]+'</td></tr>';
+    sOut += '<tr><td class="left">Confirmed: '+aData[11]+'</td></tr>';
     sOut += '</table>';
     
     return sOut;

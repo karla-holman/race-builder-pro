@@ -27,7 +27,7 @@ $(document).ready(function() {
     var oTable = $('#stakes-table').dataTable( {
        "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
        "bSortClasses": false,
-       "aoColumns": [null, null, null, {"sType": "natural"}, {"sType": "natural"}, {"sType": "natural"}, null, null, null, null],
+       "aoColumns": [null, null, null, {"sType": "natural"}, {"sType": "natural"}, {"sType": "natural"}, null, null, null, null, null,null],
        "aaSorting": [[ 5, "desc" ], [ 4, "desc" ]],
                 "oLanguage": {
             "sSearch": "Filter Races:",
