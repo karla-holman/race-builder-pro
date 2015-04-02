@@ -66,6 +66,7 @@
 							<% else %>
 								<button type="button" id="switch_to_draft" class="btn btn-warning btn-s">Change to Draft</button>
 							<% end %>
+							<%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish', :class => 'btn btn-success btn-s' %>
 						</div>
 						<% @race_groups.each do |racegroup| %>
 						<h4><%= racegroup[0] %></h4>
