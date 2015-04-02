@@ -95,12 +95,10 @@
                       <% end %>
                     </td>
                     <td>
-                      <% if race.category == 'Priority' %>
-                        <span>Yes</span>
-                      <% else %>
-                        <span>No</span>
-                      <% end %>
-                    </td>
+                        <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
+                          <%= race.race_date.date.strftime('%A, %b %d') %>
+                        <% end %>
+                      </td>
                     <td class="condition-book" style="display:none;">
                       <div class="race-type">
                         <span><%= race.race_type %></span>

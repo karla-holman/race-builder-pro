@@ -316,42 +316,50 @@
 								</td>
 								<td style="display:none;">
 									<% if current_user.admin? %>
-									<% race.horseraces.where(:status => "Interested").each do |interested| %> 
-									<% horse = Horse.find(interested.horse_id) %>
-									<% if current_user.trainer? %>
-									<% if horse.trainer_id == current_user.id %>
-									<%= horse.name %>
-									<% end %>
-									<% elsif current_user.user?%>
-									<% if horse.owner_id == current_user.id %>
-									<%= horse.name %>
-									<% end %>
+										<% race.horseraces.where(:status => "Interested").each.with_index do |interested, index| %> 
+											<% horse = Horse.find(interested.horse_id) %>
+											<% if current_user.trainer? %>
+												<% if horse.trainer_id == current_user.id %>
+													<%= horse.name %>
+												<% end %>
+											<% elsif current_user.user?%>
+												<% if horse.owner_id == current_user.id %>
+													<%= horse.name %>
+												<% end %>
+											<% else %>
+												<% if index == race.horseraces.where(:status => "Interested").size - 1 %>
+													<%= horse.name %>
+												<% else %>
+													<%= horse.name %> |
+												<% end %>
+											<% end %>	
+										<% end %>
 									<% else %>
-									<%= horse.name %>&nbsp;&nbsp;
-									<% end %>	
-									<% end %>
-									<% else %>
-									Admin Only
+										Admin Only
 									<% end %>
 								</td>
 								<td style="display:none;">
 									<% if current_user.admin? %>
-									<% race.horseraces.where(:status => "Confirmed").each do |confirmed| %>
-									<% horse = Horse.find(confirmed.horse_id) %>
-									<% if current_user.trainer? %>
-									<% if horse.trainer_id == current_user.id %>
-									<%= horse.name %>
-									<% end %>
-									<% elsif current_user.user?%>
-									<% if horse.owner_id == current_user.id %>
-									<%= horse.name %>
-									<% end %>
+										<% race.horseraces.where(:status => "Confirmed").each.with_index do |confirmed, index| %>
+											<% horse = Horse.find(confirmed.horse_id) %>
+												<% if current_user.trainer? %>
+													<% if horse.trainer_id == current_user.id %>
+														<%= horse.name %>
+													<% end %>
+												<% elsif current_user.user?%>
+													<% if horse.owner_id == current_user.id %>
+														<%= horse.name %>
+													<% end %>
+												<% else %>
+													<% if index == race.horseraces.where(:status => "Confirmed").size - 1 %>
+														<%= horse.name %>
+													<% else %>
+														<%= horse.name %> |
+													<% end %>
+												<% end %>
+											<% end %>
 									<% else %>
-									<%= horse.name %>&nbsp;&nbsp;
-									<% end %>
-									<% end %>
-									<% else %>
-									Admin Only
+										Admin Only
 									<% end %>
 								</td>
 							</tr>
