@@ -341,20 +341,22 @@
 								<td style="display:none;">
 									<% if current_user.admin? %>
 										<% race.horseraces.where(:status => "Confirmed").each.with_index do |confirmed, index| %>
-											<% horse = Horse.find(confirmed.horse_id) %>
-												<% if current_user.trainer? %>
-													<% if horse.trainer_id == current_user.id %>
-														<%= horse.name %>
-													<% end %>
-												<% elsif current_user.user?%>
-													<% if horse.owner_id == current_user.id %>
-														<%= horse.name %>
-													<% end %>
-												<% else %>
-													<% if index == race.horseraces.where(:status => "Confirmed").size - 1 %>
-														<%= horse.name %>
+											<% horse = Horse.find_by_id(confirmed.horse_id) %>
+												<% if horse %>
+													<% if current_user.trainer? %>
+														<% if horse.trainer_id == current_user.id %>
+															<%= horse.name %>
+														<% end %>
+													<% elsif current_user.user?%>
+														<% if horse.owner_id == current_user.id %>
+															<%= horse.name %>
+														<% end %>
 													<% else %>
-														<%= horse.name %> |
+														<% if index == race.horseraces.where(:status => "Confirmed").size - 1 %>
+															<%= horse.name %>
+														<% else %>
+															<%= horse.name %> |
+														<% end %>
 													<% end %>
 												<% end %>
 											<% end %>
