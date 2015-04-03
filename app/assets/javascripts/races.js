@@ -150,6 +150,10 @@ $(document).ready(function() {
         $('#'+modal_id).modal('show');
       });
 
+	$("#set_horses_to_race_ready").on('click', function (e) {
+        $('#reset_horses_modal').modal('show');
+      });
+
 	function attemptUpdate(f){
 	  $.ajax({
 	    type: "POST",

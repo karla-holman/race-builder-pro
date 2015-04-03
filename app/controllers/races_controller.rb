@@ -522,7 +522,7 @@ class RacesController < ApplicationController
         else
           @race.errors.add('Priority', "Race must have a date.")
         end
-        if race_params[:stakes] && race_params[:needs_nomination]
+        if race_params[:stakes] && race_params[:needs_nomination] == true
           if !params[:nomination_close_date][:date].empty?
             nom_close_date = NominationCloseDate.new
             nom_close_date.date = params[:nomination_close_date][:date]
@@ -917,6 +917,13 @@ class RacesController < ApplicationController
       date = Date.today
     end
 
+    @horse = Horse.find_by_id(params[:horse_id])
+
+    if @horse
+      @horse.wins += 1
+      @horse.save
+    end
+
     new_winner.date = date
     new_winner.save
 
@@ -942,10 +949,15 @@ class RacesController < ApplicationController
   def resetHorseStatuses
     race_ready = Status.find_by_name('Race Ready')
     @race.horses.each do |horse|
+      horse_race = Horserace.where(:race_id => @race.id, :horse_id => horse.id)
       if horse.status.name == 'Running'
         horse.status = race_ready
-        horse.save
       end
+      if horse_race[0].status != 'Scratched'
+        horse.starts += 1
+      end
+
+      horse.save
     end
 
     respond_to do |format|
