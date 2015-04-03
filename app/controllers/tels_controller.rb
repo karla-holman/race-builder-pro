@@ -122,7 +122,7 @@ class TelsController < ApplicationController
   def addRaces(tel)
     race_dates = RaceDate.where(:date => tel.date)
     race_dates.each do |race_date|
-      if race_date.race && race_date.race.status == "Published"
+      if !race_date.race.nil? && race_date.race.status == "Published"
         race_date.race.tel = tel
         race_date.race.save
       end

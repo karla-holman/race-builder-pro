@@ -93,9 +93,11 @@ class HorseracesController < ApplicationController
     horse_id = params[:horse_id]
     race_id = params[:race_id]
 
-    horserace = Horserace.find_or_create_by(:horse_id => horse_id, :race_id => race_id)
-    horserace.status = "Confirmed"
-    horserace.save
+    if horse_id && race_id
+      horserace = Horserace.find_or_create_by(:horse_id => horse_id, :race_id => race_id)
+      horserace.status = "Confirmed"
+      horserace.save
+    end
 
     redirect_to :back
   end

@@ -110,7 +110,7 @@
 					                                                        <p>This horse is already confirmed to <%=@confirmed_race_name%>. Would you like to unconfirm from <%=@confirmed_race_name%> and confirm to this race?</p>
 					                                                    </div>
 					                                                    <div class="modal-footer">
-					                                                        <button type="button" class="btn btn-success confirm_modal_commit_home" data-dismiss="modal" modal-id="<%= modal_id%>" horserace-id="<%= @horserace.id %>">Yes</button>
+					                                                        <button type="button" class="btn btn-success confirm_modal_commit_home" data-dismiss="modal" modal-id="<%= modal_id%>" horserace-id="<%=horserace.id %>">Yes</button>
 					                                                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
 					                                                    </div>
 					                                                </div><!-- /.modal-content -->
