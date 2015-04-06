@@ -3,13 +3,13 @@
   <div class="row">
     <div class="col-xs-12">
       <div id="error_explanation">
-        <h2><%= pluralize(@meet.errors.count, "error") %> prohibited this meet from being saved:</h2>
-        <ul>
-        <% @meet.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
+      <h4><%= pluralize(@race.errors.count, "error") %> on page:</h4>
+      <ul>
+        <% @race.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
         <% end %>
-        </ul>
-      </div>
+      </ul>
+    </div>
     <% end %>
     </div>
     <div class="col-xs-12 col-md-6">  

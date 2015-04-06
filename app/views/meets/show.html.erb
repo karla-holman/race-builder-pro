@@ -6,8 +6,8 @@
   <div class="col-xs-12">
     <h2><%= @meet.name %></h2>
     <h4><%= @meet.race_days %> Racing Days</h4>
-	<p>Start Date: <%= @meet.start_date.strftime('%b %d, %Y') %></p>
-	<p>End Date: <%= @meet.end_date.strftime('%b %d, %Y') %></p>
+	<p>Start Date: <%if @meet.start_date %><%= @meet.start_date.strftime('%b %d, %Y') %><%end%></p>
+	<p>End Date: <%if @meet.end_date %><%= @meet.end_date.strftime('%b %d, %Y') %><%end%></p>
 	<% if current_user.admin? %>
 		<%= link_to 'New Week', new_week_path({week: {:meet_id=> @meet.id}}), :class => 'btn btn-primary btn-mini' %>
 		<%= link_to 'Deactivate Horses', '/meets/'+@meet.id.to_s+'/deactivate_horses', :class => 'btn btn-danger btn-mini' %>
