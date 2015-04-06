@@ -3,9 +3,9 @@
   <div class="row">
     <div class="col-xs-12">
       <div id="error_explanation">
-      <h4><%= pluralize(@race.errors.count, "error") %> on page:</h4>
+      <h4><%= pluralize(@meet.errors.count, "error") %> on page:</h4>
       <ul>
-        <% @race.errors.full_messages.each do |msg| %>
+        <% @meet.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
         <% end %>
       </ul>

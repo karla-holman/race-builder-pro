@@ -26,9 +26,25 @@ class MeetsController < ApplicationController
   # POST /meets.json
   def create
     @meet = Meet.new(meet_params)
+    
+    if(!meet_params[:name] || meet_params[:name].empty?)
+      @meet.errors.add('Meet name', "is missing")
+    end
+
+    if(!meet_params[:race_days] || meet_params[:race_days].empty?)
+      @meet.errors.add('Number of race days', "is missing")
+    end
+
+    if(!meet_params[:start_date] || meet_params[:start_date].empty?)
+      @meet.errors.add('Start date', "is missing")
+    end
+
+    if(!meet_params[:end_date] || meet_params[:end_date].empty?)
+      @meet.errors.add('End date', "is missing")
+    end
 
     respond_to do |format|
-      if @meet.save
+      if !@meet.errors.any? && @meet.save
         format.html { redirect_to @meet, notice: 'Meet was successfully created.' }
         format.json { render :show, status: :created, location: @meet }
       else
@@ -41,8 +57,25 @@ class MeetsController < ApplicationController
   # PATCH/PUT /meets/1
   # PATCH/PUT /meets/1.json
   def update
+
+    if(!meet_params[:name] || meet_params[:name].empty?)
+      @meet.errors.add('Meet name', "is missing")
+    end
+
+    if(!meet_params[:race_days] || meet_params[:race_days].empty?)
+      @meet.errors.add('Number of race days', "is missing")
+    end
+
+    if(!meet_params[:start_date] || meet_params[:start_date].empty?)
+      @meet.errors.add('Start date', "is missing")
+    end
+
+    if(!meet_params[:end_date] || meet_params[:end_date].empty?)
+      @meet.errors.add('End date', "is missing")
+    end
+
     respond_to do |format|
-      if @meet.update(meet_params)
+      if !@meet.errors.any? && @meet.update(meet_params)
         format.html { redirect_to @meet, notice: 'Meet was successfully updated.' }
         format.json { render :show, status: :ok, location: @meet }
       else
