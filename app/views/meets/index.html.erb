@@ -25,9 +25,11 @@
                       <%= meet.name %>
                       <%end%>
                     </td>
-                    <td><%= meet.race_days %></td>
-                    <td><%= meet.start_date.strftime('%b %d, %Y') %></td>
-                    <td><%= meet.end_date.strftime('%b %d, %Y') %></td>
+                    <td>
+                      <% if meet.race_days %>
+                      <%= meet.race_days %>
+                      <%end%>
+                    </td>
                     <td>
                       <%= link_to 'Show', meet, :class => 'btn btn-success btn-mini' %>
                       <%= link_to 'Edit', edit_meet_path(meet), :class => 'btn btn-warning btn-mini', 'data-no-turbolink' => true %>
