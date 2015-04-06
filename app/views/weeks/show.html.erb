@@ -102,7 +102,8 @@
                                     <%= race.hasOtherConditions ? 'Yes' : 'No' %>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-mini remove_from_day" race="<%=race.id%>">Remove</button>
+                                    <%= link_to 'Post Race Updates', '/races/'+race.id.to_s+'/racefinish', :class => 'btn btn-primary btn-mini' %>
+                                    <button type="button" class="btn btn-danger btn-mini">Remove</button>
                                 </td>
                             </tr>
                         <% end %>

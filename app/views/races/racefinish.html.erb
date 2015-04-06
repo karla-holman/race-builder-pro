@@ -1,13 +1,13 @@
 <ul class="breadcrumb">
   <li><%= link_to 'Race List', races_path %></li>
   <li><%= link_to @race.name, @race %></li>
-  <li class="active">Before Race View</li>
+  <li class="active">Race View</li>
 </ul>
 <div class="row">
   <div class="col-xs-12">
     <h2><%= @race.name %></h2>
     <% if @resetHorses %>
-      <button type="button" id="set_horses_to_race_ready" class="btn btn-warning btn-s">Set Horses To Race Ready</button>
+      <button type="button" id="set_horses_to_race_ready" class="btn btn-primary btn-s">Set Horses To Race Ready</button>
     <% end %>
   </div>
   <div id="reset_horses_modal" class="modal fade">

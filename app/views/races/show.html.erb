@@ -1,7 +1,7 @@
 <ul class="breadcrumb">
 	<li><%= link_to 'Race List', races_path %></li>
 	<li class="active"><%= @race.name %></li>
-	<li><%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish' %></li>
+	<li><%= link_to 'Post Race Updates', '/races/'+@race.id.to_s+'/racefinish' %></li>
 </ul>
 <div class="row">
 	<div id="draft_modal" class="modal fade">
@@ -66,7 +66,7 @@
 							<% else %>
 								<button type="button" id="switch_to_draft" class="btn btn-warning btn-s">Change to Draft</button>
 							<% end %>
-							<%= link_to 'Race Finished View', '/races/'+@race.id.to_s+'/racefinish', :class => 'btn btn-primary btn-s' %>
+							<%= link_to 'Post Race Updates', '/races/'+@race.id.to_s+'/racefinish', :class => 'btn btn-primary btn-s' %>
 						</div>
 						<% @race_groups.each do |racegroup| %>
 						<h4><%= racegroup[0] %></h4>
