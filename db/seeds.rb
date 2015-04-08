@@ -56,89 +56,89 @@ statuses = ['Race Ready', 'Vet\'s List', 'Steward\'s List', 'Inactive', 'Running
 # 		['Md 5000', 'maidens, 3 year olds and upwards, purse $5,500, claiming price $5,000', 'Published', "Priority",'Furlongs', 6.5, 5500, 12]]
 
 #Horses: [Name, Breed, Country, Region, Sex, Birth Year, Starts, Wins, Last Win, Owner Email, Trainer Email]
-horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 12, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['BH Country Chrome', 'Quarter Horse', 'US', 'WA', 'C', 2011, 10, 5, '2014-6-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Eyes Movin', 'Quarter Horse', 'US', 'WA', 'G', 2007, 16, 12, '2014-7-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Mr Speedygonzalez', 'Quarter Horse', 'US', 'OR', 'G', 2010, 10, 3, '2014-7-27', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Cloudy Dasher', 'Quarter Horse', 'US', 'CA', 'F', 2011, 5, 1, '2013-5-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Jess Be Hawkin', 'Quarter Horse', 'US', 'WA', 'F', 2010, 8, 4, '2012-9-16', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Twelfth Fan', 'Thoroughbred', 'US', 'WA', 'F', 2012, 5, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Mystic Witch', 'Thoroughbred', 'US', 'WA', 'F', 2012, 0, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Bodacious', 'Thoroughbred', 'US', 'WA', 'F', 2012, 5, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['In Private', 'Thoroughbred', 'US', 'WA', 'F', 2012, 4, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['City Sensation', 'Thoroughbred', 'US', 'VA', 'F', 2012, 0, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Three Olives Later', 'Thoroughbred', 'US', 'WA', 'F', 2012, 4, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Charming Budha', 'Thoroughbred', 'US', 'WA', 'G', 2010, 6, 2, '2014-9-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Almosttoomuchfun', 'Thoroughbred', 'CA', 'ON', 'G', 2011, 8, 2, '2014-8-10', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Game Kick', 'Thoroughbred', 'US', 'AZ', 'F', 2011, 5, 2, '2014-9-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Moony Moony', 'Thoroughbred', 'US', 'WA', 'C', 2011, 9, 2, '2014-8-10', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Ringo\'s Gold', 'Thoroughbred', 'US', 'WA', 'G', 2007, 10, 2, '2012-5-4', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Sabe', 'Thoroughbred', 'US', 'FL', 'G', 2009, 7, 2, '2012-4-15', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Wheels of Fire', 'Thoroughbred', 'US', 'CA', 'G', 2008, 12, 10, '2014-8-29', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Sax', 'Thoroughbred', 'US', 'CA', 'G', 2006, 18, 14, '2014-8-31', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Shoer Hugh', 'Thoroughbred', 'US', 'CA', 'R', 2010, 8, 4, '2014-9-12', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Dead Eye', 'Thoroughbred', 'US', 'WA', 'G', 2009, 10, 7, '2014-9-19', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Immigration', 'Thoroughbred', 'US', 'WA', 'G', 2004, 10, 7, '2014-9-13', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Skip My Turn', 'Thoroughbred', 'US', 'WA', 'G', 2011, 5, 2, '2014-8-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Cheese', 'Thoroughbred', 'US', 'WA', 'F', 2010, 3, 1, '2013-5-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Bluegrass Fox Trot', 'Thoroughbred', 'US', 'KY', 'G', 2011, 2, 2, '2014-8-15', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Ionize', 'Thoroughbred', 'US', 'OR', 'C', 2010, 2, 1, '2014-8-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Regazze Cat', 'Thoroughbred', 'US', 'WA', 'G', 2011, 3, 2, '2014-9-14', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['No Claim Will Do', 'Thoroughbred', 'US', 'KY', 'G', 2011, 4, 2, '2014-8-30', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Cinnamon Mocha', 'Thoroughbred', 'US', 'KY', 'F', 2010, 2, 2, '2014-3-4', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Bones Zee', 'Thoroughbred', 'US', 'WA', 'H', 2009, 5, 2, '2013-8-23', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['He\'s Zubberific', 'Thoroughbred', 'US', 'WA', 'G', 2011, 10, 2, '2014-4-26', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Wild Hoss', 'Thoroughbred', 'US', 'WA', 'H', 2009, 10, 4, '2013-6-28', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Twist My Kazoo', 'Thoroughbred', 'US', 'CA', 'G', 2007, 8, 4, '2014-7-19', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Heza Witch Doctor', 'Thoroughbred', 'US', 'WA', 'G', 2007, 10, 6, '2014-7-3', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Salty Le Mousee', 'Thoroughbred', 'US', 'CA', 'G', 2007, 10, 6, '2014-7-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Secret Harbor', 'Thoroughbred', 'US', 'CA', 'G', 2011, 3, 3, '2014-6-7', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Buds a Flyin', 'Thoroughbred', 'US', 'WA', 'G', 2007, 12, 11, '2014-5-17', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Lots of Prayers', 'Thoroughbred', 'US', 'KY', 'G', 2010, 4, 3, '2014-8-23', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Advancement', 'Thoroughbred', 'US', 'KY', 'H', 2008, 5, 4, '2014-8-10', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Snooper Dauper', 'Thoroughbred', 'US', 'WA', 'H', 2009, 4, 3, '2014-5-18', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Light My Heart', 'Thoroughbred', 'US', 'WA', 'G', 2009, 5, 4, '2014-1-22', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Regal Valid', 'Thoroughbred', 'US', 'WA', 'G', 2009, 6, 3, '2014-6-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Mr. Top Kat', 'Thoroughbred', 'US', 'WA', 'R', 2009, 10, 9, '2014-6-29', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Financial Officer', 'Thoroughbred', 'US', 'WA', 'G', 2010, 4, 3, '2014-6-21', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Northern Poptart', 'Thoroughbred', 'US', 'ID', 'G', 2007, 10, 8, '2014-8-2', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Marvin\'s Magic', 'Thoroughbred', 'US', 'WA', 'G', 2008, 15, 12, '2014-9-5', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['War Wizard', 'Thoroughbred', 'US', 'KY', 'G', 2009, 10, 8, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Chaching Pete', 'Thoroughbred', 'US', 'WA', 'G', 2007, 13, 12, '2014-9-21', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Ugottabcatty', 'Thoroughbred', 'US', 'WA', 'G', 2006, 10, 7, '2014-8-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Rainier Ice', 'Thoroughbred', 'US', 'KY', 'G', 2008, 10, 8, '2014-6-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Brutally Handsome', 'Thoroughbred', 'US', 'FL', 'G', 2007, 5, 3, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Daytona Beach', 'Thoroughbred', 'US', 'WA', 'G', 2012, 2, 1, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Gavinator', 'Thoroughbred', 'US', 'WA', 'C', 2012, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Eight Ball Parker', 'Thoroughbred', 'US', 'WA', 'G', 2012, 2, 1, '2014-7-18', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Ididn\'taskforthis', 'Thoroughbred', 'US', 'WA', 'G', 2012, 1, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Carson\'s Start', 'Thoroughbred', 'US', 'WA', 'G', 2012, 3, 1, '2014-7-13', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Moby', 'Thoroughbred', 'US', 'WA', 'G', 2012, 3, 1, '2014-8-3', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Caddy Shack Cat', 'Thoroughbred', 'US', 'WA', 'G', 2012, 1, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Prime Engine', 'Thoroughbred', 'US', 'KY', 'C', 2012, 3, 1, '2014-9-13', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Val De Saire', 'Thoroughbred', 'US', 'WA', 'F', 2012, 2, 1, '2014-9-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Old Fashioned Grit', 'Thoroughbred', 'US', 'KY', 'G', 2012, 3, 1, '2014-8-24', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Bolshoi\'s Bluff', 'Thoroughbred', 'US', 'WA', 'G', 2012, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Trackattacker', 'Thoroughbred', 'US', 'WA', 'G', 2012, 5, 4, '2014-9-7', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Private Boss', 'Thoroughbred', 'US', 'WA', 'G', 2012, 4, 1, '2014-6-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Blueberry Smoothie', 'Thoroughbred', 'US', 'WA', 'F', 2011, 3, 2, '2012-9-22', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Chu and You', 'Thoroughbred', 'US', 'WA', 'F', 2011, 10, 6, '2014-9-7', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Hetty', 'Thoroughbred', 'US', 'WA', 'F', 2010, 5, 3, '2014-7-26', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Finding More', 'Thoroughbred', 'US', 'WA', 'F', 2010, 6, 4, '2013-6-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Timeless Pleasure', 'Thoroughbred', 'US', 'KY', 'F', 2011, 2, 1, '2014-5-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['I Thought So', 'Thoroughbred', 'US', 'KY', 'F', 2011, 3, 2, '2014-9-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Corla', 'Thoroughbred', 'US', 'WA', 'F', 2010, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Tactical Strike', 'Thoroughbred', 'US', 'WA', 'C', 2011, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Miners Thunder', 'Thoroughbred', 'US', 'WA', 'G', 2011, 3, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Right Idea', 'Thoroughbred', 'US', 'KY', 'G', 2011, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Shadow Code', 'Thoroughbred', 'US', 'CA', 'C', 2009, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
-		['Dakota Firefly', 'Thoroughbred', 'US', 'WA', 'G', 2009, 3, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
+# horses = [['Sissis Little Nipper', 'Quarter Horse', 'US', 'OR', 'G', 2010, 15, 12, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['BH Country Chrome', 'Quarter Horse', 'US', 'WA', 'C', 2011, 10, 5, '2014-6-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Eyes Movin', 'Quarter Horse', 'US', 'WA', 'G', 2007, 16, 12, '2014-7-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Mr Speedygonzalez', 'Quarter Horse', 'US', 'OR', 'G', 2010, 10, 3, '2014-7-27', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Cloudy Dasher', 'Quarter Horse', 'US', 'CA', 'F', 2011, 5, 1, '2013-5-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Jess Be Hawkin', 'Quarter Horse', 'US', 'WA', 'F', 2010, 8, 4, '2012-9-16', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Twelfth Fan', 'Thoroughbred', 'US', 'WA', 'F', 2012, 5, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Mystic Witch', 'Thoroughbred', 'US', 'WA', 'F', 2012, 0, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Bodacious', 'Thoroughbred', 'US', 'WA', 'F', 2012, 5, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['In Private', 'Thoroughbred', 'US', 'WA', 'F', 2012, 4, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['City Sensation', 'Thoroughbred', 'US', 'VA', 'F', 2012, 0, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Three Olives Later', 'Thoroughbred', 'US', 'WA', 'F', 2012, 4, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Charming Budha', 'Thoroughbred', 'US', 'WA', 'G', 2010, 6, 2, '2014-9-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Almosttoomuchfun', 'Thoroughbred', 'CA', 'ON', 'G', 2011, 8, 2, '2014-8-10', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Game Kick', 'Thoroughbred', 'US', 'AZ', 'F', 2011, 5, 2, '2014-9-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Moony Moony', 'Thoroughbred', 'US', 'WA', 'C', 2011, 9, 2, '2014-8-10', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Ringo\'s Gold', 'Thoroughbred', 'US', 'WA', 'G', 2007, 10, 2, '2012-5-4', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Sabe', 'Thoroughbred', 'US', 'FL', 'G', 2009, 7, 2, '2012-4-15', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Wheels of Fire', 'Thoroughbred', 'US', 'CA', 'G', 2008, 12, 10, '2014-8-29', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Sax', 'Thoroughbred', 'US', 'CA', 'G', 2006, 18, 14, '2014-8-31', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Shoer Hugh', 'Thoroughbred', 'US', 'CA', 'R', 2010, 8, 4, '2014-9-12', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Dead Eye', 'Thoroughbred', 'US', 'WA', 'G', 2009, 10, 7, '2014-9-19', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Immigration', 'Thoroughbred', 'US', 'WA', 'G', 2004, 10, 7, '2014-9-13', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Skip My Turn', 'Thoroughbred', 'US', 'WA', 'G', 2011, 5, 2, '2014-8-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Cheese', 'Thoroughbred', 'US', 'WA', 'F', 2010, 3, 1, '2013-5-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Bluegrass Fox Trot', 'Thoroughbred', 'US', 'KY', 'G', 2011, 2, 2, '2014-8-15', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Ionize', 'Thoroughbred', 'US', 'OR', 'C', 2010, 2, 1, '2014-8-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Regazze Cat', 'Thoroughbred', 'US', 'WA', 'G', 2011, 3, 2, '2014-9-14', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['No Claim Will Do', 'Thoroughbred', 'US', 'KY', 'G', 2011, 4, 2, '2014-8-30', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Cinnamon Mocha', 'Thoroughbred', 'US', 'KY', 'F', 2010, 2, 2, '2014-3-4', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Bones Zee', 'Thoroughbred', 'US', 'WA', 'H', 2009, 5, 2, '2013-8-23', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['He\'s Zubberific', 'Thoroughbred', 'US', 'WA', 'G', 2011, 10, 2, '2014-4-26', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Wild Hoss', 'Thoroughbred', 'US', 'WA', 'H', 2009, 10, 4, '2013-6-28', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Twist My Kazoo', 'Thoroughbred', 'US', 'CA', 'G', 2007, 8, 4, '2014-7-19', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Heza Witch Doctor', 'Thoroughbred', 'US', 'WA', 'G', 2007, 10, 6, '2014-7-3', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Salty Le Mousee', 'Thoroughbred', 'US', 'CA', 'G', 2007, 10, 6, '2014-7-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Secret Harbor', 'Thoroughbred', 'US', 'CA', 'G', 2011, 3, 3, '2014-6-7', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Buds a Flyin', 'Thoroughbred', 'US', 'WA', 'G', 2007, 12, 11, '2014-5-17', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Lots of Prayers', 'Thoroughbred', 'US', 'KY', 'G', 2010, 4, 3, '2014-8-23', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Advancement', 'Thoroughbred', 'US', 'KY', 'H', 2008, 5, 4, '2014-8-10', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Snooper Dauper', 'Thoroughbred', 'US', 'WA', 'H', 2009, 4, 3, '2014-5-18', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Light My Heart', 'Thoroughbred', 'US', 'WA', 'G', 2009, 5, 4, '2014-1-22', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Regal Valid', 'Thoroughbred', 'US', 'WA', 'G', 2009, 6, 3, '2014-6-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Mr. Top Kat', 'Thoroughbred', 'US', 'WA', 'R', 2009, 10, 9, '2014-6-29', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Financial Officer', 'Thoroughbred', 'US', 'WA', 'G', 2010, 4, 3, '2014-6-21', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Northern Poptart', 'Thoroughbred', 'US', 'ID', 'G', 2007, 10, 8, '2014-8-2', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Marvin\'s Magic', 'Thoroughbred', 'US', 'WA', 'G', 2008, 15, 12, '2014-9-5', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['War Wizard', 'Thoroughbred', 'US', 'KY', 'G', 2009, 10, 8, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Chaching Pete', 'Thoroughbred', 'US', 'WA', 'G', 2007, 13, 12, '2014-9-21', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Ugottabcatty', 'Thoroughbred', 'US', 'WA', 'G', 2006, 10, 7, '2014-8-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Rainier Ice', 'Thoroughbred', 'US', 'KY', 'G', 2008, 10, 8, '2014-6-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Brutally Handsome', 'Thoroughbred', 'US', 'FL', 'G', 2007, 5, 3, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Daytona Beach', 'Thoroughbred', 'US', 'WA', 'G', 2012, 2, 1, '2014-9-1', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Gavinator', 'Thoroughbred', 'US', 'WA', 'C', 2012, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Eight Ball Parker', 'Thoroughbred', 'US', 'WA', 'G', 2012, 2, 1, '2014-7-18', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Ididn\'taskforthis', 'Thoroughbred', 'US', 'WA', 'G', 2012, 1, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Carson\'s Start', 'Thoroughbred', 'US', 'WA', 'G', 2012, 3, 1, '2014-7-13', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Moby', 'Thoroughbred', 'US', 'WA', 'G', 2012, 3, 1, '2014-8-3', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Caddy Shack Cat', 'Thoroughbred', 'US', 'WA', 'G', 2012, 1, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Prime Engine', 'Thoroughbred', 'US', 'KY', 'C', 2012, 3, 1, '2014-9-13', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Val De Saire', 'Thoroughbred', 'US', 'WA', 'F', 2012, 2, 1, '2014-9-6', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Old Fashioned Grit', 'Thoroughbred', 'US', 'KY', 'G', 2012, 3, 1, '2014-8-24', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Bolshoi\'s Bluff', 'Thoroughbred', 'US', 'WA', 'G', 2012, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Trackattacker', 'Thoroughbred', 'US', 'WA', 'G', 2012, 5, 4, '2014-9-7', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Private Boss', 'Thoroughbred', 'US', 'WA', 'G', 2012, 4, 1, '2014-6-8', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Blueberry Smoothie', 'Thoroughbred', 'US', 'WA', 'F', 2011, 3, 2, '2012-9-22', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Chu and You', 'Thoroughbred', 'US', 'WA', 'F', 2011, 10, 6, '2014-9-7', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Hetty', 'Thoroughbred', 'US', 'WA', 'F', 2010, 5, 3, '2014-7-26', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Finding More', 'Thoroughbred', 'US', 'WA', 'F', 2010, 6, 4, '2013-6-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Timeless Pleasure', 'Thoroughbred', 'US', 'KY', 'F', 2011, 2, 1, '2014-5-25', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['I Thought So', 'Thoroughbred', 'US', 'KY', 'F', 2011, 3, 2, '2014-9-20', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Corla', 'Thoroughbred', 'US', 'WA', 'F', 2010, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Tactical Strike', 'Thoroughbred', 'US', 'WA', 'C', 2011, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Miners Thunder', 'Thoroughbred', 'US', 'WA', 'G', 2011, 3, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Right Idea', 'Thoroughbred', 'US', 'KY', 'G', 2011, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Shadow Code', 'Thoroughbred', 'US', 'CA', 'C', 2009, 2, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com'],
+# 		['Dakota Firefly', 'Thoroughbred', 'US', 'WA', 'G', 2009, 3, 0, '', 'owner@hopemediahouse.com', 'trainer@hopemediahouse.com']]
 
-new_meet = Meet.find_or_create_by!(name: 'Summer 2014', start_date: '2014-04-01 00:00:00', end_date: '2014-10-30 12:00:00', race_days: 60)
-new_meet.save
-meet = Meet.find_by_name('Summer 2014')
-new_week = Week.find_or_create_by!(start_date: '2014-10-10', end_date: '2014-10-13', meet_id: meet.id, week_number: 1)
-new_week.save
+# new_meet = Meet.find_or_create_by!(name: 'Summer 2014', start_date: '2014-04-01 00:00:00', end_date: '2014-10-30 12:00:00', race_days: 60)
+# new_meet.save
+# meet = Meet.find_by_name('Summer 2014')
+# new_week = Week.find_or_create_by!(start_date: '2014-10-10', end_date: '2014-10-13', meet_id: meet.id, week_number: 1)
+# new_week.save
 
 categories.each do |category, conditions|
 	new_category = Category.find_or_create_by!(name: category)
@@ -190,25 +190,25 @@ end
 # 	end
 # end
 
-horses.each do |horse|
-	owner = User.find_by_email(horse[9])
-	trainer = User.find_by_email(horse[10])
-	status = Status.find_by_name('Race Ready')
+# horses.each do |horse|
+# 	owner = User.find_by_email(horse[9])
+# 	trainer = User.find_by_email(horse[10])
+# 	status = Status.find_by_name('Race Ready')
 
-	if horse[8].empty?
-		horse[8] = nil
-	end
+# 	if horse[8].empty?
+# 		horse[8] = nil
+# 	end
 
-	last_win = LastWin.new
-	last_win.date = horse[8]
-	last_win.save
-	new_horse = Horse.find_or_create_by!(name: horse[0], breed: horse[1], country_code: horse[2], subregion_code: horse[3], sex: horse[4], birth_year: horse[5], starts: horse[6], 
-										wins: horse[7], owner_id: owner.id, trainer_id: trainer.id, status_id: status.id)
-	new_horse.last_win = last_win
-	if new_horse.save
-		puts 'CREATED HORSE: ' << new_horse.name
-	end
-end
+# 	last_win = LastWin.new
+# 	last_win.date = horse[8]
+# 	last_win.save
+# 	new_horse = Horse.find_or_create_by!(name: horse[0], breed: horse[1], country_code: horse[2], subregion_code: horse[3], sex: horse[4], birth_year: horse[5], starts: horse[6], 
+# 										wins: horse[7], owner_id: owner.id, trainer_id: trainer.id, status_id: status.id)
+# 	new_horse.last_win = last_win
+# 	if new_horse.save
+# 		puts 'CREATED HORSE: ' << new_horse.name
+# 	end
+# end
 
 # race = Race.find_by_name('Clm 2500N3L')
 # race.race_type = 'Claiming'
