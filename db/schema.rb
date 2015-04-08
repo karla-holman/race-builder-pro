@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401025301) do
+ActiveRecord::Schema.define(version: 20150408031716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,11 +206,11 @@ ActiveRecord::Schema.define(version: 20150401025301) do
   end
 
   create_table "race_winners", force: true do |t|
-    t.integer  "race_id"
     t.integer  "horse_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "date"
+    t.string   "race_title"
   end
 
   create_table "races", force: true do |t|

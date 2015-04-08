@@ -70,7 +70,7 @@
 											</td>
 											<td>
 												<strong>
-													<%= race.horseraces.where(:status => "Confirmed").count %>
+													<%= race.horseraces.where("status = (?) OR status = (?)", "Confirmed", "WON").count %>
 												</strong>
 											</td>
 											<td>
@@ -267,7 +267,7 @@
 								</td>
 								<td>
 									<strong>
-										<%= race.horseraces.where(:status => "Confirmed").count %>
+										<%= race.horseraces.where("status = (?) OR status = (?)", "Confirmed", "WON").count %>
 									</strong>
 								</td>
 								<td>
@@ -340,7 +340,7 @@
 								</td>
 								<td style="display:none;">
 									<% if current_user.admin? %>
-										<% race.horseraces.where(:status => "Confirmed").each.with_index do |confirmed, index| %>
+										<% race.horseraces.where("status = (?) OR status = (?)", "Confirmed", "WON").each.with_index do |confirmed, index| %>
 											<% horse = Horse.find_by_id(confirmed.horse_id) %>
 												<% if horse %>
 													<% if current_user.trainer? %>
@@ -352,7 +352,7 @@
 															<%= horse.name %>
 														<% end %>
 													<% else %>
-														<% if index == race.horseraces.where(:status => "Confirmed").size - 1 %>
+														<% if index == race.horseraces.where("status = (?) OR status = (?)", "Confirmed", "WON").size - 1 %>
 															<%= horse.name %>
 														<% else %>
 															<%= horse.name %> |

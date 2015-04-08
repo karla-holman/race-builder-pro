@@ -189,7 +189,7 @@
                                                 </strong>
                                             </td>
                                             <td><strong>
-                                                <%= race.horseraces.where(:status => "Confirmed").count %></strong>
+                                                <%= race.horseraces.where("status = (?) OR status = (?)", "Confirmed", "WON").count %></strong>
                                             </td>   
                                             <td>
                                                 <% if race.category == 'Priority' && race.race_date && race.race_date.date %>
