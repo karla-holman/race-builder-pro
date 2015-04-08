@@ -1,5 +1,5 @@
 class RacesController < ApplicationController
-  before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish, :duplicate_race, :resetHorseStatuses, :edit_with_condition_node]
+  before_action :set_race, only: [:show, :edit, :update, :destroy, :racefinish, :duplicate_race, :resetHorseStatuses, :edit_with_condition_node, :removeConfirmedHorses]
   skip_before_filter  :verify_authenticity_token
 
   # GET /races
@@ -13,7 +13,7 @@ class RacesController < ApplicationController
   end
 
   def racefinish
-    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched").pluck(:horse_id)
+    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched", "WON").pluck(:horse_id)
     @confirmed = Horse.where("id IN (?)", confirmed_ids)
     @trainers = User.where(:role => 1)
     @owners = User.where(:role => 0)
@@ -29,7 +29,7 @@ class RacesController < ApplicationController
   # GET /races/1
   # GET /races/1.json
   def show
-    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched").pluck(:horse_id)
+    confirmed_ids = Horserace.where("race_id = (?) AND (status = (?) OR status = (?) OR status = (?))", @race.id, "Confirmed", "Scratched", "WON").pluck(:horse_id)
     interested_ids = Horserace.where(:race_id => @race.id, :status => "Interested").pluck(:horse_id)
     denied_ids = Horserace.where(:race_id => @race.id, :status => "Denied").pluck(:horse_id)
     pending_ids = Notification.where(:action => "Nominate", :send_id => @race.id).pluck(:recv_id)
@@ -909,18 +909,29 @@ class RacesController < ApplicationController
   end
 
   def add_winner
-    new_winner = RaceWinner.new(:race_id => params[:race_id], :horse_id => params[:horse_id])
+    new_winner = RaceWinner.new(:race_title => params[:race_title], :horse_id => params[:horse_id])
 
-    if new_winner.race.tel
-      date = new_winner.race.tel.date
+    race = Race.find_by_id(params[:race_id])
+    if race && race.tel
+      date = race.tel.date
     else
       date = Date.today
     end
+
+    horse_race = Horserace.where(:race_id => params[:race_id], :horse_id => params[:horse_id])
+    horse_race[0].status = 'WON'
+    horse_race[0].save
 
     @horse = Horse.find_by_id(params[:horse_id])
 
     if @horse
       @horse.wins += 1
+
+      if @horse.horse_filter_setting
+        @horse.horse_filter_setting.wins_id = nil
+        @horse.horse_filter_setting.save
+      end
+
       @horse.save
     end
 
@@ -958,6 +969,22 @@ class RacesController < ApplicationController
       end
 
       horse.save
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+    end
+  end
+
+  def removeConfirmedHorses
+    @race.horseraces.each do |horserace|
+      if horserace.status == 'Confirmed' || horserace.status == 'WON'
+        horserace.status = ''
+      elsif horserace.status == 'Scratched'
+        horserace.status = 'Interested'
+      end
+
+      horserace.save
     end
 
     respond_to do |format|
@@ -1003,6 +1030,6 @@ class RacesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def race_params
-      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :weights, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :max_field_size, :purse, :race_type, :stakes, :hasOtherConditions, :condition_node_id, :needs_nomination, :condition_ids => [])
+      params.require(:race).permit(:name, :created_at, :updated_at, :race_number, :description, :weights, :race_datetime, :winner, :claiming_purse, :status, :send_id, :recv_id, :race_id, :horse_id, :action, :claiming_level, :upper_claiming, :lower_claiming,:age_id, :wins, :distance, :category, :distance_type, :max_field_size, :purse, :race_type, :stakes, :hasOtherConditions, :condition_node_id, :race_title, :needs_nomination, :condition_ids => [])
     end
 end

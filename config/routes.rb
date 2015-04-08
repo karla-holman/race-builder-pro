@@ -45,6 +45,7 @@ RailsDevisePundit::Application.routes.draw do
   post 'races/scratch_horse' => 'races#scratch_horse'
   post 'races/:id/duplicate' => 'races#duplicate_race'
   post 'races/:id/resetHorseStatuses' => 'races#resetHorseStatuses'
+  post 'races/:id/removeConfirmedHorses' => 'races#removeConfirmedHorses'
 
   post 'weeks/:id/reset_races' => 'weeks#reset_races'
 

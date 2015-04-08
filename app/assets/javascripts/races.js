@@ -37,8 +37,9 @@ $(document).ready(function() {
 
 	$('.winner').on('click', function (e) {
 		var horse_id = $(this).attr("horse");
+		var race_title = $(this).attr("race-title");
 		var race_id = $(this).attr("race");
-	  $.ajax({url: "/races/add_winner", type: "POST", data: {race_id: race_id, horse_id: horse_id}}).done(function(data){
+	  $.ajax({url: "/races/add_winner", type: "POST", data: {race_title: race_title, race_id: race_id, horse_id: horse_id}}).done(function(data){
 					location.reload(true);
 		});
 	})
@@ -152,6 +153,10 @@ $(document).ready(function() {
 
 	$("#set_horses_to_race_ready").on('click', function (e) {
         $('#reset_horses_modal').modal('show');
+      });
+
+	$("#remove_confirmed_horses").on('click', function (e) {
+        $('#remove_confirmed_horses_modal').modal('show');
       });
 
 	function attemptUpdate(f){

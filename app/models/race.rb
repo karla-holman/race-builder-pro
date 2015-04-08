@@ -4,8 +4,6 @@ class Race < ActiveRecord::Base
 	has_many :horseraces
 	has_many :horses, :through => :horseraces, :dependent => :destroy
 
-	has_many :race_winners, :dependent => :destroy
-
 	has_many :race_conditions, :dependent => :destroy
 	has_many :conditions, :through => :race_conditions, :dependent => :destroy
 

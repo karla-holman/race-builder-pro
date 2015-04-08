@@ -9,6 +9,7 @@
     <% if @resetHorses %>
       <button type="button" id="set_horses_to_race_ready" class="btn btn-primary btn-s">Set Horses To Race Ready</button>
     <% end %>
+    <button type="button" id="remove_confirmed_horses" class="btn btn-warning btn-s">Remove Confirmed Horses</button>
   </div>
   <div id="reset_horses_modal" class="modal fade">
     <div class="modal-dialog">
@@ -19,6 +20,20 @@
         </div>
         <div class="modal-footer">
           <%= link_to 'Yes', '/races/'+@race.id.to_s+'/resetHorseStatuses', :method=> :post, :class => 'btn btn-primary btn-mini' %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div id="remove_confirmed_horses_modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4 class="modal-title">This will remove all confirmed horses. Interested horses will still remain, and scratched horses will become interested. Do you want to continue?</h4>
+        </div>
+        <div class="modal-footer">
+          <%= link_to 'Yes', '/races/'+@race.id.to_s+'/removeConfirmedHorses', :method=> :post, :class => 'btn btn-primary btn-mini' %>
           <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         </div>
       </div><!-- /.modal-content -->
@@ -44,12 +59,12 @@
                   <tr class="top">
                     <td><%= horse.name %></td>
                     <td>
-                    <% if RaceWinner.where(:horse_id => horse.id, :race_id => @race.id).any? %>
+                    <% if Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'WON').any? %>
                       WON
                     <% elsif Horserace.where(:horse_id => horse.id, :race_id => @race.id, :status => 'Scratched').any? %>
                       SCRATCHED
                     <% else %>
-                      <button class="winner btn btn-primary btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Winner</button>
+                      <button class="winner btn btn-primary btn-mini" horse="<%= horse.id%>" race-title="<%= @race.name %>" race="<%= @race.id %>">Winner</button>
                     <% end %>
                     </td>
                     <td>
