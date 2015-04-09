@@ -952,6 +952,9 @@ class RacesController < ApplicationController
     horse.status = Status.find_by_name('Race Ready')
     horse.save
 
+    notification = Notification.find_or_create_by!(send_id: params[:race_id], recv_id: params[:horse_id], action: "Scratched")
+    notification.save
+
     respond_to do |format|
       format.html { redirect_to :back }
     end

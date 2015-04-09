@@ -53,7 +53,7 @@ class NotificationsController < ApplicationController
   # POST /notifications
   # POST /notifications.json
   def create
-    @notification = Notification.new(notification_params)
+    @notification = Notification.find_or_create_by!(notification_params)
 
     respond_to do |format|
       if @notification.action == 'Nominate' && current_user.admin?
@@ -99,6 +99,9 @@ class NotificationsController < ApplicationController
       horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
       horserace.status = 'Denied'
       horserace.save
+
+      notification = Notification.find_or_create_by!(send_id: @notification.send_id, recv_id: @notification.recv_id, action: "Nomination Denied")
+      notification.save
     else
     end
 

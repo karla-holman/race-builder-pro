@@ -25,16 +25,7 @@ $(document).ready(function() {
 					location.reload(true);
 		});
 	});
-
-
-	$('.suggestion').on('click', function (e) {
-		var horse_id = $(this).attr("horse");
-		var race_id = $(this).attr("race");
-	  $.ajax({url: "/notifications", type: "POST", data: {notification: { send_id: race_id, recv_id: horse_id, action: "Suggest"}}}).done(function(data){
-					location.reload(true);
-		});
-	})
-
+	
 	$('.winner').on('click', function (e) {
 		var horse_id = $(this).attr("horse");
 		var race_title = $(this).attr("race-title");
