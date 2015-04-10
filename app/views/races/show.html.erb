@@ -83,6 +83,9 @@
 									<th style="display:none;">Owner</th>
 									<th style="display:none;">Trainer</th>
 									<th colspan="1"></th>
+									<% if racegroup[0] == 'Interested' %>
+										<th></th>
+									<% end %>
 								</tr>
 							</thead>
 							<% if racegroup[1] %>
@@ -130,6 +133,15 @@
 											<% end %>
 										<% end %>
 									</td>
+									<% if racegroup[0] == 'Interested' %>
+										<td>
+											<% if Notification.where(:send_id => @race.id, :recv_id => horse.id, :action => "Suggest").any? %>
+												Suggested
+											<% else %>
+												<button class="suggestion btn btn-success btn-xs" horse="<%= horse.id%>" race="<%= @race.id%>">Suggest Race</button>
+											<% end %>
+										</td>
+									<% end %>
 								</tr>
 								<% end %>
 							</tbody>

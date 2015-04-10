@@ -143,13 +143,5 @@
 				<span><%= race.distance %></span>
 			</div>
 		</td>
-		<td><%if current_user.admin? %>
-				<% if Notification.where(:send_id => race.id, :recv_id => @horse.id, :action => "Suggest").any? %>
-					Suggested
-				<% else %>
-					<button class="suggestion btn btn-success btn-xs" horse="<%= @horse.id%>" race="<%= race.id%>">Suggest Race</button>
-				<% end %>
-		<% end %>
-		</td>
 	</tr>
 <% end %>

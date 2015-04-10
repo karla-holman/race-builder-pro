@@ -17,7 +17,13 @@ $(document).ready(function() {
 	     }
 		})
 	});
-
+	$('.suggestion').on('click', function (e) {
+          var horse_id = $(this).attr("horse");
+          var race_id = $(this).attr("race");
+          $.ajax({url: "/notifications", type: "POST", data: {notification: { send_id: race_id, recv_id: horse_id, action: "Suggest"}}}).done(function(data){
+                location.reload(true);
+          });
+    });
 	$(".stakes_horse_id").change(function(){
 		var horse_id = $(this).val();
 		var race_id = $(this).attr("race");

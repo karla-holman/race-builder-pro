@@ -17,7 +17,7 @@ $(document).ready(function() {
 	  {
 	    if(data.success)
 	    {
-	    	(f).spin(false);
+	    	
 	    }
 	    else
 	    {
