@@ -3,7 +3,6 @@
     <div class="col-xs-12">
         <% if @condition.errors.any? %>
           <div id="error_explanation">
-            <h2><%= pluralize(@condition.errors.count, "error") %> prohibited this condition from being saved:</h2>
             <ul>
               <% @condition.errors.full_messages.each do |msg| %>
                 <li><%= msg %></li>
@@ -21,23 +20,26 @@
         <%= f.label 'Category' %>
         <%= f.collection_select :category_id, @categories, :id, :name, {:include_blank => 'Please Select'}, class: 'form-control' %>
       </div>
-      <% if @condition.category%>
-        <% if @condition.category.datatype == "Range"%>
-          <div class="form-group">
-            <%= f.label :lowerbound %>
-            <%= f.text_field :lowerbound, :autofocus => true, class: 'form-control' %>
-          </div>
-          <div class="form-group">
-            <%= f.label :upperbound %>
-            <%= f.text_field :upperbound, :autofocus => true, class: 'form-control' %>
-          </div>
-        <% elsif @condition.category.datatype =="Value" %>
-          <div class="form-group">
-            <%= f.label :value %>
-            <%= f.text_field :value, :autofocus => true, class: 'form-control' %>
-          </div>
-        <% end %>
-      <% end %>
+      <div class="typeRange form-group" <% if (@condition.category && @condition.category.datatype != "Range") || !@condition.category %>style="display:none;"<% end %>>
+        <%= f.label :lowerbound %>
+        <%= f.text_field :lowerbound, :autofocus => true, class: 'form-control' %>
+      </div>
+      <div class="typeRange form-group" <% if (@condition.category && @condition.category.datatype != "Range") || !@condition.category %>style="display:none;"<% end %>>
+        <%= f.label :upperbound %>
+        <%= f.text_field :upperbound, :autofocus => true, class: 'form-control' %>
+      </div>
+      <div class="typeValue form-group" <% if (@condition.category && @condition.category.datatype != "Value") || !@condition.category %>style="display:none;"<% end %>>
+        <%= f.label "Value" %>
+        <input id="valueText" type="textbox" name="valueText" class="form-control" value="<%= @condition.value %>" />
+      </div>
+      <div id="needsDateDiv" class="form-group" <% if (@condition.category && @condition.category.name != "Wins") || !@condition.category %>style="display:none;"<% end %>>
+        <%= f.label "Needs Date" %>
+        <%= f.check_box :needsDate %>
+      </div>
+      <div id="optionalDate"class="form-group" <% if (@condition.category && @condition.category.name != "Wins") || !@condition.category || !@condition.value || @condition.value.empty? %>style="display:none;"<% end %>>
+        <%= f.label "Value" %>
+        <%= date_field("condition", "value", value: @condition.value) %>
+      </div>
       <div class="form-group">
         <%= f.submit :class => 'btn btn-success btn-sm'%>
         <%= link_to 'Back', conditions_path, :class => 'btn btn-danger btn-sm' %>
