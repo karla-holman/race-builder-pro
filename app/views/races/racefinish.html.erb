@@ -74,8 +74,20 @@
                         <button class="scratch btn btn-danger btn-mini" horse="<%= horse.id%>" race="<%= @race.id%>">Scratch</button>
                       <% end %>
                     </td>
-                    <td><%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.name, o.id]}, horse.owner.id), :class => 'transferOwner', :horse => horse.id%></td>
-                    <td><%= select_tag "Transfer Trainer", options_for_select(@trainers.collect{ |o| [o.name, o.id]}, horse.trainer.id), :class => 'transferTrainer', :horse => horse.id %></td>
+                    <td>
+                    <% if horse.owner %>
+                      <%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.name, o.id]}, horse.owner.id), :class => 'transferOwner', :horse => horse.id%></td>
+                    <% else %>
+                      <%= select_tag "Transfer Owner", options_for_select(@owners.collect{ |o| [o.name, o.id]}), :class => 'transferOwner', :horse => horse.id%>
+                    <% end %>
+                    </td>
+                    <td>
+                    <% if horse.trainer %>
+                      <%= select_tag "Transfer Trainer", options_for_select(@trainers.collect{ |o| [o.name, o.id]}, horse.trainer.id), :class => 'transferTrainer', :horse => horse.id %>
+                    <% else %>
+                      <%= select_tag "Transfer Trainer", options_for_select(@trainers.collect{ |o| [o.name, o.id]}), :class => 'transferTrainer', :horse => horse.id %>
+                    <% end %>
+                    </td>
                   </tr>
                 <% end %>
               </tbody>

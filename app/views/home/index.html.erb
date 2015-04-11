@@ -169,9 +169,9 @@
 								<td><%= horse.sex %></td>
 								<td><%= horse.wins %></td>
 								<% if current_user.trainer? %>
-									<th><%= horse.owner.name%></th>
+									<th><% if horse.owner %><%= horse.owner.name%><% end %></th>
 								<% else %>
-									<th><%= horse.trainer.name%></th>
+									<th><%if horse.trainer %><%= horse.trainer.name%><% end %></th>
 								<% end %>
 								<td style="display:none;">
 									<% if horse.equipment.any? %>

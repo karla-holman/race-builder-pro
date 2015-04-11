@@ -45,12 +45,12 @@
               <td><%= horse.sex %></td>
               <td><%= horse.wins %></td>
               <% if current_user.admin? %>
-                <td><%= horse.trainer.name %></td>
+                <td><%if horse.trainer %><%= horse.trainer.name %><% end %></td>
               <% else %>
-                <td><%= horse.owner.name %></td>
+                <td><% if horse.owner %><%= horse.owner.name %><% end %></td>
               <% end %>
               <td><span class="label"><%= horse.status.name %></span></td>
-              <td style="display:none;"><%= horse.owner.name %></td>
+              <td style="display:none;"><% if horse.owner%><%= horse.owner.name %><% end %></td>
               <td style="display:none;">
               <% if horse.equipment.any? %>
                 <% horse.equipment.each do |equipment| %>

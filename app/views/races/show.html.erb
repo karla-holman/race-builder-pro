@@ -122,8 +122,8 @@
 										<%= number_to_currency(0, precision: 0) %>
 										<% end %>
 									</td>
-									<td style="display:none;"><%= horse.owner.name %></td>
-									<td style="display:none;"><%= horse.trainer.name %></td>
+									<td style="display:none;"><% if horse.owner %><%= horse.owner.name %><% end %></td>
+									<td style="display:none;"><% if horse.trainer %><%= horse.trainer.name %><% end %></td>
 									<td>
 										<% if horserace.any? %>			              
 											<% if horserace[0].status == "Confirmed"%>

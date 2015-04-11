@@ -41,7 +41,7 @@ class ConditionsController < ApplicationController
     if category && category.datatype == 'Value'
       @condition.lowerbound = nil
       @condition.upperbound = nil
-      if condition_params[:value].empty?
+      if params[:valueText].empty?
         @condition.errors.add('This race condition', "must have a value.")
       else
         @condition.value = params[:valueText]

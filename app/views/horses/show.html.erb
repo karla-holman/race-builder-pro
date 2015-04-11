@@ -21,7 +21,7 @@
 					<div class="col-xs-12 col-md-9">
 						<div class="center">
 							<h2><%= @horse.name %></h2>
-							<h4>Trainer: <%= @horse.trainer.name%> | Owner: <%= @horse.owner.name%></h4>
+							<h4><% if @horse.trainer %>Trainer: <%= @horse.trainer.name%><% end %> <%if @horse.owner %>| Owner: <%= @horse.owner.name%><% end %></h4>
 						</div>
 						<table id="racestatus-table" class="table table-condensed table-hover">
 							<thead>
