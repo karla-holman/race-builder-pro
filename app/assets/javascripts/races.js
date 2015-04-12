@@ -17,6 +17,24 @@ $(document).ready(function() {
 	     }
 		})
 	});
+	if($("#menu_trainer_id").val() ){
+		$.ajax({
+	     url : 'menu/horseList',
+	     method: "GET",
+	     data: {trainer_id: $("#menu_trainer_id").val(), horse_id: $("#specificHorse").attr("horse")},
+	     success: function(response) {
+	     }
+		})
+	}
+	$("#menu_trainer_id").change(function(){
+		$.ajax({
+	     url : 'menu/horseList',
+	     method: "GET",
+	     data: {trainer_id: $(this).val()},
+	     success: function(response) {
+	     }
+		})
+	});
 	$('.suggestion').on('click', function (e) {
           var horse_id = $(this).attr("horse");
           var race_id = $(this).attr("race");

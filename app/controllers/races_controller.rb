@@ -908,6 +908,28 @@ class RacesController < ApplicationController
     end
   end
 
+  def horseList
+    @trainer = User.find_by_id(params[:trainer_id])
+
+    if @trainer
+      @horses = Horse.where(:trainer_id => @trainer.id).where.not(:status => @inactive)
+    else
+      @horses = Array.new
+    end
+
+    if params[:horse_id]
+      horse = Horse.find_by_id(params[:horse_id])
+
+      if horse
+        @horse = horse
+      end
+    end
+    
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def add_winner
     new_winner = RaceWinner.new(:race_title => params[:race_title], :horse_id => params[:horse_id])
 

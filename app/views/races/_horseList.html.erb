@@ -1,0 +1,5 @@
+<% if @horse %>
+	<%= collection_select(:menu, :horse_id, @horses.order('name ASC'), :id, :name, {:selected => @horse.id, :include_blank => 'None'}) %>
+<% else %>
+	<%= collection_select(:menu, :horse_id, @horses.order('name ASC'),:id, :name, {:prompt => 'Please select a horse'}) %>
+<% end %>

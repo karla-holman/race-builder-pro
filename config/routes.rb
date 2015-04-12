@@ -37,6 +37,7 @@ RailsDevisePundit::Application.routes.draw do
   get 'races/menu' => 'races#menu'
   get 'races/:id/racefinish' => 'races#racefinish'
   get 'races/menu/raceList' => 'races#raceList'
+  get 'races/menu/horseList' => 'races#horseList'
   get 'races/schedule' => 'races#schedule'
   get 'races/stakes' => 'races#stakes'
   get 'races/new/race_conditions' => 'races#new_with_condition_node'

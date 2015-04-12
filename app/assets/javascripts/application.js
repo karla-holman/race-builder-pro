@@ -10,9 +10,22 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require timer
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
 $(function(){
 	$('.datepicker').pickadate();
+
+	var logout_timer = new Timer(303, '/users/sign_in', window);
+    logout_timer.start();
+
+    $("#continue-session").on('click', function (e) {
+        logout_timer.start();
+      });
+
+    // restart timer if activity
+    $(document).on('keyup keypress blur change mousemove click',function(){
+      logout_timer.start();
+    });
 });

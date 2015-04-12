@@ -4,11 +4,32 @@
 	</div>
 	<div class="col-xs-12 text-block">
 		<h4>Choose Your Horse</h4>
-		<% if @horse %>
-		<div id='specificHorse' horse="<%=@horse.id%>"></div>
-		<%= collection_select(:menu, :horse_id, @horses.order('name ASC'), :id, :name, {:selected => @horse.id, :include_blank => 'None'}) %>
+		<% if current_user.admin? %>
+			<div class="row">
+				<div class="col-xs-3">
+					<% if @horse && @horse.trainer_id %>
+						<% @trainer = User.find_by_id(@horse.trainer_id) %>
+						<% if @trainer %>
+							<div id='specificHorse' horse="<%=@horse.id%>"></div>
+							<%= collection_select(:menu, :trainer_id, User.where(:role => '1').order('name ASC'), :id, :name, {:selected => @trainer.id, :include_blank => 'None'}) %>
+						<% else %>
+							<%= collection_select(:menu, :trainer_id, User.where(:role => '1').order('name ASC'),:id, :name, {:prompt => 'Please select a trainer'}) %>
+						<% end %>
+					<% else %>
+						<%= collection_select(:menu, :trainer_id, User.where(:role => '1').order('name ASC'),:id, :name, {:prompt => 'Please select a trainer'}) %>
+					<% end %>
+				</div>
+				<div class="col-xs-3">
+					<div id="horseSelect"></div>
+				</div>	
+			</div>
 		<% else %>
-		<%= collection_select(:menu, :horse_id, @horses.order('name ASC'),:id, :name, {:prompt => 'Please select a horse'}) %>
+			<% if @horse %>
+				<div id='specificHorse' horse="<%=@horse.id%>"></div>
+				<%= collection_select(:menu, :horse_id, @horses.order('name ASC'), :id, :name, {:selected => @horse.id, :include_blank => 'None'}) %>
+			<% else %>
+				<%= collection_select(:menu, :horse_id, @horses.order('name ASC'),:id, :name, {:prompt => 'Please select a horse'}) %>
+			<% end %>
 		<% end %>
 	</div>
 	<div class="col-xs-12">

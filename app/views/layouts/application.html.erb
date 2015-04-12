@@ -42,6 +42,22 @@
     <%= csrf_meta_tags %>
   </head>
   <body class="">
+    <div id="confirm-auto-logout" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">You will be automatically logged out in 30 seconds.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Any keyboard or mouse activity will continue your session, or you can click the button below.
+                </div>
+                <div class="modal-footer">
+                    <button id="continue-session"type="button" class="btn btn-default" data-dismiss="modal">Continue Session</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <div class="header navbar navbar-inverse">
       <%= render 'layouts/header_navigation' %>
     </div>
