@@ -73,8 +73,6 @@ class ConditionsController < ApplicationController
   # PATCH/PUT /conditions/1
   # PATCH/PUT /conditions/1.json
   def update
-    puts "TEST: " << condition_params.to_s
-    puts "PARAMS: " << params.to_s
     @condition.name = condition_params[:name]
     @condition.upperbound = condition_params[:upperbound]
     @condition.lowerbound = condition_params[:lowerbound]
@@ -95,10 +93,17 @@ class ConditionsController < ApplicationController
     end
 
     if category && category.datatype == 'Value'
-      if condition_params[:value].empty?
+      @condition.lowerbound = nil
+      @condition.upperbound = nil
+      if params[:valueText].empty?
         @condition.errors.add('This race condition', "must have a value.")
+      else
+        @condition.value = params[:valueText]
       end
     elsif category && category.datatype == 'Range'
+      if !condition_params[:needsDate] || condition_params[:needsDate] == "0"
+        @condition.value = nil
+      end
       if condition_params[:upperbound].empty? && condition_params[:lowerbound].empty?
         @condition.errors.add('This race condition', "must have either a lower or upper bound.")
       end
