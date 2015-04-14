@@ -30,7 +30,7 @@
       </div>
       <div class="typeValue form-group" <% if (@condition.category && @condition.category.datatype != "Value") || !@condition.category %>style="display:none;"<% end %>>
         <%= f.label "Value" %>
-        <input id="valueText" type="textbox" name="valueText" class="form-control" <% if @condition.category && @condition.category.datatype != "Value"%>"<%= @condition.value %>"<% end %> />
+        <input id="valueText" type="textbox" name="valueText" class="form-control" <% if @condition.category && @condition.category.datatype == "Value" %>value="<%= @condition.value %>"<% end %> />
       </div>
       <div id="needsDateDiv" class="form-group" <% if (@condition.category && @condition.category.name != "Wins") || !@condition.category %>style="display:none;"<% end %>>
         <%= f.label "Needs Date" %>
