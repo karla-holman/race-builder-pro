@@ -910,6 +910,7 @@ class RacesController < ApplicationController
 
   def horseList
     @trainer = User.find_by_id(params[:trainer_id])
+    @inactive = Status.find_by_name('Inactive')
 
     if @trainer
       @horses = Horse.where(:trainer_id => @trainer.id).where.not(:status => @inactive)
