@@ -38,7 +38,7 @@ class Horse < ActiveRecord::Base
           	return true
           end
         when 'Wins'
-        	if condition.value
+        	if condition.value && !condition.value.empty?
         		wins = getWinsSince(condition.value, self)
         	else
         		wins = self.wins
@@ -90,7 +90,15 @@ class Horse < ActiveRecord::Base
   	def getWinsSince(dateString, horse)
   		date = dateString.to_date
   		race_wins = horse.race_winners.where('date >= ?', date)
+  		race_wins = race_wins.count
+  		if race_wins <= 0
+  			if horse.last_win && !horse.last_win.date.nil? && !date.nil?
+  				if horse.last_win.date >= date
+  					race_wins = 1
+  				end 
+  			end
+  		end
 
-  		return race_wins.count
+  		return race_wins
   	end
 end
