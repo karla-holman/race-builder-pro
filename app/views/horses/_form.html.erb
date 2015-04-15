@@ -62,7 +62,7 @@
       <%= f.label :wins %>
       <%= f.select :wins, options_for_select(0..200, @horse.wins) %>
     </div>
-    <div class="form-group last-wins" <% if @horse.wins <= 0 %>style="display:none;"<%end%>>
+    <div class="form-group last-wins" <% if @horse.wins %><% if @horse.wins <= 0 %>style="display:none;"<%end%><%end%>>
       <h2>Last Win</h2>
       <%= form_for(@last_win) do |f| %>
         <div class="form-group">
