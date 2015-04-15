@@ -1,5 +1,5 @@
 class TelsController < ApplicationController
-  before_action :set_tel, only: [:show, :edit, :update, :destroy]
+  before_action :set_tel, only: [:show, :edit, :update, :destroy, :returnRacesToDatabase]
   skip_before_filter  :verify_authenticity_token
 
   def index
@@ -126,6 +126,17 @@ class TelsController < ApplicationController
         race_date.race.tel = tel
         race_date.race.save
       end
+    end
+  end
+
+  def returnRacesToDatabase
+    @tel.races.each do |race|
+      race.tel = nil
+      race.save
+    end
+
+    respond_to do |format|
+      format.html { redirect_to :back }
     end
   end
 

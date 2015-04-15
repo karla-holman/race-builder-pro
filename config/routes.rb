@@ -29,6 +29,7 @@ RailsDevisePundit::Application.routes.draw do
 
   post 'tels/add_race' => 'tels#add_race'
   post 'tels/remove_race' => 'tels#remove_race'
+  post 'tels/:id/returnRacesToDatabase' => 'tels#returnRacesToDatabase'
   
   post 'horses/transferowner' => 'horses#ownerTransfer'
   post 'horses/transfertrainer' => 'horses#trainerTransfer'

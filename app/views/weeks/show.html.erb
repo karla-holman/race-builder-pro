@@ -35,6 +35,7 @@
         <%= f.submit "Convert to Entry List", data: { confirm: "Once converted you can not convert back to a TEL, Are you sure?" }, :class => 'btn btn-info btn-mini'%>
         <% end %>
         <% end %>
+        <%= link_to 'Return Races To Database', '/tels/'+tel.id.to_s+'/returnRacesToDatabase', :method=> :post, :class => 'btn btn-danger btn-mini' %>
         <div class="grid simple">
           <div class="grid-body no-border">
             <div class="row">
