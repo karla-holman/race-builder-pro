@@ -9,8 +9,17 @@ $(document).ready(function() {
     /*
      * Initialse DataTables, with no sorting on the 'details' column
      */
+
     var oTable = $('.telTable').dataTable( {
-       "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
+       "sDom": "<'row'<'col-md-12'T><'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
+       "oTableTools": {
+            "aButtons": [
+                {
+                    "sExtends": "print",
+                    "sButtonText": "Print TEL"
+                }
+            ]
+        },
        "bPaginate": false,
        "aoColumnDefs": [
           { "bSortable": false, "aTargets": [ 0, 1, 2, 3, 4, 5, 6, 7 ] }
