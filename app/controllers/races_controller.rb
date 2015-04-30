@@ -522,7 +522,7 @@ class RacesController < ApplicationController
         else
           @race.errors.add('Priority', "Race must have a date.")
         end
-        if race_params[:stakes] && race_params[:needs_nomination] == true
+        if race_params[:stakes] == '1' && race_params[:needs_nomination] == '1'
           if !params[:nomination_close_date][:date].empty?
             nom_close_date = NominationCloseDate.new
             nom_close_date.date = params[:nomination_close_date][:date]
@@ -1020,7 +1020,7 @@ class RacesController < ApplicationController
 
   def addRaceToTEL(race)
     if race.race_date && race.race_date.date && race.status == "Published"
-      tel = Tel.where(:date => race.race_date.date).first
+      tel = Tel.where(:date => race.race_date.date, :entry_list => false).first
       race.tel = tel
     else
       race.tel = nil
