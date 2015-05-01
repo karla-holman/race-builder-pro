@@ -909,7 +909,12 @@ class RacesController < ApplicationController
   end
 
   def horseList
-    @trainer = User.find_by_id(params[:trainer_id])
+    if (params[:trainer_id] == '0')
+      @trainer = User.new(:name => 'No Trainer')
+    else
+      @trainer = User.find_by_id(params[:trainer_id])
+    end
+    
     @inactive = Status.find_by_name('Inactive')
 
     if @trainer
