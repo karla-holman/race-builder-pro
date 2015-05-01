@@ -909,7 +909,7 @@ class RacesController < ApplicationController
   end
 
   def horseList
-    if (params[:trainer_id] == '0')
+    if (params[:trainer_id] === '0')
       @trainer = User.new(:name => 'No Trainer')
     else
       @trainer = User.find_by_id(params[:trainer_id])
@@ -919,6 +919,17 @@ class RacesController < ApplicationController
 
     if @trainer
       @horses = Horse.where(:trainer_id => @trainer.id).where.not(:status => @inactive)
+
+      all_horses = Horse.all
+
+      all_horses.each do |horse|
+        if horse.trainer_id
+          user = User.find_by_id(horse.trainer_id)
+          if !user
+            @horses.push(horse)
+          end
+        end
+      end
     else
       @horses = Array.new
     end
