@@ -920,7 +920,7 @@ class RacesController < ApplicationController
     if @trainer
       @horses = Horse.where(:trainer_id => @trainer.id).where.not(:status => @inactive).to_a
 
-      if(@trainer.id == 0)
+      if(params[:trainer_id] === '0')
         Horse.where.not(:status => @inactive, :trainer_id => @trainer_id).each do |horse|
           puts horse.name
           if horse.trainer_id
