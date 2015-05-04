@@ -122,9 +122,7 @@ form.edit_horserace {
 }
 
 .view-horse-button {
-  position: absolute;
-  margin-top: -45px;
-  margin-left: 525px;
+  margin-bottom: 15px;
 }
 
 .table th,
