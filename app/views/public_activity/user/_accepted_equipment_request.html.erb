@@ -1,0 +1,8 @@
+Accepted request to <%= activity.parameters[:action]%> <%= activity.parameters[:equipment]%> for
+horse 
+<% if Horse.find_by_id(activity.parameters[:horse]) %>
+	<% horse = Horse.find_by_id(activity.parameters[:horse]) %>
+	<%= link_to horse.name, horse %>.
+<% else %>
+	which has since been removed.
+<% end %>

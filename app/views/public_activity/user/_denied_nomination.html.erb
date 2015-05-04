@@ -1,0 +1,9 @@
+Denied nomination for
+horse 
+<% if Horse.find_by_id(activity.parameters[:horse]) %>
+	<% horse = Horse.find_by_id(activity.parameters[:horse]) %>
+	<%= link_to horse.name, horse %>
+<% else %>
+	which has since been removed.
+<% end %>
+for race <%= activity.parameters[:race] %>.

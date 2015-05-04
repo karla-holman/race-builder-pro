@@ -28,6 +28,8 @@ class NotificationsController < ApplicationController
       HorseEquipment.find_or_create_by!(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id)
       notification = Notification.find_or_create_by!(send_id: @notification.recv_id, recv_id: @notification.send_id, action: "Add Approved")
       notification.save
+      current_user.create_activity :accepted_equipment_request, parameters: {equipment: Equipment.find_by_id(@notification.recv_id).name, action: 'Add', horse: @notification.send_id}, owner: current_user
+      current_user.save
     elsif @notification.action == "Nominate"
       @new_notification = @notification.dup
       @new_notification.action = "Confirm Nomination"
@@ -35,12 +37,16 @@ class NotificationsController < ApplicationController
       horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
       horserace.status = 'Interested'
       horserace.save
+      current_user.create_activity :accepted_nomination, parameters: {race: Race.find_by_id(@notification.send_id).name, horse: @notification.recv_id}, owner: current_user
+      current_user.save
     elsif @notification.action == "Confirm Nomination"
       
     else
       HorseEquipment.where(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id).delete_all
       notification = Notification.find_or_create_by!(send_id: @notification.recv_id, recv_id: @notification.send_id, action: "Remove Approved")
       notification.save
+      current_user.create_activity :accepted_equipment_request, parameters: {equipment: Equipment.find_by_id(@notification.recv_id).name, action: 'Remove', horse: @notification.send_id}, owner: current_user
+      current_user.save
     end
 
     @notification.destroy
@@ -91,10 +97,14 @@ class NotificationsController < ApplicationController
       HorseEquipment.where(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id).delete_all
       notification = Notification.find_or_create_by!(send_id: @notification.recv_id, recv_id: @notification.send_id, action: "Add Denied")
       notification.save
+      current_user.create_activity :denied_equipment_request, parameters: {equipment: Equipment.find_by_id(@notification.recv_id).name, action: 'Add', horse: @notification.send_id}, owner: current_user
+      current_user.save
     elsif @notification.action == "Remove"
       HorseEquipment.find_or_create_by!(:horse_id => @notification.send_id, :equipment_id => @notification.recv_id)
       notification = Notification.find_or_create_by!(send_id: @notification.recv_id, recv_id: @notification.send_id, action: "Remove Denied")
       notification.save
+      current_user.create_activity :denied_equipment_request, parameters: {equipment: Equipment.find_by_id(@notification.recv_id).name, action: 'Remove', horse: @notification.send_id}, owner: current_user
+      current_user.save
     elsif @notification.action == "Nominate"
       horserace = Horserace.find_or_create_by!(:race_id => @notification.send_id, :horse_id => @notification.recv_id)
       horserace.status = 'Denied'
@@ -102,6 +112,9 @@ class NotificationsController < ApplicationController
 
       notification = Notification.find_or_create_by!(send_id: @notification.send_id, recv_id: @notification.recv_id, action: "Nomination Denied")
       notification.save
+
+      current_user.create_activity :denied_nomination, parameters: {race: Race.find_by_id(@notification.send_id).name, horse: @notification.recv_id}, owner: current_user
+      current_user.save
     else
     end
 
