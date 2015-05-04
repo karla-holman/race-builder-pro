@@ -7,8 +7,10 @@
 		<% if current_user.admin? %>
 			<div class="row">
 				<div class="col-xs-3">
-					<% 	@all_trainers = User.where(:role => '1').order('name ASC')
-						@all_trainers.push(User.new(:name => "No Trainer", :id => "0")) %>
+					<% 	@all_trainers = Array.new()
+						@all_trainers.push(User.new(:name => "No Trainer", :id => "0"))
+						@all_trainers += User.where(:role => '1').order('name ASC')
+						 %>
 					<% if @horse && @horse.trainer_id %>
 						<% @trainer = User.find_by_id(@horse.trainer_id) %>
 						<% if @trainer %>
