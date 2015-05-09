@@ -52,17 +52,22 @@ $(document).ready(function() {
                   location.reload(true);
                 })
             });
-         },
-        "fnInitComplete": function(oSettings, json) {
-          $('.targetTels').each(function() {
+
+            $('.targetTels').each(function() {
             var num_races = this.getAttribute("num-races");
             num_races++;
             var rows = this.getElementsByTagName('tr');
+
+            for (i = 0; i < rows.length; i++) { 
+              rows[i].setAttribute("style", "border-top: none;");
+            }
+            
+            
             if (rows[num_races]){
               rows[num_races].setAttribute("style", "border-top: 2px solid black;");
             }
           });
-        },
+         },
     });
 
     $('.genericTable_wrapper .dataTables_filter input').addClass("input-medium ");

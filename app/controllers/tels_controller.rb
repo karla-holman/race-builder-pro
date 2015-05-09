@@ -59,17 +59,18 @@ class TelsController < ApplicationController
 
           priority_array = Array.new
           priority_races.each do |race|
-            priority_array.push({'Race' => race, 'Confirmed' => race.confirmed_count, 'Intersted' => race.interested_count})
+            priority_array.push({'Race' => race, 'Confirmed' => race.confirmed_count, 'Interested' => race.interested_count})
           end
 
-          priority_array.sort_by {|x| [x[:Confirmed], x[:Interested]] }
+          priority_array = priority_array.sort_by {|x| [-x['Confirmed'], -x['Interested']] }
+          
           nonpriority_races = @tel.races.where.not(:category => "Priority")
-
           nonpriority_array = Array.new
           nonpriority_races.each do |race|
-            nonpriority_array.push({'Race' => race, 'Confirmed' => race.confirmed_count, 'Intersted' => race.interested_count})
+            nonpriority_array.push({'Race' => race, 'Confirmed' => race.confirmed_count, 'Interested' => race.interested_count})
           end
 
+          nonpriority_array = nonpriority_array.sort_by {|x| [-x['Confirmed'], -x['Interested']] }
           races_array = priority_array + nonpriority_array
 
           if races_array.length > @tel.num_races
