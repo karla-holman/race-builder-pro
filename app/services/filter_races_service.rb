@@ -122,11 +122,15 @@ class FilterRacesService
     filtered_races = []
 
     races.each do |race|
-      race.claiming_prices.each do |claiming|
-        if claiming.price
-          if claiming.price >= purse.to_i
-            filtered_races.push(race)
-            break
+      if race.stakes || race.race_type == 'Allowance Optional Claiming' || race.race_type == 'Allowance' || race.race_type == 'Stakes'
+        filtered_races.push(race)
+      else
+        race.claiming_prices.each do |claiming|
+          if claiming.price
+            if claiming.price >= purse.to_i
+              filtered_races.push(race)
+              break
+            end
           end
         end
       end
