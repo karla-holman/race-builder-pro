@@ -17,6 +17,7 @@ gem "simple_form"
 gem 'public_activity'
 gem 'carmen'
 gem 'carmen-rails', '~> 1.0.0'
+gem 'newrelic_rpm'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :mri_21, :rbx]
