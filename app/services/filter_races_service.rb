@@ -188,6 +188,24 @@ class FilterRacesService
 
     return races
   end
+  
+  def currentEligibleStakesRaces()
+    races = Race.where("category = (?) AND stakes = (?) AND status = (?)", "Priority", true, 'Published').to_a
+    
+    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today)
+
+    if !tels
+      return races
+    end
+
+    tels.each do |tel|
+      tel.races.each do |race|
+        races.delete(race)
+      end
+    end
+
+    return races
+  end
 
   def eligibleRacesForWeek(week_id)
     week = Week.find_by_id(week_id)

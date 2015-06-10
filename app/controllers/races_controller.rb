@@ -245,8 +245,7 @@ class RacesController < ApplicationController
 
   def stakes
     @inactive = Status.find_by_name('Inactive')
-    eligible_races = FilterRacesService.new.currentEligibleRaces()
-    @races = eligible_races.where("category = (?) AND stakes = (?)", "Priority", true)
+    @races = FilterRacesService.new.currentEligibleStakesRaces()
 
     @today = Date.today
     if current_user.admin?
