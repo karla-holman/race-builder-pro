@@ -157,7 +157,7 @@ class FilterRacesService
   def currentTELDatabaseRaces
     races = Race.where(:status => 'Published').to_a
     
-    tels = Tel.where('(entry_list = ? OR published = ?) AND date >= ?', true, true, Date.today)
+    tels = Tel.includes(:races).where('(entry_list = ? OR published = ?) AND date >= ?', true, true, Date.today)
 
     if !tels
       return races
@@ -174,7 +174,7 @@ class FilterRacesService
   def currentEligibleRaces()
     races = Race.where(:status => 'Published').to_a
     
-    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today)
+    tels = Tel.includes(:races).where('entry_list = ? AND date >= ?', true, Date.today)
 
     if !tels
       return races
@@ -192,7 +192,7 @@ class FilterRacesService
   def currentEligibleStakesRaces()
     races = Race.where("category = (?) AND stakes = (?) AND status = (?)", "Priority", true, 'Published').to_a
     
-    tels = Tel.where('entry_list = ? AND date >= ?', true, Date.today)
+    tels = Tel.includes(:races).where('entry_list = ? AND date >= ?', true, Date.today)
 
     if !tels
       return races
