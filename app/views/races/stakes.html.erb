@@ -73,8 +73,9 @@
                             <td>
                                 <% if race.stakes && race.needs_nomination %>
                                 <% @horse_list = Array.new()
+                                 notifications = Notification.where(:action => "Nominate", :send_id => race.id) 
                                 @horses.each do |horse|
-                                    if Notification.where(:action => "Nominate", :recv_id => horse.id, :send_id => race.id).empty? && race.horseraces.where("horse_id = (?) AND (status = (?) OR status = (?))", horse.id, "Interested", "Confirmed").empty? && race.isHorseEligible(horse)
+                                    if notifications.where(:recv_id => horse.id).empty? && race.horseraces.where("horse_id = (?) AND (status = (?) OR status = (?))", horse.id, "Interested", "Confirmed").empty? && race.isHorseEligible(horse)
                                         @horse_list.push(horse)
                                     end
                                     end %>
