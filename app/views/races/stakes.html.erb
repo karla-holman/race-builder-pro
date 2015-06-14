@@ -74,8 +74,15 @@
                                 <% if race.stakes && race.needs_nomination %>
                                 <% @horse_list = Array.new()
                                  horsenotificationids = Notification.where(:action => "Nominate", :send_id => race.id).pluck(:recv_id)
+                                 if horsenotificationids.empty?
+                                    horsenotificationids = [-1]
+                                 end
                                  horseracelistids = race.horseraces.where("status = (?) OR status = (?)", "Interested", "Confirmed").pluck(:horse_id)
+                                 if horseracelistids.empty?
+                                    horseracelistids = [-1]
+                                 end
                                  filteredList = @horses.where('id not in (?) AND id not in (?)',horsenotificationids, horseracelistids)
+
                                 filteredList.each do |horse|
                                     if race.isHorseEligible(horse)
                                         @horse_list.push(horse)
