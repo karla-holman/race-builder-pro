@@ -73,9 +73,11 @@
                             <td>
                                 <% if race.stakes && race.needs_nomination %>
                                 <% @horse_list = Array.new()
-                                 notifications = Notification.where(:action => "Nominate", :send_id => race.id) 
-                                @horses.each do |horse|
-                                    if notifications.where(:recv_id => horse.id).empty? && race.horseraces.where("horse_id = (?) AND (status = (?) OR status = (?))", horse.id, "Interested", "Confirmed").empty? && race.isHorseEligible(horse)
+                                 horsenotificationids = Notification.where(:action => "Nominate", :send_id => race.id).pluck(:recv_id)
+                                 horseracelistids = race.horseraces.where("status = (?) OR status = (?)", "Interested", "Confirmed").pluck(:horse_id)
+                                 filteredList = @horses.where('id not in (?) AND id not in (?)',horsenotificationids, horseracelistids)
+                                filteredList.each do |horse|
+                                    if race.isHorseEligible(horse)
                                         @horse_list.push(horse)
                                     end
                                     end %>
@@ -117,7 +119,7 @@
                             <td style="display:none;">
                                     <% if current_user.admin? %>
                                         <% race.horseraces.where(:status => "Interested").each.with_index do |interested, index| %> 
-                                            <% horse = Horse.find(interested.horse_id) %>
+                                            <% horse = interested.horse %>
                                             <% if current_user.trainer? %>
                                                 <% if horse.trainer_id == current_user.id %>
                                                     <%= horse.name %>
@@ -141,7 +143,7 @@
                                 <td style="display:none;">
                                     <% if current_user.admin? %>
                                         <% race.horseraces.where(:status => "Confirmed").each.with_index do |confirmed, index| %>
-                                            <% horse = Horse.find(confirmed.horse_id) %>
+                                            <% horse = confirmed.horse %>
                                                 <% if current_user.trainer? %>
                                                     <% if horse.trainer_id == current_user.id %>
                                                         <%= horse.name %>
