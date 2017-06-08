@@ -116,7 +116,6 @@ GEM
     rack (1.6.8)
     rack-test (0.6.3)
       rack (>= 1.0)
-    rack-timeout (0.4.2)
     rails (4.2.8)
       actionmailer (= 4.2.8)
       actionpack (= 4.2.8)
@@ -207,7 +206,6 @@ DEPENDENCIES
   public_activity
   pundit
   quiet_assets
-  rack-timeout
   rails (= 4.2.8)
   rails_12factor
   rails_layout
